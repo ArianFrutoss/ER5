@@ -1,5 +1,7 @@
 
-export const GAME = {
+export const FPS =  30;
+
+export const Game = {
     LOAD_LANPAGE:   0,
     LANDPAGE:       1,
     LOAD_GAME:      2,
@@ -7,10 +9,11 @@ export const GAME = {
     LOAD_GAMEOVER:  4,
     GAMEOVER:       5,
     LOAD_CONTROLS:  6,
-    CONTROLS:       7
+    CONTROLS:       7,
+    INVALID:        8
 }
 
-export const TURN = {
+export const Turn = {
     PLAYER_1:               0,
     PLAYER_2:               1,
     PHASE_DISCARD_CARD:     2,
@@ -22,7 +25,7 @@ export const TURN = {
     PHASE_DEFAULT:          8
 }
 
-export const CARD = {
+export const Card = {
     NOT_SELECTED:   0,
     SELECTED:       1,
     HOVER:          2,
@@ -33,13 +36,13 @@ export const CARD = {
     STUNNED:        7
 }
 
-export const GRID = {
+export const Grid = {
     NOT_SELECTED:   0,
     SELECTED:       1,
     HOVER:          2
 }
 
-export const JOSEPH = {
+export const Joseph = {
     NOT_ACTIVE:   0,
     ACTIVE:       1,
     HOVER:        2

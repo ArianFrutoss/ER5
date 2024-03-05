@@ -2,12 +2,13 @@ import globals from "./globals.js";
 import update from  "./gameLogic.js";
 import render from  "./gameRender.js";
 import { initHTMLelements, initVars } from "./initialize.js";
+import logJSON from "./fakeJSONRead.js";
 
 window.onload = init;
 
 function init(){
     initHTMLelements();
-
+    logJSON();
     initVars();
 
     window.requestAnimationFrame(gameLoop);

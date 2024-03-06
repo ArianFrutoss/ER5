@@ -35,19 +35,23 @@ function initVars(){
 function initGrids(){
     
     // Crear Grid de Board
-    initGrid(200, 200, 7, 5, GridId.BOARD_GRID, 80, 120);
+    const board = initGrid(200, 200, 7, 5, GridId.BOARD_GRID, 80, 120);
     
     // Crear Grid de Eventos Atacante
-    initGrid(100, 200, 5, 1, GridId.HAND_GRID, 80, 120);
+    const eventBoardAtacker = initGrid(100, 200, 5, 1, GridId.HAND_GRID, 80, 120);
 
     // Crear Grid de Board Defensor
-    initGrid(100, 200, 5, 1, GridId.HAND_GRID, 80, 120);
+    const eventBoardDefender = initGrid(100, 200, 5, 1, GridId.HAND_GRID, 80, 120);
 
     // Crear Grid de Hand Atacante
-    initGrid(100, 200, 3, 3, GridId.EVENT_BOARD_GRID, 80, 120);
+    const handAtacker = initGrid(100, 200, 3, 3, GridId.EVENT_BOARD_GRID, 80, 120);
 
     // Crear Grid de Hand Defensor
-    initGrid(100, 200, 3, 3, GridId.EVENT_BOARD_GRID, 80, 120);
+    const handDefender = initGrid(100, 200, 3, 3, GridId.EVENT_BOARD_GRID, 80, 120);
+
+    const grids = [board, eventBoardAtacker, eventBoardDefender, handAtacker, handDefender];
+
+    return grids;
 }
 
 // Funcion crea un Grid y sus Slots
@@ -70,7 +74,7 @@ function initGrid(xPosGrid, yPosGrid, rowsNum, columnsNum, gridId, xSizeSlots, y
     for (let i = 0; i < columns; i++){
 
         slotsArray[i] = [];
-
+        
         for (let j = 0; j < rows; j++){
 
             // Tamaño de los Slots
@@ -90,7 +94,8 @@ function initGrid(xPosGrid, yPosGrid, rowsNum, columnsNum, gridId, xSizeSlots, y
     
     // Crear Grid
     const grid = new Grid(gridXPos, gridYpos, id, rows, columns, slotsArray);
-    console.log(grid)
+
+    return grid;
 }
 
 // Exportar funciones

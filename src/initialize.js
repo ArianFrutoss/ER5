@@ -34,24 +34,36 @@ function initVars(){
 
 // Funcion inicializa Grids del juego
 function initGrids(){
+    
+    // Crear Grid de Board
+    initGrid(100, 200, 10, 6, GridId.BOARD_GRID, 80, 120);
+    
+    // Crear Grid de Eventos Atacante
+    initGrid(100, 200, 10, 6, GridId.BOARD_GRID, 80, 120);
 
-    // Crear el Grid de Board
-    initGrid();
+    // Crear Grid de Board Defensor
+    initGrid(100, 200, 10, 6, GridId.BOARD_GRID, 80, 120);
+
+    // Crear Grid de Hand Atacante
+    initGrid(100, 200, 10, 6, GridId.BOARD_GRID, 80, 120);
+
+    // Crear Grid de Hand Defensor
+    initGrid(100, 200, 10, 6, GridId.BOARD_GRID, 80, 120);
 }
 
 // Funcion crea un Grid y sus Slots
-function initGrid(){
+function initGrid(xPosGrid, yPosGrid, rowsNum, columnsNum, gridId, xSizeSlots, ySizeSlots){
 
     // Posicion del Grid
-    const gridXPos = 100;
-    const gridYpos = 200;
+    const gridXPos = xPosGrid;
+    const gridYpos = yPosGrid;
 
     // Filas y Columnas
-    const rows = 10;
-    const columns = 6;
+    const rows = rowsNum;
+    const columns = columnsNum;
 
     // Id del Grid
-    const id = GridId.BOARD_GRID;
+    const id = gridId;
 
     // Array de Slots para guardar en el Grid
     let slotsArray = [];
@@ -61,8 +73,8 @@ function initGrid(){
         for (let j = 0; j < rows; j++){
 
             // Tamaño de los Slots
-            const slotsXsize = 80;
-            const slotsYsize = 120;
+            const slotsXsize = xSizeSlots;
+            const slotsYsize = ySizeSlots;
 
             // Calculo de la posicion de los Slots
             let slotsXPos = gridXPos + slotsXsize * j;

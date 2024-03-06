@@ -1,6 +1,6 @@
 export default class Grid{
 
-    constructor(xPos, yPos, id, rows, columns, positionsArray, activeSlotsArray){
+    constructor(xPos, yPos, id, rows, columns, positionsArray){
 
         this.xPos               = xPos
         this.yPos               = yPos
@@ -8,6 +8,6 @@ export default class Grid{
         this.rows               = rows;
         this.columns            = columns;
         this.positionsArray     = positionsArray;
-        this.activeSlotsArray   = activeSlotsArray;
+        this.activeSlotsArray   = [];
     }
 }

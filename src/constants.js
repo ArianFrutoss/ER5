@@ -36,7 +36,13 @@ export const Card = {
     STUNNED:        7
 }
 
-export const Grid = {
+export const GridId = {
+    BOARD_GRID:         0,
+    EVENT_BOARD_GRID:   1,
+    HAND_GRID:          2,
+} 
+
+export const Slots = {
     NOT_SELECTED:   0,
     SELECTED:       1,
     HOVER:          2

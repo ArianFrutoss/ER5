@@ -1,8 +1,6 @@
-import { Card } from "./constants";
+export default class Slot{
 
-export default class Slots{
-
-    constructor(xPos, yPos, xSize, ySize, id){
+    constructor(xPos, yPos, xSize, ySize, id, cardId){
 
         this.xPos               = xPos;
         this.yPos               = yPos;

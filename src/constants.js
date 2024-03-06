@@ -42,7 +42,7 @@ export const GridId = {
     HAND_GRID:          2,
 } 
 
-export const Slots = {
+export const SlotsState = {
     NOT_SELECTED:   0,
     SELECTED:       1,
     HOVER:          2

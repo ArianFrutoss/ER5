@@ -1,8 +1,7 @@
 import globals from "./globals.js";
-import { Game, FPS, GridId } from "./constants.js";
+import { Game, FPS, GridId, SlotsState } from "./constants.js";
 import Grid from "./Grid.js";
 import Slot from "./Slot.js";
-import Board from "./Board.js";
 
 function initHTMLelements(){
 
@@ -36,19 +35,19 @@ function initVars(){
 function initGrids(){
     
     // Crear Grid de Board
-    initGrid(100, 200, 10, 6, GridId.BOARD_GRID, 80, 120);
+    initGrid(200, 200, 7, 5, GridId.BOARD_GRID, 80, 120);
     
     // Crear Grid de Eventos Atacante
-    initGrid(100, 200, 10, 6, GridId.BOARD_GRID, 80, 120);
+    initGrid(100, 200, 5, 1, GridId.HAND_GRID, 80, 120);
 
     // Crear Grid de Board Defensor
-    initGrid(100, 200, 10, 6, GridId.BOARD_GRID, 80, 120);
+    initGrid(100, 200, 5, 1, GridId.HAND_GRID, 80, 120);
 
     // Crear Grid de Hand Atacante
-    initGrid(100, 200, 10, 6, GridId.BOARD_GRID, 80, 120);
+    initGrid(100, 200, 3, 3, GridId.EVENT_BOARD_GRID, 80, 120);
 
     // Crear Grid de Hand Defensor
-    initGrid(100, 200, 10, 6, GridId.BOARD_GRID, 80, 120);
+    initGrid(100, 200, 3, 3, GridId.EVENT_BOARD_GRID, 80, 120);
 }
 
 // Funcion crea un Grid y sus Slots
@@ -70,6 +69,8 @@ function initGrid(xPosGrid, yPosGrid, rowsNum, columnsNum, gridId, xSizeSlots, y
 
     for (let i = 0; i < columns; i++){
 
+        slotsArray[i] = [];
+
         for (let j = 0; j < rows; j++){
 
             // Tamaño de los Slots
@@ -81,14 +82,15 @@ function initGrid(xPosGrid, yPosGrid, rowsNum, columnsNum, gridId, xSizeSlots, y
             let slotsYPos = gridYpos + slotsYsize * i;
 
             // Crear Slots
-            const slots = new Slot(slotsXPos, slotsYPos, slotsXsize, slotsYsize, id);
+            const slots = new Slot(slotsXPos, slotsYPos, slotsXsize, slotsYsize, id, SlotsState.NOT_SELECTED);
 
-            slotsArray.push(slots);
+            slotsArray[i][j] = slots;
         }
     }
-
+    
     // Crear Grid
     const grid = new Grid(gridXPos, gridYpos, id, rows, columns, slotsArray);
+    console.log(grid)
 }
 
 // Exportar funciones

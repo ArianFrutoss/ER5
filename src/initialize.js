@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, FPS } from "./constants.js";
+import { GameState, FPS } from "./constants.js";
 
 function initHTMLelements(){
 
@@ -26,7 +26,7 @@ function initVars(){
     globals.frameTimeObj = 1 / FPS;
     
     //Inicializamos el estado del juego
-    globals.gameState = Game.INVALID;
+    globals.gameState = GameState.INVALID;
 }
 
 // Exportar funciones

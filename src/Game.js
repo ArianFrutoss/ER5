@@ -1,9 +1,8 @@
-import Card from "./Cards/Card.js";
 import { GameState } from "./constants.js";
-import jsonArray from "../cards.js";
+import Board from "./Board.js";
 
 
-export default class Game {
+export default class Game{
 
     constructor(turnArray, handsArray, cardsArray, boardMinionsArray, deckArray, gridsArray, activeEventsArray,  rarity){
 
@@ -16,13 +15,14 @@ export default class Game {
         this.activeEventsArray  = activeEventsArray;
         this.turnCounter        = 0;
         this.rarity             = rarity;
-        this.gameState          = GameState.PLAYING; 
-            
+        this.gameState          = GameState.PLAYING;  
     }
+
     static init(){
-        
-        console.log(jsonArray);
-        // return new Game(null,null, null,  null, null, null,    null,     null)
+    
+        const board = Board.initBoard();
+
+        return new Game(null, null, null, null, null, board, null, null);
     }
 
     
@@ -51,29 +51,34 @@ export default class Game {
 
     render(){
 
-            switch(this.gameState){
-                case this.LOAD_GAME:
-                    //draw load spinner
-                    break;
-                
-                case this.PLAYING:
-                    this.drawGame();
-                    break;
-                
-                default:
-                    break;
-        
-            }
-        }
-        
-        drawGame(){
-        console.log("hola");
-            globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
-        
-            globals.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
+        switch(this.gameState){
+            case this.LOAD_GAME:
+                //draw load spinner
+                break;
             
-        
-        }
-        
+            case this.PLAYING:
+                this.drawGame();
+                break;
+            
+            default:
+                break;
     
+        }
+    }
+        
+    drawGame(){
+        
+        globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    
+        globals.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
+        
+        renderGrids();
+    }
+        
+    renderGrids(){
+
+        for (let i = 0; i < 0; i++){
+
+        }
+    }
 }

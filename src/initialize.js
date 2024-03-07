@@ -31,5 +31,4 @@ function initVars(){
 export {
     initHTMLelements,
     initVars,
-    initGrids
 }

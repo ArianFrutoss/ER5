@@ -1,4 +1,4 @@
-import {Game} from "./constants.js"
+import {GameState} from "./constants.js"
 
 export default {
     // Acceso al canvas y context
@@ -6,7 +6,7 @@ export default {
     ctx: {},
 
     // Estados de juego. 
-    gameState: Game.INVALID,
+    gameState: GameState.INVALID,
 
     previousCycleMiliseconds: -1,
 

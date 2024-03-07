@@ -1,11 +1,12 @@
-[
+let jsonArray = [
     {
         "id":0,
         "name":"Prueba 1",
         "description": "esto es una prueba",
         "deskripzioa": "proba bat da",
-        "image": "BarKeep",
+        "image": "bar_keeper",
         "rarity": "Common",
+        "type": "Minion",
         "attributes":{
             "attack": 4,
             "defense": 2,
@@ -51,11 +52,12 @@
         "deskripzioa": "proba bat da",
         "image": "Sword",
         "rarity": "Common",
+        "type": "Weapon",
         "attributes":{
             "attack": 4,
             "defense": 2,
             "durability": 10,
-            "preparation": 1
+            "cooldown": 1
         },
         "effects":{
             "id": 0,
@@ -74,6 +76,7 @@
         "deskripzioa": "proba bat da",
         "image": "BarKeep",
         "rarity": "Common",
+        "type": "Minion",
         "attributes":{
             "attack": 4,
             "defense": 2,
@@ -113,3 +116,4 @@
         }
     }
 ]
+export default jsonArray

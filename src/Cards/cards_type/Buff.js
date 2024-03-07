@@ -2,9 +2,9 @@ import Card from "../Card.js";
 
 export default class Buff extends Card {
 
-    constructor(id,name, description,image,rarity,type,isbig,selected,xPos,yPos,state,objective,attack,defense,speed,health,durability,cooldown){
+    constructor(id ,name, description ,image, rarity, type, isBig, isSelected, xPos, yPos, state, objective, attack, defense, speed, health, durability, cooldown){
 
-        super(id,name, description,image,rarity,type,isbig,selected,xPos,yPos,state,objective);
+        super(id,name, description, image, rarity, type, isBig, isSelected, xPos, yPos, state, objective);
 
         // Card attributes 
         this.attack     = attack;

@@ -1,6 +1,5 @@
 import globals from "./globals.js";
 import update from  "./gameLogic.js";
-import render from  "./gameRender.js";
 import { initHTMLelements, initVars, testArray } from "./initialize.js";
 import logJSON from "./fakeJSONRead.js";
 
@@ -32,9 +31,9 @@ function gameLoop(timeStamp){
 
     if(globals.deltaTime >= globals.frameTimeObj){
 
-        update();
+/*         update();
 
-        render();
+        render(); */
 
         globals.deltaTime -= globals.frameTimeObj;
     }

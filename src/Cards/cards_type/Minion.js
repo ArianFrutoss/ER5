@@ -14,6 +14,6 @@ export default class Minion extends Card{
         this.equipedWeapon = equipedWeapon;
         this.equipedArmor  = equipedArmor;
     }
-
+    
 }
 

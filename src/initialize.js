@@ -1,6 +1,7 @@
 import globals from "./globals.js";
-import { Game, FPS } from "./constants.js";
+import { GameState, FPS, GridId } from "./constants.js"
 import CardFactory from "./Cards/CardFactory.js";
+import jsonArray from "../cards.js";
 
 function initHTMLelements(){
 
@@ -14,8 +15,6 @@ function initHTMLelements(){
     globals.ctx.imageSmoothingEnabled = false;
 
     globals.txtPruebas = document.getElementById('txtPruebas');
-
-
 }
 
 // funcion inicializa variables del juego
@@ -27,37 +26,14 @@ function initVars(){
     globals.frameTimeObj = 1 / FPS;
     
     //Inicializamos el estado del juego
-    globals.gameState = Game.INVALID;
+    globals.gameState = GameState.INVALID;
 }
 
 function testArray(){
-    const test    = [{
-            "id":4,
-            "name":"Prueba 4",
-            "description": "esto es una prueba de armadura",
-            "deskripzioa": "proba bat da",
-            "image": "BarKeep",
-            "rarity": "Common",
-            "type": "Minion",
-            "attributes":{
-                "attack": 4,
-                "defense": 2,
-                "hp": 10,
-                "speed": 1
-            },
-            "effects":{
-                "id": 0,
-                "description": "Prueba de modificacion de atributos de def y hp",
-                "attributes": {
-                    "defense": 2,
-                    "hp": 1
-                }
-            }
-    }]
-    
 
+    console.log(jsonArray);
 
-    const cardFactory = new CardFactory(test);
+    const cardFactory = new CardFactory(jsonArray);
     
     cardFactory.createCards();
     

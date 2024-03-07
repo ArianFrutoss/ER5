@@ -1,6 +1,6 @@
 import Card from "../Card.js";
 
-export class Weapon extends Card{
+export default class Weapon extends Card{
 
     constructor(id, name, description, image, rarity, type, isBig, isSelected, xPos, yPos, state, objective, weaponType, range, attack, defense, speed, durability, cooldown){
 

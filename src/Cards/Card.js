@@ -10,7 +10,7 @@ export default class Card{
         this.rarity         = rarity;
         this.type           = type; 
         this.isBig          = isBig;
-        this.selected       = isSelected;
+        this.isSelected     = isSelected;
         this.state          = state;
         this.xPos           = xPos;
         this.yPos           = yPos;

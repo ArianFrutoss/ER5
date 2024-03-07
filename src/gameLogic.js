@@ -1,12 +1,13 @@
 import globals from "./globals.js";
 import { Game } from "./constants.js";
+import CardFactory from "./Cards/CardFactory.js";
 
 export default function update(){
 
     switch(globals.gameState){
 
-        case Game.LOAD_GAME:
-            console.log("load game");
+        case Game.INVALID:
+   
             break;
 
         case Game.PLAYING:
@@ -22,3 +23,4 @@ export default function update(){
             break;
     }
 }
+

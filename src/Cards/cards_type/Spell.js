@@ -1,6 +1,6 @@
 import Card from "../Card.js";
 
-export class Spell extends Card{
+export default class Spell extends Card{
 
     constructor(id, name, description, image, rarity, type, isBig, isSelected, xPos, yPos, state, objective, durability, cooldown){
 

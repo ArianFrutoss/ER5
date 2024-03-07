@@ -1,5 +1,6 @@
 import globals from "./globals.js";
 import { Game, FPS } from "./constants.js";
+import CardFactory from "./Cards/CardFactory.js";
 
 function initHTMLelements(){
 
@@ -29,8 +30,43 @@ function initVars(){
     globals.gameState = Game.INVALID;
 }
 
+function testArray(){
+    const test    = [{
+            "id":4,
+            "name":"Prueba 4",
+            "description": "esto es una prueba de armadura",
+            "deskripzioa": "proba bat da",
+            "image": "BarKeep",
+            "rarity": "Common",
+            "type": "Minion",
+            "attributes":{
+                "attack": 4,
+                "defense": 2,
+                "hp": 10,
+                "speed": 1
+            },
+            "effects":{
+                "id": 0,
+                "description": "Prueba de modificacion de atributos de def y hp",
+                "attributes": {
+                    "defense": 2,
+                    "hp": 1
+                }
+            }
+    }]
+    
+
+
+    const cardFactory = new CardFactory(test);
+    
+    cardFactory.createCards();
+    
+    console.log(globals.cards);
+}
+
 // Exportar funciones
 export {
     initHTMLelements,
-    initVars
+    initVars,
+    testArray
 }

@@ -6,3 +6,4 @@ function startPlaying(){
     let btnPlay    = document.getElementById("btnPlay");
     btnPlay.style.display = "none";
 }
+

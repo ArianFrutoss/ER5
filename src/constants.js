@@ -25,7 +25,7 @@ export const Turn = {
     PHASE_DEFAULT:          8
 }
 
-export const Card = {
+export const Card_State = {
     NOT_SELECTED:   0,
     SELECTED:       1,
     HOVER:          2,

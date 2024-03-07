@@ -1,6 +1,6 @@
 import Card from "../Card.js";
 
-export class Joseph extends Card{
+export default class Joseph extends Card{
 
     constructor(id, name, description, image, rarity, type, isbig, selected, xPos, yPos, state, objective, attack, defense, speed, health, durability, cooldown){
 

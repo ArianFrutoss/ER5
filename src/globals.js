@@ -14,6 +14,8 @@ export default {
 
     frameTimeObj: 0,
 
-    txtPruebas: {}
+    txtPruebas: {},
+
+    cards: []
 }
 

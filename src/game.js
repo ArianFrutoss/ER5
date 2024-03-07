@@ -15,7 +15,7 @@ function init(){
     const grids = initGrids();
 
     const game = new Game(null, null, null, null, null, grids);
-
+    
     window.requestAnimationFrame(gameLoop);
 }
 

@@ -1,3 +1,4 @@
+import { GridId } from "./constants.js";
 import Grid from "./Grid.js";
 
 export default class Board{
@@ -11,7 +12,7 @@ export default class Board{
     }
     
     // Funcion inicializa Board del juego
-    initBoard(){
+    static initBoard(){
     
         // Crear Grid de Board
         const board = Grid.initGrids(200, 200, 7, 5, GridId.BOARD_GRID, 80, 120);

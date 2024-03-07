@@ -1,11 +1,12 @@
-[
+let jsonArray = [
     {
         "id":0,
         "name":"Prueba 1",
         "description": "esto es una prueba",
         "deskripzioa": "proba bat da",
-        "image": "BarKeep",
+        "image": "bar_keeper",
         "rarity": "Common",
+        "type": "Minion",
         "attributes":{
             "attack": 4,
             "defense": 2,
@@ -90,3 +91,4 @@
         }
     }
 ]
+export default jsonArray

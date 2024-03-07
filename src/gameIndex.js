@@ -1,23 +1,19 @@
 import globals from "./globals.js";
 import update from  "./gameLogic.js";
 import render from  "./gameRender.js";
-import { initGrids, initHTMLelements, initVars } from "./initialize.js";
+import { initHTMLelements, initVars } from "./initialize.js";
 import logJSON from "./fakeJSONRead.js";
-import Game from "./Game.js";
 
 window.onload = init;
 
 function init(){
-
     initHTMLelements();
     logJSON();
     initVars();
-    const grids = initGrids();
 
-    const game = new Game(null, null, null, null, null, grids);
-    
     window.requestAnimationFrame(gameLoop);
 }
+
 
 // GAME EXECUTE
 function gameLoop(timeStamp){

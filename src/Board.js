@@ -19,7 +19,7 @@ export default class Board{
         
         // Crear Grid de Eventos Atacante
         const eventBoardAtacker = Grid.initGrids(100, 200, 5, 1, GridId.HAND_GRID, 80, 120);
-
+        
         // Crear Grid de Board Defensor
         const eventBoardDefender = Grid.initGrids(100, 200, 5, 1, GridId.HAND_GRID, 80, 120);
 

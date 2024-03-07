@@ -1,10 +1,10 @@
 import { GameState } from "./constants.js";
 import Board from "./Board.js";
-
+import globals from "./globals.js";
 
 export default class Game{
 
-    constructor(turnArray, handsArray, cardsArray, boardMinionsArray, deckArray, gridsArray, activeEventsArray,  rarity){
+    constructor(turnArray, handsArray, cardsArray, boardMinionsArray, deckArray, gridsArray, activeEventsArray, rarity){
 
         this.turnArray          = turnArray;
         this.handsArray         = handsArray;
@@ -24,21 +24,20 @@ export default class Game{
 
         return new Game(null, null, null, null, null, board, null, null);
     }
-
     
     update(){
 
         switch(this.gameState){
-    
-            case this.LOAD_GAME:
+            
+            case GameState.LOAD_GAME:
                 console.log("load game");
                 break;
     
-            case this.PLAYING:
+            case GameState.PLAYING:
                 console.log("playing");
                 break;
     
-            case this.GAMEOVER:
+            case GameState.GAMEOVER:
                 console.log("gameover");
                 break;
     
@@ -48,15 +47,14 @@ export default class Game{
         }
     }
 
-
     render(){
 
         switch(this.gameState){
-            case this.LOAD_GAME:
+            case GameState.LOAD_GAME:
                 //draw load spinner
                 break;
             
-            case this.PLAYING:
+            case GameState.PLAYING:
                 this.drawGame();
                 break;
             
@@ -69,16 +67,17 @@ export default class Game{
     drawGame(){
         
         globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
-    
+        
         globals.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
         
-        renderGrids();
+        this.renderGrids();
     }
         
     renderGrids(){
 
-        for (let i = 0; i < 0; i++){
-
+        for (let i = 0; i < this.gridsArray; i++){
+            
+            globals.ctx.fillRect(200, 321, 200, 100);
         }
     }
 }

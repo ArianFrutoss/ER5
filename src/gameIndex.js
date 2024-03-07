@@ -9,7 +9,6 @@ let game;
 function init(){
 
     initHTMLelements();
-    // logJSON();
     initVars();
     
     game = Game.init();
@@ -29,6 +28,9 @@ function gameLoop(timeStamp){
     globals.deltaTime += elapsedCycleSeconds;
 
     if(globals.deltaTime >= globals.frameTimeObj){
+
+        game.update();
+        game.render();
 
         globals.deltaTime -= globals.frameTimeObj;
     }

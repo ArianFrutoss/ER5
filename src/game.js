@@ -19,7 +19,6 @@ function init(){
     window.requestAnimationFrame(gameLoop);
 }
 
-
 // GAME EXECUTE
 function gameLoop(timeStamp){
 

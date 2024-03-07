@@ -1,7 +1,5 @@
 import globals from "./globals.js";
-import { Game, FPS, GridId, SlotsState } from "./constants.js";
-import Grid from "./Grid.js";
-import Slot from "./Slot.js";
+import { Game, FPS, GridId } from "./constants.js"
 
 function initHTMLelements(){
 
@@ -52,50 +50,6 @@ function initGrids(){
     const grids = [board, eventBoardAtacker, eventBoardDefender, handAtacker, handDefender];
 
     return grids;
-}
-
-// Funcion crea un Grid y sus Slots
-function initGrid(xPosGrid, yPosGrid, rowsNum, columnsNum, gridId, xSizeSlots, ySizeSlots){
-
-    // Posicion del Grid
-    const gridXPos = xPosGrid;
-    const gridYpos = yPosGrid;
-
-    // Filas y Columnas
-    const rows = rowsNum;
-    const columns = columnsNum;
-
-    // Id del Grid
-    const id = gridId;
-
-    // Array de Slots para guardar en el Grid
-    let slotsArray = [];
-
-    for (let i = 0; i < columns; i++){
-
-        slotsArray[i] = [];
-        
-        for (let j = 0; j < rows; j++){
-
-            // Tamaño de los Slots
-            const slotsXsize = xSizeSlots;
-            const slotsYsize = ySizeSlots;
-
-            // Calculo de la posicion de los Slots
-            let slotsXPos = gridXPos + slotsXsize * j;
-            let slotsYPos = gridYpos + slotsYsize * i;
-
-            // Crear Slots
-            const slots = new Slot(slotsXPos, slotsYPos, slotsXsize, slotsYsize, id, SlotsState.NOT_SELECTED);
-
-            slotsArray[i][j] = slots;
-        }
-    }
-    
-    // Crear Grid
-    const grid = new Grid(gridXPos, gridYpos, id, rows, columns, slotsArray);
-
-    return grid;
 }
 
 // Exportar funciones

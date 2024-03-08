@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { initHTMLelements, initVars } from "./initialize.js";
+import { initEvents, initHTMLelements, initVars, testArray } from "./initialize.js";
 import Game from "./Game.js";
 import logJSON from "./fakeJSONRead.js";
 
@@ -10,7 +10,10 @@ let game;
 function init(){
 
     initHTMLelements();
+    logJSON();
     initVars();
+    initEvents();
+    testArray();
 
     game = Game.init();
 

@@ -16,6 +16,10 @@ export default {
 
     txtPruebas: {},
 
-    cards: []
+    cards: [],
+
+    action: {},
+    
+    mouse: {}
 }
 

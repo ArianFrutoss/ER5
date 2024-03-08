@@ -1,6 +1,10 @@
 import Phase from "./Phase.js";
 
-export class DefaulPhase {
+<<<<<<< HEAD
+export class DefaultPhase extends Phase {
+=======
+export class DefaultPhase {
+>>>>>>> develop
 
     constructor(handDeck, handGrid, boardGrid, boardMinion, eventBoardGrid){
 

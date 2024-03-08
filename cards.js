@@ -52,11 +52,12 @@ let jsonArray = [
         "deskripzioa": "proba bat da",
         "image": "Sword",
         "rarity": "Common",
+        "type": "Weapon",
         "attributes":{
             "attack": 4,
             "defense": 2,
             "durability": 10,
-            "preparation": 1
+            "cooldown": 1
         },
         "effects":{
             "id": 0,
@@ -75,6 +76,30 @@ let jsonArray = [
         "deskripzioa": "proba bat da",
         "image": "BarKeep",
         "rarity": "Common",
+        "type": "Minion",
+        "attributes":{
+            "attack": 4,
+            "defense": 2,
+            "hp": 10,
+            "speed": 1
+        },
+        "effects":{
+            "id": 0,
+            "description": "Prueba de modificacion de atributos de def y hp",
+            "attributes": {
+                "defense": 2,
+                "hp": 1
+            }
+        }
+    },
+    {
+        "id":4,
+        "name":"Prueba 4",
+        "description": "esto es una prueba de armadura",
+        "deskripzioa": "proba bat da",
+        "image": "BarKeep",
+        "rarity": "Common",
+        "type": "Minion",
         "attributes":{
             "attack": 4,
             "defense": 2,

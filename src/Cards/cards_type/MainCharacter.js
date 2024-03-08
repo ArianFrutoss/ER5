@@ -1,10 +1,10 @@
 import Card from "../Card.js";
 
-export class Joseph extends Card{
+export default class Joseph extends Card{
 
-    constructor(id, name, description, image, rarity, type, isbig, selected, xPos, yPos, state, objective, attack, defense, speed, health, durability, cooldown){
+    constructor(id, name, description, image, rarity, type, xPos, yPos, objective, attack, defense, speed, health, durability, cooldown){
 
-        super(id,name, description,image,rarity,type,isbig,selected,xPos,yPos,state,objective);
+        super(id,name, description, image, rarity, type, xPos, yPos, objective);
 
         // Card attributes     
         this.attack     = attack;

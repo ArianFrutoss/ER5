@@ -1,10 +1,10 @@
 import Card from "../Card.js";
 
-export class Spell extends Card{
+export default class Spell extends Card{
 
-    constructor(id, name, description, image, rarity, type, isBig, isSelected, xPos, yPos, state, objective, durability, cooldown){
+    constructor(id, name, description, image, rarity, type,  xPos, yPos, objective, durability, cooldown){
 
-        super(id, name, description, image, rarity, type, isBig, isSelected, xPos, yPos, state, objective);
+        super(id, name, description, image, rarity, type, xPos, yPos, objective);
 
         // Card attributes   
         this.durability = durability;

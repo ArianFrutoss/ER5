@@ -1,15 +1,14 @@
 import Card from "../Card.js";
 
-export class Curse extends Card{
+export default class Curse extends Card{
 
-    constructor(id, name, description, image, rarity, type, isbig, selected, xPos, yPos, state, objective, attack, defense, speed, health, durability, cooldown){
+    constructor(id, name, description, image, rarity, type, xPos, yPos, objective, attack, defense, speed, durability, cooldown){
 
-        super(id,name, description,image,rarity,type,isbig,selected,xPos,yPos,state,objective);
+        super(id, name, description, image, rarity, type, xPos, yPos, objective);
 
         // Card attributes     
         this.attack     = attack;
         this.defense    = defense;
-        this.health     = health;
         this.speed      = speed; 		   	
         this.durability = durability;
         this.cooldown   = cooldown; 		

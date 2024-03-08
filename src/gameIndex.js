@@ -1,6 +1,7 @@
 import globals from "./globals.js";
 import { initHTMLelements, initVars } from "./initialize.js";
 import Game from "./Game.js";
+import logJSON from "./fakeJSONRead.js";
 
 window.onload = init;
 
@@ -10,9 +11,9 @@ function init(){
 
     initHTMLelements();
     initVars();
-    
+
     game = Game.init();
-    
+
     window.requestAnimationFrame(gameLoop);
 }
 
@@ -30,6 +31,7 @@ function gameLoop(timeStamp){
     if(globals.deltaTime >= globals.frameTimeObj){
 
         game.update();
+
         game.render();
 
         globals.deltaTime -= globals.frameTimeObj;

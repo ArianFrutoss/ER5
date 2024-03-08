@@ -1,9 +1,9 @@
 import Card from "../Card.js";
 
 export default class Armor extends Card{
-    constructor(id, name, description, image, rarity, type, isBig, isSelected, xPos, yPos, state, objective, health, attack, defense, speed, durability, cooldown){
+    constructor(id, name, description, image, rarity, type, xPos, yPos, objective, health, attack, defense, speed, durability, cooldown){
         
-        super(id, name, description, image, rarity, type, isBig, isSelected, xPos, yPos, state, objective);
+        super(id, name, description, image, rarity, type, xPos, yPos, objective);
 
             this.health     = health;
             this.attack     = attack;

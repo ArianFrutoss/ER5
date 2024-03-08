@@ -70,14 +70,34 @@ export default class Game{
         
         globals.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
         
+        // Funcion para renderizar los Grids
         this.renderGrids();
     }
         
     renderGrids(){
 
-        for (let i = 0; i < this.gridsArray; i++){
+        // Cantidad de Grids que se van a renderizar
+        const gridsLength = this.gridsArray.grids.length;
+        
+        for (let i = 0; i < gridsLength; i++){
             
-            globals.ctx.fillRect(200, 321, 200, 100);
+            // Numero de filas y comumnas de los Slots
+            const rows = this.gridsArray.grids[i].slots.length;
+            const columns = this.gridsArray.grids[i].slots.length;
+
+            for (let j = 0; j < rows; j++){
+
+                for (let k = 0; k < columns; k++){
+                    
+                    // Posicion y tamaño de los Slots
+                    const slotsXPos = this.gridsArray.grids[i].slots[j][k].xPos;
+                    const slotsYPos = this.gridsArray.grids[i].slots[j][k].yPos;
+                    const slotsXSize = this.gridsArray.grids[i].slots[j][k].xSize - 2;
+                    const slotsYSize = this.gridsArray.grids[i].slots[j][k].ySize - 2;
+                    
+                    globals.ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
+                }
+            }
         }
     }
 }

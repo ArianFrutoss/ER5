@@ -83,7 +83,7 @@ export default class Game{
             
             // Numero de filas y comumnas de los Slots
             const rows = this.gridsArray.grids[i].slots.length;
-            const columns = this.gridsArray.grids[i].slots.length;
+            const columns = this.gridsArray.grids[i].slots[0].length;
 
             for (let j = 0; j < rows; j++){
 

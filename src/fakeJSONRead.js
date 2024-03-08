@@ -5,5 +5,4 @@ export default function logJSON(){
             
             console.log(json);
         });
-
 }

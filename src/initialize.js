@@ -60,7 +60,8 @@ function initEvents(){
 }
 
 // Exportar funciones
-export {
+export{
+
     initHTMLelements,
     initVars,
     testArray,

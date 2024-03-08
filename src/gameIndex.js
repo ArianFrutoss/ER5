@@ -1,27 +1,28 @@
 import globals from "./globals.js";
-import update from  "./gameLogic.js";
 import { initEvents, initHTMLelements, initVars, testArray } from "./initialize.js";
 import logJSON from "./fakeJSONRead.js";
+import Asset from "./Asset.js";
+import Game from "./Game.js";
+import { GameState } from "./constants.js";
 
-
+let game
 window.onload = init;
-
 function init(){
+
     initHTMLelements();
     logJSON();
     initVars();
-    
+    initEvents();
     testArray();
 
-    initEvents();
+    game = Game.init();
 
+    game.gameState = GameState.PLAYING
     window.requestAnimationFrame(gameLoop);
 }
 
-
 // GAME EXECUTE
 function gameLoop(timeStamp){
-
 
     window.requestAnimationFrame(gameLoop, globals.canvas);
 
@@ -33,9 +34,9 @@ function gameLoop(timeStamp){
 
     if(globals.deltaTime >= globals.frameTimeObj){
 
-        update();
+        game.update();
 
-        // render(); 
+        game.render();
 
         globals.deltaTime -= globals.frameTimeObj;
     }

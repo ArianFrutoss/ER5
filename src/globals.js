@@ -20,6 +20,16 @@ export default {
 
     action: {},
     
-    mouse: {}
+    mouse: {},
+
+    images: [],
+
+    //Stores elements to load(IMG/Sounds)
+    assetsToLoad: [],
+
+    //Counter of elements loaded in game
+    assetsLoaded: 0,
+        
+    txtPruebas: {}
 }
 

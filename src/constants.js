@@ -55,3 +55,39 @@ export const Joseph = {
     ACTIVE:       1,
     HOVER:        2
 }
+
+export const ImageTypes = {
+    CARD_IMAGE:  0,
+    CARD_BORDER: 1,
+    CARD_ICONS: 2,
+    CARD_RARITY: 3,
+    EQUIP_RARITY: 4,
+    GAME_RARITY:5,
+    CARD_TYPE: 6
+}
+export const CardImageId = {
+    DRUM_MASTER:0,
+}
+export const BorderId = {
+    NORMAL_SIZE: 0,
+    SMALL_SIZE: 1
+}
+export const IconsId = {
+    DEFENSE: 0,
+    SPEED: 1,
+    DAMAGE: 2,
+    LIFE: 3
+
+}
+
+export const TypeId = {
+   
+    MINION: 0
+}
+export const RarityId = {
+    NONE : 0,
+    COMMON: 1,
+    RARE: 2,
+    EPIC: 3,
+    LEGENDARY: 4
+}

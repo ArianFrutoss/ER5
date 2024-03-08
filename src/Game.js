@@ -1,6 +1,10 @@
-import { GameState } from "./constants.js";
+import Card from "./Cards/Card.js";
+import { BorderId, CardImageId, GameState, IconsId, ImageTypes, RarityId, TypeId } from "./constants.js";
 import Board from "./Board.js";
+import jsonArray from "../cards.js";
+import Asset from "./Asset.js";
 import globals from "./globals.js";
+
 
 export default class Game{
 
@@ -28,7 +32,7 @@ export default class Game{
     update(){
 
         switch(this.gameState){
-            
+    
             case GameState.LOAD_GAME:
                 console.log("load game");
                 break;
@@ -72,6 +76,9 @@ export default class Game{
         
         // Funcion para renderizar los Grids
         this.renderGrids();
+
+        let images = Asset.loadImages();
+        this.drawCard(images)
     }
         
     renderGrids(){
@@ -98,6 +105,62 @@ export default class Game{
                     globals.ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
                 }
             }
-        }
-    }
+        }   
+}
+
+drawCard(images){
+    console.log(images);
+    //CARD IMAGE
+    globals.ctx.drawImage(
+        images[ImageTypes.CARD_IMAGE][CardImageId.DRUM_MASTER],                 //Img File
+        0, 20,                    //X & Y Position Source
+    )
+    
+    // BORDER
+    globals.ctx.drawImage(
+        images[ImageTypes.CARD_BORDER][BorderId.NORMAL_SIZE],
+        0, 0)
+        
+    globals.ctx.fillText("DRUM MASTER", 90, 241);
+    globals.ctx.fillText("This is the description of the card", 35, 291);
+
+    //STAT ICONS
+    globals.ctx.drawImage(
+        images[ImageTypes.CARD_ICONS][IconsId.DEFENSE],
+        215, 343)
+    globals.ctx.fillText("5", 205, 360);
+
+    globals.ctx.drawImage(
+        images[ImageTypes.CARD_ICONS][IconsId.SPEED],
+        175, 343)
+    globals.ctx.fillText("5", 165, 360);
+
+    globals.ctx.drawImage(
+        images[ImageTypes.CARD_ICONS][IconsId.DAMAGE],
+        85, 343)
+    globals.ctx.fillText("5", 75, 360);
+
+    globals.ctx.drawImage(
+        images[ImageTypes.CARD_ICONS][IconsId.LIFE],
+        35, 343)
+    globals.ctx.fillText("5", 25, 360);
+
+    globals.ctx.drawImage(
+        images[ImageTypes.CARD_RARITY][RarityId.COMMON],
+        100, -5)
+
+    globals.ctx.drawImage(
+        images[ImageTypes.CARD_TYPE][TypeId.MINION],
+        108, 343)
+
+    globals.ctx.drawImage(
+        images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
+        10, 15)
+
+    globals.ctx.drawImage(
+        images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
+        191, 15)
+    
+    
+}
 }

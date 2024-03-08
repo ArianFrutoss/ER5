@@ -1,12 +1,12 @@
 import globals from "./globals.js";
 import { initEvents, initHTMLelements, initVars, testArray } from "./initialize.js";
-import Game from "./Game.js";
 import logJSON from "./fakeJSONRead.js";
+import Asset from "./Asset.js";
+import Game from "./Game.js";
+import { GameState } from "./constants.js";
 
+let game
 window.onload = init;
-
-let game;
-
 function init(){
 
     initHTMLelements();
@@ -17,6 +17,7 @@ function init(){
 
     game = Game.init();
 
+    game.gameState = GameState.PLAYING
     window.requestAnimationFrame(gameLoop);
 }
 

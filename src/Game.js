@@ -1,6 +1,9 @@
 import Card from "./Cards/Card.js";
-import { GameState } from "./constants.js";
+import { BorderId, CardImageId, GameState, IconsId, ImageTypes, RarityId, TypeId } from "./constants.js";
 import jsonArray from "../cards.js";
+import Asset from "./Asset.js";
+import globals from "./globals.js";
+
 
 
 export default class Game {
@@ -16,13 +19,13 @@ export default class Game {
         this.activeEventsArray  = activeEventsArray;
         this.turnCounter        = 0;
         this.rarity             = rarity;
-        this.gameState          = GameState.PLAYING; 
+        this.gameState          = GameState.INVALID; 
             
     }
     static init(){
         
         console.log(jsonArray);
-        // return new Game(null,null, null,  null, null, null,    null,     null)
+        return new Game(null,null, null,  null, null, null,    null,     null)
     }
 
     
@@ -30,15 +33,15 @@ export default class Game {
 
         switch(this.gameState){
     
-            case this.LOAD_GAME:
+            case GameState.LOAD_GAME:
                 console.log("load game");
                 break;
     
-            case this.PLAYING:
+            case GameState.PLAYING:
                 console.log("playing");
                 break;
     
-            case this.GAMEOVER:
+            case GameState.GAMEOVER:
                 console.log("gameover");
                 break;
     
@@ -52,11 +55,11 @@ export default class Game {
     render(){
 
             switch(this.gameState){
-                case this.LOAD_GAME:
+                case GameState.LOAD_GAME:
                     //draw load spinner
                     break;
                 
-                case this.PLAYING:
+                case GameState.PLAYING:
                     this.drawGame();
                     break;
                 
@@ -67,12 +70,70 @@ export default class Game {
         }
         
         drawGame(){
-        console.log("hola");
+            
+            let images = Asset.loadImages();
             globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
         
             globals.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
             
-        
+            this.drawCard(images)
+            
+        }
+
+        drawCard(images){
+            console.log(images);
+            //CARD IMAGE
+            globals.ctx.drawImage(
+                images[ImageTypes.CARD_IMAGE][CardImageId.DRUM_MASTER],                 //Img File
+                0, 20,                    //X & Y Position Source
+            )
+            
+            // BORDER
+            globals.ctx.drawImage(
+                images[ImageTypes.CARD_BORDER][BorderId.NORMAL_SIZE],
+                0, 0)
+                
+            globals.ctx.fillText("DRUM MASTER", 90, 241);
+            globals.ctx.fillText("This is the description of the card", 35, 291);
+
+            //STAT ICONS
+            globals.ctx.drawImage(
+                images[ImageTypes.CARD_ICONS][IconsId.DEFENSE],
+                215, 343)
+            globals.ctx.fillText("5", 205, 360);
+
+            globals.ctx.drawImage(
+                images[ImageTypes.CARD_ICONS][IconsId.SPEED],
+                175, 343)
+            globals.ctx.fillText("5", 165, 360);
+
+            globals.ctx.drawImage(
+                images[ImageTypes.CARD_ICONS][IconsId.DAMAGE],
+                85, 343)
+            globals.ctx.fillText("5", 75, 360);
+
+            globals.ctx.drawImage(
+                images[ImageTypes.CARD_ICONS][IconsId.LIFE],
+                35, 343)
+            globals.ctx.fillText("5", 25, 360);
+
+            globals.ctx.drawImage(
+                images[ImageTypes.CARD_RARITY][RarityId.COMMON],
+                100, -5)
+
+            globals.ctx.drawImage(
+                images[ImageTypes.CARD_TYPE][TypeId.MINION],
+                108, 343)
+
+            globals.ctx.drawImage(
+                images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
+                10, 15)
+
+            globals.ctx.drawImage(
+                images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
+                191, 15)
+            
+            
         }
         
     

@@ -14,6 +14,14 @@ export default {
 
     frameTimeObj: 0,
 
+    images: [],
+
+        //Stores elements to load(IMG/Sounds)
+        assetsToLoad: [],
+
+        //Counter of elements loaded in game
+        assetsLoaded: 0,
+        
     txtPruebas: {}
 }
 

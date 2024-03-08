@@ -30,6 +30,5 @@ function initVars(){
 // Exportar funciones
 export {
     initHTMLelements,
-    initVars,
-    initGrids
+    initVars
 }

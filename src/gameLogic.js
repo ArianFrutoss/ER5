@@ -1,21 +1,21 @@
 import globals from "./globals.js";
 import { GameState } from "./constants.js";
-import CardFactory from "./Cards/CardFactory.js";
 
 export default function update(){
 
     switch(globals.gameState){
 
         case GameState.INVALID:
-   
+            // add logic
+            showMouseXY();
             break;
 
         case GameState.PLAYING:
-            console.log("playing");
+            // add logic
             break;
 
         case GameState.GAMEOVER:
-            console.log("gameover");
+            // add logic
             break;
 
         default:
@@ -24,3 +24,7 @@ export default function update(){
     }
 }
 
+function showMouseXY(){
+
+    console.log("X:" + globals.mouse.x + " Y:" + globals.mouse.y);
+}

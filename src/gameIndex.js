@@ -1,6 +1,6 @@
 import globals from "./globals.js";
 import update from  "./gameLogic.js";
-import { initHTMLelements, initVars, testArray } from "./initialize.js";
+import { initEvents, initHTMLelements, initVars, testArray } from "./initialize.js";
 import logJSON from "./fakeJSONRead.js";
 
 
@@ -12,6 +12,8 @@ function init(){
     initVars();
     
     testArray();
+
+    initEvents();
 
     window.requestAnimationFrame(gameLoop);
 }
@@ -31,9 +33,9 @@ function gameLoop(timeStamp){
 
     if(globals.deltaTime >= globals.frameTimeObj){
 
-/*         update();
+        update();
 
-        render(); */
+        // render(); 
 
         globals.deltaTime -= globals.frameTimeObj;
     }

@@ -2,6 +2,7 @@ import globals from "./globals.js";
 import { GameState, FPS, GridId } from "./constants.js"
 import CardFactory from "./Cards/CardFactory.js";
 import jsonArray from "../cards.js";
+import { canvasMousedownHandler, canvasMouseupHandler, canvasMousemoveHandler } from "./mouseEvent.js";
 
 function initHTMLelements(){
 
@@ -27,6 +28,16 @@ function initVars(){
     
     //Inicializamos el estado del juego
     globals.gameState = GameState.INVALID;
+
+    globals.action = {
+
+        mousePressed: false
+    }
+
+    globals.mouse = {
+        x: -1,
+        y: -1
+    }
 }
 
 function testArray(){
@@ -40,9 +51,18 @@ function testArray(){
     console.log(globals.cards);
 }
 
+function initEvents(){
+
+    globals.canvas.addEventListener("mouseup", canvasMouseupHandler, false);
+    globals.canvas.addEventListener("mousedown", canvasMousedownHandler, false);
+    globals.canvas.addEventListener("mousemove", canvasMousemoveHandler, false);
+
+}
+
 // Exportar funciones
 export {
     initHTMLelements,
     initVars,
-    testArray
+    testArray,
+    initEvents
 }

@@ -42,13 +42,13 @@ function initVars(){
 
 function testArray(){
 
-    console.log(jsonArray);
+    // console.log(jsonArray);
 
-    const cardFactory = new CardFactory(jsonArray);
+    // const cardFactory = new CardFactory(jsonArray);
     
-    cardFactory.createCards();
+    // cardFactory.createCards();
     
-    console.log(globals.cards);
+    // console.log(globals.cards);
 }
 
 function initEvents(){

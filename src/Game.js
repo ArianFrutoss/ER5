@@ -4,17 +4,19 @@ import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
 import globals from "./globals.js";
+import CardFactory from "./Cards/CardFactory.js";
+import DeckContainer from "./Cards/DeckContainer.js";
 
 
 export default class Game{
 
-    constructor(turnArray, handsArray, cardsArray, boardMinionsArray, deckArray, gridsArray, activeEventsArray, rarity){
+    constructor(turnArray, handsArray, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity){
 
         this.turnArray          = turnArray;
         this.handsArray         = handsArray;
         this.cardsArray         = cardsArray;
         this.boardMinionsArray  = boardMinionsArray;
-        this.deckArray          = deckArray;
+        this.deckContainer      = deckContainer;
         this.gridsArray         = gridsArray;
         this.activeEventsArray  = activeEventsArray;
         this.turnCounter        = 0;
@@ -25,8 +27,10 @@ export default class Game{
     static init(){
     
         const board = Board.initBoard();
-
-        return new Game(null, null, null, null, null, board, null, null);
+        const deckContainer = new DeckContainer()
+        deckContainer.createDecks(jsonArray)
+        
+        return new Game(null, null, null, null, deckContainer, board, null, null);
     }
     
     update(){
@@ -109,7 +113,7 @@ export default class Game{
 }
 
 drawCard(images){
-    console.log(images);
+
     //CARD IMAGE
     globals.ctx.drawImage(
         images[ImageTypes.CARD_IMAGE][CardImageId.DRUM_MASTER],                 //Img File

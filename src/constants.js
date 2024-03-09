@@ -91,3 +91,13 @@ export const RarityId = {
     EPIC: 3,
     LEGENDARY: 4
 }
+export const DecksId = {
+    INITIAL_DECK: -1,
+    PLAYER_1_MINION_DECK: 0,
+    PLAYER_2_MINION_DECK: 1,
+    PLAYER_1_HAND_DECK: 2,
+    PLAYER_2_HAND_DECK: 3,
+    EVENT_DECK: 4,
+    MAIN_CHARACTER_DECK: 5,
+    GRAVEYARD_DECK:6
+}

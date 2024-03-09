@@ -13,64 +13,70 @@ export default class CardFactory{
 
     constructor(cardData){
         this.cardData   = cardData;
+        this.cards = []
     }
 
 
     createCards(){
+        let card
         for(let i = 0; i < this.cardData.length; i++){
             
-            const id            = this.cardData[i].id;
-            const name          = this.cardData[i].name;
-            const description   = this.cardData[i].description;
+            const id            = this.cardData[i].card_id;
+            const name          = [this.cardData[i].name,this.cardData[i].izena];
+            const description   = [this.cardData[i].description,this.cardData[i].deskripzioa];
             const image         = this.cardData[i].image;
             const rarity        = this.cardData[i].rarity;
+            const category      = this.cardData[i].category
+            // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS
             const type          = this.cardData[i].type;
             const xPos          = 100;
             const yPos          = 100;
             const objective     = "objective";
             const attributes    = this.cardData[i].attributes;
-            const effects       = this.cardData[i].effects;
+            const effects       = this.cardData[i].common_effect;
 
-            switch(type){
-                case "Armor":
-                    this.createArmor(id, name, description, image, rarity, type, xPos, yPos, objective, attributes);
+            switch(category){
+                case "Armor_card":
+                    card = this.createArmor(id, name, description, image, rarity, category, xPos, yPos, objective, attributes);
                     break;
                 
-                case "Buff":
-                    this.createBuff(id, name, description, image, rarity, type, xPos, yPos, objective, attributes);
+                case "Buff_card":
+                    card = this.createBuff(id, name, description, image, rarity, category, xPos, yPos, objective, attributes);
                     break;
 
-                case "Curse":
-                    this.createBuff(id, name, description, image, rarity, type, xPos, yPos, objective, attributes);
+                case "Curse_card":
+                    card = this.createBuff(id, name, description, image, rarity, category, xPos, yPos, objective, attributes);
                     break;
 
-                case "Joseph":
-                    this.createJoseph(id, name, description, image, rarity, type, xPos, yPos, objective, effects)
+                case "Joseph_card":
+                    card = this.createJoseph(id, name, description, image, rarity, category, xPos, yPos, objective, effects)
                     break;
                 
-                case "MainCharacter":
-                    this.createMainCharacter(id, name, description, image, rarity, type, xPos, yPos, objective, effects)
+                case "MainCharacter_card":
+                    card = this.createMainCharacter(id, name, description, image, rarity, category, xPos, yPos, objective, effects)
                     break;
         
-                case "Minion":
-                    this.createMinion(id, name, description, image, rarity, type, xPos, yPos, objective, attributes);
+                case "Minion_card":
+                    card = this.createMinion(id, name, description, image, rarity, category, xPos, yPos, objective, attributes);
                     break;
 
-                case "Spell":
+                case "Spell_card":
 
-                    this.createSpell(id, name, description, image, rarity, type, xPos, yPos, objective, attributes);
+                    card = this.createSpell(id, name, description, image, rarity, category, xPos, yPos, objective, attributes);
                     break;
                 
-                case "Weapon":
-                    this.createWeapon(id, name, description, image, rarity, type, xPos, yPos, objective, attributes)
+                case "Weapon_card":
+                    card = this.createWeapon(id, name, description, image, rarity, category, xPos, yPos, objective, attributes)
                     break;
                 
                 default:
-
                     break;
-            }
-
+                }
+                
+            this.cards.push(card)
         }
+
+        return this.cards
 
      
     }
@@ -86,6 +92,7 @@ export default class CardFactory{
 
         const minion = new Minion(id, name, description, image, rarity, type, xPos, yPos, objective, attack, defense, hp, speed, equipedWeapon, equipedArmor);
         
+        return minion
         globals.cards.push(minion);
     }
 
@@ -101,7 +108,7 @@ export default class CardFactory{
         
 
         const armor = new Armor(id, name, description, image, rarity, type, xPos, yPos, objective, health, attack, defense, speed, durability, cooldown);
-        
+        return armor
         globals.cards.push(armor);
     }
 
@@ -114,7 +121,7 @@ export default class CardFactory{
         let cooldown    = attributes.cooldown;
 
         const buff  = new Buff(id ,name, description ,image, rarity, type, xPos, yPos, objective, attack, defense, speed, health, durability, cooldown)
-
+        return buff
         globals.cards.push(buff);
     }
 
@@ -126,7 +133,7 @@ export default class CardFactory{
         let cooldown    = attributes.cooldown;
 
         const curse     = new Curse(id, name, description, image, rarity, type, xPos, yPos, objective, attack, defense, speed, durability, cooldown);
-
+        return curse
         globals.cards.push(curse);
 
     }
@@ -135,7 +142,7 @@ export default class CardFactory{
         let armorEffect = effects.Armor;
 
         const joseph    = new Joseph(id, name, description, image, rarity, type, xPos, yPos, objective, armorEffect)
-
+        return joseph
         globals.cards.push(joseph);
     }
 
@@ -147,7 +154,7 @@ export default class CardFactory{
         let cooldown    = effects.cooldown;
 
         const mainCharacter     = new MainCharacter(id, name, description, image, rarity, type, xPos, yPos, objective, attack, defense, speed, health, durability, cooldown);
-
+        return mainCharacter
         globals.cards.push(mainCharacter);
     }
 
@@ -156,7 +163,7 @@ export default class CardFactory{
         let cooldown    = attributes.cooldown;
 
         const spell     = new Spell(id, name, description, image, rarity, type, xPos, yPos, objective, durability, cooldown);
-
+        return spell
         globals.cards.push(spell);
     }
 
@@ -168,7 +175,7 @@ export default class CardFactory{
         let durability  = attributes.durability;
         let cooldown    = attributes.cooldown;
         let weaponType  = attributes.weaponType;
-
+        return weapon
         const weapon    = new Weapon(id, name, description, image, rarity, type, xPos, yPos, objective, weaponType, range, attack, defense, speed, durability, cooldown);
 
         globals.cards.push(weapon);

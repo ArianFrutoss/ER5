@@ -1,11 +1,11 @@
-import Armor from "./cards_type/Armor.js";
-import Buff from "./cards_type/Buff.js";
-import Curse from "./cards_type/Curse.js";
-import Joseph from "./cards_type/Joseph.js";
-import MainCharacter from "./cards_type/MainCharacter.js";
-import Minion from "./cards_type/Minion.js";
-import Spell from "./cards_type/Spell.js";
-import Weapon from "./cards_type/Spell.js";
+import Armor from "./cards_category/Armor.js";
+import Buff from "./cards_category/Buff.js";
+import Curse from "./cards_category/Curse.js";
+import Joseph from "./cards_category/Joseph.js";
+import MainCharacter from "./cards_category/MainCharacter.js";
+import Minion from "./cards_category/Minion.js";
+import Spell from "./cards_category/Spell.js";
+import Weapon from "./cards_category/Spell.js";
 import { IconsId, TypeId } from "../constants.js";
 
 
@@ -21,7 +21,6 @@ export default class CardFactory {
         let card
 
         for (let i = 0; i < this.cardData.length; i++) {
-
             const id = this.cardData[i].card_id;
             const name = [this.cardData[i].name, this.cardData[i].izena];
             const description = [this.cardData[i].description, this.cardData[i].deskripzioa];
@@ -31,6 +30,7 @@ export default class CardFactory {
             const quantity = this.cardData[i].quantity
             // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS
             const type = this.cardData[i].type;
+        
             const xPos = 100;
             const yPos = 100;
             const objective = "objective";
@@ -39,7 +39,7 @@ export default class CardFactory {
 
             switch (category) {
                 case "Armor_card":
-                    for (let i = 0; i < quantity.length; i++) {
+                    for (let i = 0; i < quantity; i++) {
                         card = this.createArmor(id, name, description, image, rarity, TypeId.ARMOR, type, xPos, yPos, objective, attributes);
                         this.cards.push(card)
                         
@@ -183,7 +183,7 @@ export default class CardFactory {
         let cooldown = attributes.cooldown;
 
 
-        const armor = new Armor(id, name, description, image, rarity, type,quantity, xPos, yPos, objective, health, attack, defense, speed, durability, cooldown);
+        const armor = new Armor(id, name, description, image, rarity, type, xPos, yPos, objective, health, attack, defense, speed, durability, cooldown);
         return armor
 
     }

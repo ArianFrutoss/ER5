@@ -9,8 +9,7 @@ export default class Deck {
     }
     static createInitDeck(data){
         const cardFact = new CardFactory(data)
-         cardFact.createCards()
-         
+        cardFact.createCards()
 
         return new Deck (DecksId.INITIAL_DECK, cardFact.cards)
     }

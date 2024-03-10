@@ -32,7 +32,7 @@ export default class Game {
         let images = Asset.loadImages();
         const deckContainer = new DeckContainer()
         deckContainer.createDecks()
-
+        console.log(deckContainer.decks);
         return new Game(null, null, images, null, null, deckContainer, board, null, null);
     }
 

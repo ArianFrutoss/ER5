@@ -9,6 +9,7 @@
       "rarity": "Common",
       "category": "Minion_card",
       "type": "Melee",
+      "quantity": 6,
       "attributes": [
         {
           "attribute_id": 1,
@@ -34,40 +35,6 @@
       "common_effect": null
     },
     {
-      "card_id": 4,
-      "name": "Whip of Multilash",
-      "izena": "Laztiko multiazotua",
-      "description": "Once belonged to a vile lord of the valley, traded for some barrels \n of liquor and awaits to be wielded by some acolyte",
-      "deskripzioa": "Harana ospe txarreko jaun batekin lotuta zegoen denbora batez, likore botatxo batzuk trukatu eta akolito batek erabiltzeko itxaroten dago.",
-      "image": "Whip_of_multilash.png",
-      "rarity": "Common",
-      "category": "Weapon_card",
-      "type": "Ranged/Melee",
-      "attributes": [
-        {
-          "attribute_id": 1,
-          "attribute_name": "Attack",
-          "attribute_value": 2
-        },
-        {
-          "attribute_id": 5,
-          "attribute_name": "Range",
-          "attribute_value": 2
-        },
-        {
-          "attribute_id": 6,
-          "attribute_name": "Durability",
-          "attribute_value": 4
-        },
-        {
-          "attribute_id": 7,
-          "attribute_name": "Cooldown",
-          "attribute_value": 2
-        }
-      ],
-      "common_effect": null
-    },
-    {
       "card_id": 1,
       "name": "Joseph",
       "izena": "Joseph",
@@ -77,6 +44,7 @@
       "rarity": "Legendary",
       "category": "Joseph_card",
       "type": null,
+      "quantity": 1,
       "attributes": null,
       "common_effect": [
         {
@@ -98,6 +66,7 @@
       "rarity": "Legendary",
       "category": "Hero_card",
       "type": null,
+      "quantity": 1,
       "attributes": null,
       "common_effect": [
         {
@@ -106,6 +75,39 @@
           "common_effect_deskripzioa": "Minion sarraski guztiei -1 defentsa kentzen du ",
           "common_effect_attribute": "Defense",
           "common_effect_value": 1
+        }
+      ]
+    },
+    {
+      "card_id": 8,
+      "name": "Seminary brew",
+      "izena": "Seminarioko zurrutada",
+      "description": "This beverage is donated by the faithful acolytes of the valley, its flavor suggests it has been stored for ages.",
+      "deskripzioa": "Edaria hau haraneko fidel akolitoek ematen dute, bere saborak antzinako denborak itxita izan duela iradokitzen du",
+      "image": "Seminary_brew.png",
+      "rarity": "Common",
+      "category": "Empowerment_card",
+      "type": null,
+      "quantity": 2,
+      "attributes": [
+        {
+          "attribute_id": 6,
+          "attribute_name": "Durability",
+          "attribute_value": 2
+        },
+        {
+          "attribute_id": 7,
+          "attribute_name": "Cooldown",
+          "attribute_value": 2
+        }
+      ],
+      "common_effect": [
+        {
+          "common_effect_id": 6,
+          "common_effect_description": "Increment objetive minion Attack by 2pts the next 2 turn",
+          "common_effect_deskripzioa": "Minion objektiboaren Attack 2 puntuetan igotzen du datorren bi txandetan",
+          "common_effect_attribute": "Attack",
+          "common_effect_value": 2
         }
       ]
     },
@@ -119,6 +121,7 @@
       "rarity": "Common",
       "category": "Armor_card",
       "type": null,
+      "quantity": 3,
       "attributes": [
         {
           "attribute_id": 2,
@@ -148,6 +151,7 @@
       "rarity": "Common",
       "category": "Curse_card",
       "type": null,
+      "quantity": 3,
       "attributes": null,
       "common_effect": [
         {
@@ -176,6 +180,7 @@
       "rarity": "Epic",
       "category": "Spell_card",
       "type": null,
+      "quantity": 1,
       "attributes": null,
       "common_effect": [
         {
@@ -188,20 +193,31 @@
       ]
     },
     {
-      "card_id": 8,
-      "name": "Seminary brew",
-      "izena": "Seminarioko zurrutada",
-      "description": "This beverage is donated by the faithful acolytes of the valley, its flavor suggests it has been stored for ages.",
-      "deskripzioa": "Edaria hau haraneko fidel akolitoek ematen dute, bere saborak antzinako denborak itxita izan duela iradokitzen du",
-      "image": "Seminary_brew.png",
+      "card_id": 4,
+      "name": "Whip of Multilash",
+      "izena": "Laztiko multiazotua",
+      "description": "Once belonged to a vile lord of the valley, traded for some barrels \n of liquor and awaits to be wielded by some acolyte",
+      "deskripzioa": "Harana ospe txarreko jaun batekin lotuta zegoen denbora batez, likore botatxo batzuk trukatu eta akolito batek erabiltzeko itxaroten dago.",
+      "image": "Whip_of_multilash.png",
       "rarity": "Common",
-      "category": "Empowerment_card",
-      "type": null,
+      "category": "Weapon_card",
+      "type": "Ranged/Melee",
+      "quantity": 3,
       "attributes": [
+        {
+          "attribute_id": 1,
+          "attribute_name": "Attack",
+          "attribute_value": 2
+        },
+        {
+          "attribute_id": 5,
+          "attribute_name": "Range",
+          "attribute_value": 2
+        },
         {
           "attribute_id": 6,
           "attribute_name": "Durability",
-          "attribute_value": 2
+          "attribute_value": 4
         },
         {
           "attribute_id": 7,
@@ -209,14 +225,6 @@
           "attribute_value": 2
         }
       ],
-      "common_effect": [
-        {
-          "common_effect_id": 6,
-          "common_effect_description": "Increment objetive minion Attack by 2pts the next 2 turn",
-          "common_effect_deskripzioa": "Minion objektiboaren Attack 2 puntuetan igotzen du datorren bi txandetan",
-          "common_effect_attribute": "Attack",
-          "common_effect_value": 2
-        }
-      ]
+      "common_effect": null
     }
   ]

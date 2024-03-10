@@ -63,7 +63,8 @@ export const ImageTypes = {
     CARD_RARITY: 3,
     EQUIP_RARITY: 4,
     GAME_RARITY:5,
-    CARD_TYPE: 6
+    CARD_TYPE: 6,
+    BOARD_IMAGE: 7
 }
 export const CardImageId = {
     DRUM_MASTER:0,
@@ -114,4 +115,15 @@ export const DecksId = {
 export const LanguageId = {
     ENG : 0,
     EUS : 1
+}
+
+export const BoardId = {
+    BOARD:              0,
+    EVENT_DECK_FULL:    1,
+    EVENT_DECK_HALF:    2,
+    EVENT_DECK_EMPTY:   3,
+    MINION_DECK_FULL:   4,
+    MINION_DECK_HALF:   5,
+    MINION_DECK_EMPTY:  6,
+    GEM:                7,
 }

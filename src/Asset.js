@@ -4,26 +4,100 @@ import { BorderId, CardId, ImageTypes } from "./constants.js"
 export default class Asset {
 
     static loadImages() {
+
         let images = []
 
-
-        images[ImageTypes.CARD_IMAGE] = Asset.prototype.loadCardImages()
-        images[ImageTypes.CARD_BORDER] = Asset.prototype.loadCardBorders()
-        images[ImageTypes.CARD_ICONS] = Asset.prototype.loadCardIcons()
-        images[ImageTypes.CARD_RARITY] = Asset.prototype.loadCardRarity()
-        images[ImageTypes.EQUIP_RARITY] = Asset.prototype.loadEquipmentRarity()
-        images[ImageTypes.GAME_RARITY] = Asset.prototype.loadGameRarity()
-        images[ImageTypes.CARD_TYPE] = Asset.prototype.loadCardType()
-
-
-
-
-
-
+        images[ImageTypes.CARD_IMAGE] = Asset.prototype.loadCardImages();
+        images[ImageTypes.CARD_BORDER] = Asset.prototype.loadCardBorders();
+        images[ImageTypes.CARD_ICONS] = Asset.prototype.loadCardIcons();
+        images[ImageTypes.CARD_RARITY] = Asset.prototype.loadCardRarity();
+        images[ImageTypes.EQUIP_RARITY] = Asset.prototype.loadEquipmentRarity();
+        images[ImageTypes.GAME_RARITY] = Asset.prototype.loadGameRarity();
+        images[ImageTypes.CARD_TYPE] = Asset.prototype.loadCardType();
+        images[ImageTypes.BOARD_IMAGE] = Asset.prototype.loadBackground();
 
         return images
     }
 
+    loadBackground() {
+
+        let images = []
+        let image
+
+        // Crear Board
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/board.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Event Deck Full
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/event_deck_full.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Event Deck Half
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/event_deck_half.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+        
+        // Crear Event Deck Empty
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/event_deck_empty.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Minion Deck Full
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/minion_deck_full.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Minion Deck Half
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/minion_deck_half.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Minion Deck Empty
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/minion_deck_empty.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Gema
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/gem.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        return images
+    }
 
     loadCardImages() {
         let normalSize = []

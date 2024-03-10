@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BorderId, CardId, CardImageId, DecksId, GameState, IconsId, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, IconsId, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -81,13 +81,88 @@ export default class Game {
         globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
 
         globals.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
+        
+        // Funcion para renderizar los Grids
+        this.renderBoard(this.images);
 
         // Funcion para renderizar los Grids
         this.renderGrids();
 
+        // Funcion para renderizar las Cards
+        this.drawCard(this.images,this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
     }
+    
+    renderBoard(images){
 
-    renderGrids() {
+        let image = images[ImageTypes.BOARD_IMAGE][BoardId.BOARD];
+        let xPos = 0;
+        let yPos = 0;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.EVENT_DECK_FULL];
+        xPos = 25;
+        yPos = globals.canvas.height / 2 - image.height / 2;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_FULL];
+        xPos = 75;
+        yPos = 12;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_HALF];
+        xPos = 75;
+        yPos = 872;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
+        xPos = 295;
+        yPos = 55;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        globals.ctx.fillText(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
+        xPos = 295;
+        yPos = 925;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        globals.ctx.fillText(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
+
+        image = images[ImageTypes.GAME_RARITY][RarityId.COMMON];
+        xPos = 1595;
+        yPos = 20;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+    }
+        
+    renderGrids(){
 
         // Cantidad de Grids que se van a renderizar
         const gridsLength = this.gridsArray.grids.length;

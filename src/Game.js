@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BorderId, CardImageId, DecksId, GameState, IconsId, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
+import { BoardId, BorderId, CardImageId, DecksId, GameState, IconsId, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -83,10 +83,22 @@ export default class Game{
         globals.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
         
         // Funcion para renderizar los Grids
+        this.renderBoard(this.images);
+
+        // Funcion para renderizar los Grids
         this.renderGrids();
 
-        
+        // Funcion para renderizar las Cards
         this.drawCard(this.images,this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
+    }
+    
+    renderBoard(images){
+        
+        globals.ctx.drawImage(
+
+            images[ImageTypes.BOARD_IMAGE][BoardId.BOARD],
+            0, 0,
+        )
     }
         
     renderGrids(){

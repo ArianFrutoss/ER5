@@ -63,7 +63,8 @@ export const ImageTypes = {
     CARD_RARITY: 3,
     EQUIP_RARITY: 4,
     GAME_RARITY:5,
-    CARD_TYPE: 6
+    CARD_TYPE: 6,
+    BOARD_IMAGE: 7
 }
 export const CardImageId = {
     DRUM_MASTER:0,
@@ -107,4 +108,8 @@ export const DecksId = {
 export const LanguageId = {
     ENG : 0,
     EUS : 1
+}
+
+export const BoardId = {
+    BOARD: 0
 }

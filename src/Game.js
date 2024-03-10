@@ -94,10 +94,58 @@ export default class Game{
     
     renderBoard(images){
         
+        let image = images[ImageTypes.BOARD_IMAGE][BoardId.BOARD];
+        let xPos = 0;
+        let yPos = 0;
+
         globals.ctx.drawImage(
 
-            images[ImageTypes.BOARD_IMAGE][BoardId.BOARD],
-            0, 0,
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.EVENT_DECK_FULL];
+        xPos = 25;
+        yPos = globals.canvas.height / 2 - image.height / 2;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_FULL];
+        xPos = 75;
+        yPos = 12;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_HALF];
+        xPos = 75;
+        yPos = 872;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
+        xPos = 295;
+        yPos = 55;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
+        xPos = 295;
+        yPos = 925;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
         )
     }
         

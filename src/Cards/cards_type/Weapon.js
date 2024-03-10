@@ -2,12 +2,12 @@ import Card from "../Card.js";
 
 export default class Weapon extends Card{
 
-    constructor(id, name, description, image, rarity, type, xPos, yPos, state, objective, weaponType, range, attack, defense, speed, durability, cooldown){
+    constructor(id, name, description, image, rarity, type,quantity, xPos, yPos, state, objective, weaponType, range, attack, defense, speed, durability, cooldown){
 
-        super(id, name, description, image, rarity, type, xPos, yPos, state, objective);
+        super(id, name, description, image, rarity, type,quantity, xPos, yPos, state, objective);
 
         // Card attributes   
-        this.weaponType     = weaponType;
+        this.type           = type;
         this.range          = range;
         this.attack         = attack;
         this.defense        = defense;

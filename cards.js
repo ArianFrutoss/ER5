@@ -8,6 +8,7 @@ let jsonArray = [
         image: "bar_keeper",
         rarity: "Common",
         category: "Minion_card",
+        quantity: 2,
         type: "Melee",
         attributes:[{
             attribute_id: 0,

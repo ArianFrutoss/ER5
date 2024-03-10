@@ -84,15 +84,22 @@ export const IconsId = {
 }
 
 export const TypeId = {
-   
-    MINION: 0
+    MINION: 0,
+    BUFF: 1,
+    CURSE:2,
+    HERO:3,
+    JOSEPH:4,
+    ARMOR:5,
+    WEAPON:6,
+    SPELL: 7,
+
 }
 export const RarityId = {
-    NONE : 0,
-    COMMON: 1,
-    RARE: 2,
-    EPIC: 3,
-    LEGENDARY: 4
+    COMMON: 0,
+    RARE: 1,
+    EPIC: 2,
+    LEGENDARY: 3,
+    NONE : 4,
 }
 export const DecksId = {
     INITIAL_DECK: -1,

@@ -10,7 +10,6 @@ window.onload = init;
 function init(){
 
     initHTMLelements();
-    logJSON();
     initVars();
     initEvents();
     testArray();

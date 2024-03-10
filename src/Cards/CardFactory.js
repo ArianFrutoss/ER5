@@ -1,11 +1,11 @@
-import Armor            from "./cards_type/Armor.js";
-import Buff             from "./cards_type/Buff.js";
-import Curse            from "./cards_type/Curse.js";
-import Joseph           from "./cards_type/Joseph.js";
-import MainCharacter    from "./cards_type/MainCharacter.js";
-import Minion           from "./cards_type/Minion.js";
-import Spell            from "./cards_type/Spell.js";
-import Weapon           from "./cards_type/Spell.js";
+import Armor            from "./cards_category/Armor.js";
+import Buff             from "./cards_category/Buff.js";
+import Curse            from "./cards_category/Curse.js";
+import Joseph           from "./cards_category/Joseph.js";
+import MainCharacter    from "./cards_category/MainCharacter.js";
+import Minion           from "./cards_category/Minion.js";
+import Spell            from "./cards_category/Spell.js";
+import Weapon           from "./cards_category/Spell.js";
 import globals from "../globals.js";
 import { IconsId } from "../constants.js";
 

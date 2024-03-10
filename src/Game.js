@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BorderId, CardImageId, DecksId, GameState, IconsId, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
+import { BorderId, CardId, CardImageId, DecksId, GameState, IconsId, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -129,7 +129,7 @@ export default class Game {
 
         //CARD IMAGE
         globals.ctx.drawImage(
-            images[ImageTypes.CARD_IMAGE][CardImageId.DRUM_MASTER],                 //Img File
+            images[ImageTypes.CARD_IMAGE][CardId.BIG_SIZE][CardImageId.DRUM_MASTER],                 //Img File
             0 + xPos, 20 + yPos                    //X & Y Position Source
         )
 

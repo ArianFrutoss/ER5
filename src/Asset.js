@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { ImageTypes } from "./constants.js"
+import { BorderId, CardId, ImageTypes } from "./constants.js"
 
 export default class Asset {
 
@@ -26,6 +26,8 @@ export default class Asset {
 
 
     loadCardImages() {
+        let normalSize = []
+        let smallSize  = []
         let images = []
         let image
 
@@ -34,9 +36,22 @@ export default class Asset {
         image.addEventListener("load", this.loadHandler, false);
         image.src = "../media/images/cards_img/drum_master.png";
         //Preguntar si el globals.images es necesario
-        images.push(image);
+        normalSize.push(image);
         globals.images.push(image)
         globals.assetsToLoad.push(image);
+
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/cards_img/drum_master_mini.png";
+        //Preguntar si el globals.images es necesario
+        smallSize.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+
+
+        images.push(normalSize) 
+        images.push(smallSize) 
         return images
     }
 

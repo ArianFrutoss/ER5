@@ -111,5 +111,12 @@ export const LanguageId = {
 }
 
 export const BoardId = {
-    BOARD: 0
+    BOARD:              0,
+    EVENT_DECK_FULL:    1,
+    EVENT_DECK_HALF:    2,
+    EVENT_DECK_EMPTY:   3,
+    MINION_DECK_FULL:   4,
+    MINION_DECK_HALF:   5,
+    MINION_DECK_EMPTY:  6,
+    GEM:                7,
 }

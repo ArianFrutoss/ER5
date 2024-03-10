@@ -32,6 +32,70 @@ export default class Asset {
         images.push(image);
         globals.images.push(image)
         globals.assetsToLoad.push(image);
+
+        // Crear Event Deck Full
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/event_deck_full.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Event Deck Half
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/event_deck_half.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+        
+        // Crear Event Deck Empty
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/event_deck_empty.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Minion Deck Full
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/minion_deck_full.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Minion Deck Half
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/minion_deck_half.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Minion Deck Empty
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/minion_deck_empty.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        // Crear Gema
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/background/gem.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
         return images
     }
 

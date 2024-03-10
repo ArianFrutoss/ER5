@@ -93,7 +93,7 @@ export default class Game{
     }
     
     renderBoard(images){
-        
+
         let image = images[ImageTypes.BOARD_IMAGE][BoardId.BOARD];
         let xPos = 0;
         let yPos = 0;
@@ -139,9 +139,22 @@ export default class Game{
             image, xPos, yPos
         )
 
+        globals.ctx.fillText(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
+
         image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
         xPos = 295;
         yPos = 925;
+
+        globals.ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        globals.ctx.fillText(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
+
+        image = images[ImageTypes.GAME_RARITY][RarityId.COMMON];
+        xPos = 1595;
+        yPos = 20;
 
         globals.ctx.drawImage(
 

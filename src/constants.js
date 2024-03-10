@@ -73,10 +73,13 @@ export const BorderId = {
     SMALL_SIZE: 1
 }
 export const IconsId = {
-    DEFENSE: 0,
-    SPEED: 1,
-    DAMAGE: 2,
-    LIFE: 3
+    DAMAGE:     0,
+    DEFENSE:    1,
+    LIFE:       2,
+    SPEED:      3,
+    RANGE:      4,
+    DURABILITY: 5,
+    COOLDOWN:   6
 
 }
 
@@ -100,4 +103,8 @@ export const DecksId = {
     EVENT_DECK: 4,
     MAIN_CHARACTER_DECK: 5,
     GRAVEYARD_DECK:6
+}
+export const LanguageId = {
+    ENG : 0,
+    EUS : 1
 }

@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BorderId, CardImageId, GameState, IconsId, ImageTypes, RarityId, TypeId } from "./constants.js";
+import { BorderId, CardImageId, DecksId, GameState, IconsId, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -10,10 +10,12 @@ import DeckContainer from "./Cards/DeckContainer.js";
 
 export default class Game{
 
-    constructor(turnArray, handsArray, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity){
+    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity){
 
         this.turnArray          = turnArray;
         this.handsArray         = handsArray;
+        this.images             = images
+        this.language           = LanguageId.ENG
         this.cardsArray         = cardsArray;
         this.boardMinionsArray  = boardMinionsArray;
         this.deckContainer      = deckContainer;
@@ -21,16 +23,18 @@ export default class Game{
         this.activeEventsArray  = activeEventsArray;
         this.turnCounter        = 0;
         this.rarity             = rarity;
-        this.gameState          = GameState.PLAYING;  
+        this.gameState          = GameState.INVALID;  
     }
 
     static init(){
     
         const board = Board.initBoard();
+        let images = Asset.loadImages();
         const deckContainer = new DeckContainer()
         deckContainer.createDecks(jsonArray)
+        console.log(deckContainer);
         
-        return new Game(null, null, null, null, deckContainer, board, null, null);
+        return new Game(null, null, images, null, null, deckContainer, board, null, null);
     }
     
     update(){
@@ -81,8 +85,8 @@ export default class Game{
         // Funcion para renderizar los Grids
         this.renderGrids();
 
-        let images = Asset.loadImages();
-        this.drawCard(images)
+        
+        this.drawCard(this.images,this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
     }
         
     renderGrids(){
@@ -112,7 +116,7 @@ export default class Game{
         }   
 }
 
-drawCard(images){
+drawCard(images, card){
 
     //CARD IMAGE
     globals.ctx.drawImage(
@@ -125,29 +129,29 @@ drawCard(images){
         images[ImageTypes.CARD_BORDER][BorderId.NORMAL_SIZE],
         0, 0)
         
-    globals.ctx.fillText("DRUM MASTER", 90, 241);
-    globals.ctx.fillText("This is the description of the card", 35, 291);
+    globals.ctx.fillText(card.name[this.language], 90, 241);
+    globals.ctx.fillText(card.description[this.language], 35, 291);
 
     //STAT ICONS
     globals.ctx.drawImage(
         images[ImageTypes.CARD_ICONS][IconsId.DEFENSE],
         215, 343)
-    globals.ctx.fillText("5", 205, 360);
+    globals.ctx.fillText(card.defense, 205, 360);
 
     globals.ctx.drawImage(
         images[ImageTypes.CARD_ICONS][IconsId.SPEED],
         175, 343)
-    globals.ctx.fillText("5", 165, 360);
+    globals.ctx.fillText(card.speed, 165, 360);
 
     globals.ctx.drawImage(
         images[ImageTypes.CARD_ICONS][IconsId.DAMAGE],
         85, 343)
-    globals.ctx.fillText("5", 75, 360);
+    globals.ctx.fillText(card.attack, 75, 360);
 
     globals.ctx.drawImage(
         images[ImageTypes.CARD_ICONS][IconsId.LIFE],
         35, 343)
-    globals.ctx.fillText("5", 25, 360);
+    globals.ctx.fillText(card.health, 25, 360);
 
     globals.ctx.drawImage(
         images[ImageTypes.CARD_RARITY][RarityId.COMMON],

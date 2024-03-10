@@ -10,22 +10,22 @@ let jsonArray = [
         category: "Minion_card",
         type: "Melee",
         attributes:[{
-            attribute_id: 4,
+            attribute_id: 0,
             attribute_name: "Attack",
             attribute_value: 2
         },
         {
-            attribute_id: 2,
+            attribute_id: 1,
             attribute_name: "Defense",
             attribute_value: 0
         },
         {
-            attribute_id: 3,
+            attribute_id: 2,
             attribute_name: "Health",
             attribute_value: 3
         },
         {
-            attribute_id: 1,
+            attribute_id: 3,
             attribute_name: "Speed",
             attribute_value: 3
         },

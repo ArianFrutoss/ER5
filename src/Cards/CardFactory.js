@@ -7,6 +7,7 @@ import Minion           from "./cards_type/Minion.js";
 import Spell            from "./cards_type/Spell.js";
 import Weapon           from "./cards_type/Spell.js";
 import globals from "../globals.js";
+import { IconsId } from "../constants.js";
 
 
 export default class CardFactory{
@@ -84,10 +85,36 @@ export default class CardFactory{
     createMinion(id, name, description, image, rarity, type, xPos, yPos, objective, attributes){
         let equipedWeapon = [0];
         let equipedArmor  = [0];
-        let attack  = attributes.attack;
-        let defense = attributes.defense;
-        let hp      = attributes.hp;
-        let speed   = attributes.speed;
+
+        let attack  
+        let defense 
+        let hp      
+        let speed   
+
+        for (let i = 0; i < attributes.length; i++) {
+            const attribute = attributes[i];
+            console.log(attribute);
+            switch (attribute.attribute_id) {
+                case IconsId.DEFENSE:
+                    defense = attribute.attribute_value
+                    break;
+
+                case IconsId.DAMAGE:
+                    attack = attribute.attribute_value
+                    break;
+
+                case IconsId.LIFE:
+                    hp = attribute.attribute_value
+                    break;
+
+                case IconsId.SPEED:
+                    speed = attribute.attribute_value
+                    break;
+
+                default:
+                    break;
+            }
+        }
         
 
         const minion = new Minion(id, name, description, image, rarity, type, xPos, yPos, objective, attack, defense, hp, speed, equipedWeapon, equipedArmor);

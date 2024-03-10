@@ -6,19 +6,26 @@ export default class DeckContainer {
         this.decks = []
     }
 
-    createDecks(data) {
-        const initialDeck = this.createInitDeck(data)
+    createDecks() {
+        fetch('../../test.json', { mode: 'no-cors'})
+        .then((response) => response.json())
+        .then((data) => {
+            
+            const initialDeck = this.createInitDeck(data)
+            console.log(initialDeck);
+            for (let i = 0; i < Object.keys(DecksId).length - 1; i++) {
+    
+                const deck = new Deck(i)
+                this.decks.push(deck)
+            }
+    
+            this.assignCardsToDecks(initialDeck.cards)
+        });
 
-        for (let i = 0; i < Object.keys(DecksId).length - 1; i++) {
-
-            const deck = new Deck(i)
-            this.decks.push(deck)
-        }
-
-        this.assignCardsToDecks(initialDeck.cards)
 
     }
 
+    
     createInitDeck(data) {
         return Deck.createInitDeck(data)
 

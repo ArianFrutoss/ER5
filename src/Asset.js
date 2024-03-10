@@ -81,7 +81,7 @@ export default class Asset {
         images.push(image);
         globals.images.push(image)
         globals.assetsToLoad.push(image);
-        
+
 
         //Ejemplo de crear una carta
         image = new Image();
@@ -162,13 +162,7 @@ export default class Asset {
         let images = []
         let image
 
-        //Ejemplo de crear una carta
-        image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
-        image.src = "../media/images/icons/void_equip.png";
-        images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+
 
         //Ejemplo de crear una carta
         image = new Image();
@@ -198,6 +192,14 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler, false);
         image.src = "../media/images/icons/legendary_equip.png";
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        //Ejemplo de crear una carta
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/icons/void_equip.png";
         images.push(image);
         globals.images.push(image)
         globals.assetsToLoad.push(image);
@@ -267,6 +269,46 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler, false);
         image.src = "../media/images/icons/buff.png";
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        //Ejemplo de crear una carta
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/icons/hero.png";
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        //Ejemplo de crear una carta
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/icons/joseph.png";
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        //Ejemplo de crear una carta
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/icons/armor.png";
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        //Ejemplo de crear una carta
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/icons/weapon.png";
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        //Ejemplo de crear una carta
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/icons/spell.png";
         images.push(image);
         globals.images.push(image)
         globals.assetsToLoad.push(image);

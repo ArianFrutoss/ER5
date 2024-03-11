@@ -3,11 +3,11 @@ import { BorderId, CardId, ImageTypes } from "./constants.js"
 
 export default class Asset {
 
-    static loadImages() {
+    static loadImages(data) {
 
         let images = []
 
-        images[ImageTypes.CARD_IMAGE] = Asset.prototype.loadCardImages();
+        images[ImageTypes.CARD_IMAGE] = Asset.prototype.loadCardImages(data);
         images[ImageTypes.CARD_BORDER] = Asset.prototype.loadCardBorders();
         images[ImageTypes.CARD_ICONS] = Asset.prototype.loadCardIcons();
         images[ImageTypes.CARD_RARITY] = Asset.prototype.loadCardRarity();
@@ -15,6 +15,7 @@ export default class Asset {
         images[ImageTypes.GAME_RARITY] = Asset.prototype.loadGameRarity();
         images[ImageTypes.CARD_TYPE] = Asset.prototype.loadCardType();
         images[ImageTypes.BOARD_IMAGE] = Asset.prototype.loadBackground();
+
 
         return images
     }
@@ -99,16 +100,19 @@ export default class Asset {
         return images
     }
 
-    loadCardImages() {
+    loadCardImages(data) {
         let normalSize = []
         let smallSize  = []
         let images = []
         let image
 
+
+        for (let i = 0; i < data.length; i++) {
+        const img = data[i].image;
         //Ejemplo de crear una carta
         image = new Image();
         image.addEventListener("load", this.loadHandler, false);
-        image.src = "../media/images/cards_img/drum_master.png";
+        image.src = `../media/images/cards_img/${img}`;
         //Preguntar si el globals.images es necesario
         normalSize.push(image);
         globals.images.push(image)
@@ -116,11 +120,13 @@ export default class Asset {
 
         image = new Image();
         image.addEventListener("load", this.loadHandler, false);
-        image.src = "../media/images/cards_img/drum_master_mini.png";
+        image.src = `../media/images/cards_img/mini_${img}`;
         //Preguntar si el globals.images es necesario
         smallSize.push(image);
         globals.images.push(image)
         globals.assetsToLoad.push(image);
+    
+    }
 
 
 
@@ -136,6 +142,14 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler, false);
         image.src = "../media/images/others/border_card.png";
+        //Preguntar si el globals.images es necesario
+        images.push(image);
+        globals.images.push(image)
+        globals.assetsToLoad.push(image);
+
+        image = new Image();
+        image.addEventListener("load", this.loadHandler, false);
+        image.src = "../media/images/others/border_board_card.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
         globals.images.push(image)

@@ -5,7 +5,7 @@ import Joseph from "./cards_category/Joseph.js";
 import MainCharacter from "./cards_category/MainCharacter.js";
 import Minion from "./cards_category/Minion.js";
 import Spell from "./cards_category/Spell.js";
-import Weapon from "./cards_category/Spell.js";
+import Weapon from "./cards_category/Weapon.js";
 import { IconsId, TypeId } from "../constants.js";
 
 
@@ -30,7 +30,7 @@ export default class CardFactory {
             const quantity = this.cardData[i].quantity
             // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS
             const type = this.cardData[i].type;
-        
+
             const xPos = 100;
             const yPos = 100;
             const objective = "objective";
@@ -40,66 +40,68 @@ export default class CardFactory {
             switch (category) {
                 case "Armor_card":
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createArmor(id, name, description, image, rarity, TypeId.ARMOR, type, xPos, yPos, objective, attributes);
+                        card = this.createArmor(id, name, description, image, rarity, TypeId.ARMOR, xPos, yPos, attributes);
                         this.cards.push(card)
-                        
+
                     }
                     break;
 
                 case "Buff_card":
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createBuff(id, name, description, image, rarity, TypeId.BUFF, type, xPos, yPos, objective, attributes);
-                        this.cards.push(card)                        
+                        card = this.createBuff(id, name, description, image, rarity, TypeId.BUFF, type, xPos, yPos, attributes);
+                        this.cards.push(card)
                     }
                     break;
 
                 case "Curse_card":
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createBuff(id, name, description, image, rarity, TypeId.CURSE, type, xPos, yPos, objective, attributes);
-                        this.cards.push(card)    
+                        card = this.createBuff(id, name, description, image, rarity, TypeId.CURSE, type, xPos, yPos, attributes);
+                        this.cards.push(card)
                     }
                     break;
 
                 case "Joseph_card":
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createJoseph(id, name, description, image, rarity, TypeId.JOSEPH, type, xPos, yPos, objective, effects)
+                        card = this.createJoseph(id, name, description, image, rarity, TypeId.JOSEPH, type, xPos, yPos, effects)
                         this.cards.push(card)
-                        
+
                     }
                     break;
 
                 case "Hero_card":
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createMainCharacter(id, name, description, image, rarity, TypeId.HERO, type, xPos, yPos, objective, effects)
-                        this.cards.push(card)                       
+                        card = this.createMainCharacter(id, name, description, image, rarity, TypeId.HERO, type, xPos, yPos, effects)
+                        this.cards.push(card)
                     }
                     break;
 
                 case "Minion_card":
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createMinion(id, name, description, image, rarity, TypeId.MINION, type, xPos, yPos, objective, attributes);
-                        this.cards.push(card)                        
+
+                        card = this.createMinion(id, name, description, image, rarity, TypeId.MINION, xPos, yPos, attributes);
+                        this.cards.push(card)
                     }
                     break;
 
                 case "Spell_card":
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createSpell(id, name, description, image, rarity, TypeId.SPELL, type, xPos, yPos, objective, attributes);
-                        this.cards.push(card)                       
+                        card = this.createSpell(id, name, description, image, rarity, TypeId.SPELL, type, xPos, yPos, attributes);
+                        this.cards.push(card)
                     }
                     break;
 
                 case "Weapon_card":
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createWeapon(id, name, description, image, rarity, TypeId.WEAPON, type, xPos, yPos, objective, attributes)
-                        this.cards.push(card)                        
+
+                        card = this.createWeapon(id, name, description, image, rarity, TypeId.WEAPON, type, xPos, yPos, attributes)
+                        this.cards.push(card)
                     }
                     break;
 
                 default:
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createBuff(id, name, description, image, rarity, TypeId.BUFF, type, xPos, yPos, objective, attributes);
-                        this.cards.push(card)                        
+                        card = this.createBuff(id, name, description, image, rarity, TypeId.BUFF, type, xPos, yPos, attributes);
+                        this.cards.push(card)
                     }
                     break;
             }
@@ -131,59 +133,52 @@ export default class CardFactory {
                 break;
         }
     }
-    createMinion(id, name, description, image, rarity, type, xPos, yPos, objective, attributes) {
+    createMinion(id, name, description, image, rarity, type, xPos, yPos, attributes) {
         let equipedWeapon = [0];
         let equipedArmor = [0];
 
-        let attack
-        let defense
-        let hp
-        let speed
-
-        for (let i = 0; i < attributes.length; i++)
-         {
-            const attribute = attributes[i];
-            switch (attribute.attribute_id) {
-                case IconsId.DEFENSE:
-                    defense = attribute.attribute_value
-                    break;
-
-                case IconsId.DAMAGE:
-                    attack = attribute.attribute_value
-                    break;
-
-                case IconsId.LIFE:
-                    hp = attribute.attribute_value
-                    break;
-
-                case IconsId.SPEED:
-                    speed = attribute.attribute_value
-                    break;
-
-                default:
-                    break;
-            }
-        }
+        attributes = this.setAttributeValues(attributes)
+        let attack  = attributes[IconsId.DAMAGE]
+        let defense = attributes[IconsId.DEFENSE]
+        let hp = attributes[IconsId.LIFE]
+        let speed = attributes[IconsId.SPEED]
 
 
-        const minion = new Minion(id, name, description, image, rarity, type, xPos, yPos, objective, attack, defense, hp, speed, equipedWeapon, equipedArmor);
+
+        const minion = new Minion(id, name, description, image, rarity, type, "Melee", xPos, yPos, attack, defense, hp, speed, equipedWeapon, equipedArmor);
 
         return minion
 
     }
 
 
-    createArmor(id, name, description, image, rarity, type, xPos, yPos, objective, attributes) {
+    createArmor(id, name, description, image, rarity, type, xPos, yPos, attributes) {
+        attributes = this.setAttributeValues(attributes)
+        let attack = attributes[IconsId.DAMAGE];
+        if (!attack) {
+            attack = 0
+        }
+        let health = attributes[IconsId.LIFE]
+        if (!health) {
+            health = 0
+        }
+        let defense = attributes[IconsId.DEFENSE];
+        if (!defense) {
+            defense = 0
+        }
+        let speed = attributes[IconsId.SPEED];
+        if (!speed) {
+            speed = 0
+        }
+        let durability = attributes[IconsId.DURABILITY];
+        let cooldown = attributes[IconsId.COOLDOWN];
+        if (!cooldown) {
+            cooldown = 0
+        }
 
-        let attack = attributes.attack;
-        let defense = attributes.defense;
-        let health = attributes.hp;
-        let speed = attributes.speed;
-        let durability = attributes.durability;
-        let cooldown = attributes.cooldown;
 
+        const armor = new Armor(id, name, description, image, rarity, type, "Melee", xPos, yPos, health, attack, defense, speed, durability, cooldown);
 
-        const armor = new Armor(id, name, description, image, rarity, type, xPos, yPos, objective, health, attack, defense, speed, durability, cooldown);
         return armor
 
     }
@@ -265,22 +260,76 @@ export default class CardFactory {
 
     }
 
-    createWeapon(id, name, description, image, rarity, type, xPos, yPos, objective, attributes) {
-        let range = attributes.range;
-        let attack = attributes.attack;
-        let defense = attributes.defense;
-        let speed = attributes.speed;
-        let durability = attributes.durability;
-        let cooldown = attributes.cooldown;
+    createWeapon(id, name, description, image, rarity, category, type, xPos, yPos, attributes) {
+
+        attributes = this.setAttributeValues(attributes)
+
+        let range = attributes[IconsId.RANGE];
+        let attack = attributes[IconsId.DAMAGE];
+        let defense = attributes[IconsId.DEFENSE];
+        if (!defense) {
+            defense = 0
+        }
+        let speed = attributes[IconsId.SPEED];
+        if (!speed) {
+            speed = 0
+        }
+        let durability = attributes[IconsId.DURABILITY];
+        let cooldown = attributes[IconsId.COOLDOWN];
         let weaponType = attributes.weaponType;
-        const weapon = new Weapon(id, name, description, image, rarity, type, xPos, yPos, objective, weaponType, range, attack, defense, speed, durability, cooldown);
+
+
+        const weapon = new Weapon(id, name, description, image, rarity, category, type, xPos, yPos, range, attack, defense, speed, durability, cooldown);
+
         return weapon
 
 
     }
 
 
+    setAttributeValues(attributesArray) {
+        let attributesResult = []
+        for (let i = 0; i < attributesArray.length; i++) {
+            let attribute = attributesArray[i];
+            
+            if (!attribute) {
+                
+                
+            }
+            switch (attribute.attribute_id - 1) {
+                case IconsId.DEFENSE:
 
+                    attributesResult[IconsId.DEFENSE] = attribute.attribute_value
+                    break;
+
+                case IconsId.DAMAGE:
+                    attributesResult[IconsId.DAMAGE] = attribute.attribute_value
+                    break;
+
+                case IconsId.LIFE:
+                    attributesResult[IconsId.LIFE] = attribute.attribute_value
+                    break;
+
+                case IconsId.SPEED:
+                    attributesResult[IconsId.SPEED] = attribute.attribute_value
+                    break;
+                case IconsId.RANGE:
+                    attributesResult[IconsId.RANGE] = attribute.attribute_value
+                    break;
+                case IconsId.DURABILITY:
+                    attributesResult[IconsId.DURABILITY] = attribute.attribute_value
+                    break;
+                case IconsId.COOLDOWN:
+                    attributesResult[IconsId.COOLDOWN] = attribute.attribute_value
+                    break;
+
+                default:
+
+                    break;
+            }
+        }
+        return attributesResult
+    }
 
 
 }

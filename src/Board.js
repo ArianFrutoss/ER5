@@ -45,16 +45,16 @@ export default class Board{
         const board = Grid.initGrids(boardXPos, boardYPos, boardRows, boardColumns, GridId.BOARD_GRID, boardSlotXSize, boardSlotYSize);
 
         // Crear Grid de Eventos Atacante
-        const eventBoardAtacker = Grid.initGrids(eventBoardXPos, eventBoardAtackerYPos, eventRows, eventColumns, GridId.HAND_GRID, eventSlotXSize, eventSlotYSize);
+        const eventBoardAtacker = Grid.initGrids(eventBoardXPos, eventBoardAtackerYPos, eventRows, eventColumns, GridId.PLAYER_1_EVENT_GRID, eventSlotXSize, eventSlotYSize);
         
         // Crear Grid de Board Defensor
-        const eventBoardDefender = Grid.initGrids(eventBoardXPos, eventBoardDefenderYPos, eventRows, eventColumns, GridId.HAND_GRID, eventSlotXSize, eventSlotYSize);
+        const eventBoardDefender = Grid.initGrids(eventBoardXPos, eventBoardDefenderYPos, eventRows, eventColumns, GridId.PLAYER_2_EVENT_GRID, eventSlotXSize, eventSlotYSize);
 
         // Crear Grid de Hand Atacante
-        const handAtacker = Grid.initGrids(handXPos, handAtackerYpos, handRows, handColumns, GridId.EVENT_BOARD_GRID, handSlotXSize, handSlotYSize);
+        const handAtacker = Grid.initGrids(handXPos, handAtackerYpos, handRows, handColumns, GridId.PLAYER_1_HAND_GRID, handSlotXSize, handSlotYSize);
 
         // Crear Grid de Hand Defensor
-        const handDefender = Grid.initGrids(handXPos, handDefenderYpos, handRows, handColumns, GridId.EVENT_BOARD_GRID, handSlotXSize, handSlotYSize);
+        const handDefender = Grid.initGrids(handXPos, handDefenderYpos, handRows, handColumns, GridId.PLAYER_2_HAND_GRID, handSlotXSize, handSlotYSize);
 
         // Crear Arrays de Grids
         const grids = [board, eventBoardAtacker, eventBoardDefender, handAtacker, handDefender];

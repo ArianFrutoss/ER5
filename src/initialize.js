@@ -5,7 +5,8 @@ import jsonArray from "../cards.js";
 import { canvasMousedownHandler, canvasMouseupHandler, canvasMousemoveHandler } from "./mouseEvent.js";
 
 function initHTMLelements(){
-
+    
+    console.log("initHtml");
     //canvas
     globals.canvas = document.getElementById('gameScreen');
 
@@ -20,7 +21,7 @@ function initHTMLelements(){
 
 // funcion inicializa variables del juego
 function initVars(){
-
+console.log("initVars");
     //variables de gestion de tiempo
     globals.previousCycleMiliseconds = 0;
     globals.deltaTime = 0;
@@ -52,7 +53,7 @@ function testArray(){
 }
 
 function initEvents(){
-
+console.log("initEvents");
     globals.canvas.addEventListener("mouseup", canvasMouseupHandler, false);
     globals.canvas.addEventListener("mousedown", canvasMousedownHandler, false);
     globals.canvas.addEventListener("mousemove", canvasMousemoveHandler, false);

@@ -25,11 +25,16 @@ export default class Turn {
 
         this.phasesArray = phase.createPhases();
         this.assignCharacter();
+
     }
 
-    assignCharacter(){
+    assignCharacter(){  
+        this.mainCharacter = this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK].cards[0];
+    }
 
-        console.log(this.deckContainer.decks[5]);
+    showPlayerData(){
+        console.log(this.mainCharacter.name[0]);
+        console.log(this.mainCharacter.image);
     }
 
 

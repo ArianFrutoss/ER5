@@ -6,10 +6,7 @@ export default class DeckContainer {
         this.decks = []
     }
 
-    createDecks() {
-        fetch('../../test.json', { mode: 'no-cors'})
-        .then((response) => response.json())
-        .then((data) => {
+    createDecks(data) {
             const initialDeck = this.createInitDeck(data)
             for (let i = 0; i < Object.keys(DecksId).length - 1; i++) {
     
@@ -18,10 +15,6 @@ export default class DeckContainer {
 
             }
             this.assignCardsToDecks(initialDeck.cards)
-            
-        });
-
-
     }
 
     

@@ -13,7 +13,7 @@ export default class Phase {
         const drawCardPhase         = "drawCardPhase";
         const minionMovementPhase   = "minionMovementPhase";
         const prepareEventPhase     = "prepareEventPhase";
-        const useEventPhase         = "useEventPhase";
+        const useEventPhase         = "UseEventPhase";
 
         const phasesArray = [defaultPhase, discardPhase, drawCardPhase, minionMovementPhase, prepareEventPhase, useEventPhase];
 

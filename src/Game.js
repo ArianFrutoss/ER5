@@ -295,6 +295,7 @@ export default class Game {
                 
                 decks.cards[j].xPos = grids.slots[i][j].xPos;
                 decks.cards[j].yPos = grids.slots[i][j].yPos;
+                grids.slots[i][j].CardId = decks.cards[j].id;
             }
         }
     }

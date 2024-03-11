@@ -67,7 +67,7 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.drawGame();
-                // this.drawAllCards();
+                this.drawAllCards();
                 break;
 
             default:
@@ -196,7 +196,7 @@ export default class Game {
             const deck = this.deckContainer.decks[i];
             for (let j = 0; j < deck.cards.length; j++) {
                 const card = deck.cards[j];
-                this.drawCard(this.images, card, card.xPos + j * 200, card.yPos + i * 150)
+                this.drawCard(this.images, card, card.xPos, card.yPos)
 
             }
 

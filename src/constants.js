@@ -39,9 +39,11 @@ export const CardId = {
 }
 
 export const GridId = {
-    BOARD_GRID:         0,
-    EVENT_BOARD_GRID:   1,
-    HAND_GRID:          2,
+    BOARD_GRID:             0,
+    PLAYER_1_EVENT_GRID:    1,
+    PLAYER_2_EVENT_GRID:    2,
+    PLAYER_1_HAND_GRID:     3,
+    PLAYER_2_HAND_GRID:     4,
 } 
 
 export const SlotsState = {

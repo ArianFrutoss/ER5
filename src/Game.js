@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, IconsId, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -30,9 +30,9 @@ export default class Game {
 
         const board = Board.initBoard();
         let images = Asset.loadImages();
-        const deckContainer = new DeckContainer()
-        deckContainer.createDecks()
-        console.log(deckContainer.decks);
+        const deckContainer = new DeckContainer();
+        deckContainer.createDecks();
+        
         return new Game(null, null, images, null, null, deckContainer, board, null, null);
     }
 
@@ -67,7 +67,7 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.drawGame();
-                //this.drawAllCards();
+                // this.drawAllCards();
                 break;
 
             default:
@@ -86,10 +86,10 @@ export default class Game {
         this.renderBoard(this.images);
 
         // Funcion para renderizar los Grids
-        //this.renderGrids();
+        this.renderGrids();
 
         // Funcion para renderizar las Cards
-        //this.drawCard(this.images,this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
+        this.drawCard(this.images,this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
     }
     
     renderBoard(images){
@@ -202,6 +202,7 @@ export default class Game {
 
         }
     }
+
     drawCard(images, card, xPos, yPos) {
 
         //CARD IMAGE
@@ -261,7 +262,12 @@ export default class Game {
 
     updateGame(){
 
+        // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
         this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK].cards, this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK].cards);
+
+        // Funcion que posiciona las Cards en la posicion de los Slots
+        this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID]);
+        this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID]);
     }
 
     assignCardsToHand(eventDeck, player1HandDeck, player2HandDeck){
@@ -278,6 +284,18 @@ export default class Game {
             player2HandDeck.push(eventDeck.cards[eventDeck.cards.length - 1]);
             eventDeck.cards.pop();
             break;
+        }
+    }
+
+    assignCardsToGrids(decks, grids){
+        
+        for (let i = 0; i < grids.slots.length; i++){
+            
+            for (let j = 0; j < grids.slots[0].length; j++){
+                
+                decks.cards[j].xPos = grids.slots[i][j].xPos;
+                decks.cards[j].yPos = grids.slots[i][j].yPos;
+            }
         }
     }
 }

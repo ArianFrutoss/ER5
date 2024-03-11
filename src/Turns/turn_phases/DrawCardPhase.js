@@ -1,6 +1,6 @@
 import Phase from "./Phase.js";
 
-export class DrawCardPhase extends Phase{
+export default class DrawCardPhase extends Phase{
 
     constructor(handDeck, handGrid, eventDeck){
 

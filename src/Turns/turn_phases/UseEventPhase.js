@@ -1,6 +1,6 @@
 import Phase from "./Phase.js";
 
-export class UseEventPhase extends Phase{
+export default class UseEventPhase extends Phase{
 
     constructor(eventGrid, eventsCardsInGridArray, boardGrid, boardMinion){
 

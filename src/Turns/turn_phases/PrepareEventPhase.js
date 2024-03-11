@@ -1,6 +1,6 @@
 import Phase from "./Phase.js";
 
-export class PrepareEventPhase extends Phase{
+export default class PrepareEventPhase extends Phase{
 
     constructor(handDeck, handGrid){
         this.handDeck   = handDeck;

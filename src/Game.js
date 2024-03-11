@@ -6,6 +6,7 @@ import Asset from "./Asset.js";
 import globals from "./globals.js";
 import CardFactory from "./Cards/CardFactory.js";
 import DeckContainer from "./Cards/DeckContainer.js";
+import TurnContainer from "./Turns/TurnContainer.js";
 
 
 export default class Game {
@@ -32,8 +33,11 @@ export default class Game {
         let images = Asset.loadImages();
         const deckContainer = new DeckContainer()
         deckContainer.createDecks()
-        console.log(deckContainer.decks);
-        return new Game(null, null, images, null, null, deckContainer, board, null, null);
+
+        const turnContainer = new TurnContainer("gridsArray", deckContainer);
+        turnContainer.CreateTurns();
+      
+        return new Game(null, null, images, null, null, deckContainer, board, null, null);     
     }
 
     update() {
@@ -83,13 +87,13 @@ export default class Game {
         globals.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
         
         // Funcion para renderizar los Grids
-        this.renderBoard(this.images);
+        //this.renderBoard(this.images);
 
         // Funcion para renderizar los Grids
         this.renderGrids();
 
         // Funcion para renderizar las Cards
-        this.drawCard(this.images,this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
+        //this.drawCard(this.images,this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
     }
     
     renderBoard(images){

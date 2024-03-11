@@ -15,8 +15,10 @@ export default class DeckContainer {
     
                 const deck = new Deck(i)
                 this.decks.push(deck)
+
             }
             this.assignCardsToDecks(initialDeck.cards)
+            
         });
 
 

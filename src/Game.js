@@ -26,13 +26,13 @@ export default class Game {
         this.gameState = GameState.INVALID;
     }
 
-    static init() {
-
+    static init(data) {
+        
         const board = Board.initBoard();
-        let images = Asset.loadImages();
+        let images = Asset.loadImages(data);
         const deckContainer = new DeckContainer()
-        deckContainer.createDecks()
-        console.log(deckContainer.decks);
+        deckContainer.createDecks(data)
+        
         return new Game(null, null, images, null, null, deckContainer, board, null, null);
     }
 
@@ -200,11 +200,12 @@ export default class Game {
 
         }
     }
+
     drawCard(images, card, xPos, yPos) {
 
         //CARD IMAGE
         globals.ctx.drawImage(
-            images[ImageTypes.CARD_IMAGE][CardId.BIG_SIZE][CardImageId.DRUM_MASTER],                 //Img File
+            images[ImageTypes.CARD_IMAGE][card.size][card.id-1],                 //Img File
             0 + xPos, 20 + yPos                    //X & Y Position Source
         )
 
@@ -216,10 +217,21 @@ export default class Game {
         globals.ctx.fillText(card.name[this.language], 90 + xPos, 241 + yPos);
         globals.ctx.fillText(card.description[this.language], 35 + xPos, 291 + yPos);
 
+        //RARITY ICON
+        globals.ctx.drawImage(
+            images[ImageTypes.CARD_RARITY][card.rarity],
+            100 + xPos, -5 + yPos)
+
+        //CATEGORY ICON
+        globals.ctx.drawImage(
+            images[ImageTypes.CARD_TYPE][card.category],
+            115 + xPos, 353 + yPos)
+
         //STAT ICONS
         globals.ctx.drawImage(
             images[ImageTypes.CARD_ICONS][IconsId.DEFENSE],
             215 + xPos, 343 + yPos)
+            
         globals.ctx.fillText(card.defense, 205 + xPos, 360 + yPos);
 
         globals.ctx.drawImage(
@@ -237,15 +249,7 @@ export default class Game {
             35 + xPos, 343 + yPos)
         globals.ctx.fillText(card.health, 25 + xPos, 360 + yPos);
 
-        //RARITY ICON
-        globals.ctx.drawImage(
-            images[ImageTypes.CARD_RARITY][card.rarity],
-            100 + xPos, -5 + yPos)
-
-        //CATEGORY ICON
-        globals.ctx.drawImage(
-            images[ImageTypes.CARD_TYPE][card.category],
-            115 + xPos, 353 + yPos)
+        
 
         //EQUIPMENT RARITY
         globals.ctx.drawImage(

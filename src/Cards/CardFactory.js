@@ -77,7 +77,8 @@ export default class CardFactory {
 
                 case "Minion_card":
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createMinion(id, name, description, image, rarity, TypeId.MINION, type, xPos, yPos, objective, attributes);
+                        
+                        card = this.createMinion(id, name, description, image, rarity, TypeId.MINION, xPos, yPos, attributes);
                         this.cards.push(card)                        
                     }
                     break;
@@ -131,7 +132,8 @@ export default class CardFactory {
                 break;
         }
     }
-    createMinion(id, name, description, image, rarity, type, xPos, yPos, objective, attributes) {
+    createMinion(id, name, description, image, rarity, type, xPos, yPos, attributes) {
+        console.log(xPos, yPos);
         let equipedWeapon = [0];
         let equipedArmor = [0];
 
@@ -143,8 +145,9 @@ export default class CardFactory {
         for (let i = 0; i < attributes.length; i++)
          {
             const attribute = attributes[i];
-            switch (attribute.attribute_id) {
+            switch (attribute.attribute_id-1) {
                 case IconsId.DEFENSE:
+                    
                     defense = attribute.attribute_value
                     break;
 
@@ -161,12 +164,14 @@ export default class CardFactory {
                     break;
 
                 default:
+
                     break;
             }
         }
 
 
-        const minion = new Minion(id, name, description, image, rarity, type, xPos, yPos, objective, attack, defense, hp, speed, equipedWeapon, equipedArmor);
+
+        const minion = new Minion(id, name, description, image, rarity, type, xPos, yPos, attack, defense, hp, speed, equipedWeapon, equipedArmor);
 
         return minion
 

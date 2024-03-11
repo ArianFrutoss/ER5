@@ -8,16 +8,22 @@ import { GameState } from "./constants.js";
 let game
 window.onload = init;
 function init(){
+    fetch('../../test.json', { mode: 'no-cors'})
+    .then((response) => response.json())
+    .then((data) => {        
+        game = Game.init(data);
 
-    initHTMLelements();
-    initVars();
-    initEvents();
-    testArray();
+        initHTMLelements();
+        initVars();
 
-    game = Game.init();
+        initEvents();
+        
+    
 
-    game.gameState = GameState.PLAYING
-    window.requestAnimationFrame(gameLoop);
+        game.gameState = GameState.PLAYING
+        window.requestAnimationFrame(gameLoop);
+    });
+
 }
 
 // GAME EXECUTE

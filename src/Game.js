@@ -45,7 +45,7 @@ export default class Game {
                 break;
 
             case GameState.PLAYING:
-
+                this.updateGame();
                 break;
 
             case GameState.GAMEOVER:
@@ -67,7 +67,7 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.drawGame();
-                this.drawAllCards()
+                //this.drawAllCards();
                 break;
 
             default:
@@ -86,13 +86,15 @@ export default class Game {
         this.renderBoard(this.images);
 
         // Funcion para renderizar los Grids
-        this.renderGrids();
+        //this.renderGrids();
 
         // Funcion para renderizar las Cards
-        this.drawCard(this.images,this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
+        //this.drawCard(this.images,this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
     }
     
     renderBoard(images){
+
+        globals.ctx.font = "30px LongaIberica-DEMO";
 
         let image = images[ImageTypes.BOARD_IMAGE][BoardId.BOARD];
         let xPos = 0;
@@ -255,7 +257,27 @@ export default class Game {
         globals.ctx.drawImage(
             images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
             191 + xPos, 15 + yPos)
+    }
 
+    updateGame(){
 
+        this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK].cards, this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK].cards);
+    }
+
+    assignCardsToHand(eventDeck, player1HandDeck, player2HandDeck){
+        
+        for (let i = player1HandDeck.length; i < 5; i++){
+
+            player1HandDeck.push(eventDeck.cards[eventDeck.cards.length - 1]);
+            eventDeck.cards.pop();
+            break;
+        }
+
+        for (let i = player2HandDeck.length; i < 5; i++){
+
+            player2HandDeck.push(eventDeck.cards[eventDeck.cards.length - 1]);
+            eventDeck.cards.pop();
+            break;
+        }
     }
 }

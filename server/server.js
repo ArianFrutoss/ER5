@@ -6,7 +6,7 @@ const port = 3000
 
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500'); // Cambia esto según tu dominio
+  res.header('Access-Control-Allow-Origin', '*'); // Cambia esto según tu dominio
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
@@ -39,9 +39,8 @@ FROM card_attribute
     WHERE card.card_id = card_common_effect.card_id
 ) AS common_effect
 
-FROM
-card;
-`
+FROM card
+ORDER by card_id;`
   const result = await db.query(query)
   res.send(result.rows)
 })

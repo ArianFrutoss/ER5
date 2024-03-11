@@ -75,6 +75,7 @@ export default class Game {
             case GameState.PLAYING:
                 this.drawGame();
                 this.drawAllCards();
+                this.drawAllCards();
                 break;
 
             default:

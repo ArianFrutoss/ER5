@@ -11,19 +11,16 @@ function init(){
     fetch('../../test.json', { mode: 'no-cors'})
     .then((response) => response.json())
     .then((data) => {        
-        game = Game.init(data);
-
+        
         initHTMLelements();
         initVars();
-
         initEvents();
         
-    
+        game = Game.init(data);
 
         game.gameState = GameState.PLAYING
         window.requestAnimationFrame(gameLoop);
     });
-
 }
 
 // GAME EXECUTE

@@ -39,9 +39,8 @@ FROM card_attribute
     WHERE card.card_id = card_common_effect.card_id
 ) AS common_effect
 
-FROM
-card;
-`
+FROM card
+ORDER by card_id;`
   const result = await db.query(query)
   res.send(result.rows)
 })

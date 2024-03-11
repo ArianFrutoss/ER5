@@ -2,9 +2,9 @@ import Card from "../Card.js";
 
 export default class Minion extends Card{
 
-    constructor(id, name, description, image, rarity, type,xPos, yPos, objective, attack, defense, health, speed, equipedWeapon, equipedArmor){
+    constructor(id, name, description, image, rarity, category, type, xPos, yPos, attack, defense, health, speed, equipedWeapon=undefined, equipedArmor=undefined){
 
-        super(id, name, description, image, rarity, type, xPos, yPos, objective);
+        super(id, name, description, image, rarity, category, type, xPos, yPos);
 
         // Card attributes   
         this.attack     = attack;

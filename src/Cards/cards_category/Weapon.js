@@ -1,10 +1,10 @@
+import { CardId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Weapon extends Card{
+    constructor(id, name, description, image, rarity, category, type = "Melee", xPos, yPos, range, attack, defense, speed, durability, cooldown){
 
-    constructor(id, name, description, image, rarity, type, xPos, yPos, state, objective, weaponType, range, attack, defense, speed, durability, cooldown){
-
-        super(id, name, description, image, rarity, type, xPos, yPos, state, objective);
+        super(id, name, description, image, rarity, category, type, xPos, yPos);
 
         // Card attributes   
         this.type           = type;

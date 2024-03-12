@@ -203,8 +203,10 @@ export default class Game {
             const deck = this.deckContainer.decks[i];
             for (let j = 0; j < deck.cards.length; j++) {
                 const card = deck.cards[j];
-                
-                this.drawCard(this.images, card, card.xPos, card.yPos)
+                if (i > 1) {
+                    card.yPos = -120
+                }
+                this.drawCard(this.images, card, card.xPos - 100 + j * 170, card.yPos - 100 + i * 200)
             }
 
         }
@@ -307,11 +309,11 @@ export default class Game {
         this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK].cards, this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK].cards);
 
         // Funcion que Spawnea los Minions en el tablero
-        this.assignMinionsToBoard(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
+        //this.assignMinionsToBoard(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
         
         // Funcion que posiciona las Cards en la posicion de los Slots
-        this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID]);
-        this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID]);
+        //this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID]);
+        //this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID]);
     }
 
     assignCardsToHand(eventDeck, player1HandDeck, player2HandDeck) {

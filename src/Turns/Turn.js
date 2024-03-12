@@ -3,17 +3,16 @@ import Phase from "./turn_phases/Phase.js";
 
 export default class Turn {
 
-    constructor(gridArray, deckContainer){
+    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
-        //this.handDeck       = handDeck;         // Mano del player
-        //this.minionDeck     = minionDeck;       // Mazo de minions
-        //this.graveyardDeck  = graveyardDeck;    // Mazo cementerio
-        this.mainCharacter  = 0;                  // Carta de Character asignada  --> se coge desde deckcontainer
+        this.handDeck       = handDeck;           // Mano del player
+        this.minionDeck     = minionDeck;         // Mazo de minions
+        this.graveyardDeck  = graveyardDeck;      // Mazo cementerio
+        this.mainCharacter  = mainCharacter;      // Carta de Character asignada  predefinida desde turnContainer
         this.gridArray      = gridArray;          // Array de rejillas
-        this.deckContainer  = deckContainer;      // Contenedor de decks
-        //this.eventDeck      = eventDeck;        // Mazo de eventos
+        this.eventDeck      = eventDeck;          // Mazo de eventos
         this.phasesArray    = [];                 // Array de fases
         this.actionsLeft    = 0;                  // Contador de acciones maximo 5
         this.maxActions     = 5;                  // maximo de acciones
@@ -24,12 +23,6 @@ export default class Turn {
         const phase = new Phase("mouse");
 
         this.phasesArray = phase.createPhases();
-        this.assignCharacter();
-
-    }
-
-    assignCharacter(){  
-        this.mainCharacter = this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK].cards[0];
     }
 
     showPlayerData(){

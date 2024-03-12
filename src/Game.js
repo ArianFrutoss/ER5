@@ -40,6 +40,8 @@ export default class Game {
         turns.turnContainer[0].showPlayerData();
         turns.turnContainer[1].showPlayerData();
 
+        console.log(turns.turnContainer);
+
         return new Game(turns, null, images, null, null, deckContainer, board, null, null);
     }
 

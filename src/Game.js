@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -96,7 +96,7 @@ export default class Game {
         this.renderGrids();
 
         // Funcion para renderizar las Cards
-        this.drawCard(this.images, this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
+        // this.drawCard(this.images, this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
     }
 
     renderBoard(images) {
@@ -199,14 +199,11 @@ export default class Game {
     }
 
     drawAllCards() {
-        for (let i = 0; i < this.deckContainer.decks.length; i++) {
+        for (let i = 0; i < 4; i++) {
             const deck = this.deckContainer.decks[i];
             for (let j = 0; j < deck.cards.length; j++) {
                 const card = deck.cards[j];
-                if (i > 1) {
-                    card.yPos = -120
-                }
-                this.drawCard(this.images, card, card.xPos - 100 + j * 170, card.yPos - 100 + i * 200)
+                this.drawCard(this.images, card, card.xPos , card.yPos )
             }
 
         }
@@ -216,86 +213,89 @@ export default class Game {
         //CARD IMAGE
         globals.ctx.drawImage(
             images[ImageTypes.CARD_IMAGE][card.size][card.id - 1],                 //Img File
-            0 + xPos, 20 + yPos                    //X & Y Position Source
-        )
-
-        // BORDER
-        globals.ctx.drawImage(
-            images[ImageTypes.CARD_BORDER][card.size],
-            0 + xPos, 0 + yPos)
-        globals.ctx.font = "25px LongaIberica-DEMO";
-        globals.ctx.fillText(card.name[this.language], 85 + xPos, 245 + yPos);
-        globals.ctx.font = "15px LongaIberica-DEMO";
-        globals.ctx.fillText(card.description[this.language], 10 + xPos, 291 + yPos);
-        globals.ctx.font = "25px LongaIberica-DEMO";
+            xPos,yPos                    //X & Y Position Source
+            )
+            
+            // BORDER
+            globals.ctx.drawImage(
+                images[ImageTypes.CARD_BORDER][card.size],
+                xPos, yPos)
+                if (card.size === BorderId.NORMAL_SIZE) {
+                    globals.ctx.font = "25px LongaIberica-DEMO";
+                    globals.ctx.fillText(card.name[this.language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
+                    globals.ctx.font = "15px LongaIberica-DEMO";
+                    globals.ctx.fillText(card.description[this.language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
+                    globals.ctx.font = "25px LongaIberica-DEMO";
+                    
+                    //CATEGORY ICON
+                    globals.ctx.drawImage(
+                        images[ImageTypes.CARD_TYPE][card.category],
+                        IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
+                }
         //RARITY ICON
         globals.ctx.drawImage(
             images[ImageTypes.CARD_RARITY][card.rarity],
-            100 + xPos, -5 + yPos)
+            IconsPos.RARITY_X[card.size] + xPos, IconsPos.RARITY_Y[card.size] + yPos)
 
-        //CATEGORY ICON
-        globals.ctx.drawImage(
-            images[ImageTypes.CARD_TYPE][card.category],
-            115 + xPos, 353 + yPos)
 
         switch (card.category) {
             case TypeId.MINION:
                 //STAT ICONS
                 globals.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.DEFENSE],
-                    215 + xPos, 345 + yPos)
+                    IconsPos.FIRST_ICON_X[card.size] + xPos, IconsPos.FIRST_ICON_Y[card.size] + yPos)
 
-                globals.ctx.fillText(card.defense, 205 + xPos, 360 + yPos);
+                globals.ctx.fillText(card.defense, IconsPos.FIRST_ICON_NUMBER_X[card.size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[card.size] + yPos);
 
                 globals.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.SPEED],
-                    175 + xPos, 345 + yPos)
-                globals.ctx.fillText(card.speed, 165 + xPos, 360 + yPos);
+                    IconsPos.SECOND_ICON_X[card.size] + xPos, IconsPos.SECOND_ICON_Y[card.size] + yPos)
+                globals.ctx.fillText(card.speed, IconsPos.SECOND_ICON_NUMBER_X[card.size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[card.size] + yPos);
 
                 globals.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.DAMAGE],
-                    85 + xPos, 345 + yPos)
-                globals.ctx.fillText(card.attack, 75 + xPos, 360 + yPos);
+                    IconsPos.THIRD_ICON_X[card.size] + xPos, IconsPos.THIRD_ICON_Y[card.size] + yPos)
+                globals.ctx.fillText(card.attack, IconsPos.THIRD_ICON_NUMBER_X[card.size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[card.size] + yPos);
 
                 globals.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.LIFE],
-                    35 + xPos, 345 + yPos)
-                globals.ctx.fillText(card.health, 25 + xPos, 360 + yPos);
+                    IconsPos.FOURTH_ICON_X[card.size] + xPos, IconsPos.FOURTH_ICON_Y[card.size] + yPos)
+                globals.ctx.fillText(card.health, IconsPos.FOURTH_ICON_NUMBER_X[card.size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[card.size] + yPos);
 
 
 
                 //EQUIPMENT RARITY
                 globals.ctx.drawImage(
                     images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
-                    10 + xPos, 15 + yPos)
+                    IconsPos.WEAPON_X[card.size] + xPos, IconsPos.WEAPON_Y[card.size] + yPos)
 
                 globals.ctx.drawImage(
                     images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
-                    191 + xPos, 15 + yPos)
+                    IconsPos.ARMOR_X[card.size] + xPos, IconsPos.ARMOR_Y[card.size] + yPos)
                 break;
 
             case TypeId.WEAPON:
             case TypeId.ARMOR:
                 globals.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN],
-                    215 + xPos, 345 + yPos)
+                    IconsPos.FIRST_ICON_X[card.size] + xPos, IconsPos.FIRST_ICON_Y[card.size] + yPos)
 
-                globals.ctx.fillText(card.cooldown, 205 + xPos, 360 + yPos);
+                globals.ctx.fillText(card.cooldown, IconsPos.FIRST_ICON_NUMBER_X[card.size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[card.size] + yPos);
 
                 globals.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.DURABILITY],
-                    175 + xPos, 345 + yPos)
-                globals.ctx.fillText(card.durability, 165 + xPos, 360 + yPos);
+                    IconsPos.SECOND_ICON_X[card.size] + xPos, IconsPos.SECOND_ICON_Y[card.size] + yPos)
+                globals.ctx.fillText(card.durability, IconsPos.SECOND_ICON_NUMBER_X[card.size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[card.size] + yPos);
 
                 globals.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.DEFENSE],
-                    85 + xPos, 345 + yPos)
-                globals.ctx.fillText(card.defense, 75 + xPos, 360 + yPos);
+                    IconsPos.THIRD_ICON_X[card.size] + xPos, IconsPos.THIRD_ICON_Y[card.size] + yPos)
+                globals.ctx.fillText(card.defense, IconsPos.THIRD_ICON_NUMBER_X[card.size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[card.size] + yPos);
 
                 globals.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.DAMAGE],
-                    35 + xPos, 345 + yPos)
-                globals.ctx.fillText(card.attack, 25 + xPos, 360 + yPos);
+                    IconsPos.FOURTH_ICON_X[card.size] + xPos, IconsPos.FOURTH_ICON_Y[card.size] + yPos)
+                globals.ctx.fillText(card.attack, IconsPos.FOURTH_ICON_NUMBER_X[card.size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[card.size] + yPos);
 
             default:
                 break;
@@ -309,11 +309,11 @@ export default class Game {
         this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK].cards, this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK].cards);
 
         // Funcion que Spawnea los Minions en el tablero
-        //this.assignMinionsToBoard(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
+        this.assignMinionsToBoard(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
         
         // Funcion que posiciona las Cards en la posicion de los Slots
-        //this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID]);
-        //this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID]);
+        this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID]);
+        this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID]);
     }
 
     assignCardsToHand(eventDeck, player1HandDeck, player2HandDeck) {
@@ -343,10 +343,12 @@ export default class Game {
                     
                     player1MinionDeck.cards[j].xPos = boardGrid.slots[0][2 + j].xPos;
                     player1MinionDeck.cards[j].yPos = boardGrid.slots[0][2 + j].yPos;
+                    player1MinionDeck.cards[j].size = BorderId.SMALL_SIZE
                     boardGrid.slots[0][2 + j].CardId = player1MinionDeck.cards[j].xPos;
 
                     player2MinionDeck.cards[j].xPos = boardGrid.slots[4][2 + j].xPos;
                     player2MinionDeck.cards[j].yPos = boardGrid.slots[4][2 + j].yPos;
+                    player2MinionDeck.cards[j].size = BorderId.SMALL_SIZE
                     boardGrid.slots[4][2 + j].CardId = player2MinionDeck.cards[j].xPos;
                 }
             }
@@ -359,9 +361,12 @@ export default class Game {
 
             for (let j = 0; j < grids.slots[0].length; j++) {
 
-                decks.cards[j].xPos = grids.slots[i][j].xPos;
-                decks.cards[j].yPos = grids.slots[i][j].yPos;
-                grids.slots[i][j].CardId = decks.cards[j].id;
+                if (decks.cards[j]) {
+                    decks.cards[j].xPos = grids.slots[i][j].xPos;
+                    decks.cards[j].yPos = grids.slots[i][j].yPos;
+                    grids.slots[i][j].CardId = decks.cards[j].id;
+                    
+                }
             }
         }
     }

@@ -203,11 +203,8 @@ export default class Game {
             const deck = this.deckContainer.decks[i];
             for (let j = 0; j < deck.cards.length; j++) {
                 const card = deck.cards[j];
-                if (i > 1) {
-                    card.yPos = -120
-                }
-                this.drawCard(this.images, card, card.xPos - 100 + j * 170, card.yPos - 100 + i * 200)
-
+                
+                this.drawCard(this.images, card, card.xPos, card.yPos)
             }
 
         }
@@ -309,9 +306,12 @@ export default class Game {
         // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
         this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK].cards, this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK].cards);
 
+        // Funcion que Spawnea los Minions en el tablero
+        this.assignMinionsToBoard(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
+        
         // Funcion que posiciona las Cards en la posicion de los Slots
-        //this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID]);
-        //this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID]);
+        this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID]);
+        this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID]);
     }
 
     assignCardsToHand(eventDeck, player1HandDeck, player2HandDeck) {
@@ -331,6 +331,26 @@ export default class Game {
         }
     }
 
+    assignMinionsToBoard(player1MinionDeck, player2MinionDeck, boardGrid) {
+
+        for (let i = 0; i < 3; i++) {
+                
+            for (let j = 0; j < player1MinionDeck.cards.length; j++){
+                
+                if (player1MinionDeck.cards[j].name[0] === "Villager"){
+                    
+                    player1MinionDeck.cards[j].xPos = boardGrid.slots[0][2 + j].xPos;
+                    player1MinionDeck.cards[j].yPos = boardGrid.slots[0][2 + j].yPos;
+                    boardGrid.slots[0][2 + j].CardId = player1MinionDeck.cards[j].xPos;
+
+                    player2MinionDeck.cards[j].xPos = boardGrid.slots[4][2 + j].xPos;
+                    player2MinionDeck.cards[j].yPos = boardGrid.slots[4][2 + j].yPos;
+                    boardGrid.slots[4][2 + j].CardId = player2MinionDeck.cards[j].xPos;
+                }
+            }
+        }
+    }
+    
     assignCardsToGrids(decks, grids) {
 
         for (let i = 0; i < grids.slots.length; i++) {

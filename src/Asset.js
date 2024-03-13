@@ -3,21 +3,30 @@ import { BorderId, CardId, ImageTypes } from "./constants.js"
 
 export default class Asset {
 
-    static loadImages(data) {
+    constructor(){
+        this.images = []
+        this.assetsToLoad = []
+        this.assetsLoaded = 0
+        this.isLoaded = false
+    }
 
-        let images = []
+    static create(){
+        return new Asset()
+    }
 
-        images[ImageTypes.CARD_IMAGE] = Asset.prototype.loadCardImages(data);
-        images[ImageTypes.CARD_BORDER] = Asset.prototype.loadCardBorders();
-        images[ImageTypes.CARD_ICONS] = Asset.prototype.loadCardIcons();
-        images[ImageTypes.CARD_RARITY] = Asset.prototype.loadCardRarity();
-        images[ImageTypes.EQUIP_RARITY] = Asset.prototype.loadEquipmentRarity();
-        images[ImageTypes.GAME_RARITY] = Asset.prototype.loadGameRarity();
-        images[ImageTypes.CARD_TYPE] = Asset.prototype.loadCardType();
-        images[ImageTypes.BOARD_IMAGE] = Asset.prototype.loadBackground();
+    loadImages(data) {
 
+        this.loadCardImages(data);
+        this.loadCardBorders();
+        this.loadCardIcons();
+        this.loadCardRarity();
+        this.loadEquipmentRarity();
+        this.loadGameRarity();
+        this.loadCardType();
+        this.loadBackground();
 
-        return images
+       
+        
     }
 
     loadBackground() {
@@ -27,77 +36,70 @@ export default class Asset {
 
         // Crear Board
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/board.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         // Crear Event Deck Full
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/event_deck_full.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         // Crear Event Deck Half
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/event_deck_half.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
         
         // Crear Event Deck Empty
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/event_deck_empty.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         // Crear Minion Deck Full
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/minion_deck_full.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         // Crear Minion Deck Half
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/minion_deck_half.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         // Crear Minion Deck Empty
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/minion_deck_empty.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         // Crear Gema
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/gem.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
-        return images
+        this.images.push(images)
+        
     }
 
     loadCardImages(data) {
@@ -111,28 +113,26 @@ export default class Asset {
         const img = data[i].image;
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = `../media/images/cards_img/${img}`;
         //Preguntar si el globals.images es necesario
         normalSize.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = `../media/images/cards_img/mini_${img}`;
         //Preguntar si el globals.images es necesario
         smallSize.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
     
     }
 
 
-
         images.push(normalSize) 
         images.push(smallSize) 
-        return images
+        this.images.push(images) 
+       
     }
 
     loadCardBorders() {
@@ -140,21 +140,19 @@ export default class Asset {
         let image
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/others/border_card.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/others/border_board_card.png";
         //Preguntar si el globals.images es necesario
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
-        return images
+        this.assetsToLoad.push(image);
+        this.images.push(images) 
     }
 
     loadCardIcons() {
@@ -163,64 +161,58 @@ export default class Asset {
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/damage.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/defense.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/hp.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/speed.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/weapon2.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/durability.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/cooldown.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
 
 
-        return images
+        this.images.push(images)
+        
     }
 
     loadCardRarity() {
@@ -228,37 +220,34 @@ export default class Asset {
         let image
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/common_card.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/rare_card.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/epic_card.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/legendary_card.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
-        return images
+        this.images.push(images)
+        
     }
 
     loadEquipmentRarity() {
@@ -269,45 +258,41 @@ export default class Asset {
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/common_equip.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/rare_equip.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/epic_equip.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/legendary_equip.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/void_equip.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
-        return images
+        this.images.push(images)
+        
 
     }
 
@@ -316,37 +301,34 @@ export default class Asset {
         let image
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/common_rarity.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/rare_rarity.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/epic_rarity.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/legendary_rarity.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
-        return images
+        this.images.push(images)
+        
     }
 
     loadCardType() {
@@ -354,82 +336,89 @@ export default class Asset {
         let image
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/minion.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/curse.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/buff.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/hero.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/joseph.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/armor.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/weapon.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
         //Ejemplo de crear una carta
         image = new Image();
-        image.addEventListener("load", this.loadHandler, false);
+        image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/icons/spell.png";
         images.push(image);
-        globals.images.push(image)
-        globals.assetsToLoad.push(image);
+        this.assetsToLoad.push(image);
 
 
-        return images
+        this.images.push(images)
+        
     }
 
     loadHandler() {
 
-        globals.assetsLoaded++; //Adds 1 to the counter
+        this.assetsLoaded++; //Adds 1 to the counter
 
         //Once all Elements are loaded
-        if (globals.assetsLoaded === globals.assetsToLoad.length) {
+        if (this.assetsLoaded === this.assetsToLoad.length) {
 
             //Removes Load Event Listener
-            for (let i = 0; i < globals.images.length; i++) {
-                globals.images[i].removeEventListener("load", this.loadHandler, false)
+            for (let i = 0; i < this.images.length; i++) {
+                for (let j = 0; j < this.images[i].length; j++) {
+                    const image = this.images[i][j];
+                    
+                    if (i===0) {
+                        for (let k = 0; k < image.length; k++) {
+                            const img = image[k]
+                            img.removeEventListener("load", this.loadHandler.bind(this), false)
+                        }
+                    }else{
+                        
+                        image.removeEventListener("load", this.loadHandler.bind(this), false)
+                    }
+                    
+                }
+                
 
             }
 
@@ -437,6 +426,8 @@ export default class Asset {
             //     globals.sounds[i].removeEventListener("canplaythrough", loadHandler, false)
 
             // }
+
+            this.isLoaded = true;
             console.log("Assets loaded")
 
         }

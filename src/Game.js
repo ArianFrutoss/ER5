@@ -30,9 +30,10 @@ export default class Game {
     static init(data) {
 
         const board = Board.initBoard();
-        let images = Asset.loadImages(data);
-        const deckContainer = new DeckContainer()
-        deckContainer.createDecks(data)
+        const assets = Asset.create();
+        assets.loadImages(data);
+        const deckContainer = new DeckContainer();
+        deckContainer.createDecks(data);
 
         const turns = new TurnContainer(board.grids, deckContainer);
         
@@ -40,9 +41,7 @@ export default class Game {
         turns.turnContainer[0].showPlayerData();
         turns.turnContainer[1].showPlayerData();
 
-        console.log(turns.turnContainer);
-
-        return new Game(turns, null, images, null, null, deckContainer, board, null, null);
+        return new Game(turns, null, assets.images, null, null, deckContainer, board, null, null);
     }
 
     update() {

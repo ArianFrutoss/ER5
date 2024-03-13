@@ -11,7 +11,7 @@ export default class Board{
     }
     
     // Funcion inicializa Board del juego
-    static initBoard(){
+    static initBoard(canvas){
 
         const modifyer = 40;
 
@@ -20,25 +20,25 @@ export default class Board{
         const boardColumns = 5;
         const boardSlotXSize = 133;
         const boardSlotYSize = 155;
-        const boardXPos = globals.canvas.width / 2 - boardRows * boardSlotXSize / 2;
-        const boardYPos = globals.canvas.height / 2 - boardColumns * boardSlotYSize / 2 - modifyer;
+        const boardXPos = canvas.width / 2 - boardRows * boardSlotXSize / 2;
+        const boardYPos = canvas.height / 2 - boardColumns * boardSlotYSize / 2 - modifyer;
 
         // Atributos de los Grids de Eventos
         const eventRows = 3;
         const eventColumns = 3;
         const eventSlotXSize = 100;
         const eventSlotYSize = 100;
-        const eventBoardXPos = globals.canvas.width - eventRows * eventSlotXSize;
-        const eventBoardAtackerYPos = globals.canvas.height / 2 - eventColumns * eventSlotYSize;
-        const eventBoardDefenderYPos = globals.canvas.height / 2;
+        const eventBoardXPos = canvas.width - eventRows * eventSlotXSize;
+        const eventBoardAtackerYPos = canvas.height / 2 - eventColumns * eventSlotYSize;
+        const eventBoardDefenderYPos = canvas.height / 2;
 
         // Atributos de los Grids de Hand
         const handRows = 5;
         const handColumns = 1;
         const handSlotXSize = 247;
         const handSlotYSize = 379;
-        const handXPos = globals.canvas.width / 2 - handRows * handSlotXSize / 2;
-        const handAtackerYpos = globals.canvas.height - handColumns * handSlotYSize / 2 - modifyer;
+        const handXPos = canvas.width / 2 - handRows * handSlotXSize / 2;
+        const handAtackerYpos = canvas.height - handColumns * handSlotYSize / 2 - modifyer;
         const handDefenderYpos = -handSlotYSize / 2 - modifyer;
 
         // Crear Grid de Board

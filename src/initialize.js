@@ -8,15 +8,16 @@ function initHTMLelements(){
     
     console.log("initHtml");
     //canvas
-    globals.canvas = document.getElementById('gameScreen');
+    const canvas = document.getElementById('gameScreen');
 
     //Context
-    globals.ctx = globals.canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
 
     //Eliminacion del Anti-Aliasing
-    globals.ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = false;
 
-    globals.txtPruebas = document.getElementById('txtPruebas');
+    return [canvas,ctx]
+    // globals.txtPruebas = document.getElementById('txtPruebas');
 }
 
 // funcion inicializa variables del juego
@@ -52,11 +53,11 @@ function testArray(){
     // console.log(globals.cards);
 }
 
-function initEvents(){
-console.log("initEvents");
-    globals.canvas.addEventListener("mouseup", canvasMouseupHandler, false);
-    globals.canvas.addEventListener("mousedown", canvasMousedownHandler, false);
-    globals.canvas.addEventListener("mousemove", canvasMousemoveHandler, false);
+function initEvents(canvas){
+
+    canvas.addEventListener("mouseup", canvasMouseupHandler, false);
+    canvas.addEventListener("mousedown", canvasMousedownHandler, false);
+    canvas.addEventListener("mousemove", canvasMousemoveHandler, false);
 
 }
 

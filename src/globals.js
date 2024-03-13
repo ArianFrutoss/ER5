@@ -1,9 +1,6 @@
 import {GameState} from "./constants.js"
 
 export default {
-    // Acceso al canvas y context
-    canvas: {},
-    ctx: {},
 
     // Estados de juego. 
     gameState: GameState.INVALID,

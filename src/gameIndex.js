@@ -12,21 +12,24 @@ function init(){
     .then((response) => response.json())
     .then((data) => {        
         
-        initHTMLelements();
+        const html = initHTMLelements();
+        const canvas = html[0];
+        const ctx = html[1];
         initVars();
-        initEvents();
         
-        game = Game.init(data);
+        initEvents(canvas);
+        
+        game = Game.init(data,canvas,ctx);
 
         game.gameState = GameState.PLAYING
-        window.requestAnimationFrame(gameLoop);
+        window.requestAnimationFrame(gameLoop,canvas);
     });
 }
 
 // GAME EXECUTE
-function gameLoop(timeStamp){
+function gameLoop(timeStamp, canvas){
 
-    window.requestAnimationFrame(gameLoop, globals.canvas);
+    window.requestAnimationFrame(gameLoop, canvas);
 
     const elapsedCycleSeconds = (timeStamp - globals.previousCycleMiliseconds) / 1000; 
 

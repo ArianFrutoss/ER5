@@ -6,15 +6,20 @@ export function canvasMousemoveHandler(event, canvas, mouse){
     mouse.x = event.pageX - canvas.offsetLeft;
     mouse.y = event.pageY - canvas.offsetTop;
 }
+export function mouseDown(e, mouse) {
+    e = e 
+    switch (e.which) {
+      case 1: mouse.leftClick = true;
+        break;
+      case 3: mouse.rightClick = true;
+    }
+  } 
 
-export function canvasMouseLeftClickHandler(mouse){
 
-    mouse.leftClick = true;
+export function mouseUp(mouse){
+    mouse.leftClick = false;
+    mouse.rightClick= false;
 
 }
 
-export function canvasMouseRightClickHandler(mouse){
-
-    mouse.rightClick = true;
-}
 

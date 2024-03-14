@@ -8,7 +8,7 @@ import CardFactory from "./Cards/CardFactory.js";
 import DeckContainer from "./Cards/DeckContainer.js";
 import TurnContainer from "./Turns/TurnContainer.js";
 import Mouse from "./Mouse.js";
-import { canvasMouseLeftClickHandler, canvasMouseRightClickHandler, canvasMousemoveHandler } from "./mouseEvent.js";
+import { canvasMousemoveHandler, mouseDown, mouseUp } from "./mouseEvent.js";
 
 
 export default class Game {
@@ -88,11 +88,12 @@ export default class Game {
                 this.drawGame();
                 this.drawAllCards();
                 // test para mouse
+                
                 this.assignAddEventListeners();
 
                 this.ctx.font         = "bold 30px Arial";
                 this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
-                this.ctx.fillText("Click Derecho: " + this.mouse.rightClick + "--------" + "Click Izquierdo: " + this.mouse.leftClick, 100, 150);
+                this.ctx.fillText("Click Derecho: " + this.mouse.rightClick + "--------" + "Click Izquierdo: " + this.mouse.leftClick, 100, 150);  
 
                 break;
 
@@ -396,13 +397,24 @@ export default class Game {
             canvasMousemoveHandler(event, this.canvas, this.mouse);
         });
         
-        this.canvas.addEventListener("click", () => {
-            canvasMouseLeftClickHandler(this.mouse);
+        this.canvas.addEventListener("mousedown", (e) => {
+
+            mouseDown(e, this.mouse)
+
         });
 
-        this.canvas.addEventListener("contextmenu", () => {
-            
-            canvasMouseRightClickHandler(this.mouse);
+        this.canvas.addEventListener("mouseup", () => {
+            mouseUp(this.mouse);
+
         });
+
+        document.oncontextmenu = disableRightClickMenu
+
     }
 }
+function disableRightClickMenu() {
+
+    return false
+}
+
+

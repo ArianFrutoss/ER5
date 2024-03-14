@@ -25,8 +25,6 @@ export default class Asset {
         this.loadCardType();
         this.loadBackground();
 
-       
-        
     }
 
     loadBackground() {

@@ -7,11 +7,13 @@ import globals from "./globals.js";
 import CardFactory from "./Cards/CardFactory.js";
 import DeckContainer from "./Cards/DeckContainer.js";
 import TurnContainer from "./Turns/TurnContainer.js";
+import Mouse from "./Mouse.js";
+import { canvasMouseLeftClickHandler, canvasMouseRightClickHandler, canvasMousemoveHandler } from "./mouseEvent.js";
 
 
 export default class Game {
 
-    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity,canvas, ctx) {
+    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity,canvas, ctx, mouse) {
 
         this.turnArray = turnArray;
         this.handsArray = handsArray;
@@ -27,6 +29,7 @@ export default class Game {
         this.gameState = GameState.INVALID;
         this.canvas = canvas;
         this.ctx = ctx
+        this.mouse = mouse;
     }
 
     static init(data, canvas, ctx) {
@@ -39,11 +42,14 @@ export default class Game {
 
         const turns = new TurnContainer(board.grids, deckContainer);
         
+        const mouse = new Mouse(0, 0, false, false);
+  
+        
         turns.CreateTurns();
         // turns.turnContainer[0].showPlayerData();
         // turns.turnContainer[1].showPlayerData();
 
-        return new Game(turns, null, assets.images, null, null, deckContainer, board, null, null, canvas, ctx);
+        return new Game(turns, null, assets.images, null, null, deckContainer, board, null, null, canvas, ctx, mouse);
     }
 
     update() {
@@ -56,6 +62,9 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.updateGame();
+            
+
+        
                 break;
 
             case GameState.GAMEOVER:
@@ -78,6 +87,13 @@ export default class Game {
             case GameState.PLAYING:
                 this.drawGame();
                 this.drawAllCards();
+                // test para mouse
+                this.assignAddEventListeners();
+
+                this.ctx.font         = "bold 30px Arial";
+                this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
+                this.ctx.fillText("Click Derecho: " + this.mouse.rightClick + "--------" + "Click Izquierdo: " + this.mouse.leftClick, 100, 150);
+
                 break;
 
             default:
@@ -313,7 +329,7 @@ export default class Game {
         this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK].cards, this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK].cards);
 
         // Funcion que Spawnea los Minions en el tablero
-        this.assignMinionsToBoard(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
+        //this.assignMinionsToBoard(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
         
         // Funcion que posiciona las Cards en la posicion de los Slots
         this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID]);
@@ -373,5 +389,20 @@ export default class Game {
                 }
             }
         }
+    }
+
+    assignAddEventListeners(){
+        this.canvas.addEventListener("mousemove", (event) => {
+            canvasMousemoveHandler(event, this.canvas, this.mouse);
+        });
+        
+        this.canvas.addEventListener("click", () => {
+            canvasMouseLeftClickHandler(this.mouse);
+        });
+
+        this.canvas.addEventListener("contextmenu", () => {
+            
+            canvasMouseRightClickHandler(this.mouse);
+        });
     }
 }

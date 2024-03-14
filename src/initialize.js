@@ -2,7 +2,7 @@ import globals from "./globals.js";
 import { GameState, FPS, GridId } from "./constants.js"
 import CardFactory from "./Cards/CardFactory.js";
 import jsonArray from "../cards.js";
-import { canvasMousedownHandler, canvasMouseupHandler, canvasMousemoveHandler } from "./mouseEvent.js";
+
 
 function initHTMLelements(){
     
@@ -53,19 +53,10 @@ function testArray(){
     // console.log(globals.cards);
 }
 
-function initEvents(canvas){
-
-    canvas.addEventListener("mouseup", canvasMouseupHandler, false);
-    canvas.addEventListener("mousedown", canvasMousedownHandler, false);
-    canvas.addEventListener("mousemove", canvasMousemoveHandler, false);
-
-}
-
 // Exportar funciones
 export{
 
     initHTMLelements,
     initVars,
     testArray,
-    initEvents
 }

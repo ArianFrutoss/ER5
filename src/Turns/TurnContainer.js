@@ -18,14 +18,43 @@ export default class TurnContainer {
 
     }
 
-    CreateTurns(){
-        const turn1 = new Turn(this.gridArray, this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK].cards[0], this.player1HandDeck, this.player1MinionDeck, this.graveYardDeck, this.player1EventDeck);
+    selectRandomHero(heroDeck)
+    {
+
+        const deckLength = heroDeck.length;
+
+        const randomIndex = Math.floor(Math.random() * deckLength);
+
+        const randomCard = heroDeck[randomIndex];
+
+        return randomCard;
+    
+    }
+
+
+    CreateTurns()
+    {
+        let hero1 = {};
+        let hero2 = {};
+        
+        do {
+            hero1 = this.selectRandomHero(this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK].cards);
+            hero2 = this.selectRandomHero(this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK].cards);
+        } while (hero1 === hero2);
+
+        console.log(hero1)
+        console.log(hero2)
+
+        const turn1 = new Turn(this.gridArray, this.hero1, this.player1HandDeck, this.player1MinionDeck, this.graveYardDeck, this.player1EventDeck);
         turn1.createPhases();
 
-        const turn2 = new Turn(this.gridArray, this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK].cards[0], this.player2HandDeck, this.player2MinionDeck, this.graveYardDeck, this.player2EventDeck);
+        const turn2 = new Turn(this.gridArray, this.hero2, this.player2HandDeck, this.player2MinionDeck, this.graveYardDeck, this.player2EventDeck);
         turn2.createPhases();
 
         this.turnContainer = [turn1, turn2]; //player 1 pos 0, player 2 pos 1;
+
+
+      
     }
     
 }

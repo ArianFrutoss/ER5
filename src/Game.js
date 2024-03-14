@@ -40,8 +40,8 @@ export default class Game {
         const turns = new TurnContainer(board.grids, deckContainer);
         
         turns.CreateTurns();
-        turns.turnContainer[0].showPlayerData();
-        turns.turnContainer[1].showPlayerData();
+        // turns.turnContainer[0].showPlayerData();
+        // turns.turnContainer[1].showPlayerData();
 
         return new Game(turns, null, assets.images, null, null, deckContainer, board, null, null, canvas, ctx);
     }

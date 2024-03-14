@@ -25,10 +25,10 @@ export default class Turn {
         this.phasesArray = phase.createPhases();
     }
 
-    showPlayerData(){
-        console.log(this.mainCharacter.name[0]);
-        console.log(this.mainCharacter.image);
-    }
+    // showPlayerData(){
+    //     console.log(this.mainCharacter.name[0]);
+    //     console.log(this.mainCharacter.image);
+    // }
 
 
 }

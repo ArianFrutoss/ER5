@@ -21,7 +21,6 @@ function init(){
         
         game = Game.init(data,canvas,ctx);
 
-        game.gameState = GameState.PLAYING
         window.requestAnimationFrame(gameLoop,canvas);
     });
 }

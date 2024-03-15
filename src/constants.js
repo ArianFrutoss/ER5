@@ -40,10 +40,11 @@ export const CardId = {
     NOT_SELECTED:   2,
     SELECTED:       3,
     HOVER:          4,
-    NOT_ACTIVE:     5,
-    ALIVE:          6,
-    DEAD:           7,
-    STUNNED:        8
+    SCALED:         5,
+    NOT_ACTIVE:     6,
+    ALIVE:          7,
+    DEAD:           8,
+    STUNNED:        9
 }
 
 export const GridId = {

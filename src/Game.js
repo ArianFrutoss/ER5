@@ -46,7 +46,7 @@ export default class Game {
   
         
         turns.CreateTurns();
-        console.log(turns);
+        console.log(turns.turnContainer);
         // turns.turnContainer[0].showPlayerData();
         // turns.turnContainer[1].showPlayerData();
 

@@ -1,6 +1,6 @@
 export default class Slot{
 
-    constructor(xPos, yPos, xSize, ySize, state, isEmpty, grid){
+    constructor(xPos, yPos, xSize, ySize, state, isEmpty){
 
         this.xPos               = xPos;
         this.yPos               = yPos;

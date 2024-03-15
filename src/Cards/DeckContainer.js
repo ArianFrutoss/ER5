@@ -35,18 +35,22 @@ export default class DeckContainer {
 
                 case TypeId.HERO:
                     this.decks[DecksId.MAIN_CHARACTER_DECK].cards.push(card)
+                    card.deck = this.decks[DecksId.MAIN_CHARACTER_DECK]
                     break;
 
                 case TypeId.MINION:
                     if (this.decks[DecksId.PLAYER_1_MINION_DECK].cards.length === this.decks[DecksId.PLAYER_2_MINION_DECK].cards.length) {
                         this.decks[DecksId.PLAYER_1_MINION_DECK].cards.push(card)
+                        card.deck = this.decks[DecksId.PLAYER_1_MINION_DECK]
                     } else {
                         this.decks[DecksId.PLAYER_2_MINION_DECK].cards.push(card)
+                        card.deck = this.decks[DecksId.PLAYER_2_MINION_DECK]
                     }
                     break;
 
                 default:
                     this.decks[DecksId.EVENT_DECK].cards.push(card)
+                    card.deck = this.decks[DecksId.EVENT_DECK]
                     break;
             }
         }

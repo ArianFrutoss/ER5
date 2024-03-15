@@ -1,4 +1,5 @@
 
+import Mouse from "../Mouse.js";
 import { CardId } from "../constants.js";
 export default class Card{
 
@@ -18,5 +19,57 @@ export default class Card{
         // this.objective      = objective;
   	
     }
+    update(mouse,decks){
+        const isAnyCardScaled   = this.isAnyCard(decks, CardId.SCALED)
+        const isAnyCardSelected = this.isAnyCard(decks, CardId.SELECTED)
+
+        if (!isAnyCardScaled) {
+            const isCollidingWithMouse = mouse.isCollidingWithCard(this)
     
+            switch (this.state) {
+                case CardId.NOT_SELECTED:
+                    this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
+                    
+                    break;
+    
+                    case CardId.HOVER:
+                        console.log("hover");
+                        this.state = isCollidingWithMouse   ? this.state = CardId.HOVER : CardId.NOT_SELECTED
+                        
+                        this.state = !mouse.leftClick && !isAnyCardSelected && mouse.previousStateLeft      ? CardId.SELECTED           : 
+                                     mouse.rightClick       ? CardId.SCALED             : this.state
+                        break;
+    
+                    case CardId.SELECTED:
+                        this.state = mouse.leftClick && !mouse.previousStateLeft        ? CardId.NOT_SELECTED        : 
+                        mouse.rightClick                    ? CardId.SCALED              : this.state
+                        console.log("selected");
+                        break;
+    
+            
+                default:
+                    break;
+            }
+        } else {
+            if (this.state === CardId.SCALED) {
+                console.log("scaled");
+                this.state = mouse.rightClick && !mouse.previousStateRight       ? CardId.SELECTED            : this.state
+
+            }
+        }
+            
+        }
+
+        isAnyCard(decks,state){
+            let result
+            for (let i = 0; i < decks.length; i++) {
+                const deck = decks[i];
+                for (let j = 0; j < deck.cards.length; j++) {
+                    const card = deck.cards[j];
+                    result = card.state === state ? true : false
+
+                }            
+            }
+            return result
+        }
 }

@@ -25,7 +25,7 @@ export default class DeckContainer {
 
     assignCardsToDecks(cards) {
         
-        cards = this.mixDeck(cards);
+        
 
         for (let i = 0; i < cards.length; i++) {
             
@@ -50,20 +50,25 @@ export default class DeckContainer {
                     break;
             }
         }
+       
+        for (let i = 0; i < this.decks.length; i++) {
+            const deck = this.decks[i];
+
+            if (deck.cards.length != 0) {
+                this.mixDeck(deck.cards);
+                
+            }
+            
+        }
     }
 
     mixDeck(cards){
+        for (let i = cards.length-1; i > 0; i--){
 
-        const cardMix = [];
-        let random;
-    
-        for (let i = cards.length; i > 0; i--){
-
-            random = Math.floor(Math.random() * cards.length);
-            cardMix.push(cards[random]);
-            cards.splice(random, 1);
+            const random = Math.floor(Math.random() * (i+1));
+            [cards[i], cards[random]] = [cards[random], cards[i]]; 
+            
         }
-        
-        return cardMix;
+
     }
 }

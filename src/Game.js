@@ -30,6 +30,7 @@ export default class Game {
         this.canvas = canvas;
         this.ctx = ctx
         this.mouse = mouse;
+        
     }
 
     static init(data, canvas, ctx) {
@@ -75,6 +76,8 @@ export default class Game {
                         const card = deck.cards[j];
                         card.update(this.mouse,this.deckContainer.decks)
                     }
+                    
+
                 }
                 this.mouse.update()
                 break;
@@ -232,6 +235,7 @@ export default class Game {
             const deck = this.deckContainer.decks[i];
             for (let j = 0; j < deck.cards.length; j++) {
                 const card = deck.cards[j];
+
                 this.drawCard(this.images.images, card, card.xPos , card.yPos )
             }
 
@@ -239,26 +243,29 @@ export default class Game {
     }
 
     drawCard(images, card, xPos, yPos) {
+        this.ctx.font = "25px LongaIberica-DEMO";
+
         //CARD IMAGE
-        if (card.state === CardId.SCALED) {
-            xPos = 0
-            yPos = 0
-            this.ctx.translate((xPos + 247 ),  (yPos + 379 ))
+        let size = card.size
+        if (card.state === CardId.SCALED ) {
+            xPos = 800
+            yPos = 300
+            size = CardId.BIG_SIZE
             
         }
 
 
         this.ctx.drawImage(
-            images[ImageTypes.CARD_IMAGE][card.size][card.id - 1],                 //Img File
+            images[ImageTypes.CARD_IMAGE][size][card.id - 1],                 //Img File
             xPos,yPos                    //X & Y Position Source
             )
-            this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+            
             
             // BORDER
             this.ctx.drawImage(
-                images[ImageTypes.CARD_BORDER][card.size],
+                images[ImageTypes.CARD_BORDER][size],
                 xPos, yPos)
-                if (card.size === BorderId.NORMAL_SIZE) {
+                if (size === BorderId.NORMAL_SIZE) {
                     this.ctx.font = "25px LongaIberica-DEMO";
                     this.ctx.fillText(card.name[this.language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
                     this.ctx.font = "15px LongaIberica-DEMO";
@@ -273,7 +280,7 @@ export default class Game {
         //RARITY ICON
         this.ctx.drawImage(
             images[ImageTypes.CARD_RARITY][card.rarity],
-            IconsPos.RARITY_X[card.size] + xPos, IconsPos.RARITY_Y[card.size] + yPos)
+            IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
 
 
         switch (card.category) {
@@ -281,67 +288,62 @@ export default class Game {
                 //STAT ICONS
                 this.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.DEFENSE],
-                    IconsPos.FIRST_ICON_X[card.size] + xPos, IconsPos.FIRST_ICON_Y[card.size] + yPos)
+                    IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
 
-                this.ctx.fillText(card.defense, IconsPos.FIRST_ICON_NUMBER_X[card.size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[card.size] + yPos);
+                this.ctx.fillText(card.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
 
                 this.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.SPEED],
-                    IconsPos.SECOND_ICON_X[card.size] + xPos, IconsPos.SECOND_ICON_Y[card.size] + yPos)
-                this.ctx.fillText(card.speed, IconsPos.SECOND_ICON_NUMBER_X[card.size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[card.size] + yPos);
+                    IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
+                this.ctx.fillText(card.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
 
                 this.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.DAMAGE],
-                    IconsPos.THIRD_ICON_X[card.size] + xPos, IconsPos.THIRD_ICON_Y[card.size] + yPos)
-                this.ctx.fillText(card.attack, IconsPos.THIRD_ICON_NUMBER_X[card.size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[card.size] + yPos);
+                    IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
+                this.ctx.fillText(card.attack, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
 
                 this.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.LIFE],
-                    IconsPos.FOURTH_ICON_X[card.size] + xPos, IconsPos.FOURTH_ICON_Y[card.size] + yPos)
-                this.ctx.fillText(card.health, IconsPos.FOURTH_ICON_NUMBER_X[card.size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[card.size] + yPos);
+                    IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
+                this.ctx.fillText(card.health, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
 
 
 
                 //EQUIPMENT RARITY
                 this.ctx.drawImage(
                     images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
-                    IconsPos.WEAPON_X[card.size] + xPos, IconsPos.WEAPON_Y[card.size] + yPos)
+                    IconsPos.WEAPON_X[size] + xPos, IconsPos.WEAPON_Y[size] + yPos)
 
                 this.ctx.drawImage(
                     images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
-                    IconsPos.ARMOR_X[card.size] + xPos, IconsPos.ARMOR_Y[card.size] + yPos)
+                    IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
                 break;
 
             case TypeId.WEAPON:
             case TypeId.ARMOR:
                 this.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN],
-                    IconsPos.FIRST_ICON_X[card.size] + xPos, IconsPos.FIRST_ICON_Y[card.size] + yPos)
+                    IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
 
-                this.ctx.fillText(card.cooldown, IconsPos.FIRST_ICON_NUMBER_X[card.size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[card.size] + yPos);
+                this.ctx.fillText(card.cooldown, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
 
                 this.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.DURABILITY],
-                    IconsPos.SECOND_ICON_X[card.size] + xPos, IconsPos.SECOND_ICON_Y[card.size] + yPos)
-                this.ctx.fillText(card.durability, IconsPos.SECOND_ICON_NUMBER_X[card.size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[card.size] + yPos);
+                    IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
+                this.ctx.fillText(card.durability, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
 
                 this.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.DEFENSE],
-                    IconsPos.THIRD_ICON_X[card.size] + xPos, IconsPos.THIRD_ICON_Y[card.size] + yPos)
-                this.ctx.fillText(card.defense, IconsPos.THIRD_ICON_NUMBER_X[card.size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[card.size] + yPos);
+                    IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
+                this.ctx.fillText(card.defense, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
 
                 this.ctx.drawImage(
                     images[ImageTypes.CARD_ICONS][IconsId.DAMAGE],
-                    IconsPos.FOURTH_ICON_X[card.size] + xPos, IconsPos.FOURTH_ICON_Y[card.size] + yPos)
-                this.ctx.fillText(card.attack, IconsPos.FOURTH_ICON_NUMBER_X[card.size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[card.size] + yPos);
+                    IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
+                this.ctx.fillText(card.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
 
             default:
                 break;
-        }
-        if (card.state === CardId.SCALED) {
-            this.ctx.scale(2.5,2.5)
-    
-            this.ctx.translate(-(xPos + 247 / 2), - (yPos + 379 / 2))
         }
 
     }

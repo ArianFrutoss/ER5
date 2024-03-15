@@ -17,10 +17,12 @@ export default class Card{
         this.size           = CardId.BIG_SIZE;
         this.state          = CardId.NOT_SELECTED;
         this.deck           = deck
+        this.previousState  = CardId.NOT_SELECTED
         // this.objective      = objective;
   	
     }
     update(mouse,decks){
+
         const isAnyCardScaled   = this.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.isAnyCard(decks, CardId.SELECTED)
 
@@ -29,36 +31,41 @@ export default class Card{
     
             switch (this.state) {
                 case CardId.NOT_SELECTED:
+                    
                     this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
                     
                     break;
     
                     case CardId.HOVER:
-                        console.log("hover");
                         this.state = isCollidingWithMouse   ? this.state = CardId.HOVER : CardId.NOT_SELECTED
                         
-                        this.state = !mouse.leftClick && !isAnyCardSelected && mouse.previousStateLeft      ? CardId.SELECTED           : 
-                                     mouse.rightClick       ? CardId.SCALED             : this.state
+                        this.state =
+                            !mouse.leftClick    && !isAnyCardSelected && mouse.previousStateLeft      ? CardId.SELECTED           : 
+                            !mouse.rightClick   && mouse.previousStateRight                           ? CardId.SCALED             : this.state
                         break;
     
                     case CardId.SELECTED:
-                        this.state = mouse.leftClick && !mouse.previousStateLeft        ? CardId.NOT_SELECTED        : 
-                        mouse.rightClick                    ? CardId.SCALED              : this.state
-                        console.log("selected");
+                        this.state = 
+                            !mouse.leftClick      && mouse.previousStateLeft  && isCollidingWithMouse       ? CardId.NOT_SELECTED        : 
+                            !mouse.rightClick     && mouse.previousStateRight && isCollidingWithMouse       ? CardId.SCALED              : this.state
+                        // console.log("selected");
                         break;
-    
+
+                    case CardId.SCALED:
+        
+                        break;
             
                 default:
                     break;
             }
         } else {
             if (this.state === CardId.SCALED) {
-                console.log("scaled");
-                this.state = mouse.rightClick && !mouse.previousStateRight       ? CardId.SELECTED            : this.state
+                
+                this.state = !mouse.rightClick && mouse.previousStateRight       ? CardId.NOT_SELECTED            : this.state
 
             }
         }
-            
+            this.previousState = this.state
         }
 
         isAnyCard(decks,state){
@@ -68,7 +75,10 @@ export default class Card{
                 for (let j = 0; j < deck.cards.length; j++) {
                     const card = deck.cards[j];
                     result = card.state === state ? true : false
-
+                    if (result === true) {
+                        return result
+                        
+                    }
                 }            
             }
             return result

@@ -1,13 +1,14 @@
 export default class Slot{
 
-    constructor(xPos, yPos, xSize, ySize, id, state, cardId){
+    constructor(xPos, yPos, xSize, ySize, state, isEmpty){
 
         this.xPos               = xPos;
         this.yPos               = yPos;
         this.xSize              = xSize;
         this.ySize              = ySize;
-        this.id                 = id;
         this.state              = state;
-        this.cardId             = cardId;
+        this.isEmpty            = isEmpty;
+        this.card;
+        this.grid;
     }
 }

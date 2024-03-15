@@ -1,10 +1,16 @@
 import Phase from "./Phase.js";
 
-export default class MinioonMovementPhase extends Phase{
+export default class MinionMovementPhase extends Phase{
 
-    constructor(boardGrid, minionCard){
+    constructor(boardGrid, boardMinions, mouse){
         
-        this.boardGrid  = boardGrid;
-        this.minionCard = minionCard;
+        this.boardGrid      = boardGrid;
+        this.boardMinions   = boardMinions;
+        this.mouse          = mouse;
+    }
+
+    execute(){
+
+
     }
 }

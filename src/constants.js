@@ -26,6 +26,14 @@ export const Turn = {
     PHASE_DEFAULT:          8
 }
 
+export const TurnStates = {
+
+    INITIALIZE:     0,
+    EXECUTION:      1,
+    END:            2,
+    INVALID:        3,
+}
+
 export const CardId = {
     BIG_SIZE:       0,
     SMALL_SIZE:     1,
@@ -113,9 +121,11 @@ export const DecksId = {
     PLAYER_2_HAND_DECK:             3,
     PLAYER_1_ACTIVE_MINION_DECK:    4,
     PLAYER_2_ACTIVE_MINION_DECK:    5,
-    EVENT_DECK:                     6,
-    MAIN_CHARACTER_DECK:            7,
-    GRAVEYARD_DECK:                 8
+    PLAYER_1_PREPARING_EVENT_DECK:  6,
+    PLAYER_2_PREPARING_EVENT_DECK:  7,
+    EVENT_DECK:                     8,
+    MAIN_CHARACTER_DECK:            9,
+    GRAVEYARD_DECK:                10
 }
 export const LanguageId = {
     ENG : 0,

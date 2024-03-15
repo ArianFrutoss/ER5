@@ -8,14 +8,6 @@ export default class TurnContainer {
         this.turnContainer      = [];
         this.gridArray          = gridArray;
         this.deckContainer      = deckContainer;
-        this.player1HandDeck    = deckContainer.decks[DecksId.PLAYER_1_HAND_DECK];
-        this.player2HandDeck    = deckContainer.decks[DecksId.PLAYER_2_HAND_DECK];
-        this.player1MinionDeck  = deckContainer.decks[DecksId.PLAYER_1_MINION_DECK];
-        this.player2MinionDeck  = deckContainer.decks[DecksId.PLAYER_2_MINION_DECK];
-        this.graveYardDeck      = deckContainer.decks[DecksId.GRAVEYARD_DECK];
-        this.player1EventDeck   = deckContainer.decks[DecksId.EVENT_DECK];
-        this.player2EventDeck   = deckContainer.decks[DecksId.EVENT_DECK];
-
     }
 
     selectRandomHero(heroDeck)
@@ -44,17 +36,25 @@ export default class TurnContainer {
 
         console.log(hero1)
         console.log(hero2)
+        const player1HandDeck           = this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK];
+        const player2HandDeck           = this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK];
+        const player1MinionDeck         = this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK];
+        const player2MinionDeck         = this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK];
+        const graveYardDeck             = this.deckContainer.decks[DecksId.GRAVEYARD_DECK];
+        const eventDeck                 = this.deckContainer.decks[DecksId.EVENT_DECK];
+        const player1PreparingEventDeck = this.deckContainer.decks[DecksId.PLAYER_1_PREPARING_EVENT_DECK];
+        const player2PreparingEventDeck = this.deckContainer.decks[DecksId.PLAYER_2_PREPARING_EVENT_DECK];
+        const player1ActiveMinionDeck   = this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK];
+        const player2ActiveMinionDeck   = this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK];
 
-        const turn1 = new Turn(this.gridArray, this.hero1, this.player1HandDeck, this.player1MinionDeck, this.graveYardDeck, this.player1EventDeck);
+        const turn1 = new Turn(this.gridArray, hero1, player1HandDeck, player1MinionDeck, graveYardDeck, eventDeck, player1PreparingEventDeck, player1ActiveMinionDeck, false);
         turn1.createPhases();
 
-        const turn2 = new Turn(this.gridArray, this.hero2, this.player2HandDeck, this.player2MinionDeck, this.graveYardDeck, this.player2EventDeck);
+        const turn2 = new Turn(this.gridArray, hero2, player2HandDeck, player2MinionDeck, graveYardDeck, eventDeck, player2PreparingEventDeck, player2ActiveMinionDeck, false);
         turn2.createPhases();
 
         this.turnContainer = [turn1, turn2]; //player 1 pos 0, player 2 pos 1;
-
-
-      
     }
     
+
 }

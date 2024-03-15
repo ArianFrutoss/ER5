@@ -1,9 +1,9 @@
-import { DecksId } from "../constants.js";
+import { DecksId, TurnStates } from "../constants.js";
 import Phase from "./turn_phases/Phase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck){
+    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
@@ -13,9 +13,14 @@ export default class Turn {
         this.mainCharacter  = mainCharacter;      // Carta de Character asignada  predefinida desde turnContainer
         this.gridArray      = gridArray;          // Array de rejillas
         this.eventDeck      = eventDeck;          // Mazo de eventos
+        this.preparingEventDeck = preparingEventDeck;   // mazo de eventos en preparacion
+        this.activeMinionDeck   = activeMinionDeck;
+        this.active         = false;              // Variable para saber si el turno esta activo
+        this.state          = TurnStates.INVALID; //
         this.phasesArray    = [];                 // Array de fases
         this.actionsLeft    = 0;                  // Contador de acciones maximo 5
         this.maxActions     = 5;                  // maximo de acciones
+  
     }
 
     createPhases(){
@@ -30,5 +35,25 @@ export default class Turn {
     //     console.log(this.mainCharacter.image);
     // }
 
+    update(){
+        
+        switch(this.state){
+
+            case TurnStates.INITIALIZE:
+                this.active = true;
+                // add logic
+                break;
+            
+            case TurnStates.EXECUTION:
+
+                // Add logic
+                break;
+
+            case TurnStates.END:
+                //Add logic:
+                this.active = false;
+                break;
+        }
+    }
 
 }

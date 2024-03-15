@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -42,11 +42,14 @@ export default class Game {
 
         const turns = new TurnContainer(board.grids, deckContainer);
         
-        const mouse = new Mouse(0, 0, false, false);
+        const mouse = new Mouse(canvas);
+        mouse.assignAddEventListeners();
+        
   
         
         turns.CreateTurns();
         console.log(turns.turnContainer);
+ 
         // turns.turnContainer[0].showPlayerData();
         // turns.turnContainer[1].showPlayerData();
 
@@ -62,10 +65,7 @@ export default class Game {
                 break;
 
             case GameState.PLAYING:
-                this.updateGame();
-            
-
-        
+                this.updateGame(); 
                 break;
 
             case GameState.GAMEOVER:
@@ -88,14 +88,10 @@ export default class Game {
             case GameState.PLAYING:
                 this.drawGame();
                 this.drawAllCards();
-                // test para mouse
-                
-                this.assignAddEventListeners();
 
                 this.ctx.font         = "bold 30px Arial";
                 this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
                 this.ctx.fillText("Click Derecho: " + this.mouse.rightClick + "--------" + "Click Izquierdo: " + this.mouse.leftClick, 100, 150);  
-
                 break;
 
             default:
@@ -393,29 +389,5 @@ export default class Game {
         }
     }
 
-    assignAddEventListeners(){
-        this.canvas.addEventListener("mousemove", (event) => {
-            canvasMousemoveHandler(event, this.canvas, this.mouse);
-        });
-        
-        this.canvas.addEventListener("mousedown", (e) => {
-
-            mouseDown(e, this.mouse)
-
-        });
-
-        this.canvas.addEventListener("mouseup", () => {
-            mouseUp(this.mouse);
-
-        });
-
-        document.oncontextmenu = disableRightClickMenu
-
-    }
 }
-function disableRightClickMenu() {
-
-    return false
-}
-
 

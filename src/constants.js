@@ -26,6 +26,14 @@ export const Turn = {
     PHASE_DEFAULT:          8
 }
 
+export const TurnStates = {
+
+    INITIALIZE:     0,
+    EXECUTION:      1,
+    END:            2,
+    INVALID:        3,
+}
+
 export const CardId = {
     BIG_SIZE:       0,
     SMALL_SIZE:     1,

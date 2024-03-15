@@ -1,3 +1,5 @@
+import { GridId } from "./constants.js";
+
 export default class Slot{
 
     constructor(xPos, yPos, xSize, ySize, state, isEmpty){

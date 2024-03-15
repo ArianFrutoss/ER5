@@ -40,20 +40,29 @@ export default class Turn {
         switch(this.state){
 
             case TurnStates.INITIALIZE:
-                this.active = true;
-                // add logic
+                this.init();
                 break;
             
             case TurnStates.EXECUTION:
-
-                // Add logic
+                this.execute();
                 break;
 
             case TurnStates.END:
-                //Add logic:
-                this.active = false;
+                this.end();
                 break;
         }
     }
 
+    init(){
+
+        this.active = true;
+    }
+
+    execute(){
+        // add logic
+    }
+
+    end(){
+        this.active = false;
+    }
 }

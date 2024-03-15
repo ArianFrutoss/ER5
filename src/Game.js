@@ -65,7 +65,7 @@ export default class Game {
                 break;
 
             case GameState.PLAYING:
-                this.updateGame(); 
+                this.updateGame();
                 break;
 
             case GameState.GAMEOVER:
@@ -332,6 +332,8 @@ export default class Game {
         // Funcion que posiciona las Cards en la posicion de los Slots
         this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID]);
         this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID]);
+
+        //this.updateTurns(); ---> test de cambio de turnos
     }
 
     assignCardsToHand(eventDeck, player1HandDeck, player2HandDeck) {
@@ -389,5 +391,27 @@ export default class Game {
         }
     }
 
+    updateTurns(){
+        this.turnChange();
+    }   
+
+    turnChange(){
+        console.log(this.turnArray.turnContainer[0].active);
+
+        setTimeout(() => {
+            this.turnArray.turnContainer[0].active = true;
+        }, 3000)
+
+        if(this.turnArray.turnContainer[0].active){
+            console.log("turno player 1");
+            // turno player 1
+
+        }else if(this.turnArray.turnContainer[1].active){
+
+            // Turno player 2
+            console.log("turno player 2");
+
+        }
+    }
 }
 

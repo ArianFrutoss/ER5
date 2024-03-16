@@ -224,6 +224,11 @@ export default class Game {
                         this.ctx.fillStyle = "white"
                     }
 
+                    else if (slot.state === SlotsState.HOVER){
+                        
+                        this.ctx.fillStyle = "purple"
+                    }
+
                     else{
                         
                         this.ctx.fillStyle = "black"

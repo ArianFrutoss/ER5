@@ -21,7 +21,7 @@ export default class Slot{
         
         if (isSlotUsed === false){
             
-            const isCollidingWithMouse = mouse.isCollidingWithSlot(grid);
+            const isCollidingWithMouse = mouse.isCollidingWithSlot(this);
             const isLeftClick          = mouse.leftClick;
     
             switch (this.state){

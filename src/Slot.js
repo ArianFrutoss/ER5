@@ -35,15 +35,20 @@ export default class Slot{
                     break;
     
                 case SlotsState.HOVER:
+                    
+                    if (isCollidingWithMouse === false){
+                        
+                        this.state = SlotsState.NOT_SELECTED;
+                    }
 
-                    if (isLeftClick && isSlotSelected === false){
-
+                    else if (isLeftClick && isSlotSelected === false){
+                        
                         this.state = SlotsState.SELECTED;
-                    }    
+                    }
                     break;
 
                 case SlotsState.SELECTED:
-                    console.log("Selected");
+                    
                     break;
             
                 default:

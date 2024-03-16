@@ -80,6 +80,8 @@ export default class Mouse {
     
     isCollidingWithSlot(slot){
 
+        let result = false;
+
         const slotFirstWidthPoint = slot.xPos;
         const slotSecondWidthPoint = slot.xPos + slot.xSize;
         const slotFirstHeigthPoint = slot.yPos;
@@ -87,7 +89,10 @@ export default class Mouse {
 
         if (this.x > slotFirstWidthPoint && this.x < slotSecondWidthPoint && this.y > slotFirstHeigthPoint && this.y < slotSecondHeigthPoint){
             
-            return true;
+            result = true;
+            return result;
         }
+
+        return result;
     }
 }

@@ -71,7 +71,7 @@ export default class Game {
             case GameState.PLAYING:
                 this.updateGame();
                 this.deckContainer.updateDecks(this.mouse)
-                this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
+                this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID].update(this.mouse);
                 this.mouse.update()
                 break;
 
@@ -420,11 +420,11 @@ export default class Game {
 
             for (let j = 0; j < grids.slots[0].length; j++) {
 
-                if (decks.cards[j]) {
+                if (decks.cards[j]){
+
                     decks.cards[j].xPos = grids.slots[i][j].xPos;
                     decks.cards[j].yPos = grids.slots[i][j].yPos;
-                    grids.slots[i][j].CardId = decks.cards[j].id;
-                    
+                    grids.slots[i][j].isEmpty = false;
                 }
             }
         }

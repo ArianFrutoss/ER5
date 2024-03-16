@@ -1,4 +1,4 @@
-import { GridId, SlotsState } from "./constants.js";
+import { SlotsState } from "./constants.js";
 
 export default class Slot{
 
@@ -16,10 +16,9 @@ export default class Slot{
 
     update(mouse, grid){
 
-        const isSlotUsed = this.isSlotUsed(grid);
         const isSlotSelected = this.isSlotSelected(grid);
         
-        if (isSlotUsed === false){
+        if (this.isEmpty === true){
             
             const isCollidingWithMouse = mouse.isCollidingWithSlot(this);
             const isLeftClick          = mouse.leftClick;
@@ -48,7 +47,11 @@ export default class Slot{
                     break;
 
                 case SlotsState.SELECTED:
-                    
+
+                    if (isLeftClick){
+                        
+                        this.state = SlotsState.NOT_SELECTED;
+                    }
                     break;
             
                 default:
@@ -58,36 +61,21 @@ export default class Slot{
         }
     }
 
-    isSlotUsed(grid){
-
-        let result = false;
-
-        for (let i = 0; i < grid.slots.length; i++){
-
-            const slot =  grid.slots[i];
-
-            if (slot.isEmpty === false){
-
-                 result = true;
-                 return result;
-            }
-        }
-
-        return result;
-    }
-
     isSlotSelected(grid){
 
         let result = false;
-
+        
         for (let i = 0; i < grid.slots.length; i++){
 
-            const slot =  grid.slots[i];
+            for (let j = 0; j < grid.slots[0].length; j++){
 
-            if (slot.state === SlotsState.SELECTED){
+                const slot = grid.slots[i][j];
 
-                 result = true;
-                 return result;
+                if (slot.state === SlotsState.SELECTED){
+                    
+                    result = true;
+                    return result;
+                }
             }
         }
 

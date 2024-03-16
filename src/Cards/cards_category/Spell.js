@@ -10,6 +10,12 @@ export default class Spell extends Card{
         this.durability = durability;
         this.cooldown   = cooldown;
     }
-
+    update(mouse, decks){
+        super.update(mouse,decks);
+        this.spellLogic()
+    }
+    spellLogic(){
+        
+    }
 }
 

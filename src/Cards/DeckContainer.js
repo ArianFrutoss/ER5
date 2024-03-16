@@ -16,8 +16,7 @@ export default class DeckContainer {
             }
             this.assignCardsToDecks(initialDeck.cards)
     }
-
-    
+ 
     createInitDeck(data) {
         return Deck.createInitDeck(data)
 
@@ -74,5 +73,13 @@ export default class DeckContainer {
             
         }
 
+    }
+
+    updateDecks(mouse, decks = this.decks){
+        for (let i = 0; i < decks.length; i++) {
+            const deck = decks[i];
+            deck.update(mouse, decks)
+            
+        }
     }
 }

@@ -70,15 +70,7 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.updateGame();
-                for (let i = 0; i < this.deckContainer.decks.length; i++) {
-                    const deck = this.deckContainer.decks[i];
-                    for (let j = 0; j < deck.cards.length; j++) {
-                        const card = deck.cards[j];
-                        card.update(this.mouse,this.deckContainer.decks)
-                    }
-                    
-
-                }
+                this.deckContainer.updateDecks(this.mouse)
                 this.mouse.update()
                 break;
 

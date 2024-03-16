@@ -71,7 +71,7 @@ export default class Game {
             case GameState.PLAYING:
                 this.updateGame();
                 this.deckContainer.updateDecks(this.mouse)
-                this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID].update(this.mouse);
+                this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
                 this.mouse.update()
                 break;
 

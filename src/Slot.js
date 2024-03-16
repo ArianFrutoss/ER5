@@ -2,14 +2,14 @@ import { SlotsState } from "./constants.js";
 
 export default class Slot{
 
-    constructor(xPos, yPos, xSize, ySize, state, isEmpty){
+    constructor(xPos, yPos, xSize, ySize){
 
         this.xPos               = xPos;
         this.yPos               = yPos;
         this.xSize              = xSize;
         this.ySize              = ySize;
-        this.state              = state;
-        this.isEmpty            = isEmpty;
+        this.state              = SlotsState.NOT_SELECTED;
+        this.isEmpty            = true;
         this.card;
         this.grid;
     }
@@ -22,6 +22,7 @@ export default class Slot{
             
             const isCollidingWithMouse = mouse.isCollidingWithSlot(this);
             const isLeftClick          = mouse.leftClick;
+            const isLeftClickPrevious  = mouse.previousStateLeft;
     
             switch (this.state){
                 
@@ -40,15 +41,15 @@ export default class Slot{
                         this.state = SlotsState.NOT_SELECTED;
                     }
 
-                    else if (isLeftClick && isSlotSelected === false){
+                    else if (isLeftClick === false && isSlotSelected === false && isLeftClickPrevious){
                         
                         this.state = SlotsState.SELECTED;
                     }
                     break;
 
                 case SlotsState.SELECTED:
-
-                    if (isLeftClick){
+                    
+                    if (isLeftClick === false && isLeftClickPrevious && isCollidingWithMouse){
                         
                         this.state = SlotsState.NOT_SELECTED;
                     }

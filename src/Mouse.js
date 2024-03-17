@@ -53,8 +53,8 @@ export default class Mouse {
         //PREGUNTAR A OSCAR/ MIGUEL SOBRE EL CANVAS DE ESTA FUNCION
         // const canvas = document.getElementById('gameScreen');
         // Find the mouse's X and Y positions on the canvas
-        this.x = event.pageX - this.canvas.offsetLeft;
-        this.y = event.pageY - this.canvas.offsetTop;
+        this.x = Math.floor((event.pageX - this.canvas.offsetLeft) * (this.canvas.width / this.canvas.clientWidth));
+        this.y = Math.floor((event.pageY - this.canvas.offsetTop) * (this.canvas.height / this.canvas.clientHeight));
     }
 
     mouseDown(e) {
@@ -78,22 +78,21 @@ export default class Mouse {
         return false
     }
     
-    isCollidingWithSlot(grid){
+    isCollidingWithSlot(slot){
 
-        for (let i = 0; i < grid.slots.length; i++){
+        let result = false;
 
-            for (let j = 0; j < grid.slots[0].length; j++){
+        const slotFirstWidthPoint = slot.xPos;
+        const slotSecondWidthPoint = slot.xPos + slot.xSize;
+        const slotFirstHeigthPoint = slot.yPos;
+        const slotSecondHeigthPoint = slot.yPos + slot.ySize;
 
-                const slotFirstWidthPoint = grid.slots[i][j].xPos;
-                const slotSecondWidthPoint = grid.slots[i][j].xPos + grid.slots[i][j].xSize;
-                const slotFirstHeigthPoint = grid.slots[i][j].yPos;
-                const slotSecondHeigthPoint = grid.slots[i][j].yPos + grid.slots[i][j].ySize;
-
-                if (this.x > slotFirstWidthPoint && this.x < slotSecondWidthPoint && this.y > slotFirstHeigthPoint && this.y < slotSecondHeigthPoint){
-                    
-                    return true;
-                }
-            }
+        if (this.x > slotFirstWidthPoint && this.x < slotSecondWidthPoint && this.y > slotFirstHeigthPoint && this.y < slotSecondHeigthPoint){
+            
+            result = true;
+            return result;
         }
+
+        return result;
     }
 }

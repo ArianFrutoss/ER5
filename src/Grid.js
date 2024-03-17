@@ -46,7 +46,7 @@ export default class Grid{
                 let slotsYPos = gridYpos + slotsYsize * i;
 
                 // Crear Slots
-                const slots = new Slot(slotsXPos, slotsYPos, slotsXsize, slotsYsize, SlotsState.NOT_SELECTED, true);
+                const slots = new Slot(slotsXPos, slotsYPos, slotsXsize, slotsYsize);
 
                 slotsArray[i][j] = slots;
             }
@@ -54,5 +54,17 @@ export default class Grid{
         
         // Crear Grid
         return new Grid(gridXPos, gridYpos, id, rows, columns, slotsArray);
+    }
+
+    update(mouse){
+
+        for (let i = 0; i < this.slots.length; i++){
+
+            for (let j = 0; j < this.slots[0].length; j++){
+
+                const slot = this.slots[i][j];
+                slot.update(mouse, this);
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -75,6 +75,7 @@ export default class Game {
                 
                 this.deckContainer.updateDecks(this.mouse)
                 this.turnContainer.turnContainer[this.currentTurn].update()
+                this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
                 this.mouse.update()
                 break;
 
@@ -214,11 +215,28 @@ export default class Game {
 
                 for (let k = 0; k < columns; k++) {
 
+                    const slot = this.gridsArray.grids[i].slots[j][k];
+
                     // Posicion y tamaño de los Slots
-                    const slotsXPos = this.gridsArray.grids[i].slots[j][k].xPos;
-                    const slotsYPos = this.gridsArray.grids[i].slots[j][k].yPos;
-                    const slotsXSize = this.gridsArray.grids[i].slots[j][k].xSize - 2;
-                    const slotsYSize = this.gridsArray.grids[i].slots[j][k].ySize - 2;
+                    const slotsXPos = slot.xPos;
+                    const slotsYPos = slot.yPos;
+                    const slotsXSize = slot.xSize - 2;
+                    const slotsYSize = slot.ySize - 2;
+
+                    if (slot.state === SlotsState.SELECTED){
+                        
+                        this.ctx.fillStyle = "white"
+                    }
+
+                    else if (slot.state === SlotsState.HOVER){
+                        
+                        this.ctx.fillStyle = "purple"
+                    }
+
+                    else{
+                        
+                        this.ctx.fillStyle = "black"
+                    }
 
                     this.ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
                 }
@@ -410,11 +428,11 @@ export default class Game {
 
             for (let j = 0; j < grids.slots[0].length; j++) {
 
-                if (decks.cards[j]) {
+                if (decks.cards[j]){
+
                     decks.cards[j].xPos = grids.slots[i][j].xPos;
                     decks.cards[j].yPos = grids.slots[i][j].yPos;
-                    grids.slots[i][j].CardId = decks.cards[j].id;
-                    
+                    grids.slots[i][j].isEmpty = false;
                 }
             }
         }

@@ -1,4 +1,4 @@
-
+import { AttackEvent } from "../Events/phase_events/AttackEvent.js";
 import { CardId } from "../constants.js";
 export default class Card{
 
@@ -20,4 +20,26 @@ export default class Card{
   	
     }
     
+
+    update(boardGrid, enemyMinionDeck){
+
+        const state = this.state;
+
+        switch(state){
+
+            case CardId.NOT_SELECTED:
+                
+                break;
+            
+            case CardId.ATTACK:
+                
+                break;
+        }
+    }
+
+    Attack(boardGrid, enemyMinionDeck){
+        const attackEvent = new AttackEvent("minion1", enemyMinionDeck);
+        
+        attackEvent.execute();
+    }
 }

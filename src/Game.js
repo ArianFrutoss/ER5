@@ -8,7 +8,7 @@ import CardFactory from "./Cards/CardFactory.js";
 import DeckContainer from "./Cards/DeckContainer.js";
 import TurnContainer from "./Turns/TurnContainer.js";
 import Mouse from "./Mouse.js";
-import { canvasMousemoveHandler, mouseDown, mouseUp } from "./mouseEvent.js";
+import { AttackEvent } from "./Events/phase_events/AttackEvent.js";
 
 
 export default class Game {
@@ -44,8 +44,20 @@ export default class Game {
         
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
-        
+
+    
+        let minion1 = deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0];
+        let minion2 = deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards[0];
+        console.log(minion1.health);
+        console.log(minion2.health);
   
+        const attackEvent = new AttackEvent(minion1, minion2);
+        attackEvent.execute();
+        
+        console.log(minion1.health);
+        console.log(minion2.health);
+ 
+
         
         turns.CreateTurns();
         console.log(turns.turnContainer);

@@ -34,6 +34,11 @@ export const TurnStates = {
     INVALID:        3,
 }
 
+export const CardActions = {
+    NOT_ACTIVE:    -1,
+    COOLDOWN:       0,
+}
+
 export const CardId = {
     BIG_SIZE:       0,
     SMALL_SIZE:     1,
@@ -43,7 +48,9 @@ export const CardId = {
     NOT_ACTIVE:     5,
     ALIVE:          6,
     DEAD:           7,
-    STUNNED:        8
+    STUNNED:        8,
+    ATTACK:         9,
+    MOVING:         10
 }
 
 export const GridId = {

@@ -134,8 +134,8 @@ export default class CardFactory {
         }
     }
     createMinion(id, name, description, image, rarity, type, xPos, yPos, attributes) {
-        let equipedWeapon = [0];
-        let equipedArmor = [0];
+        let equipedWeapon = [];
+        let equipedArmor = [];
 
         attributes = this.setAttributeValues(attributes)
         let attack  = attributes[IconsId.DAMAGE]

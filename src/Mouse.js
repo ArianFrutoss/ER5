@@ -53,8 +53,8 @@ export default class Mouse {
         //PREGUNTAR A OSCAR/ MIGUEL SOBRE EL CANVAS DE ESTA FUNCION
         // const canvas = document.getElementById('gameScreen');
         // Find the mouse's X and Y positions on the canvas
-        this.x = event.pageX - this.canvas.offsetLeft;
-        this.y = event.pageY - this.canvas.offsetTop;
+        this.x = Math.floor((event.pageX - this.canvas.offsetLeft) * (this.canvas.width / this.canvas.clientWidth));
+        this.y = Math.floor((event.pageY - this.canvas.offsetTop) * (this.canvas.height / this.canvas.clientHeight));
     }
 
     mouseDown(e) {

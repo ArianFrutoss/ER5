@@ -14,16 +14,9 @@ export const GameState = {
     INVALID:        8
 }
 
-export const Turn = {
+export const TurnId = {
     PLAYER_1:               0,
     PLAYER_2:               1,
-    PHASE_DISCARD_CARD:     2,
-    PHASE_DRAW_CARD:        3,
-    PHASE_MOVEMENT:         4,
-    PHASE_ATTACK:           5,
-    PHASE_PREPARE_EVENT:    6,
-    PHASE_USE_EVENT_CARD:   7,
-    PHASE_DEFAULT:          8
 }
 
 export const TurnStates = {
@@ -32,6 +25,16 @@ export const TurnStates = {
     EXECUTION:      1,
     END:            2,
     INVALID:        3,
+}
+    
+export const PhaseStates = {
+    DEFAULT:                0,
+    DISCARD_CARD:           1,
+    DRAW_CARD:              2,
+    MOVEMENT:               3,
+    PREPARE_EVENT:          4,
+    USE_EVENT_CARD:         5,
+    ATTACK:                 6,
 }
 
 export const CardActions = {
@@ -45,12 +48,11 @@ export const CardId = {
     NOT_SELECTED:   2,
     SELECTED:       3,
     HOVER:          4,
-    NOT_ACTIVE:     5,
-    ALIVE:          6,
-    DEAD:           7,
-    STUNNED:        8,
-    ATTACK:         9,
-    MOVING:         10
+    SCALED:         5,
+    NOT_ACTIVE:     6,
+    ALIVE:          7,
+    DEAD:           8,
+    STUNNED:        9
 }
 
 export const GridId = {

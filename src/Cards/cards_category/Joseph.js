@@ -9,5 +9,11 @@ export default class Joseph extends Card{
         this.effect = effect; // efecto carta joseph
         
     }
-
+    update(mouse, decks){
+        super.update(mouse,decks);
+        this.josephLogic()
+    }
+    josephLogic(){
+        
+    }
 }

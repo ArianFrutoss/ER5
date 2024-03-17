@@ -1,4 +1,4 @@
-import { CardId } from "../../constants.js";
+import { CardActions, CardId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Weapon extends Card{
@@ -14,5 +14,20 @@ export default class Weapon extends Card{
         this.speed          = speed;
         this.durability     = durability;
         this.cooldown       = cooldown;
+        this.action         = CardActions.NOT_ACTIVE      
+    }
+    update(mouse, decks){
+        super.update(mouse,decks);
+        this.weaponLogic()
+    }
+    weaponLogic(){
+        switch (this.action) {
+            case CardActions.COOLDOWN:
+                
+                break;
+        
+            default:
+                break;
+        }
     }
 }

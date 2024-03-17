@@ -14,6 +14,12 @@ export default class Minion extends Card{
         this.equipedWeapon = equipedWeapon;
         this.equipedArmor  = equipedArmor;
     }
-    
+    update(mouse, decks){
+        super.update(mouse,decks);
+        this.minionLogic()
+    }
+    minionLogic(){
+        
+    }
 }
 

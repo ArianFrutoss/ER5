@@ -13,4 +13,32 @@ export default class Deck {
 
         return new Deck (DecksId.INITIAL_DECK, cardFact.cards)
     }
+    update(mouse, decks){
+        for (let i = 0; i < this.cards.length; i++) {
+            const card = this.cards[i];
+            card.update(mouse, decks)
+            
+        }
+    }
+    
+    isAnyCard(decks,state){
+        
+        let result = []
+        const quantity = decks.length === undefined ? 1 : decks.length
+        for (let i = 0; i < quantity; i++) {
+            
+            const deck = quantity === 1 ? decks : decks[i];
+            for (let j = 0; j < deck.cards.length; j++) {
+                const card = deck.cards[j];
+                result[0] = card.state === state ? true : false
+                result[1] = j
+                if (result[0] === true) {
+                    return result
+                    
+                }
+            }            
+        }
+        return result
+    }
+    
 }

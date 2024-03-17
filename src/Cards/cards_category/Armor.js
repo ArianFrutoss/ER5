@@ -12,7 +12,13 @@ export default class Armor extends Card{
             this.durability = durability;
             this.cooldown   = cooldown;
     }
-
+    update(mouse, decks){
+        super.update(mouse,decks);
+        this.armorLogic()
+    }
+    armorLogic(){
+        
+    }
 }        
 
 

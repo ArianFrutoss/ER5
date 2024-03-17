@@ -52,7 +52,8 @@ export const CardId = {
     NOT_ACTIVE:     6,
     ALIVE:          7,
     DEAD:           8,
-    STUNNED:        9
+    STUNNED:        9,
+    ATTACK:         10
 }
 
 export const GridId = {

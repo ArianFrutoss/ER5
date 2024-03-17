@@ -47,15 +47,18 @@ export default class Game {
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
 
-    
+        
         let minion1 = deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0];
         let minion2 = deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards[0];
         console.log(minion1.health);
         console.log(minion2.health);
-  
+        
+        console.log(board);
+
+
         const firstTurn = Math.floor(Math.random()*2)
         turns.CreateTurns(mouse);
-        console.log();
+
         console.log(turns.turnContainer);
  
         // turns.turnContainer[0].showPlayerData();
@@ -65,7 +68,6 @@ export default class Game {
     }
 
     update() {
-
         switch (this.gameState) {
 
             case GameState.LOAD_GAME:
@@ -85,6 +87,7 @@ export default class Game {
                 
                 this.deckContainer.updateDecks(this.mouse)
                 this.turnContainer.turnContainer[this.currentTurn].update()
+              
                 this.updateAllGrids()
                 // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
                 this.mouse.update()

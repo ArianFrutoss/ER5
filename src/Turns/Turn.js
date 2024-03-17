@@ -1,4 +1,5 @@
-import { DecksId, GridId, PhaseStates, TurnStates } from "../constants.js";
+import { BoardId, DecksId, GridId, PhaseStates, TurnStates } from "../constants.js";
+import MinionMovementPhase from "./turn_phases/MinionMovementPhase.js";
 import Phase from "./turn_phases/Phase.js"; 
 import PrepareEventPhase from "./turn_phases/PrepareEventPhase.js";
 
@@ -39,11 +40,13 @@ export default class Turn {
             const enemyHandGrid             = turnCounter === 0 ? grids[GridId.PLAYER_2_HAND_GRID]              : grids[GridId.PLAYER_1_HAND_GRID]
             const eventDeck                 = decks[DecksId.EVENT_DECK]
             const graveYardDeck             = decks[DecksId.GRAVEYARD_DECK]
+            const boardGrid                 = grids[GridId.BOARD_GRID];
 
+           
             const defaultPhase          = "defaultPhase";
             const discardPhase          = "discardPhase";
             const drawCardPhase         = "drawCardPhase";
-            const minionMovementPhase   = "minionMovementPhase";
+            const minionMovementPhase   = new MinionMovementPhase(boardGrid, mouse);
             const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid);
             const useEventPhase         = "UseEventPhase";
     
@@ -89,8 +92,12 @@ export default class Turn {
             case PhaseStates.PREPARE_EVENT:
                 this.phasesArray[PhaseStates.PREPARE_EVENT].execute()
                 break;
-        
+            
+            case PhaseStates.ATTACK:
+                this.phasesArray[PhaseStates.ATTACK].execute();
+                break;    
             default:
+
                 break;
         }
     }

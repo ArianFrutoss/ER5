@@ -19,7 +19,7 @@ export default class Minion extends Card{
         this.minionLogic()
     }
     minionLogic(){
-        console.log("soy Un Minion");
+        
     }
 }
 

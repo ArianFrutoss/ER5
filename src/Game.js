@@ -13,9 +13,9 @@ import { canvasMousemoveHandler, mouseDown, mouseUp } from "./mouseEvent.js";
 
 export default class Game {
 
-    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity,canvas, ctx, mouse) {
+    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity,canvas, ctx, mouse, firstTurn) {
 
-        this.turnArray = turnArray;
+        this.turnContainer = turnArray;
         this.handsArray = handsArray;
         this.images = images
         this.language = LanguageId.ENG
@@ -30,6 +30,7 @@ export default class Game {
         this.canvas = canvas;
         this.ctx = ctx
         this.mouse = mouse;
+        this.currentTurn = firstTurn
         
     }
 
@@ -47,14 +48,15 @@ export default class Game {
         mouse.assignAddEventListeners();
         
   
-        
-        turns.CreateTurns();
+        const firstTurn = Math.floor(Math.random()*2)
+        turns.CreateTurns(mouse);
+        console.log();
         console.log(turns.turnContainer);
  
         // turns.turnContainer[0].showPlayerData();
         // turns.turnContainer[1].showPlayerData();
 
-        return new Game(turns, null, assets, null, null, deckContainer, board, null, null, canvas, ctx, mouse);
+        return new Game(turns, null, assets, null, null, deckContainer, board, null, null, canvas, ctx, mouse, firstTurn);
     }
 
     update() {
@@ -70,7 +72,9 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.updateGame();
+                
                 this.deckContainer.updateDecks(this.mouse)
+                this.turnContainer.turnContainer[this.currentTurn].update()
                 this.mouse.update()
                 break;
 
@@ -223,15 +227,19 @@ export default class Game {
     }
 
     drawAllCards() {
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this.deckContainer.decks.length; i++) {
             const deck = this.deckContainer.decks[i];
-            for (let j = 0; j < deck.cards.length; j++) {
-                const card = deck.cards[j];
-
-                this.drawCard(this.images.images, card, card.xPos , card.yPos )
+            if (i===6) {
+                for (let j = 0; j < deck.cards.length; j++) {
+                    const card = deck.cards[j];
+                    console.log(card);
+                    this.drawCard(this.images.images, card, card.xPos , card.yPos )
+                }
+                
             }
 
         }
+
     }
 
     drawCard(images, card, xPos, yPos) {

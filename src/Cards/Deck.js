@@ -20,4 +20,25 @@ export default class Deck {
             
         }
     }
+    
+    isAnyCard(decks,state){
+        
+        let result = []
+        const quantity = decks.length === undefined ? 1 : decks.length
+        for (let i = 0; i < quantity; i++) {
+            
+            const deck = quantity === 1 ? decks : decks[i];
+            for (let j = 0; j < deck.cards.length; j++) {
+                const card = deck.cards[j];
+                result[0] = card.state === state ? true : false
+                result[1] = j
+                if (result[0] === true) {
+                    return result
+                    
+                }
+            }            
+        }
+        return result
+    }
+    
 }

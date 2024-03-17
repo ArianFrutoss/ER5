@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -84,7 +84,7 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.updateGame();
-                
+
                 this.deckContainer.updateDecks(this.mouse)
                 this.turnContainer.turnContainer[this.currentTurn].update()
               
@@ -220,6 +220,19 @@ export default class Game {
 
             image, xPos, yPos
         )
+
+        //Hero Render
+        
+        const hero = this.turnContainer.turnContainer[this.currentTurn].mainCharacter
+        const enemyTurn = (this.currentTurn+1) % 2
+        const enemy = this.turnContainer.turnContainer[enemyTurn].mainCharacter
+
+        this.drawCard(images, hero, IconsPos.PLAYER_X[TurnId.PLAYER_1], IconsPos.PLAYER_Y[TurnId.PLAYER_1])
+        this.ctx.fillText(hero.name[this.language],IconsPos.PLAYER_NAME_X[TurnId.PLAYER_1], IconsPos.PLAYER_NAME_Y[TurnId.PLAYER_1])
+
+        this.drawCard(images, enemy, IconsPos.PLAYER_X[TurnId.PLAYER_2], IconsPos.PLAYER_Y[TurnId.PLAYER_2])
+        this.ctx.fillText(enemy.name[this.language],IconsPos.PLAYER_NAME_X[TurnId.PLAYER_2], IconsPos.PLAYER_NAME_Y[TurnId.PLAYER_2])
+
     }
 
     renderGrids() {

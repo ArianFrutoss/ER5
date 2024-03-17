@@ -181,4 +181,8 @@ export const IconsPos = {
     WEAPON_Y:[15,],
     ARMOR_X:[191,],
     ARMOR_Y:[15,],
+    PLAYER_X:[10,170],
+    PLAYER_Y:[700,215],
+    PLAYER_NAME_X: [140,30],
+    PLAYER_NAME_Y: [790,300],
 }

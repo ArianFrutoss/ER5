@@ -6,7 +6,7 @@ import MainCharacter from "./cards_category/MainCharacter.js";
 import Minion from "./cards_category/Minion.js";
 import Spell from "./cards_category/Spell.js";
 import Weapon from "./cards_category/Weapon.js";
-import { IconsId, TypeId } from "../constants.js";
+import { CardId, IconsId, TypeId } from "../constants.js";
 
 
 export default class CardFactory {
@@ -71,6 +71,7 @@ export default class CardFactory {
                 case "Hero_card":
                     for (let i = 0; i < quantity; i++) {
                         card = this.createMainCharacter(id, name, description, image, rarity, TypeId.HERO, type, xPos, yPos, effects)
+                        card.size = CardId.SMALL_SIZE
                         this.cards.push(card)
                     }
                     break;

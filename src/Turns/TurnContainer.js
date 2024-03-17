@@ -34,8 +34,6 @@ export default class TurnContainer {
             hero2 = this.selectRandomHero(this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK].cards);
         } while (hero1 === hero2);
 
-        console.log(hero1)
-        console.log(hero2)
         const player1HandDeck           = this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK];
         const player2HandDeck           = this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK];
         const player1MinionDeck         = this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK];

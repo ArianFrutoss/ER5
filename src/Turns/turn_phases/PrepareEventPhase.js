@@ -1,4 +1,4 @@
-import { CardId } from "../../constants.js";
+import { CardId, SlotsState } from "../../constants.js";
 import Phase from "./Phase.js";
 
 export default class PrepareEventPhase extends Phase{
@@ -15,23 +15,40 @@ export default class PrepareEventPhase extends Phase{
         
         const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)
 
-        const isAnyGridSelected = true
-        if (isAnyCardSelected[0] && isAnyGridSelected) {
-            const deckLength = this.activeEventDeck.cards.lenght === undefined ? 0 : this.activeEventDeck.cards.lenght
-            console.log("entro", this.activeEventDeck, );
+        const isAnyGridSelected = this.isGridSelected(this.activeEventGrid)
+        if (isAnyCardSelected[0] && isAnyGridSelected[0]) {
+
+            const deckLength = this.activeEventDeck.cards.length 
             
             const position = isAnyCardSelected[1]
             if (deckLength < 5) {
                 const card = this.handDeck.cards[position]
                 this.handDeck.cards.splice(position, 1)
-                console.log("llego aqui");
                 this.activeEventDeck.cards.push(card)
                 const gridY = Math.floor(deckLength/3)
                 const gridX = Math.floor(deckLength%3)
-                card.xPos =  this.activeEventGrid.slots[gridY][gridX].xPos
-                card.yPos =  this.activeEventGrid.slots[gridY][gridX].yPos
+                const slot = isAnyGridSelected[1]
+                card.xPos =  slot.xPos
+                card.yPos =  slot.yPos
+                card.state = CardId.NOT_SELECTED
+                card.size = CardId.SMALL_SIZE
+                slot.state = SlotsState.NOT_SELECTED
             }
             
         }
+    }
+    isGridSelected(grid){
+        for (let i = 0; i < grid.slots.length; i++) {
+            const slotArray = grid.slots[i];
+            for (let j = 0; j < slotArray.length; j++) {
+                const slot = slotArray[j];
+                if (slot.state === SlotsState.SELECTED) {
+                    return [true, slot]
+                }
+                
+            }
+            
+        }
+        return [false]
     }
 }

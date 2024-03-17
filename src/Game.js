@@ -64,7 +64,12 @@ export default class Game {
         switch (this.gameState) {
 
             case GameState.LOAD_GAME:
+                for (let i = 0; i < 2; i++) {
+                    this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK+i].cards);                      
+                }
+
                 if (this.images.isLoaded) {
+                    
                     this.gameState = GameState.PLAYING
                 }
                 
@@ -75,7 +80,8 @@ export default class Game {
                 
                 this.deckContainer.updateDecks(this.mouse)
                 this.turnContainer.turnContainer[this.currentTurn].update()
-                this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
+                this.updateAllGrids()
+                // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
                 this.mouse.update()
                 break;
 
@@ -111,6 +117,14 @@ export default class Game {
         }
     }
 
+    updateAllGrids(){
+        for (let i = 0; i < this.gridsArray.grids.length; i++) {
+            const grid = this.gridsArray.grids[i];
+            // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
+            grid.update(this.mouse)
+            
+        }
+    }
     drawGame() {
         const images = this.images.images
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -247,10 +261,9 @@ export default class Game {
     drawAllCards() {
         for (let i = 0; i < this.deckContainer.decks.length; i++) {
             const deck = this.deckContainer.decks[i];
-            if (i===6) {
+            if (i < 4 || i===6) {
                 for (let j = 0; j < deck.cards.length; j++) {
                     const card = deck.cards[j];
-                    console.log(card);
                     this.drawCard(this.images.images, card, card.xPos , card.yPos )
                 }
                 
@@ -366,11 +379,7 @@ export default class Game {
 
     }
 
-    updateGame() {
-
-        // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
-        this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK].cards, this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK].cards);
-
+    updateGame() {                      
         // Funcion que Spawnea los Minions en el tablero
         this.assignMinionsToBoard(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
         
@@ -381,21 +390,15 @@ export default class Game {
         //this.updateTurns(); ---> test de cambio de turnos
     }
 
-    assignCardsToHand(eventDeck, player1HandDeck, player2HandDeck) {
-
-        for (let i = player1HandDeck.length; i < 5; i++) {
-
-            player1HandDeck.push(eventDeck.cards[eventDeck.cards.length - 1]);
+    // Funcion que roba las Cards del EventDeck y las asigna al HandDeck              
+    assignCardsToHand(eventDeck, handDeck) {
+        
+        for (let i = handDeck.length; i < 5; i++) {
+            handDeck.push(eventDeck.cards[eventDeck.cards.length - 1]);
             eventDeck.cards.pop();
-            break;
+
         }
 
-        for (let i = player2HandDeck.length; i < 5; i++) {
-
-            player2HandDeck.push(eventDeck.cards[eventDeck.cards.length - 1]);
-            eventDeck.cards.pop();
-            break;
-        }
     }
 
     assignMinionsToBoard(player1MinionDeck, player2MinionDeck, boardGrid) {

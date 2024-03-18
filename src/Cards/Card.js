@@ -39,7 +39,6 @@ export default class Card{
     
                     case CardId.HOVER:
                         this.state = isCollidingWithMouse   ? this.state = CardId.HOVER : CardId.NOT_SELECTED
-                        
                         this.state =
                             !mouse.leftClick    && !isAnyCardSelected && mouse.previousStateLeft      ? CardId.SELECTED           : 
                             !mouse.rightClick   && mouse.previousStateRight                           ? CardId.SCALED             : this.state

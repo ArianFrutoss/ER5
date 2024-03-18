@@ -434,8 +434,8 @@ export default class Game {
                 
                 if (minionDeck.cards[j].name[LanguageId.ENG] === "Villager"){
 
-                    activeMinionDeck.push(minionDeck.cards[minionDeck.cards.length - 1]);
-                    minionDeck.cards.pop();
+                    activeMinionDeck.push(minionDeck.cards[j]);
+                    minionDeck.cards.splice(minionDeck.cards[j], 1);
                     break;
                 }
             }

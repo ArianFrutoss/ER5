@@ -88,7 +88,7 @@ export default class Turn {
     }
 
     execute(){
-        console.log(this.phaseState);
+        //console.log(this.phaseState);
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
                 this.phasesArray[PhaseStates.PREPARE_EVENT].execute()

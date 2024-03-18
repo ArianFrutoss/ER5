@@ -1,7 +1,7 @@
 
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { MovePhaseStates, PhaseStates, SlotsState } from "../../constants.js";
+import { CardId, MovePhaseStates, SlotsState } from "../../constants.js";
 
 export default class MinionMovementPhase extends Phase{
 
@@ -13,8 +13,10 @@ export default class MinionMovementPhase extends Phase{
     }
 
     
-    attack(attacker, objective){
-
+    attack(){
+        const attacker  = this.selectAttacker(this.boardGrid);
+        const objective = this.selectObjective(this.boardGrid);
+      
         if(attacker != null && objective != null){
 
           
@@ -33,9 +35,9 @@ export default class MinionMovementPhase extends Phase{
             const slotArray = grid.slots[i];
             for (let j = 0; j < slotArray.length; j++) {
                 const slot = slotArray[j];
-                if (slot.state === SlotsState.SELECTED && slot.card){
+         
+                if (slot.state === SlotsState.HOVER && this.mouse.leftClick){
 
-                    this.state = MovePhaseStates.SELECT_OBJECTIVE;
                     return slot.card;
                 }
             }
@@ -48,9 +50,9 @@ export default class MinionMovementPhase extends Phase{
             const slotArray = grid.slots[i];
             for (let j = 0; j < slotArray.length; j++) {
                 const slot = slotArray[j];
-                if (slot.state === SlotsState.SELECTED && slot.card) {
+                if (this.mouse.leftClick) {
 
-                    this.state = MovePhaseStates.ATTACK;
+  
                     return slot.card;
                 }
             }
@@ -72,18 +74,7 @@ export default class MinionMovementPhase extends Phase{
             
             case MovePhaseStates.ATTACK:
                 // Añadir logica para ataque
-                const attacker = this.selectAttacker(this.boardGrid);
-                const objective = this.selectObjective(this.boardGrid);
-
-                this.attack(attacker, objective);
-                break;
-
-            case MovePhaseStates.SELECT_ATTACKER:
-                this.selectAttacker();
-                break;
-
-            case MovePhaseStates.SELECT_OBJECTIVE:
-                this.selectObjective();
+                this.attack();
                 break;
         }
     }

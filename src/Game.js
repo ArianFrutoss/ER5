@@ -66,8 +66,9 @@ export default class Game {
             case GameState.LOAD_GAME:
                 for (let i = 0; i < 2; i++) {
                     this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK+i].cards);                      
+                    this.turnContainer.turnContainer[i].mainCharacter.xPos = IconsPos.PLAYER_X[i]
+                    this.turnContainer.turnContainer[i].mainCharacter.yPos = IconsPos.PLAYER_Y[i]
                 }
-
                 if (this.images.isLoaded) {
                     
                     this.gameState = GameState.PLAYING
@@ -138,8 +139,8 @@ export default class Game {
         // Funcion para renderizar los Grids
         this.renderGrids();
 
-        // Funcion para renderizar las Cards
-        // this.drawCard(this.images, this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0])
+        this.renderHeroes()
+
     }
 
     renderBoard(images) {
@@ -214,20 +215,24 @@ export default class Game {
             image, xPos, yPos
         )
 
-        //Hero Render
-        
-        const hero = this.turnContainer.turnContainer[this.currentTurn].mainCharacter
-        const enemyTurn = (this.currentTurn+1) % 2
-        const enemy = this.turnContainer.turnContainer[enemyTurn].mainCharacter
 
-        this.drawCard(images, hero, IconsPos.PLAYER_X[TurnId.PLAYER_1], IconsPos.PLAYER_Y[TurnId.PLAYER_1])
-        this.ctx.fillText(hero.name[this.language],IconsPos.PLAYER_NAME_X[TurnId.PLAYER_1], IconsPos.PLAYER_NAME_Y[TurnId.PLAYER_1])
-
-        this.drawCard(images, enemy, IconsPos.PLAYER_X[TurnId.PLAYER_2], IconsPos.PLAYER_Y[TurnId.PLAYER_2])
-        this.ctx.fillText(enemy.name[this.language],IconsPos.PLAYER_NAME_X[TurnId.PLAYER_2], IconsPos.PLAYER_NAME_Y[TurnId.PLAYER_2])
 
     }
 
+    renderHeroes(){
+        
+        //Hero Render
+        const hero = this.turnContainer.turnContainer[this.currentTurn].mainCharacter
+        const enemyTurn = (this.currentTurn+1) % 2
+        const enemy = this.turnContainer.turnContainer[enemyTurn].mainCharacter
+        const images = this.images.images
+        this.drawCard(images, hero, IconsPos.PLAYER_X[this.currentTurn], IconsPos.PLAYER_Y[this.currentTurn])
+        this.ctx.fillText(hero.name[this.language],IconsPos.PLAYER_NAME_X[this.currentTurn], IconsPos.PLAYER_NAME_Y[this.currentTurn])
+
+        this.drawCard(images, enemy, IconsPos.PLAYER_X[(this.currentTurn+1)%2], IconsPos.PLAYER_Y[(this.currentTurn+1)%2])
+        this.ctx.fillText(enemy.name[this.language],IconsPos.PLAYER_NAME_X[(this.currentTurn+1)%2], IconsPos.PLAYER_NAME_Y[(this.currentTurn+1)%2])
+
+    }
     renderGrids() {
 
         // Cantidad de Grids que se van a renderizar
@@ -393,9 +398,16 @@ export default class Game {
 
     }
 
-    updateGame() {                      
+    updateGame() {
+
+        // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
+        this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK].cards, this.deckContainer.decks[DecksId.PLAYER_2_HAND_DECK].cards);
+
+        this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards);
+        this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards);
+
         // Funcion que Spawnea los Minions en el tablero
-        this.assignMinionsToBoard(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
+        this.assignMinionsToBoardGrid(this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
         
         // Funcion que posiciona las Cards en la posicion de los Slots
         this.assignCardsToGrids(this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK], this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID]);
@@ -414,27 +426,46 @@ export default class Game {
         }
 
     }
-
-    assignMinionsToBoard(player1MinionDeck, player2MinionDeck, boardGrid) {
-        const decks = [player1MinionDeck, player2MinionDeck]
-        let counter = 0
-        for (let i = 0; i < decks.length; i++) {
-            counter = 0
-            const boardPos = i === 0 ? 0 : 4
-            for (let j = 0; j < decks[i].cards.length; j++){
-                if (decks[i].cards[j] != undefined) {
-                    const card = decks[i].cards[j]
-                    if (card.name[LanguageId.ENG] === "Villager"){
-
-                        card.xPos = boardGrid.slots[boardPos][2 + counter].xPos;
-                        card.yPos = boardGrid.slots[boardPos][2 + counter].yPos;
-                        card.size = BorderId.SMALL_SIZE
-                        boardGrid.slots[boardPos][2 + counter].CardId   = card.xPos;
-                        boardGrid.slots[boardPos][2 + counter].card     = card;       // M: asigno la carta al slot
-                        counter++
-
     
-                    }
+    assignMinionsToActiveMinionsDeck(minionDeck, activeMinionDeck) {
+
+        for (let i = activeMinionDeck.length; i < 3; i++) {
+            
+            for (let j = 0; j < minionDeck.cards.length; j++){
+                
+                if (minionDeck.cards[j].name[LanguageId.ENG] === "Villager"){
+
+                    activeMinionDeck.push(minionDeck.cards[j]);
+                    minionDeck.cards.splice(minionDeck.cards[j], 1);
+                    break;
+                }
+            }
+        }
+    }
+
+    assignMinionsToBoardGrid(player1ActiveMinionDeck, player2ActiveMinionDeck, boardGrid) {
+        
+        const decks = [player1ActiveMinionDeck, player2ActiveMinionDeck];
+
+        let counter = 0;
+
+        for (let i = 0; i < decks.length; i++) {
+
+            counter = 0;
+
+            const boardPos = i === 0 ? 0 : 4;
+
+            for (let j = 0; j < decks[i].cards.length; j++){
+
+                if (decks[i].cards[j] != undefined) {
+                    
+                    const card = decks[i].cards[j];
+                    
+                    card.xPos = boardGrid.slots[boardPos][2 + counter].xPos;
+                    card.yPos = boardGrid.slots[boardPos][2 + counter].yPos;
+                    card.size = BorderId.SMALL_SIZE;
+                    boardGrid.slots[boardPos][2 + counter].isEmpty = false;
+                    counter++;
                 }
             }
         }

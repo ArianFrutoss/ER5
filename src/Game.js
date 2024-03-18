@@ -80,6 +80,8 @@ export default class Game {
                 this.updateGame();
 
                 this.deckContainer.updateDecks(this.mouse)
+                this.turnContainer.turnContainer[this.currentTurn].mainCharacter.update(this.mouse, this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK])
+                this.turnContainer.turnContainer[(this.currentTurn+1)%2].mainCharacter.update(this.mouse, this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK])
                 this.turnContainer.turnContainer[this.currentTurn].update()
                 this.updateAllGrids()
                 // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
@@ -277,13 +279,13 @@ export default class Game {
     }
 
     drawAllCards() {
-        for (let i = 0; i < this.deckContainer.decks.length; i++) {
+        for (let i = 2; i < 8; i++) {
             const deck = this.deckContainer.decks[i];
-            if (i < 4 || i===6) {
+            
                 for (let j = 0; j < deck.cards.length; j++) {
                     const card = deck.cards[j];
                     this.drawCard(this.images.images, card, card.xPos , card.yPos )
-                }
+            
                 
             }
 

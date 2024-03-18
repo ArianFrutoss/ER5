@@ -463,7 +463,6 @@ export default class Game {
                     card.xPos = boardGrid.slots[boardPos][2 + counter].xPos;
                     card.yPos = boardGrid.slots[boardPos][2 + counter].yPos;
                     card.size = BorderId.SMALL_SIZE;
-                    boardGrid.slots[boardPos][2 + counter].isEmpty = false;
                     counter++;
                 }
             }

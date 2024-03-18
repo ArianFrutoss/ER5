@@ -86,19 +86,14 @@ export default class Slot{
     
     isSlotUsed(deck){
 
-        let result = false;
-        console.log(deck.cards.length);
         for (let i = 0; i < deck.cards.length; i++){
 
-            const slot = grid.slots[i][j];
+            const card = deck.cards[i];
 
-            if (slot.state === SlotsState.SELECTED){
+            if (card.xPos === this.xPos){
                 
-                result = true;
-                return result;
+                this.isEmpty = false;
             }
         }
-
-        return result;
     }
 }

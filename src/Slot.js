@@ -14,9 +14,10 @@ export default class Slot{
         this.grid;
     }
 
-    update(mouse, grid){
+    update(mouse, grid, deck){
 
         const isSlotSelected = this.isSlotSelected(grid);
+        const isSlotUsed = this.isSlotUsed(deck);
         
         if (this.isEmpty === true){
             
@@ -77,6 +78,24 @@ export default class Slot{
                     result = true;
                     return result;
                 }
+            }
+        }
+
+        return result;
+    }
+    
+    isSlotUsed(deck){
+
+        let result = false;
+        console.log(deck.cards.length);
+        for (let i = 0; i < deck.cards.length; i++){
+
+            const slot = grid.slots[i][j];
+
+            if (slot.state === SlotsState.SELECTED){
+                
+                result = true;
+                return result;
             }
         }
 

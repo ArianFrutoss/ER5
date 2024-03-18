@@ -124,7 +124,7 @@ export default class Game {
         for (let i = 0; i < this.gridsArray.grids.length; i++) {
             const grid = this.gridsArray.grids[i];
             // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
-            grid.update(this.mouse)
+            grid.update(this.mouse, this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK])
             
         }
     }

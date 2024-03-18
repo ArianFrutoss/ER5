@@ -1,6 +1,7 @@
 import { DecksId, GridId, PhaseStates, TurnStates } from "../constants.js";
 import Phase from "./turn_phases/Phase.js"; 
 import PrepareEventPhase from "./turn_phases/PrepareEventPhase.js";
+import UseEventPhase from "./turn_phases/UseEventPhase.js";
 
 export default class Turn {
 
@@ -33,19 +34,22 @@ export default class Turn {
             const enemyActiveMinionDeck     = turnCounter === 0 ? decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK]    : decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK]
             const minionDeck                = turnCounter === 0 ? decks[DecksId.PLAYER_1_MINION_DECK]           : decks[DecksId.PLAYER_2_MINION_DECK]
             const enemyMinionDeck           = turnCounter === 0 ? decks[DecksId.PLAYER_2_MINION_DECK]           : decks[DecksId.PLAYER_1_MINION_DECK]
-            const activeEventDeck           = turnCounter === 0 ? decks[DecksId.PLAYER_1_PREPARING_EVENT_DECK]  : decks[DecksId.PLAYER_1_PREPARING_EVENT_DECK]
+            const eventDeck                 = decks[DecksId.EVENT_DECK]
+            const graveYardDeck             = decks[DecksId.GRAVEYARD_DECK]
+
+            const boardGrid                 = grids[GridId.BOARD_GRID]
+            const activeEventDeck           = turnCounter === 0 ? decks[DecksId.PLAYER_1_PREPARING_EVENT_DECK]  : decks[DecksId.PLAYER_2_PREPARING_EVENT_DECK]
             const activeEventGrid           = turnCounter === 0 ? grids[GridId.PLAYER_1_EVENT_GRID]             : grids[GridId.PLAYER_2_EVENT_GRID]
             const handGrid                  = turnCounter === 0 ? grids[GridId.PLAYER_1_HAND_GRID]              : grids[GridId.PLAYER_2_HAND_GRID]
             const enemyHandGrid             = turnCounter === 0 ? grids[GridId.PLAYER_2_HAND_GRID]              : grids[GridId.PLAYER_1_HAND_GRID]
-            const eventDeck                 = decks[DecksId.EVENT_DECK]
-            const graveYardDeck             = decks[DecksId.GRAVEYARD_DECK]
+
 
             const defaultPhase          = "defaultPhase";
             const discardPhase          = "discardPhase";
             const drawCardPhase         = "drawCardPhase";
             const minionMovementPhase   = "minionMovementPhase";
             const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid);
-            const useEventPhase         = "UseEventPhase";
+            const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck)
     
             const phasesArray = [defaultPhase, discardPhase, drawCardPhase, minionMovementPhase, prepareEventPhase, useEventPhase];
     
@@ -57,7 +61,7 @@ export default class Turn {
     //     console.log(this.mainCharacter.image);
     // }
 
-    update(){
+    update(mouse){
         
         switch(this.state){
 
@@ -70,7 +74,7 @@ export default class Turn {
             
             case TurnStates.EXECUTION:
                 
-                this.execute();
+                this.execute(mouse);
                 break;
 
             case TurnStates.END:
@@ -84,10 +88,20 @@ export default class Turn {
         this.active = true;
     }
 
-    execute(){
+    execute(mouse){
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
-                this.phasesArray[PhaseStates.PREPARE_EVENT].execute()
+                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute()
+                if (isPreparationFinished) {
+                    this.phaseState = PhaseStates.USE_EVENT_CARD
+                }
+                break;
+
+            case PhaseStates.USE_EVENT_CARD:
+                const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse)
+                if (isUsageFinished) {
+                    // this.phaseState = PhaseStates.USE_EVENT_CARD
+                }
                 break;
         
             default:

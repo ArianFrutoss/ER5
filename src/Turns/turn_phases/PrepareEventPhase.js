@@ -1,4 +1,4 @@
-import { CardId, SlotsState } from "../../constants.js";
+import { CardActions, CardId, SlotsState } from "../../constants.js";
 import Phase from "./Phase.js";
 
 export default class PrepareEventPhase extends Phase{
@@ -32,7 +32,10 @@ export default class PrepareEventPhase extends Phase{
                 card.yPos =  slot.yPos
                 card.state = CardId.NOT_SELECTED
                 card.size = CardId.SMALL_SIZE
+                card.action = CardActions.READY
                 slot.state = SlotsState.NOT_SELECTED
+
+                return true
             }
             
         }

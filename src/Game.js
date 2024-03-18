@@ -82,7 +82,7 @@ export default class Game {
                 this.deckContainer.updateDecks(this.mouse)
                 this.turnContainer.turnContainer[this.currentTurn].mainCharacter.update(this.mouse, this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK])
                 this.turnContainer.turnContainer[(this.currentTurn+1)%2].mainCharacter.update(this.mouse, this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK])
-                this.turnContainer.turnContainer[this.currentTurn].update()
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse)
                 this.updateAllGrids()
                 // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
                 this.mouse.update()
@@ -357,12 +357,16 @@ export default class Game {
                     images[ImageTypes.CARD_ICONS][IconsId.LIFE],
                     IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
                 this.ctx.fillText(card.health, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-
-
-
+                let equipRarity
+                    if (card.weapon != undefined) {
+                        equipRarity = card.weapon.rarity
+                        console.log(card.weapon.rarity);
+                    } else {
+                        equipRarity = RarityId.NONE
+                    }
                 //EQUIPMENT RARITY
                 this.ctx.drawImage(
-                    images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
+                    images[ImageTypes.EQUIP_RARITY][equipRarity],
                     IconsPos.WEAPON_X[size] + xPos, IconsPos.WEAPON_Y[size] + yPos)
 
                 this.ctx.drawImage(
@@ -402,8 +406,8 @@ export default class Game {
     updateGame() {
 
         // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
-        this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards);
-        this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards);
+        // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards);
+        // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards);
 
         // Funcion que Spawnea los Minions en el tablero
         this.assignMinionsToBoardGrid(this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
@@ -452,7 +456,7 @@ export default class Game {
 
             counter = 0;
 
-            const boardPos = i === 0 ? 0 : 4;
+            const boardPos = i === 0 ? 4 : 0;
 
             for (let j = 0; j < decks[i].cards.length; j++){
 

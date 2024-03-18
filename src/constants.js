@@ -40,6 +40,8 @@ export const PhaseStates = {
 export const CardActions = {
     NOT_ACTIVE:    -1,
     COOLDOWN:       0,
+    READY:          1,
+    ON_USE:         2
 }
 
 export const CardId = {
@@ -176,10 +178,10 @@ export const IconsPos = {
     FOURTH_ICON_Y:[345,90],
     FOURTH_ICON_NUMBER_X:[25,30],
     FOURTH_ICON_NUMBER_Y:[360,110],
-    WEAPON_X:[10,],
-    WEAPON_Y:[15,],
-    ARMOR_X:[191,],
-    ARMOR_Y:[15,],
+    WEAPON_X:[10,10],
+    WEAPON_Y:[15,0],
+    ARMOR_X:[191,90],
+    ARMOR_Y:[15,0],
     PLAYER_X:[10,170],
     PLAYER_Y:[700,215],
     PLAYER_NAME_X: [140,30],

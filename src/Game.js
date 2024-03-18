@@ -125,7 +125,7 @@ export default class Game {
         for (let i = 0; i < this.gridsArray.grids.length; i++) {
             const grid = this.gridsArray.grids[i];
             // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
-            grid.update(this.mouse)
+            grid.update(this.mouse, this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK])
             
         }
     }
@@ -464,7 +464,6 @@ export default class Game {
                     card.xPos = boardGrid.slots[boardPos][2 + counter].xPos;
                     card.yPos = boardGrid.slots[boardPos][2 + counter].yPos;
                     card.size = BorderId.SMALL_SIZE;
-                    boardGrid.slots[boardPos][2 + counter].isEmpty = false;
                     counter++;
                 }
             }

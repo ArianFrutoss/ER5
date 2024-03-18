@@ -1,4 +1,4 @@
-import { BoardId, DecksId, GridId, PhaseStates, TurnStates } from "../constants.js";
+import { BoardId, DecksId, GridId, MovePhaseStates, PhaseStates, TurnStates } from "../constants.js";
 import MinionMovementPhase from "./turn_phases/MinionMovementPhase.js";
 import Phase from "./turn_phases/Phase.js"; 
 import PrepareEventPhase from "./turn_phases/PrepareEventPhase.js";
@@ -18,8 +18,8 @@ export default class Turn {
         this.preparingEventDeck = preparingEventDeck;   // mazo de eventos en preparacion
         this.activeMinionDeck   = activeMinionDeck;
         this.active         = false;              // Variable para saber si el turno esta activo
-        this.state          = TurnStates.INITIALIZE; //
-        this.phaseState     = PhaseStates.DEFAULT
+        this.state          = TurnStates.EXECUTION; //
+        this.phaseState     = PhaseStates.MOVEMENT
         this.phasesArray    = [];                 // Array de fases
         this.actionsLeft    = 0;                  // Contador de acciones maximo 5
         this.maxActions     = 5;                  // maximo de acciones
@@ -42,7 +42,7 @@ export default class Turn {
             const graveYardDeck             = decks[DecksId.GRAVEYARD_DECK]
             const boardGrid                 = grids[GridId.BOARD_GRID];
 
-           
+      
             const defaultPhase          = "defaultPhase";
             const discardPhase          = "discardPhase";
             const drawCardPhase         = "drawCardPhase";
@@ -83,18 +83,19 @@ export default class Turn {
     }
 
     init(){
-
+        // indicar turno activo
         this.active = true;
     }
 
     execute(){
+        console.log(this.phaseState);
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
                 this.phasesArray[PhaseStates.PREPARE_EVENT].execute()
                 break;
             
-            case PhaseStates.ATTACK:
-                this.phasesArray[PhaseStates.ATTACK].execute();
+            case PhaseStates.MOVEMENT:
+                this.phasesArray[PhaseStates.MOVEMENT].update(MovePhaseStates.ATTACK);
                 break;    
             default:
 
@@ -103,6 +104,8 @@ export default class Turn {
     }
 
     end(){
+        
+        // cambio de turno
         this.active = false;
     }
 }

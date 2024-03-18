@@ -9,18 +9,13 @@ export class AttackEvent extends Event{
         this.objectiveMinion    = objectiveMinion;      // Minion objetivo
     }
 
-    execute(){
-
-        if(this.attackerMinion.equipedWeapon.length <= 0){
- 
-            // ataque con los atributos del minion
-            this.attack();
-
-        }else{
-
-            // Ataque con los atributtos del minion y del arma
+    execute() {
+        if (this.attackerMinion.equipedWeapon !== null && this.attackerMinion.equipedWeapon !== undefined) {
+            // Ataque con los atributos del minion y del arma
             this.attackWithWeapon();
-   
+        } else {
+            // Ataque con los atributos del minion
+            this.attack();
         }
     }
 
@@ -33,7 +28,7 @@ export class AttackEvent extends Event{
     attackWithWeapon(){
         let damage = this.attackerMinion.attack;
 
-        for(let i = 0; i < this.attackerMinion.equipedWeapon.length; i++){
+        for (let i = 0; i < this.attackerMinion.equipedWeapon.length; i++) {
 
             damage += this.attackerMinion.equipedWeapon[i].attack;
         }

@@ -47,15 +47,8 @@ export default class Game {
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
 
+     
         
-        let minion1 = deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards[0];
-        let minion2 = deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards[0];
-        console.log(minion1.health);
-        console.log(minion2.health);
-        
-        console.log(board);
-
-
         const firstTurn = Math.floor(Math.random()*2)
         turns.CreateTurns(mouse);
 
@@ -436,7 +429,8 @@ export default class Game {
                         card.xPos = boardGrid.slots[boardPos][2 + counter].xPos;
                         card.yPos = boardGrid.slots[boardPos][2 + counter].yPos;
                         card.size = BorderId.SMALL_SIZE
-                        boardGrid.slots[boardPos][2 + counter].CardId = card.xPos;
+                        boardGrid.slots[boardPos][2 + counter].CardId   = card.xPos;
+                        boardGrid.slots[boardPos][2 + counter].card     = card;       // M: asigno la carta al slot
                         counter++
 
     

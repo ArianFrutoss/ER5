@@ -34,7 +34,15 @@ export const PhaseStates = {
     MOVEMENT:               3,
     PREPARE_EVENT:          4,
     USE_EVENT_CARD:         5,
-    ATTACK:                 6,
+}
+
+export const MovePhaseStates = {
+    NONE:       0,
+    MOVE:       1,
+    ATTACK:     2,
+    SELECT_ATTACKER:    3,
+    SELECT_OBJECTIVE:   4,
+
 }
 
 export const CardActions = {

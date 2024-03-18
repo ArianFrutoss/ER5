@@ -53,7 +53,17 @@ export default class DeckContainer {
                     break;
             }
         }
-       
+        for (let i = 0; i < 2; i++) {
+            const cards = this.decks[DecksId.PLAYER_1_MINION_DECK+i].cards
+            for (let j = 0; j < cards.length; j++) {
+                const card = cards[j];
+                if (card.id === 3) {
+                    this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK+i].cards.push(card)
+                    card.deck = this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK+i]
+                }
+            }
+            
+           }
         for (let i = 0; i < this.decks.length; i++) {
             const deck = this.decks[i];
 
@@ -76,7 +86,7 @@ export default class DeckContainer {
     }
 
     updateDecks(mouse, decks = this.decks){
-        for (let i = 0; i < decks.length; i++) {
+        for (let i = 2; i < decks.length; i++) {
             const deck = decks[i];
             deck.update(mouse, decks)
             

@@ -24,7 +24,7 @@ export class AttackEvent extends Event{
 
         this.objectiveMinion.health -= damage;
     }
-
+    
     attackWithWeapon(){
         let damage = this.attackerMinion.attack;
 

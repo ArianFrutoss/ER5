@@ -86,7 +86,8 @@ export default class Turn {
     }
 
     init(){
-        this.phasesArray[PhaseStates.DRAW_CARD].execute
+        this.phasesArray[PhaseStates.DRAW_CARD].execute()
+        
         // indicar turno activo
         this.active = true;
     }

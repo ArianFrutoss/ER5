@@ -22,6 +22,7 @@ export default class Card{
         // this.objective      = objective;
   	
     }
+
     update(mouse,decks){
 
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -50,7 +51,16 @@ export default class Card{
                             !mouse.rightClick     && mouse.previousStateRight && isCollidingWithMouse       ? CardId.SCALED              : this.state
                         // console.log("selected");
                         break;
-            
+
+                    case CardId.SCALED:
+        
+                        break;
+                
+                    case CardId.ATTACK:
+
+                        
+                        break;
+                
                 default:
                     break;
             }
@@ -62,7 +72,7 @@ export default class Card{
             }
         }
             this.previousState = this.state
-        }
+    }
 
         isAnyCard(decks,state){
             let result = []
@@ -80,4 +90,10 @@ export default class Card{
             }
             return result
         }
+
+
+    // The logic for the case ATTACK
+    attack(){
+        
+    }
 }

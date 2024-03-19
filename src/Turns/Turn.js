@@ -1,4 +1,5 @@
-import { DecksId, GridId, PhaseStates, TurnStates } from "../constants.js";
+import { BoardId, DecksId, GridId, MovePhaseStates, PhaseStates, TurnStates } from "../constants.js";
+import MinionMovementPhase from "./turn_phases/MinionMovementPhase.js";
 import Phase from "./turn_phases/Phase.js"; 
 import PrepareEventPhase from "./turn_phases/PrepareEventPhase.js";
 import UseEventPhase from "./turn_phases/UseEventPhase.js";
@@ -19,7 +20,7 @@ export default class Turn {
         this.activeMinionDeck   = activeMinionDeck;
         this.active         = false;              // Variable para saber si el turno esta activo
         this.state          = TurnStates.INITIALIZE; //
-        this.phaseState     = PhaseStates.DEFAULT
+        this.phaseState     = PhaseStates.MOVEMENT
         this.phasesArray    = [];                 // Array de fases
         this.actionsLeft    = 0;                  // Contador de acciones maximo 5
         this.maxActions     = 5;                  // maximo de acciones
@@ -43,11 +44,11 @@ export default class Turn {
             const handGrid                  = turnCounter === 0 ? grids[GridId.PLAYER_1_HAND_GRID]              : grids[GridId.PLAYER_2_HAND_GRID]
             const enemyHandGrid             = turnCounter === 0 ? grids[GridId.PLAYER_2_HAND_GRID]              : grids[GridId.PLAYER_1_HAND_GRID]
 
-
+      
             const defaultPhase          = "defaultPhase";
             const discardPhase          = "discardPhase";
             const drawCardPhase         = "drawCardPhase";
-            const minionMovementPhase   = "minionMovementPhase";
+            const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
             const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid);
             const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck)
     
@@ -84,7 +85,7 @@ export default class Turn {
     }
 
     init(){
-
+        // indicar turno activo
         this.active = true;
     }
 
@@ -100,16 +101,26 @@ export default class Turn {
             case PhaseStates.USE_EVENT_CARD:
                 const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse)
                 if (isUsageFinished) {
-                    // this.phaseState = PhaseStates.USE_EVENT_CARD
+                     this.phaseState = PhaseStates.MOVEMENT
                 }
                 break;
-        
+            
+            case PhaseStates.MOVEMENT:
+                let changePhase = this.phasesArray[PhaseStates.MOVEMENT].update(MovePhaseStates.ATTACK);
+
+                if(changePhase){
+                    this.phaseState = PhaseStates.DEFAULT;
+                }
+                break;    
             default:
+
                 break;
         }
     }
 
     end(){
+        
+        // cambio de turno
         this.active = false;
     }
 }

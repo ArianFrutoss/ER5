@@ -8,7 +8,7 @@ import CardFactory from "./Cards/CardFactory.js";
 import DeckContainer from "./Cards/DeckContainer.js";
 import TurnContainer from "./Turns/TurnContainer.js";
 import Mouse from "./Mouse.js";
-import { canvasMousemoveHandler, mouseDown, mouseUp } from "./mouseEvent.js";
+import { AttackEvent } from "./Events/phase_events/AttackEvent.js";
 
 
 export default class Game {
@@ -46,11 +46,12 @@ export default class Game {
         
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
+
+     
         
-  
         const firstTurn = Math.floor(Math.random()*2)
         turns.CreateTurns(mouse);
-        console.log();
+
         console.log(turns.turnContainer);
  
         // turns.turnContainer[0].showPlayerData();
@@ -60,7 +61,6 @@ export default class Game {
     }
 
     update() {
-
         switch (this.gameState) {
 
             case GameState.LOAD_GAME:
@@ -121,7 +121,7 @@ export default class Game {
         for (let i = 0; i < this.gridsArray.grids.length; i++) {
             const grid = this.gridsArray.grids[i];
             // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
-            grid.update(this.mouse)
+            grid.update(this.mouse, this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK])
             
         }
     }
@@ -465,7 +465,6 @@ export default class Game {
                     card.xPos = boardGrid.slots[boardPos][2 + counter].xPos;
                     card.yPos = boardGrid.slots[boardPos][2 + counter].yPos;
                     card.size = BorderId.SMALL_SIZE;
-                    boardGrid.slots[boardPos][2 + counter].isEmpty = false;
                     counter++;
                 }
             }

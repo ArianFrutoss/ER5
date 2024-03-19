@@ -1,4 +1,5 @@
 import { BoardId, DecksId, GridId, MovePhaseStates, PhaseStates, TurnStates } from "../constants.js";
+import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
 import MinionMovementPhase from "./turn_phases/MinionMovementPhase.js";
 import Phase from "./turn_phases/Phase.js"; 
 import PrepareEventPhase from "./turn_phases/PrepareEventPhase.js";
@@ -24,7 +25,7 @@ export default class Turn {
         this.phasesArray    = [];                 // Array de fases
         this.actionsLeft    = 0;                  // Contador de acciones maximo 5
         this.maxActions     = 5;                  // maximo de acciones
-  
+
     }
 
     createPhases(mouse, grids, decks, turnCounter){
@@ -47,7 +48,7 @@ export default class Turn {
       
             const defaultPhase          = "defaultPhase";
             const discardPhase          = "discardPhase";
-            const drawCardPhase         = "drawCardPhase";
+            const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck)
             const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
             const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid);
             const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck)
@@ -85,6 +86,7 @@ export default class Turn {
     }
 
     init(){
+        this.phasesArray[PhaseStates.DRAW_CARD].execute
         // indicar turno activo
         this.active = true;
     }

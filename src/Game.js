@@ -357,7 +357,6 @@ export default class Game {
                 let equipRarity
                     if (card.weapon != undefined) {
                         equipRarity = card.weapon.rarity
-                        console.log(card.weapon.rarity);
                     } else {
                         equipRarity = RarityId.NONE
                     }

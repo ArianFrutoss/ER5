@@ -31,8 +31,8 @@ export default class CardFactory {
             // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS
             const type = this.cardData[i].type;
 
-            const xPos = 100;
-            const yPos = 100;
+            const xPos = -400;
+            const yPos = -400;
             const objective = "objective";
             const attributes = this.cardData[i].attributes;
             const effects = this.cardData[i].common_effect;

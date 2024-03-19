@@ -80,11 +80,8 @@ export default class Game {
                 this.updateGame();
 
                 this.deckContainer.updateDecks(this.mouse)
-                this.turnContainer.turnContainer[this.currentTurn].mainCharacter.update(this.mouse, this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK])
-                this.turnContainer.turnContainer[(this.currentTurn+1)%2].mainCharacter.update(this.mouse, this.deckContainer.decks[DecksId.MAIN_CHARACTER_DECK])
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse)
                 this.updateAllGrids()
-                // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
                 this.mouse.update()
                 break;
 
@@ -364,6 +361,7 @@ export default class Game {
                     } else {
                         equipRarity = RarityId.NONE
                     }
+                    
                 //EQUIPMENT RARITY
                 this.ctx.drawImage(
                     images[ImageTypes.EQUIP_RARITY][equipRarity],

@@ -1,6 +1,6 @@
 
 import Mouse from "../Mouse.js";
-import { CardActions, CardId, TypeId } from "../constants.js";
+import { CardActions, CardId, DecksId, TypeId } from "../constants.js";
 export default class Card{
 
     constructor(id, name, description, image, rarity, category, type = "Melee", xPos, yPos, deck){
@@ -24,8 +24,8 @@ export default class Card{
     }
     update(mouse,decks){
 
-        const isAnyCardScaled   = this.isAnyCard(decks, CardId.SCALED)
-        const isAnyCardSelected = this.isAnyCard(decks, CardId.SELECTED)
+        const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
+        const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
 
         if (!isAnyCardScaled[0]) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
@@ -50,17 +50,13 @@ export default class Card{
                             !mouse.rightClick     && mouse.previousStateRight && isCollidingWithMouse       ? CardId.SCALED              : this.state
                         // console.log("selected");
                         break;
-
-                    case CardId.SCALED:
-        
-                        break;
             
                 default:
                     break;
             }
         } else {
+            
             if (this.state === CardId.SCALED) {
-                
                 this.state = !mouse.rightClick && mouse.previousStateRight       ? CardId.NOT_SELECTED            : this.state
 
             }

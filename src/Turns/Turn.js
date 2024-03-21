@@ -88,6 +88,7 @@ export default class Turn {
     init(){
         this.unblockCardStatesFromActiveDecks()
         this.applyEvents()
+        this.reduceEventCardsCooldown()
         this.phasesArray[PhaseStates.DRAW_CARD].execute()
         
         // indicar turno activo
@@ -138,6 +139,13 @@ export default class Turn {
                 card.state = CardId.NOT_SELECTED
                 
             }
+        }
+    }
+    reduceEventCardsCooldown(){
+        for (let i = 0; i < this.preparingEventDeck.cards.length; i++) {
+            const card = this.preparingEventDeck.cards[i];
+            if (card.cooldown > 0) 
+                card.cooldown--
         }
     }
     applyEvents(){

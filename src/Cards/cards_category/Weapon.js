@@ -23,7 +23,7 @@ export default class Weapon extends Card{
     weaponLogic(){
         switch (this.action) {
             case CardActions.COOLDOWN:
-                
+                this.action = this.cooldown === 0 ? CardActions.READY : this.action
                 break;
         
             default:

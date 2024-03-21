@@ -50,7 +50,7 @@ export default class Turn {
             const discardPhase          = "discardPhase";
             const drawCardPhase         = "drawCardPhase";
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
-            const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
+            const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, boardGrid, mouse);
             const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid);
             const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck)
     
@@ -109,7 +109,6 @@ export default class Turn {
             
             case PhaseStates.MOVEMENT:
                 const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute()
-
                 if(isMovementFinished){
                     this.phaseState = PhaseStates.DEFAULT;
                 }

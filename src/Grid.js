@@ -67,4 +67,32 @@ export default class Grid{
             }
         }
     }
+
+    isAnySlot(grid,state){
+
+        let result = []
+        
+        for (let i = 0; i < grid.slots.length; i++){
+            
+            for (let j = 0; j < grid.slots[0].length; j++){
+
+                const slot = grid.slots[i][j];
+                
+                if (slot.state === state){
+
+                    result[0] = true;
+                    result[1] = i;
+                    result[2] = j;
+                    return result
+                }
+
+                else{
+
+                    result[0] = false;
+                }
+            }         
+        }
+
+        return result
+    }
 }

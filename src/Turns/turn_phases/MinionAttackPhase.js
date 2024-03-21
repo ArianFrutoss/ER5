@@ -89,7 +89,7 @@ export default class MinionAttackPhase extends Phase {
 
 
 
-    update(state) {
+    execute() {
  
         let aux = this.attack();
         return aux;

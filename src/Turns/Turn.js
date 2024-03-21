@@ -1,4 +1,5 @@
 import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TurnStates } from "../constants.js";
+import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
 import DefaultPhase from "./turn_phases/DefaultPhase.js";
@@ -76,7 +77,7 @@ export default class Turn {
                 this.state = TurnStates.EXECUTION
                 //Esto eliminar al conseguir que funcione la phase
                 this.phaseState = PhaseStates.PREPARE_EVENT
-                break;
+                return false
             
             case TurnStates.EXECUTION:
                 
@@ -84,16 +85,16 @@ export default class Turn {
                 if (isPhasesOver) {
                    this.state = TurnStates.END
                 }
+                return false
 
             case TurnStates.END:
                 this.end();
-
-                break;
+                return true
         }
     }
 
     init(){
-        this.unblockCardStatesFromActiveDecks()
+        this.restoreCardStatesFromActiveDecks()
         this.applyEvents()
         this.reduceEventCardsCooldown()
         this.phasesArray[PhaseStates.DRAW_CARD].execute()
@@ -151,10 +152,12 @@ export default class Turn {
 
     end(){
         
+        this.blockCardStatesFromHandDeck()
+        // cambio de turno
         this.active = false;
     }
 
-    unblockCardStatesFromActiveDecks(){
+    restoreCardStatesFromActiveDecks(){
         const decks = [this.handDeck, this.activeMinionDeck, this.preparingEventDeck]
         for (let i = 0; i < decks.length; i++) {
             const deck = decks[i];
@@ -165,6 +168,16 @@ export default class Turn {
             }
         }
     }
+
+    blockCardStatesFromHandDeck(){
+        const deck = this.handDeck
+            for (let j = 0; j < deck.cards.length; j++) {
+                const card = deck.cards[j];
+                card.state = CardId.BLOCKED
+                
+            }
+    }
+
     reduceEventCardsCooldown(){
         for (let i = 0; i < this.preparingEventDeck.cards.length; i++) {
             const card = this.preparingEventDeck.cards[i];
@@ -172,6 +185,7 @@ export default class Turn {
                 card.cooldown--
         }
     }
+    
     applyEvents(){
         
     }

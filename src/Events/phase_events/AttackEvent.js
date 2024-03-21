@@ -1,4 +1,5 @@
 import Event from "../Event.js";
+import Messages from "../../../Messages.js";
 
 export class AttackEvent extends Event{
 
@@ -10,24 +11,33 @@ export class AttackEvent extends Event{
     }
 
     execute() {
+
+        let damage;
+
         if (this.attackerMinion.weapon != undefined) {
             // Ataque con los atributos del minion y del arma
-            this.attackWithWeapon();
+            damage = this.attackWithWeapon();
         } else {
             // Ataque con los atributos del minion
-            this.attack();
+            damage = this.attack();
         }
+
+        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, 20, damage);
+        console.log(doneDamage);
     }
 
     attack(){
         const damage = this.attackerMinion.attack;
-
         this.objectiveMinion.health -= damage;
+
+        return damage;
     }
     
     attackWithWeapon(){
         let damage = this.attackerMinion.attack + this.attackerMinion.weapon.attack;
         this.attackerMinion.weapon.durability--
         this.objectiveMinion.health -= damage;
+
+        return damage;
     }
 }

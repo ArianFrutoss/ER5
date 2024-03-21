@@ -17,7 +17,7 @@ export default class Slot{
     update(mouse, grid, deck){
 
         const isSlotSelected = this.isSlotSelected(grid);
-        const isSlotUsed = this.isSlotUsed(deck);
+        this.isSlotUsed(deck);
         
         if (this.isEmpty === true){
             
@@ -84,16 +84,60 @@ export default class Slot{
         return result;
     }
     
-    isSlotUsed(deck){
-
-        for (let i = 0; i < deck.cards.length; i++){
-
-            const card = deck.cards[i];
-
-            if (card.xPos === this.xPos && card.yPos === this.yPos){
+    isSlotUsed(decks){
+        
+        if (decks.length === undefined){
                 
-                this.isEmpty = false;
+            for (let j = 0; j < decks.cards.length; j++){
+
+                const card = decks.cards[j];
+
+                if (card.xPos === this.xPos && card.yPos === this.yPos){
+                    
+                    this.isEmpty = false;
+                    this.state = SlotsState.NOT_SELECTED;
+                    break;
+                }
+
+                else{
+                    
+                    this.isEmpty = true;
+                }
             }
+        }
+
+        else{
+            
+            const deckToCheck = [];
+
+            for (let i = 0; i < decks.length; i++){
+
+                const deck = decks[i];
+                
+                for (let j = 0; j < deck.cards.length; j++){
+                    
+                    const card = deck.cards[j];
+
+                    deckToCheck.push(card);
+                }
+            }
+
+            for (let i = 0; i < deckToCheck.length; i++){
+
+                const card = deckToCheck[i];
+                
+                if (card.xPos === this.xPos && card.yPos === this.yPos){
+                            
+                    this.isEmpty = false;
+                    this.state = SlotsState.NOT_SELECTED;
+                    break;
+                }
+
+                else{
+                    
+                    this.isEmpty = true;
+                }
+            }   
         }
     }
 }

@@ -27,7 +27,7 @@ export default class Grid{
 
         // Id del Grid
         const id = gridId;
-
+        
         // Array de Slots para guardar en el Grid
         let slotsArray = [];
 
@@ -42,8 +42,8 @@ export default class Grid{
                 const slotsYsize = ySizeSlots;
 
                 // Calculo de la posicion de los Slots
-                let slotsXPos = gridXPos + slotsXsize * j;
-                let slotsYPos = gridYpos + slotsYsize * i;
+                let slotsXPos = Math.floor(gridXPos + slotsXsize * j);
+                let slotsYPos = Math.floor(gridYpos + slotsYsize * i);
 
                 // Crear Slots
                 const slots = new Slot(slotsXPos, slotsYPos, slotsXsize, slotsYsize);
@@ -66,5 +66,33 @@ export default class Grid{
                 slot.update(mouse, this, deck);
             }
         }
+    }
+
+    isAnySlot(grid,state){
+
+        let result = []
+        
+        for (let i = 0; i < grid.slots.length; i++){
+            
+            for (let j = 0; j < grid.slots[0].length; j++){
+
+                const slot = grid.slots[i][j];
+                
+                if (slot.state === state){
+
+                    result[0] = true;
+                    result[1] = i;
+                    result[2] = j;
+                    return result
+                }
+
+                else{
+
+                    result[0] = false;
+                }
+            }         
+        }
+
+        return result
     }
 }

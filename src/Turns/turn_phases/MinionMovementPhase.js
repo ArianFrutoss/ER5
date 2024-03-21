@@ -15,7 +15,7 @@ export default class MinionMovementPhase extends Phase {
 
 
     // funcion para realizar el ataque
-    attack() {
+    move() {
 
         // Comprobar si hay alguna carta seleccionada del mazo de minions activos
         let isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);

@@ -1,9 +1,9 @@
 
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, MovePhaseStates, SlotsState } from "../../constants.js";
+import { CardId, MovePhaseStates } from "../../constants.js";
 
-export default class MinionMovementPhase extends Phase {
+export default class MinionAttackPhase extends Phase {
 
     constructor(activeMinionDeck, enemyActiveMinionDeck, mouse) {
         super();

@@ -32,8 +32,9 @@ export const PhaseStates = {
     DISCARD_CARD:           1,
     DRAW_CARD:              2,
     MOVEMENT:               3,
-    PREPARE_EVENT:          4,
-    USE_EVENT_CARD:         5,
+    ATTACK:                 4,
+    PREPARE_EVENT:          5,
+    USE_EVENT_CARD:         6,
 }
 
 export const MovePhaseStates = {

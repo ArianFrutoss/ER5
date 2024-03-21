@@ -1,4 +1,5 @@
 import { BoardId, DecksId, GridId, MovePhaseStates, PhaseStates, TurnStates } from "../constants.js";
+import MinionAttackPhase from "./turn_phases/MinionAttackPhase.js";
 import MinionMovementPhase from "./turn_phases/MinionMovementPhase.js";
 import Phase from "./turn_phases/Phase.js"; 
 import PrepareEventPhase from "./turn_phases/PrepareEventPhase.js";
@@ -48,11 +49,12 @@ export default class Turn {
             const defaultPhase          = "defaultPhase";
             const discardPhase          = "discardPhase";
             const drawCardPhase         = "drawCardPhase";
+            const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
             const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
             const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid);
             const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck)
     
-            const phasesArray = [defaultPhase, discardPhase, drawCardPhase, minionMovementPhase, prepareEventPhase, useEventPhase];
+            const phasesArray = [defaultPhase, discardPhase, drawCardPhase, minionMovementPhase, minionAttackPhase, prepareEventPhase, useEventPhase];
     
             this.phasesArray = phasesArray
     }
@@ -106,12 +108,21 @@ export default class Turn {
                 break;
             
             case PhaseStates.MOVEMENT:
-                let changePhase = this.phasesArray[PhaseStates.MOVEMENT].update(MovePhaseStates.ATTACK);
+                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute()
 
-                if(changePhase){
+                if(isMovementFinished){
+                    this.phaseState = PhaseStates.DEFAULT;
+                }
+                break;
+                
+            case PhaseStates.ATTACK:
+                const isAttackFinished = this.phasesArray[PhaseStates.ATTACK].execute()
+
+                if(isAttackFinished){
                     this.phaseState = PhaseStates.DEFAULT;
                 }
                 break;    
+
             default:
                 break;
         }

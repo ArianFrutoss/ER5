@@ -1,4 +1,5 @@
 import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TurnStates } from "../constants.js";
+import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
 import MinionMovementPhase from "./turn_phases/MinionMovementPhase.js";
 import Phase from "./turn_phases/Phase.js"; 
@@ -47,7 +48,7 @@ export default class Turn {
 
       
             const defaultPhase          = "defaultPhase";
-            const discardPhase          = "discardPhase";
+            const discardPhase          = new DiscardPhase(handDeck, graveYardDeck)
             const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck)
             const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
             const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid);
@@ -76,8 +77,10 @@ export default class Turn {
             
             case TurnStates.EXECUTION:
                 
-                this.execute(mouse);
-                break;
+                const isPhasesOver = this.execute(mouse);
+                if (isPhasesOver) {
+                   this.state = TurnStates.END
+                }
 
             case TurnStates.END:
                 this.end();
@@ -117,7 +120,16 @@ export default class Turn {
                 if(changePhase){
                     this.phaseState = PhaseStates.DEFAULT;
                 }
-                break;    
+                break; 
+                
+            case PhaseStates.DISCARD_CARD:
+                const isDiscardFinished = this.phasesArray[PhaseStates.DISCARD_CARD].execute();
+
+                if(isDiscardFinished){
+                    return true
+                }else{
+                    return false
+                }
             default:
 
                 break;

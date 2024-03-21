@@ -1,4 +1,4 @@
-import { BoardId, DecksId, GridId, MovePhaseStates, PhaseStates, TurnStates } from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TurnStates } from "../constants.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
 import MinionMovementPhase from "./turn_phases/MinionMovementPhase.js";
 import Phase from "./turn_phases/Phase.js"; 
@@ -86,6 +86,8 @@ export default class Turn {
     }
 
     init(){
+        this.unblockCardStatesFromActiveDecks()
+        this.applyEvents()
         this.phasesArray[PhaseStates.DRAW_CARD].execute()
         
         // indicar turno activo
@@ -125,5 +127,20 @@ export default class Turn {
         
         // cambio de turno
         this.active = false;
+    }
+
+    unblockCardStatesFromActiveDecks(){
+        const decks = [this.handDeck, this.activeMinionDeck, this.preparingEventDeck]
+        for (let i = 0; i < decks.length; i++) {
+            const deck = decks[i];
+            for (let j = 0; j < deck.cards.length; j++) {
+                const card = deck.cards[j];
+                card.state = CardId.NOT_SELECTED
+                
+            }
+        }
+    }
+    applyEvents(){
+        
     }
 }

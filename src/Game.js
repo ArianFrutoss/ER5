@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -8,7 +8,8 @@ import CardFactory from "./Cards/CardFactory.js";
 import DeckContainer from "./Cards/DeckContainer.js";
 import TurnContainer from "./Turns/TurnContainer.js";
 import Mouse from "./Mouse.js";
-import { AttackEvent } from "./Events/phase_events/AttackEvent.js";
+import Button from "./Button/Button.js";
+import ButtonContainer from "./Button/ButtonContainer.js";
 
 
 export default class Game {
@@ -30,8 +31,7 @@ export default class Game {
         this.canvas = canvas;
         this.ctx = ctx
         this.mouse = mouse;
-        this.currentTurn = firstTurn
-        
+        this.currentTurn = firstTurn;
     }
 
     static init(data, canvas, ctx) {
@@ -42,20 +42,21 @@ export default class Game {
         const deckContainer = new DeckContainer();
         deckContainer.createDecks(data);
 
-        const turns = new TurnContainer(board.grids, deckContainer);
+        const buttonContainer = ButtonContainer.create(ctx);
+
+        const turns = new TurnContainer(board.grids, deckContainer, buttonContainer);
         
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
-
-     
+ 
+        
         
         const firstTurn = Math.floor(Math.random()*2)
         turns.CreateTurns(mouse);
 
         console.log(turns.turnContainer);
- 
-        // turns.turnContainer[0].showPlayerData();
-        // turns.turnContainer[1].showPlayerData();
+
+      
 
         return new Game(turns, null, assets, null, null, deckContainer, board, null, null, canvas, ctx, mouse, firstTurn);
     }
@@ -86,7 +87,8 @@ export default class Game {
               
                 this.updateAllGrids()
                 // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
-                this.mouse.update()
+                this.mouse.update();
+                this.turnContainer.buttonContainer.updateButtons(this.mouse);
                 break;
 
             case GameState.GAMEOVER:
@@ -109,7 +111,7 @@ export default class Game {
             case GameState.PLAYING:
                 this.drawGame();
                 this.drawAllCards();
-
+                this.turnContainer.buttonContainer.renderButtons();
                 this.ctx.font         = "bold 30px Arial";
                 this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
                 this.ctx.fillText("Click Derecho: " + this.mouse.rightClick + "--------" + "Click Izquierdo: " + this.mouse.leftClick, 100, 150);  
@@ -486,6 +488,7 @@ export default class Game {
         }
     }
 
+    // mover a turncontainer 
     updateTurns(){
         this.turnChange();
     }   

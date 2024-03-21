@@ -1,17 +1,32 @@
+import ButtonContainer from "../../Button/ButtonContainer.js";
+import { PhaseStates } from "../../constants.js";
 import Phase from "./Phase.js";
 
-class EstandarPhase extends Phase {
+export default class DefaultPhase extends Phase {
 
-    constructor(handDeck, handGrid, boardGrid, boardMinion, eventBoardGrid){
+    constructor(buttonContainer){  
         super();
-        this.handDeck       = handDeck;
-        this.handGrid       = handGrid;
-        this.boardGrid      = boardGrid;
-        this.boardMinion    = boardMinion;
-        this.eventBoardGrid = eventBoardGrid;
+        this.state              = PhaseStates.DEFAULT;
+        this.buttonContainer    = buttonContainer;
+    }
+
+    update(){
+
+        let state = this.state;
+
+
+        let returnState = this.buttonContainer.isAnyButtonSelected();
+        
+        if(returnState != undefined){
+
+            console.log(returnState);
+
+            return returnState;
+        }else {
+
+            return state;
+        }
+     
     }
 }
 
-export {
-    EstandarPhase
-}

@@ -1,28 +1,30 @@
 import { BoardId, DecksId, GridId, MovePhaseStates, PhaseStates, TurnStates } from "../constants.js";
+import DefaultPhase from "./turn_phases/DefaultPhase.js";
 import MinionMovementPhase from "./turn_phases/MinionMovementPhase.js";
 import Phase from "./turn_phases/Phase.js"; 
 import PrepareEventPhase from "./turn_phases/PrepareEventPhase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck){
+    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck, buttonContainer){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
-        this.handDeck       = handDeck;           // Mano del player
-        this.minionDeck     = minionDeck;         // Mazo de minions
-        this.graveyardDeck  = graveyardDeck;      // Mazo cementerio
-        this.mainCharacter  = mainCharacter;      // Carta de Character asignada  predefinida desde turnContainer
-        this.gridArray      = gridArray;          // Array de rejillas
-        this.eventDeck      = eventDeck;          // Mazo de eventos
-        this.preparingEventDeck = preparingEventDeck;   // mazo de eventos en preparacion
-        this.activeMinionDeck   = activeMinionDeck;
-        this.active         = false;              // Variable para saber si el turno esta activo
-        this.state          = TurnStates.EXECUTION; //
-        this.phaseState     = PhaseStates.MOVEMENT
-        this.phasesArray    = [];                 // Array de fases
-        this.actionsLeft    = 0;                  // Contador de acciones maximo 5
-        this.maxActions     = 5;                  // maximo de acciones
+        this.handDeck           = handDeck;                 // Mano del player
+        this.minionDeck         = minionDeck;               // Mazo de minions
+        this.graveyardDeck      = graveyardDeck;            // Mazo cementerio
+        this.mainCharacter      = mainCharacter;            // Carta de Character asignada  predefinida desde turnContainer
+        this.gridArray          = gridArray;                // Array de rejillas
+        this.eventDeck          = eventDeck;                // Mazo de eventos
+        this.preparingEventDeck = preparingEventDeck;       // mazo de eventos en preparacion
+        this.activeMinionDeck   = activeMinionDeck;         // Mazo de minions activos
+        this.buttonContainer    = buttonContainer;          // Contenedor de buttons
+        this.active             = false;                    // Variable para saber si el turno esta activo
+        this.state              = TurnStates.EXECUTION;     // Estado del turno
+        this.phaseState         = PhaseStates.DEFAULT       // Estado de la fase
+        this.phasesArray        = [];                       // Array de fases
+        this.actionsLeft        = 0;                        // Contador de acciones maximo 5
+        this.maxActions         = 5;                        // maximo de acciones
   
     }
 
@@ -38,12 +40,12 @@ export default class Turn {
             const activeEventGrid           = turnCounter === 0 ? grids[GridId.PLAYER_1_EVENT_GRID]             : grids[GridId.PLAYER_2_EVENT_GRID]
             const handGrid                  = turnCounter === 0 ? grids[GridId.PLAYER_1_HAND_GRID]              : grids[GridId.PLAYER_2_HAND_GRID]
             const enemyHandGrid             = turnCounter === 0 ? grids[GridId.PLAYER_2_HAND_GRID]              : grids[GridId.PLAYER_1_HAND_GRID]
-            const eventDeck                 = decks[DecksId.EVENT_DECK]
-            const graveYardDeck             = decks[DecksId.GRAVEYARD_DECK]
+            const eventDeck                 = decks[DecksId.EVENT_DECK];
+            const graveYardDeck             = decks[DecksId.GRAVEYARD_DECK];
             const boardGrid                 = grids[GridId.BOARD_GRID];
-
+            const buttons                   = this.buttonContainer;
       
-            const defaultPhase          = "defaultPhase";
+            const defaultPhase          = new DefaultPhase(buttons, mouse);
             const discardPhase          = "discardPhase";
             const drawCardPhase         = "drawCardPhase";
             const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
@@ -61,11 +63,11 @@ export default class Turn {
     // }
 
     update(){
-        
         switch(this.state){
-
+            
             case TurnStates.INITIALIZE:
                 this.init();
+
                 this.state = TurnStates.EXECUTION
                 //Esto eliminar al conseguir que funcione la phase
                 this.phaseState = PhaseStates.PREPARE_EVENT
@@ -88,19 +90,31 @@ export default class Turn {
     }
 
     execute(){
+        // Esto es el turnLoop
 
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
                 this.phasesArray[PhaseStates.PREPARE_EVENT].execute()
+                
                 break;
             
             case PhaseStates.MOVEMENT:
                 let changePhase = this.phasesArray[PhaseStates.MOVEMENT].update(MovePhaseStates.ATTACK);
-
+           
                 if(changePhase){
                     this.phaseState = PhaseStates.DEFAULT;
                 }
-                break;    
+                break;
+            
+            case PhaseStates.DEFAULT:
+          
+                this.phaseState = this.phasesArray[PhaseStates.DEFAULT].update();
+                
+                break;
+            
+            case PhaseStates.USE_EVENT_CARD:
+          
+                break;
             default:
 
                 break;
@@ -111,5 +125,6 @@ export default class Turn {
         
         // cambio de turno
         this.active = false;
+    
     }
 }

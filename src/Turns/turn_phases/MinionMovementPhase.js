@@ -39,36 +39,37 @@ export default class MinionMovementPhase extends Phase{
 
             if(isEnemyCardSelected[0]){
 
-            // Escoger las posiciones de las cartas en los decks
-             const attacckerPosition = isAnyCardSelected[1];
-             const enemyPosition     = isEnemyCardSelected[1];
+                // Escoger las posiciones de las cartas en los decks
+                const attacckerPosition = isAnyCardSelected[1];
+                const enemyPosition     = isEnemyCardSelected[1];
 
-             // Minion atacante
-             const attacker  = this.activeMinionDeck.cards[attacckerPosition];
+                // Minion atacante
+                const attacker  = this.activeMinionDeck.cards[attacckerPosition];
 
-             // Minion rival
-             const enemy     = this.enemyActiveMinionDeck.cards[enemyPosition];
+                // Minion rival
+                const enemy     = this.enemyActiveMinionDeck.cards[enemyPosition];
 
-             // Calcular distancia en slots [0] -> distancia en slots x [1] -> distancia en slots y
-             const distance = this.calculateDistance(attacker, enemy);
+                // Calcular distancia en slots [0] -> distancia en slots x [1] -> distancia en slots y
+                const distance = this.calculateDistance(attacker, enemy);
 
-             if(attacker.type === "Melee" && distance[0] < 2 && distance[1] < 2){
+                if(attacker.type === "Melee" && distance[0] < 2 && distance[1] < 2){
 
-                 // Ejecucion del evento de ataque
-                 const attackEvent = new AttackEvent(attacker, enemy);
-                 attackEvent.execute();
+                    // Ejecucion del evento de ataque
+                    const attackEvent = new AttackEvent(attacker, enemy);
+                    attackEvent.execute();
 
-                 // cambio el estado de la propia fase --> he metido estados a esta fase por que se puede mover y atacar.
-                 this.state = MovePhaseStates.NONE;
+                    // cambio el estado de la propia fase --> he metido estados a esta fase por que se puede mover y atacar.
+                    this.state = MovePhaseStates.NONE;
 
-                 return true;
+                    return true;
+
             }else{
-                 
-                 attacker.state = CardId.NOT_SELECTED;
-                 enemy.state    = CardId.NOT_SELECTED;
-
-                 console.log("no puedes atacar ");
-                 return false;
+          
+                attacker.state = CardId.NOT_SELECTED;
+                enemy.state    = CardId.NOT_SELECTED;
+                
+   
+                return false;
                 }
             }
 
@@ -96,8 +97,6 @@ export default class MinionMovementPhase extends Phase{
         const distanceXSlots = Math.ceil(xDifference / boardSlotXSize);
         const distanceYSlots = Math.ceil(yDifference / boardSlotYSize); 
 
-        console.log("Distancia en slots en el eje X:", distanceXSlots);
-        console.log("Distancia en slots en el eje Y:", distanceYSlots);
 
         return [distanceXSlots, distanceYSlots];
     }
@@ -107,7 +106,7 @@ export default class MinionMovementPhase extends Phase{
     update(state){
         
         this.state = state;
-
+        
         switch(this.state){
 
             case MovePhaseStates.MOVE:

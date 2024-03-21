@@ -23,7 +23,6 @@ export default class Card{
     }
 
     update(mouse,decks){
-
         const isAnyCardScaled   = this.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.isAnyCard(decks, CardId.SELECTED)
 

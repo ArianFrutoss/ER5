@@ -78,6 +78,12 @@ export const SlotsState = {
     HOVER:          2
 }
 
+export const ButtonState = {
+    NOT_SELECTED:   0,
+    SELECTED:       1,
+    HOVER:          2
+}
+
 export const Joseph = {
     NOT_ACTIVE:   0,
     ACTIVE:       1,

@@ -24,21 +24,21 @@ export default class MinionAttackPhase extends Phase {
 
         // Comprobar si hay enemigo seleccionado
         if (isEnemyCardHovered[0] && !this.mouse.leftClick && this.mouse.previousStateLeft) {
-
+            
             // Escoger las posiciones de las cartas en los decks
             const attackerPosition = isAnyCardSelected[1];
             const enemyPosition = isEnemyCardHovered[1];
-
+            
             // Minion atacante
             const attacker = this.activeMinionDeck.cards[attackerPosition];
 
             // Minion rival
             const enemy = this.enemyActiveMinionDeck.cards[enemyPosition];
-
+            
             // Calcular distancia en slots [0] -> distancia en slots x [1] -> distancia en slots y
             const distance = this.calculateDistance(attacker, enemy);
-
-            if (attacker.type === "Melee" && distance[0] < 1 && distance[1] < 1) {
+            
+            if (attacker.type === "Melee" && distance[0] <= 1 && distance[1] <= 1) {
 
                 // Ejecucion del evento de ataque
                 const attackEvent = new AttackEvent(attacker, enemy);

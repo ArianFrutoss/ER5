@@ -63,7 +63,8 @@ export const CardId = {
     ALIVE:          7,
     DEAD:           8,
     STUNNED:        9,
-    ATTACK:         10
+    ATTACK:         10,
+    BLOCKED:        11,
 }
 
 export const GridId = {

@@ -90,7 +90,10 @@ export default class Game {
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
 
                 if(isTurnFinished){
+                    
+                    this.turnContainer.turnContainer[this.currentTurn] = TurnStates.INITIALIZE;
                     this.currentTurn = (this.currentTurn + 1) % 2;
+                    this.turnCounter++;
                 }
 
                 break;

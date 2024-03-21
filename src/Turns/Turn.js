@@ -25,10 +25,10 @@ export default class Turn {
         this.buttonContainer    = buttonContainer;          // Contenedor de buttons
         this.active             = false;                    // Variable para saber si el turno esta activo
         this.state              = TurnStates.INITIALIZE;     // Estado del turno
-        this.phaseState         = PhaseStates.DEFAULT       // Estado de la fase
+        this.phaseState         = PhaseStates.DEFAULT;      // Estado de la fase
         this.phasesArray        = [];                       // Array de fases
-        this.actionsLeft        = 0;                        // Contador de acciones maximo 5
-        this.maxActions         = 5;                        // maximo de acciones
+        this.actionsCounter     = 0;                        // Contador de acciones maximo 5
+        this.maxActions         = 3;                        // maximo de acciones
 
     }
 
@@ -73,14 +73,12 @@ export default class Turn {
             
             case TurnStates.INITIALIZE:
                 this.init();
-
+                console.log("init");
                 this.state = TurnStates.EXECUTION
-                //Esto eliminar al conseguir que funcione la phase
-                this.phaseState = PhaseStates.PREPARE_EVENT
                 return false
             
             case TurnStates.EXECUTION:
-                
+                console.log("executiio");
                 const isPhasesOver = this.execute(mouse);
                 if (isPhasesOver) {
                    this.state = TurnStates.END
@@ -88,6 +86,7 @@ export default class Turn {
                 return false
 
             case TurnStates.END:
+                console.log("end");
                 this.end();
                 return true
         }
@@ -109,14 +108,16 @@ export default class Turn {
             case PhaseStates.PREPARE_EVENT:
                 const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute()
                 if (isPreparationFinished) {
-                    this.phaseState = PhaseStates.USE_EVENT_CARD
+                    this.phaseState = PhaseStates.DEFAULT;
+                    this.actionsCounter++;
                 }
                 break;
 
             case PhaseStates.USE_EVENT_CARD:
                 const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse)
                 if (isUsageFinished) {
-                     this.phaseState = PhaseStates.MOVEMENT
+                     this.phaseState = PhaseStates.DEFAULT;
+                     this.actionsCounter++;
                 }
                 
                 break;
@@ -126,6 +127,7 @@ export default class Turn {
            
                 if(changePhase){
                     this.phaseState = PhaseStates.DEFAULT;
+                    this.actionsCounter++;
                 }
                 break; 
                 
@@ -147,6 +149,10 @@ export default class Turn {
             default:
 
                 break;
+        }
+
+        if(this.actionsCounter === this.maxActions){
+            this.state = TurnStates.END;
         }
     }
 

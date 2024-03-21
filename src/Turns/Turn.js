@@ -113,7 +113,6 @@ export default class Turn {
                 }
                 break;    
             default:
-
                 break;
         }
     }

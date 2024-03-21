@@ -10,7 +10,6 @@ export default class MinionAttackPhase extends Phase {
         this.activeMinionDeck = activeMinionDeck;         // Deck de minions activos
         this.enemyActiveMinionDeck = enemyActiveMinionDeck;    // Deck de minions activos del rival
         this.mouse = mouse;                    // Objeto Mouse
-        this.state = MovePhaseStates.NONE;     // Estado de la fase
     }
 
 
@@ -39,7 +38,7 @@ export default class MinionAttackPhase extends Phase {
             // Calcular distancia en slots [0] -> distancia en slots x [1] -> distancia en slots y
             const distance = this.calculateDistance(attacker, enemy);
 
-            if (attacker.type === "Melee" && distance[0] < 6 && distance[1] < 6) {
+            if (attacker.type === "Melee" && distance[0] < 1 && distance[1] < 1) {
 
                 // Ejecucion del evento de ataque
                 const attackEvent = new AttackEvent(attacker, enemy);
@@ -90,7 +89,7 @@ export default class MinionAttackPhase extends Phase {
 
 
     execute() {
- 
+        
         let aux = this.attack();
         return aux;
     }

@@ -10,14 +10,6 @@ export default class MinionMovementPhase extends Phase {
         this.mouse = mouse;                    // Objeto Mouse
     }
 
-    // funcion para realizar el movimiento
-    moveMinion(minionSelected, slotSelected){
-                 
-        minionSelected.xPos = slotSelected.xPos;
-        minionSelected.yPos = slotSelected.yPos;
-        minionSelected.state = CardId.NOT_SELECTED;
-    }
-
     execute() {
         
         const isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED)
@@ -35,7 +27,16 @@ export default class MinionMovementPhase extends Phase {
             if  (isAnySlotHovered[0] && !this.mouse.leftClick && this.mouse.previousStateLeft){
                 
                 this.moveMinion(minionSelected, slotSelected);
+                return true;
             }
         }
+    }
+
+    // funcion para realizar el movimiento
+    moveMinion(minionSelected, slotSelected){
+        
+        minionSelected.xPos = slotSelected.xPos;
+        minionSelected.yPos = slotSelected.yPos;
+        minionSelected.state = CardId.NOT_SELECTED;
     }
 }

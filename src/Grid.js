@@ -27,7 +27,7 @@ export default class Grid{
 
         // Id del Grid
         const id = gridId;
-
+        
         // Array de Slots para guardar en el Grid
         let slotsArray = [];
 
@@ -42,8 +42,8 @@ export default class Grid{
                 const slotsYsize = ySizeSlots;
 
                 // Calculo de la posicion de los Slots
-                let slotsXPos = gridXPos + slotsXsize * j;
-                let slotsYPos = gridYpos + slotsYsize * i;
+                let slotsXPos = Math.floor(gridXPos + slotsXsize * j);
+                let slotsYPos = Math.floor(gridYpos + slotsYsize * i);
 
                 // Crear Slots
                 const slots = new Slot(slotsXPos, slotsYPos, slotsXsize, slotsYsize);

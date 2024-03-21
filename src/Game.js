@@ -49,7 +49,7 @@ export default class Game {
 
      
         
-        const firstTurn = Math.floor(Math.random()*2)
+        const firstTurn = Math.floor(Math.random()*2);
         turns.CreateTurns(mouse);
 
         console.log(turns.turnContainer);
@@ -85,7 +85,7 @@ export default class Game {
 
                 this.deckContainer.updateDecks(this.mouse)
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse)
-                this.updateAllGrids()
+                this.gridsArray.update(this.mouse, this.deckContainer);
                 this.mouse.update()
                 break;
 
@@ -121,14 +121,6 @@ export default class Game {
         }
     }
 
-    updateAllGrids(){
-        for (let i = 0; i < this.gridsArray.grids.length; i++) {
-            const grid = this.gridsArray.grids[i];
-            // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
-            grid.update(this.mouse, this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK])
-            
-        }
-    }
     drawGame() {
         const images = this.images.images
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -405,7 +397,7 @@ export default class Game {
     }
 
     updateGame() {
-
+        
         // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
         // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards);
         // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards);

@@ -110,13 +110,12 @@ export default class Turn {
             case PhaseStates.MOVEMENT:
                 const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute()
                 if(isMovementFinished){
-                    this.phaseState = PhaseStates.DEFAULT;
+                    this.phaseState = PhaseStates.ATTACK;
                 }
                 break;
                 
             case PhaseStates.ATTACK:
                 const isAttackFinished = this.phasesArray[PhaseStates.ATTACK].execute()
-
                 if(isAttackFinished){
                     this.phaseState = PhaseStates.DEFAULT;
                 }

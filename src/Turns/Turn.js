@@ -29,6 +29,7 @@ export default class Turn {
         this.phasesArray        = [];                       // Array de fases
         this.actionsCounter     = 0;                        // Contador de acciones maximo 5
         this.maxActions         = 3;                        // maximo de acciones
+        this.finished = false
 
     }
 
@@ -75,20 +76,23 @@ export default class Turn {
                 this.init();
                 console.log("init");
                 this.state = TurnStates.EXECUTION
-                return false
+                this.finished = false
+                break;
             
             case TurnStates.EXECUTION:
-                console.log("executiio");
+                // console.log("executiio");
                 const isPhasesOver = this.execute(mouse);
                 if (isPhasesOver) {
                    this.state = TurnStates.END
                 }
-                return false
+                this.finished = false
+                break;
 
             case TurnStates.END:
                 console.log("end");
                 this.end();
-                return true
+                this.finished = true
+                break;
         }
     }
 
@@ -96,7 +100,8 @@ export default class Turn {
         this.restoreCardStatesFromActiveDecks()
         this.applyEvents()
         this.reduceEventCardsCooldown()
-        this.phasesArray[PhaseStates.DRAW_CARD].execute()
+        this.actionsCounter = 0
+        // this.phasesArray[PhaseStates.DRAW_CARD].execute()
         
         // indicar turno activo
         this.active = true;

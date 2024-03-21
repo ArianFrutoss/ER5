@@ -79,9 +79,8 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.updateGame();
-
                 this.deckContainer.updateDecks(this.mouse)
-                const isTurnFinished = this.turnContainer.turnContainer[this.currentTurn].update(this.mouse);
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse);
 
 
                 this.updateAllGrids()
@@ -89,11 +88,12 @@ export default class Game {
                 this.mouse.update();
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
 
-                if(isTurnFinished){
-                    
-                    this.turnContainer.turnContainer[this.currentTurn] = TurnStates.INITIALIZE;
+                if(this.turnContainer.turnContainer[this.currentTurn].finished){
+                    this.turnContainer.turnContainer[this.currentTurn].finished = false
+                    this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
                     this.currentTurn = (this.currentTurn + 1) % 2;
                     this.turnCounter++;
+
                 }
 
                 break;
@@ -231,11 +231,9 @@ export default class Game {
     }
 
     renderHeroes(){
-        
         //Hero Render
         const hero = this.turnContainer.turnContainer[this.currentTurn].mainCharacter
-        const enemyTurn = (this.currentTurn+1) % 2
-        const enemy = this.turnContainer.turnContainer[enemyTurn].mainCharacter
+        const enemy = this.turnContainer.turnContainer[(this.currentTurn+1) % 2].mainCharacter
         const images = this.images.images
         this.drawCard(images, hero, IconsPos.PLAYER_X[this.currentTurn], IconsPos.PLAYER_Y[this.currentTurn])
         this.ctx.fillText(hero.name[this.language],IconsPos.PLAYER_NAME_X[this.currentTurn], IconsPos.PLAYER_NAME_Y[this.currentTurn])
@@ -294,7 +292,7 @@ export default class Game {
             
                 for (let j = 0; j < deck.cards.length; j++) {
                     const card = deck.cards[j];
-                    this.drawCard(this.images.images, card, card.xPos , card.yPos )
+                    this.drawCard(this.images.images, card, card.xPos , card.yPos)
             
                 
             }

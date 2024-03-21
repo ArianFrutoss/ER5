@@ -81,11 +81,18 @@ export default class Game {
                 this.updateGame();
 
                 this.deckContainer.updateDecks(this.mouse)
-                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse)
+                const isTurnFinished = this.turnContainer.turnContainer[this.currentTurn].update(this.mouse);
+
+
                 this.updateAllGrids()
                 // this.gridsArray.grids[GridId.BOARD_GRID].update(this.mouse);
                 this.mouse.update();
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
+
+                if(isTurnFinished){
+                    this.currentTurn = (this.currentTurn + 1) % 2;
+                }
+
                 break;
 
             case GameState.GAMEOVER:

@@ -87,6 +87,7 @@ export default class Turn {
 
             case TurnStates.END:
                 this.end();
+
                 break;
         }
     }
@@ -142,10 +143,6 @@ export default class Turn {
                 this.phaseState = this.phasesArray[PhaseStates.DEFAULT].update();
                 
                 break;
-            
-            case PhaseStates.USE_EVENT_CARD:
-          
-                break;
             default:
 
                 break;
@@ -154,7 +151,6 @@ export default class Turn {
 
     end(){
         
-        // cambio de turno
         this.active = false;
     }
 

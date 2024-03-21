@@ -54,11 +54,5 @@ export default class TurnContainer {
         turn2.createPhases(mouse, this.gridArray, this.deckContainer.decks, turnCounter);
 
         this.turnContainer = [turn1, turn2]; //player 1 pos 0, player 2 pos 1;
-    }
-
-    update(){
-        
-    }
-    
-
+    }  
 }

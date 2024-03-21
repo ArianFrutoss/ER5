@@ -10,7 +10,7 @@ export class AttackEvent extends Event{
     }
 
     execute() {
-        if (this.attackerMinion.equipedWeapon !== null && this.attackerMinion.equipedWeapon !== undefined) {
+        if (this.attackerMinion.weapon != undefined) {
             // Ataque con los atributos del minion y del arma
             this.attackWithWeapon();
         } else {
@@ -26,13 +26,8 @@ export class AttackEvent extends Event{
     }
     
     attackWithWeapon(){
-        let damage = this.attackerMinion.attack;
-
-        for (let i = 0; i < this.attackerMinion.equipedWeapon.length; i++) {
-
-            damage += this.attackerMinion.equipedWeapon[i].attack;
-        }
-
+        let damage = this.attackerMinion.attack + this.attackerMinion.weapon.attack;
+        this.attackerMinion.weapon.durability--
         this.objectiveMinion.health -= damage;
     }
 }

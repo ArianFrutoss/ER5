@@ -1,8 +1,9 @@
+import { RarityId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Minion extends Card{
 
-    constructor(id, name, description, image, rarity, category, type, xPos, yPos, attack, defense, health, speed, equipedWeapon=undefined, equipedArmor=undefined){
+    constructor(id, name, description, image, rarity, category, type, xPos, yPos, attack, defense, health, speed, weapon=undefined, armor=undefined){
 
         super(id, name, description, image, rarity, category, type, xPos, yPos);
 
@@ -11,8 +12,8 @@ export default class Minion extends Card{
         this.defense    = defense;
         this.health     = health;
         this.speed      = speed; 		   	
-        this.equipedWeapon = equipedWeapon;
-        this.equipedArmor  = equipedArmor;
+        this.weapon     = undefined;
+        this.armor      = undefined;
     }
     update(mouse, decks){
         super.update(mouse,decks);

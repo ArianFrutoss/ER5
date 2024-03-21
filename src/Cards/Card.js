@@ -1,6 +1,6 @@
 
 import Mouse from "../Mouse.js";
-import { CardId } from "../constants.js";
+import { CardActions, CardId, DecksId, TypeId } from "../constants.js";
 export default class Card{
 
     constructor(id, name, description, image, rarity, category, type = "Melee", xPos, yPos, deck){
@@ -18,15 +18,17 @@ export default class Card{
         this.state          = CardId.NOT_SELECTED;
         this.deck           = deck
         this.previousState  = CardId.NOT_SELECTED
+        this.action         = CardActions.NOT_ACTIVE
         // this.objective      = objective;
   	
     }
 
     update(mouse,decks){
-        const isAnyCardScaled   = this.isAnyCard(decks, CardId.SCALED)
-        const isAnyCardSelected = this.isAnyCard(decks, CardId.SELECTED)
 
-        if (!isAnyCardScaled) {
+        const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
+        const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
+
+        if (!isAnyCardScaled[0]) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
     
             switch (this.state) {
@@ -39,8 +41,8 @@ export default class Card{
                     case CardId.HOVER:
                         this.state = isCollidingWithMouse   ? this.state = CardId.HOVER : CardId.NOT_SELECTED
                         this.state =
-                            !mouse.leftClick    && !isAnyCardSelected && mouse.previousStateLeft      ? CardId.SELECTED           : 
-                            !mouse.rightClick   && mouse.previousStateRight                           ? CardId.SCALED             : this.state
+                            !mouse.leftClick    && !isAnyCardSelected[0] && mouse.previousStateLeft      ? CardId.SELECTED           : 
+                            !mouse.rightClick   && mouse.previousStateRight                              ? CardId.SCALED             : this.state
                         break;
     
                     case CardId.SELECTED:
@@ -63,8 +65,8 @@ export default class Card{
                     break;
             }
         } else {
+            
             if (this.state === CardId.SCALED) {
-                
                 this.state = !mouse.rightClick && mouse.previousStateRight       ? CardId.NOT_SELECTED            : this.state
 
             }
@@ -72,21 +74,23 @@ export default class Card{
             this.previousState = this.state
     }
 
-    isAnyCard(decks,state){
-        let result
-        for (let i = 0; i < decks.length; i++) {
-            const deck = decks[i];
-            for (let j = 0; j < deck.cards.length; j++) {
-                const card = deck.cards[j];
-                result = card.state === state ? true : false
-                if (result === true) {
-                    return result
-                    
-                }
-            }            
+        isAnyCard(decks,state){
+            let result = []
+            for (let i = 0; i < decks.length; i++) {
+                const deck = decks[i];
+                for (let j = 0; j < deck.cards.length; j++) {
+                    const card = deck.cards[j];
+                    result[0] = card.state === state ? true : false
+                    if (result === true) {
+                        result[1] = card
+                        return result
+                        
+                    }
+                }            
+            }
+            return result
         }
-        return result
-    }
+
 
     // The logic for the case ATTACK
     attack(){

@@ -90,7 +90,7 @@ export default class Slot{
 
             const card = deck.cards[i];
 
-            if (card.xPos === this.xPos){
+            if (card.xPos === this.xPos && card.yPos === this.yPos){
                 
                 this.isEmpty = false;
             }

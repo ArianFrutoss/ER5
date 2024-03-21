@@ -11,7 +11,7 @@ export default class ButtonContainer{
         const btnMove           = new Button(ctx, 330, 200, 150, 100, "move", ButtonState.NOT_SELECTED, PhaseStates.MOVEMENT);
         const btnPrepareEvent   = new Button(ctx, 330, 350, 150, 100, "prepare event", ButtonState.NOT_SELECTED, PhaseStates.PREPARE_EVENT);
         const btnUseEvent       = new Button(ctx, 330, 500, 150, 100, "use event", ButtonState.NOT_SELECTED, PhaseStates.USE_EVENT_CARD);
-        const btnAttack         = new Button(ctx, 330, 650, 150, 100, "attack", ButtonState.NOT_SELECTED, PhaseStates.MOVEMENT);
+        const btnAttack         = new Button(ctx, 330, 650, 150, 100, "attack", ButtonState.NOT_SELECTED, PhaseStates.ATTACK);
 
         const container = [btnMove, btnPrepareEvent, btnUseEvent, btnAttack];
 

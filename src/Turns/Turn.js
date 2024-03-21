@@ -132,7 +132,8 @@ export default class Turn {
             case PhaseStates.MOVEMENT:
                 const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute()
                 if(isMovementFinished){
-                    this.phaseState = PhaseStates.ATTACK;
+                    this.phaseState = PhaseStates.DEFAULT;
+                    this.actionsCounter++;
                 }
                 break;
                 

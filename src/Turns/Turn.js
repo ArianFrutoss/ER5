@@ -72,7 +72,7 @@ export default class Turn {
     //     console.log(this.mainCharacter.image);
     // }
 
-    update(mouse){
+    update(mouse, enemyActiveMinionDeck){
         switch(this.state){
             
             case TurnStates.INITIALIZE:
@@ -85,10 +85,15 @@ export default class Turn {
             case TurnStates.EXECUTION:
                 // console.log("executiio");
                 const isPhasesOver = this.execute(mouse);
-                if (isPhasesOver) {
-                   this.state = TurnStates.END
+                if (enemyActiveMinionDeck.cards.length === 0) {
+                    this.finished = true
+                }else{
+                    if (isPhasesOver) {
+                       this.state = TurnStates.END
+                    }
+                    this.finished = false
+
                 }
-                this.finished = false
                 break;
 
             case TurnStates.END:

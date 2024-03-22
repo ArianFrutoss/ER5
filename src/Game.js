@@ -85,23 +85,23 @@ export default class Game {
             case GameState.PLAYING:
                 this.updateGame();
                 this.deckContainer.updateDecks(this.mouse)
-                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse);
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse,this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck);
 
                 this.gridsArray.update(this.mouse, this.deckContainer);
                 this.mouse.update();
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
 
-                if(this.turnContainer.turnContainer[this.currentTurn].finished){
-                    this.turnContainer.turnContainer[this.currentTurn].finished = false
-                    this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
-                    this.currentTurn = (this.currentTurn + 1) % 2;
-                    this.turnCounter++;
+                if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length === 0){
+                    this.gameState = GameState.GAMEOVER
+                }else{
+                    if(this.turnContainer.turnContainer[this.currentTurn].finished){
+                        this.turnContainer.turnContainer[this.currentTurn].finished = false
+                        this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
+                        this.currentTurn = (this.currentTurn + 1) % 2;
+                        this.turnCounter++;
+    
+                    }
 
-                }
-                for (let i = 0; i < this.eventContainer.events.length; i++) {
-                    const event = this.eventContainer.events[i];
-                    // console.log(event.card.action, event.cooldown);
-                    
                 }
                 break;
 
@@ -128,9 +128,13 @@ export default class Game {
                 this.turnContainer.buttonContainer.renderButtons();
                 this.ctx.font         = "bold 30px Arial";
                 this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
-                this.ctx.fillText("Click Derecho: " + this.mouse.rightClick + "--------" + "Click Izquierdo: " + this.mouse.leftClick, 100, 150);  
                 break;
 
+
+            case GameState.GAMEOVER:
+                this.ctx.font         = "bold 60px Arial";
+                this.ctx.fillText(this.turnContainer.turnContainer[(this.currentTurn+1)%2].mainCharacter.name[LanguageId.ENG] + "  WON", 1000, 500);
+                break;
             default:
                 break;
 

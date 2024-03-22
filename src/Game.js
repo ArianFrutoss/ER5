@@ -15,7 +15,7 @@ import EventContainer from "./Events/EventContainer.js";
 
 export default class Game {
 
-    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity,canvas, ctx, mouse, firstTurn) {
+    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn) {
 
         this.turnContainer = turnArray;
         this.handsArray = handsArray;
@@ -25,7 +25,7 @@ export default class Game {
         this.boardMinionsArray = boardMinionsArray;
         this.deckContainer = deckContainer;
         this.gridsArray = gridsArray;
-        this.activeEventsArray = activeEventsArray;
+        this.eventContainer = eventContainer;
         this.turnCounter = 0;
         this.rarity = rarity;
         this.gameState = GameState.LOAD_GAME;
@@ -53,7 +53,7 @@ export default class Game {
         
         
         const firstTurn = Math.floor(Math.random()*2);
-        turns.CreateTurns(mouse);
+        turns.CreateTurns(mouse, eventContainer);
 
         console.log(turns.turnContainer);
 

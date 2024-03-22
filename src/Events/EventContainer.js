@@ -13,8 +13,10 @@ export default class EventContainer {
     executeEvents(){
         for (let i = 0; i < this.events.length; i++) {
             const event = this.events[i];
-            event.execute()
-            
+            const isOver = event.execute()
+            if (isOver) {
+                this.events.splice(i, 1)
+            }
         }
     }
 }

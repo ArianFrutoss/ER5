@@ -25,7 +25,7 @@ export default class TurnContainer {
     }
 
 
-    CreateTurns(mouse)
+    CreateTurns(mouse, eventContainer)
     {
         let hero1 = {};
         let hero2 = {};
@@ -48,9 +48,9 @@ export default class TurnContainer {
         const buttonContainer           = this.buttonContainer;
 
         let turnCounter = 0
-        const turn1 = new Turn(this.gridArray, hero1, player1HandDeck, player1MinionDeck, graveYardDeck, eventDeck, player1PreparingEventDeck, player1ActiveMinionDeck, buttonContainer);
+        const turn1 = new Turn(this.gridArray, hero1, player1HandDeck, player1MinionDeck, graveYardDeck, eventDeck, player1PreparingEventDeck, player1ActiveMinionDeck, buttonContainer, eventContainer);
         turn1.createPhases(mouse, this.gridArray, this.deckContainer.decks, turnCounter++);
-        const turn2 = new Turn(this.gridArray, hero2, player2HandDeck, player2MinionDeck, graveYardDeck, eventDeck, player2PreparingEventDeck, player2ActiveMinionDeck, buttonContainer);
+        const turn2 = new Turn(this.gridArray, hero2, player2HandDeck, player2MinionDeck, graveYardDeck, eventDeck, player2PreparingEventDeck, player2ActiveMinionDeck, buttonContainer, eventContainer);
         turn2.createPhases(mouse, this.gridArray, this.deckContainer.decks, turnCounter);
 
         this.turnContainer = [turn1, turn2]; //player 1 pos 0, player 2 pos 1;

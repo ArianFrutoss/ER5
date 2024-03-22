@@ -11,7 +11,7 @@ import UseEventPhase from "./turn_phases/UseEventPhase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck, buttonContainer){
+    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck, buttonContainer, eventContainer){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
@@ -20,6 +20,7 @@ export default class Turn {
         this.graveyardDeck      = graveyardDeck;            // Mazo cementerio
         this.mainCharacter      = mainCharacter;            // Carta de Character asignada  predefinida desde turnContainer
         this.gridArray          = gridArray;                // Array de rejillas
+        this.eventContainer     = eventContainer            // Contenedor de eventos
         this.eventDeck          = eventDeck;                // Mazo de eventos
         this.preparingEventDeck = preparingEventDeck;       // mazo de eventos en preparacion
         this.activeMinionDeck   = activeMinionDeck;         // Mazo de minions activos

@@ -1,14 +1,15 @@
 import Turn from "./Turn.js";
-import { DecksId } from "../constants.js";
+import { DecksId, TurnId } from "../constants.js";
 
 export default class TurnContainer {
 
-    constructor(gridArray, deckContainer, buttonContainer){
+    constructor(gridArray, deckContainer, buttonContainer, eventContainer){
 
         this.turnContainer      = [];
         this.gridArray          = gridArray;
         this.deckContainer      = deckContainer;
         this.buttonContainer    = buttonContainer;
+        this.eventContainer    = eventContainer;
     }
 
     selectRandomHero(heroDeck)
@@ -46,6 +47,8 @@ export default class TurnContainer {
         const player1ActiveMinionDeck   = this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK];
         const player2ActiveMinionDeck   = this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK];
         const buttonContainer           = this.buttonContainer;
+        const player1ActiveEvents       = this.eventContainer.events[TurnId.PLAYER_1]
+        
 
         let turnCounter = 0
         const turn1 = new Turn(this.gridArray, hero1, player1HandDeck, player1MinionDeck, graveYardDeck, eventDeck, player1PreparingEventDeck, player1ActiveMinionDeck, buttonContainer, eventContainer);

@@ -104,8 +104,7 @@ export default class Turn {
 
     init(){
         this.restoreCardStatesFromActiveDecks()
-        this.applyEvents()
-        this.reduceEventCardsCooldown()
+        this.eventContainer.executeEvents()
         this.actionsCounter = 0
         this.phasesArray[PhaseStates.DRAW_CARD].execute()
         
@@ -117,7 +116,7 @@ export default class Turn {
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
-                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute()
+                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer)
                 if (isPreparationFinished) {
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
@@ -215,7 +214,4 @@ export default class Turn {
         }
     }
     
-    applyEvents(){
-        
-    }
 }

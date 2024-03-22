@@ -45,8 +45,8 @@ export default class Game {
 
         const buttonContainer = ButtonContainer.create(ctx);
 
-        const turns = new TurnContainer(board.grids, deckContainer, buttonContainer);
         const eventContainer = new EventContainer()
+        const turns = new TurnContainer(board.grids, deckContainer, buttonContainer, eventContainer);
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
  
@@ -98,7 +98,11 @@ export default class Game {
                     this.turnCounter++;
 
                 }
-
+                for (let i = 0; i < this.eventContainer.events.length; i++) {
+                    const event = this.eventContainer.events[i];
+                    // console.log(event.card.action, event.cooldown);
+                    
+                }
                 break;
 
             case GameState.GAMEOVER:

@@ -14,6 +14,7 @@ export default class EventContainer {
         for (let i = 0; i < this.events.length; i++) {
             const event = this.events[i];
             const isOver = event.execute()
+            console.log(isOver);
             if (isOver) {
                 this.events.splice(i, 1)
             }

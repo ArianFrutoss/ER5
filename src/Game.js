@@ -10,6 +10,7 @@ import TurnContainer from "./Turns/TurnContainer.js";
 import Mouse from "./Mouse.js";
 import Button from "./Button/Button.js";
 import ButtonContainer from "./Button/ButtonContainer.js";
+import EventContainer from "./Events/EventContainer.js";
 
 
 export default class Game {
@@ -45,7 +46,7 @@ export default class Game {
         const buttonContainer = ButtonContainer.create(ctx);
 
         const turns = new TurnContainer(board.grids, deckContainer, buttonContainer);
-        
+        const eventContainer = new EventContainer()
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
  
@@ -58,7 +59,7 @@ export default class Game {
 
       
 
-        return new Game(turns, null, assets, null, null, deckContainer, board, null, null, canvas, ctx, mouse, firstTurn);
+        return new Game(turns, null, assets, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn);
     }
 
     update() {
@@ -275,12 +276,12 @@ export default class Game {
                     }
 
                     else{
-                        
+                        this.ctx.filter = "opacity(50%)"
                         this.ctx.fillStyle = "black";
                     }
 
                     this.ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
-                    
+                    this.ctx.filter = "opacity(100%)"
                     this.ctx.fillStyle = "black";
                 }
             }

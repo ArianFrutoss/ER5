@@ -1,5 +1,5 @@
-import { EventsId, TypeId } from "../constants";
-import { CooldownEvent } from "./temp_events/CooldownEvent";
+import { EventsId, TypeId } from "../constants.js";
+import { CooldownEvent } from "./temp_events/CooldownEvent.js";
 
 
 export default class EventFactory {

@@ -1,4 +1,4 @@
-import EventFactory from "./EventFactory"
+import EventFactory from "./EventFactory.js"
 
 export default class EventContainer {
     constructor() {

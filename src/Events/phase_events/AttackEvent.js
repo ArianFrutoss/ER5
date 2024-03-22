@@ -23,7 +23,7 @@ export class AttackEvent extends Event{
             damage = this.attack();
         }
         
-        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage, MessageState.APPEAR, 0.1, 0.2, 0.6, 0.0);
+        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage, MessageState.APPEAR, 1, 2, 6, 0.0);
         messagesContainer.messages.push(doneDamage);
     }
 

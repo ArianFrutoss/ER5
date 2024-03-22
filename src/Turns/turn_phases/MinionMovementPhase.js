@@ -11,7 +11,7 @@ export default class MinionMovementPhase extends Phase {
     }
 
     execute() {
-        
+        this.boardGrid.clearSlots();
         const isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
         const isAnySlotHovered  = this.boardGrid.isAnySlot(this.boardGrid, SlotsState.HOVER);
 

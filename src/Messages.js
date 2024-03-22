@@ -1,10 +1,9 @@
 export default class Messages{
 
-    constructor(xPos, yPos, size, message){
+    constructor(xPos, yPos, message){
 
         this.xPos       = xPos;
         this.yPos       = yPos;
-        this.size       = size;
         this.message    = message;
     }
 }

@@ -1,5 +1,5 @@
 import Event from "../Event.js";
-import Messages from "../../../Messages.js";
+import Messages from "../../Messages.js";
 
 export class AttackEvent extends Event{
 
@@ -21,8 +21,8 @@ export class AttackEvent extends Event{
             // Ataque con los atributos del minion
             damage = this.attack();
         }
-
-        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, 20, damage);
+        
+        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage);
         messages.push(doneDamage);
     }
 

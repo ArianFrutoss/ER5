@@ -90,7 +90,7 @@ export default class Game {
                 this.gridsArray.update(this.mouse, this.deckContainer);
                 this.mouse.update();
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
-                console.log(this.messages);
+
                 if(this.turnContainer.turnContainer[this.currentTurn].finished){
                     this.turnContainer.turnContainer[this.currentTurn].finished = false
                     this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
@@ -125,6 +125,8 @@ export default class Game {
                 this.ctx.font         = "bold 30px Arial";
                 this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
                 this.ctx.fillText("Click Derecho: " + this.mouse.rightClick + "--------" + "Click Izquierdo: " + this.mouse.leftClick, 100, 150);  
+                // Funcion para renderizar los mensajes
+                this.renderMessages();
                 break;
 
             default:
@@ -146,7 +148,21 @@ export default class Game {
         this.renderGrids();
 
         this.renderHeroes()
+    }
 
+    renderMessages(){
+
+        if (this.messages.length > 0){
+
+            for (let i = 0; i < this.messages.length; i++){
+                
+                this.ctx.font = "100px LongaIberica-DEMO";
+                this.ctx.fillStyle = "red";
+                this.ctx.fillText(this.messages[i].message, this.messages[i].xPos, this.messages[i].yPos);
+            }
+        }
+
+        this.ctx.fillStyle = "black";
     }
 
     renderBoard(images) {

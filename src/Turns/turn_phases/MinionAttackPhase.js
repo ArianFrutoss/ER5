@@ -38,7 +38,7 @@ export default class MinionAttackPhase extends Phase {
             // Calcular distancia en slots [0] -> distancia en slots x [1] -> distancia en slots y
             const distance = this.calculateDistance(attacker, enemy);
             
-            if (attacker.type === "Melee" && distance[0] <= 5 && distance[1] <= 5) {
+            if (attacker.type === "Melee" && distance[0] <= 1 && distance[1] <= 1) {
 
                 // Ejecucion del evento de ataque
                 const attackEvent = new AttackEvent(attacker, enemy);

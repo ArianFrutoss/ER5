@@ -1,4 +1,4 @@
-import { SlotsState } from "./constants.js";
+import { CardId } from "./constants.js";
 import Slot from "./Slot.js";
 
 export default class Grid{
@@ -64,6 +64,35 @@ export default class Grid{
 
                 const slot = this.slots[i][j];
                 slot.update(mouse, this, deck);
+            }
+        }
+    }
+
+    aviableSlots(minionSelected){
+
+        for (let i = 0; i < this.slots.length; i++){
+
+            for (let j = 0; j < this.slots[0].length; j++){
+
+                const slot = this.slots[i][j];
+                const distance = slot.calculateDistance(minionSelected);
+                
+                if (minionSelected.speed >= distance && minionSelected.state === CardId.SELECTED){
+                    
+                    slot.isAviable = true;
+                }
+            }
+        }
+    }
+
+    clearSlots(){
+
+        for (let i = 0; i < this.slots.length; i++){
+
+            for (let j = 0; j < this.slots[0].length; j++){
+
+                const slot = this.slots[i][j];
+                slot.isAviable = false;
             }
         }
     }

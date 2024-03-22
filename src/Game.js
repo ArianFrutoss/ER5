@@ -259,22 +259,29 @@ export default class Game {
                     const slotsXSize = slot.xSize - 2;
                     const slotsYSize = slot.ySize - 2;
 
-                    if (slot.state === SlotsState.SELECTED){
+                    if (slot.isAviable){
                         
-                        this.ctx.fillStyle = "white"
+                        this.ctx.fillStyle = "green";
+                    }
+
+                    else if (slot.state === SlotsState.SELECTED){
+                        
+                        this.ctx.fillStyle = "white";
                     }
 
                     else if (slot.state === SlotsState.HOVER){
                         
-                        this.ctx.fillStyle = "purple"
+                        this.ctx.fillStyle = "purple";
                     }
 
                     else{
                         
-                        this.ctx.fillStyle = "black"
+                        this.ctx.fillStyle = "black";
                     }
 
                     this.ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
+                    
+                    this.ctx.fillStyle = "black";
                 }
             }
         }

@@ -14,7 +14,7 @@ export default class MinionAttackPhase extends Phase {
 
 
     // funcion para realizar el ataque
-    attack() {
+    attack(messages) {
 
         // Comprobar si hay alguna carta seleccionada del mazo de minions activos
         let isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
@@ -42,7 +42,7 @@ export default class MinionAttackPhase extends Phase {
 
                 // Ejecucion del evento de ataque
                 const attackEvent = new AttackEvent(attacker, enemy);
-                attackEvent.execute();
+                attackEvent.execute(messages);
                 attacker.state = CardId.NOT_SELECTED;
                 enemy.state = CardId.NOT_SELECTED;
 
@@ -81,15 +81,15 @@ export default class MinionAttackPhase extends Phase {
 
         console.log("Distancia en slots en el eje X:", distanceXSlots);
         console.log("Distancia en slots en el eje Y:", distanceYSlots);
-
+        
         return [distanceXSlots, distanceYSlots];
     }
 
 
 
-    execute() {
+    execute(messages) {
         
-        let aux = this.attack();
+        let aux = this.attack(messages);
         return aux;
     }
 }

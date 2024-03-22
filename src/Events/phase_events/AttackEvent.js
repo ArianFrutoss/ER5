@@ -10,7 +10,7 @@ export class AttackEvent extends Event{
         this.objectiveMinion    = objectiveMinion;      // Minion objetivo
     }
 
-    execute() {
+    execute(messages) {
 
         let damage;
 
@@ -23,7 +23,7 @@ export class AttackEvent extends Event{
         }
 
         const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, 20, damage);
-        console.log(doneDamage);
+        messages.push(doneDamage);
     }
 
     attack(){

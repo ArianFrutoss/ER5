@@ -32,6 +32,7 @@ export default class Game {
         this.ctx = ctx
         this.mouse = mouse;
         this.currentTurn = firstTurn;
+        this.messages = [];
     }
 
     static init(data, canvas, ctx) {
@@ -84,12 +85,12 @@ export default class Game {
             case GameState.PLAYING:
                 this.updateGame();
                 this.deckContainer.updateDecks(this.mouse)
-                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse);
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.messages);
 
                 this.gridsArray.update(this.mouse, this.deckContainer);
                 this.mouse.update();
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
-
+                console.log(this.messages);
                 if(this.turnContainer.turnContainer[this.currentTurn].finished){
                     this.turnContainer.turnContainer[this.currentTurn].finished = false
                     this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;

@@ -14,7 +14,7 @@ export default class DrawCardPhase extends Phase{
         for (let i = 0; i < quantity; i++) {
             if (this.eventDeck.cards.length > 0) {
                 if (this.handDeck.cards.length < MAXIMUN_CARDS_IN_HAND) {
-                    this.handDeck.cards.push(this.eventDeck.cards[eventDeck.cards.length - 1]);
+                    this.handDeck.cards.push(this.eventDeck.cards[this.eventDeck.cards.length - 1]);
                     this.eventDeck.cards.pop();            
                 }            
                 

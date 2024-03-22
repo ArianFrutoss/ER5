@@ -1,14 +1,15 @@
 import Turn from "./Turn.js";
-import { DecksId } from "../constants.js";
+import { DecksId, TurnId } from "../constants.js";
 
 export default class TurnContainer {
 
-    constructor(gridArray, deckContainer, buttonContainer){
+    constructor(gridArray, deckContainer, buttonContainer, eventContainer){
 
         this.turnContainer      = [];
         this.gridArray          = gridArray;
         this.deckContainer      = deckContainer;
         this.buttonContainer    = buttonContainer;
+        this.eventContainer    = eventContainer;
     }
 
     selectRandomHero(heroDeck)
@@ -25,7 +26,7 @@ export default class TurnContainer {
     }
 
 
-    CreateTurns(mouse)
+    CreateTurns(mouse, eventContainer)
     {
         let hero1 = {};
         let hero2 = {};
@@ -46,11 +47,13 @@ export default class TurnContainer {
         const player1ActiveMinionDeck   = this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK];
         const player2ActiveMinionDeck   = this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK];
         const buttonContainer           = this.buttonContainer;
+        const player1ActiveEvents       = this.eventContainer.events[TurnId.PLAYER_1]
+        
 
         let turnCounter = 0
-        const turn1 = new Turn(this.gridArray, hero1, player1HandDeck, player1MinionDeck, graveYardDeck, eventDeck, player1PreparingEventDeck, player1ActiveMinionDeck, buttonContainer);
+        const turn1 = new Turn(this.gridArray, hero1, player1HandDeck, player1MinionDeck, graveYardDeck, eventDeck, player1PreparingEventDeck, player1ActiveMinionDeck, buttonContainer, eventContainer);
         turn1.createPhases(mouse, this.gridArray, this.deckContainer.decks, turnCounter++);
-        const turn2 = new Turn(this.gridArray, hero2, player2HandDeck, player2MinionDeck, graveYardDeck, eventDeck, player2PreparingEventDeck, player2ActiveMinionDeck, buttonContainer);
+        const turn2 = new Turn(this.gridArray, hero2, player2HandDeck, player2MinionDeck, graveYardDeck, eventDeck, player2PreparingEventDeck, player2ActiveMinionDeck, buttonContainer, eventContainer);
         turn2.createPhases(mouse, this.gridArray, this.deckContainer.decks, turnCounter);
 
         this.turnContainer = [turn1, turn2]; //player 1 pos 0, player 2 pos 1;

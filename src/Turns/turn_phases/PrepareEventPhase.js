@@ -8,10 +8,11 @@ export default class PrepareEventPhase extends Phase{
         this.handDeck   = handDeck;
         this.handGrid   = handGrid;
         this.activeEventDeck  = eventDeck;
-        this.activeEventGrid  = eventGrid
+        this.activeEventGrid  = eventGrid;
+        
     }
     
-    execute(){
+    execute(eventContainer){
         
         const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)
 
@@ -32,7 +33,8 @@ export default class PrepareEventPhase extends Phase{
                 card.yPos =  slot.yPos
                 card.state = CardId.NOT_SELECTED
                 card.size = CardId.SMALL_SIZE
-                card.action = CardActions.READY
+                card.action = CardActions.COOLDOWN
+                eventContainer.createEvent(card)
                 slot.state = SlotsState.NOT_SELECTED
 
                 return true

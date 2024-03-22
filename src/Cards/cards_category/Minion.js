@@ -1,4 +1,4 @@
-import { RarityId } from "../../constants.js";
+import { CardId, RarityId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Minion extends Card{
@@ -20,7 +20,10 @@ export default class Minion extends Card{
         this.minionLogic()
     }
     minionLogic(){
-        
+        if (this.state === CardId.DEAD) {
+            this.xPos = -500
+            this.yPos = -500
+        }
     }
 }
 

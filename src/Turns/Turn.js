@@ -11,7 +11,7 @@ import UseEventPhase from "./turn_phases/UseEventPhase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck, buttonContainer){
+    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck, buttonContainer, eventContainer){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
@@ -20,6 +20,7 @@ export default class Turn {
         this.graveyardDeck      = graveyardDeck;            // Mazo cementerio
         this.mainCharacter      = mainCharacter;            // Carta de Character asignada  predefinida desde turnContainer
         this.gridArray          = gridArray;                // Array de rejillas
+        this.eventContainer     = eventContainer            // Contenedor de eventos
         this.eventDeck          = eventDeck;                // Mazo de eventos
         this.preparingEventDeck = preparingEventDeck;       // mazo de eventos en preparacion
         this.activeMinionDeck   = activeMinionDeck;         // Mazo de minions activos
@@ -92,18 +93,20 @@ export default class Turn {
 
             case TurnStates.END:
                 console.log("end");
-                this.end();
-                this.finished = true
+                const isEndTurn = this.end();
+                if (isEndTurn) {
+                    this.finished = true
+                    
+                }
                 break;
         }
     }
 
     init(){
         this.restoreCardStatesFromActiveDecks()
-        this.applyEvents()
-        this.reduceEventCardsCooldown()
+        this.eventContainer.executeEvents()
         this.actionsCounter = 0
-        // this.phasesArray[PhaseStates.DRAW_CARD].execute()
+        this.phasesArray[PhaseStates.DRAW_CARD].execute()
         
         // indicar turno activo
         this.active = true;
@@ -113,7 +116,7 @@ export default class Turn {
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
-                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute()
+                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer)
                 if (isPreparationFinished) {
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
@@ -171,10 +174,15 @@ export default class Turn {
     }
 
     end(){
-        
-        this.blockCardStatesFromHandDeck()
-        // cambio de turno
-        this.active = false;
+        const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute()
+        if (isCardDiscarded) {
+            this.blockCardStatesFromHandDeck()
+            // cambio de turno
+            this.active = false;
+            return true
+        }else{
+            return false
+        }
     }
 
     restoreCardStatesFromActiveDecks(){
@@ -206,7 +214,4 @@ export default class Turn {
         }
     }
     
-    applyEvents(){
-        
-    }
 }

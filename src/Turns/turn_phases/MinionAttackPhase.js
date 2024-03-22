@@ -45,7 +45,7 @@ export default class MinionAttackPhase extends Phase {
                 attackEvent.execute(messages);
                 attacker.state = CardId.NOT_SELECTED;
                 enemy.state = CardId.NOT_SELECTED;
-
+                this.removeEnemyIfDead(enemy,enemyPosition)
                 return true;
             } else {
 
@@ -60,7 +60,12 @@ export default class MinionAttackPhase extends Phase {
         return false;
     }
 
-
+    removeEnemyIfDead(enemy, enemyPosition){
+        if (enemy.health <= 0) {
+            this.enemyActiveMinionDeck.cards.splice(enemyPosition, 1)
+            enemy.state =  CardId.DEAD
+        }
+    }
 
     calculateDistance(attacker, enemy) {
         const boardSlotXSize = 133;     // Ancho del slot en X

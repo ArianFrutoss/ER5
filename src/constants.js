@@ -158,7 +158,9 @@ export const LanguageId = {
     ENG : 0,
     EUS : 1
 }
-
+export const EventsId = {
+    COOLDOWN:0,
+}
 export const BoardId = {
     BOARD:              0,
     EVENT_DECK_FULL:    1,

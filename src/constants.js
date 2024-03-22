@@ -207,3 +207,10 @@ export const IconsPos = {
     PLAYER_NAME_Y: [790,300],
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
+
+export const MessageState = {
+    APPEAR: 0,
+    ON:     1,
+    FADE:   2,
+    OFF:    3,
+}

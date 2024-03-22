@@ -72,7 +72,7 @@ export default class Turn {
     //     console.log(this.mainCharacter.image);
     // }
 
-    update(mouse, enemyActiveMinionDeck){
+    update(mouse, enemyActiveMinionDeck, messages){
         switch(this.state){
             
             case TurnStates.INITIALIZE:
@@ -84,7 +84,7 @@ export default class Turn {
             
             case TurnStates.EXECUTION:
                 // console.log("executiio");
-                const isPhasesOver = this.execute(mouse);
+                const isPhasesOver = this.execute(mouse, messages);
                 if (enemyActiveMinionDeck.cards.length === 0) {
                     this.finished = true
                 }else{
@@ -117,7 +117,7 @@ export default class Turn {
         this.active = true;
     }
 
-    execute(mouse){
+    execute(mouse, messages){
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
@@ -146,7 +146,7 @@ export default class Turn {
                 break;
                 
             case PhaseStates.ATTACK:
-                const isAttackFinished = this.phasesArray[PhaseStates.ATTACK].execute()
+                const isAttackFinished = this.phasesArray[PhaseStates.ATTACK].execute(messages)
                 if(isAttackFinished){
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;

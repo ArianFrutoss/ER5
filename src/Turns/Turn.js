@@ -92,8 +92,11 @@ export default class Turn {
 
             case TurnStates.END:
                 console.log("end");
-                this.end();
-                this.finished = true
+                const isEndTurn = this.end();
+                if (isEndTurn) {
+                    this.finished = true
+                    
+                }
                 break;
         }
     }
@@ -103,7 +106,7 @@ export default class Turn {
         this.applyEvents()
         this.reduceEventCardsCooldown()
         this.actionsCounter = 0
-        // this.phasesArray[PhaseStates.DRAW_CARD].execute()
+        this.phasesArray[PhaseStates.DRAW_CARD].execute()
         
         // indicar turno activo
         this.active = true;
@@ -171,10 +174,15 @@ export default class Turn {
     }
 
     end(){
-        
-        this.blockCardStatesFromHandDeck()
-        // cambio de turno
-        this.active = false;
+        const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute()
+        if (isCardDiscarded) {
+            this.blockCardStatesFromHandDeck()
+            // cambio de turno
+            this.active = false;
+            return true
+        }else{
+            return false
+        }
     }
 
     restoreCardStatesFromActiveDecks(){

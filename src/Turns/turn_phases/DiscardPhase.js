@@ -1,3 +1,4 @@
+import { CardId } from "../../constants.js";
 import Phase from "./Phase.js";
 
 export default class DiscardPhase extends Phase{
@@ -8,12 +9,14 @@ export default class DiscardPhase extends Phase{
         this.graveyardDeck  = graveyardDeck;
     }
     execute(){
+        
         if (this.handDeck.cards.length > 4) {
             const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)
             if (isAnyCardSelected[0]) {
                 const position = isAnyCardSelected[1]
+                const card = this.handDeck.cards[position]
                 this.handDeck.cards.splice(position, 1)
-                this.activeEventDeck.cards.push(card)
+                this.graveyardDeck.cards.push(card)
                 card.state = CardId.NOT_SELECTED
                 card.xPos =  -500
                 card.yPos =  -500

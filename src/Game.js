@@ -10,11 +10,12 @@ import TurnContainer from "./Turns/TurnContainer.js";
 import Mouse from "./Mouse.js";
 import Button from "./Button/Button.js";
 import ButtonContainer from "./Button/ButtonContainer.js";
+import MessagesContainer from "./MessagesContainer.js";
 
 
 export default class Game {
 
-    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity,canvas, ctx, mouse, firstTurn) {
+    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity,canvas, ctx, mouse, firstTurn, messagesContainer) {
 
         this.turnContainer = turnArray;
         this.handsArray = handsArray;
@@ -32,7 +33,7 @@ export default class Game {
         this.ctx = ctx
         this.mouse = mouse;
         this.currentTurn = firstTurn;
-        this.messages = [];
+        this.messagesContainer = messagesContainer;
     }
 
     static init(data, canvas, ctx) {
@@ -50,7 +51,7 @@ export default class Game {
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
  
-        
+        const messages = new MessagesContainer();
         
         const firstTurn = Math.floor(Math.random()*2);
         turns.CreateTurns(mouse);
@@ -59,7 +60,7 @@ export default class Game {
 
       
 
-        return new Game(turns, null, assets, null, null, deckContainer, board, null, null, canvas, ctx, mouse, firstTurn);
+        return new Game(turns, null, assets, null, null, deckContainer, board, null, null, canvas, ctx, mouse, firstTurn, messages);
     }
 
     update() {
@@ -85,12 +86,12 @@ export default class Game {
             case GameState.PLAYING:
                 this.updateGame();
                 this.deckContainer.updateDecks(this.mouse)
-                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.messages);
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.messagesContainer);
 
                 this.gridsArray.update(this.mouse, this.deckContainer);
                 this.mouse.update();
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
-
+                
                 if(this.turnContainer.turnContainer[this.currentTurn].finished){
                     this.turnContainer.turnContainer[this.currentTurn].finished = false
                     this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
@@ -98,7 +99,7 @@ export default class Game {
                     this.turnCounter++;
 
                 }
-
+                this.messagesContainer.update(this.ctx);
                 break;
 
             case GameState.GAMEOVER:
@@ -125,14 +126,29 @@ export default class Game {
                 this.ctx.font         = "bold 30px Arial";
                 this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
                 this.ctx.fillText("Click Derecho: " + this.mouse.rightClick + "--------" + "Click Izquierdo: " + this.mouse.leftClick, 100, 150);  
-                // Funcion para renderizar los mensajes
-                this.renderMessages();
+                this.renderMessage();
                 break;
 
             default:
                 break;
 
         }
+    }
+
+    renderMessage(){
+
+        for (let i = 0; i < this.messagesContainer.messages.length; i++){
+
+            const message = this.messagesContainer.messages[i];
+
+            this.ctx.font = "80px LongaIberica-DEMO";
+            this.ctx.fillStyle = "red";
+            this.ctx.globalAlpha = message.alpha;
+            this.ctx.fillText(message.message, message.xPos, message.yPos);
+            this.ctx.globalAlpha = 1.0;
+        }    
+        
+        this.ctx.fillStyle = "black";
     }
 
     drawGame() {
@@ -148,21 +164,6 @@ export default class Game {
         this.renderGrids();
 
         this.renderHeroes()
-    }
-
-    renderMessages(){
-
-        if (this.messages.length > 0){
-
-            for (let i = 0; i < this.messages.length; i++){
-                
-                this.ctx.font = "100px LongaIberica-DEMO";
-                this.ctx.fillStyle = "red";
-                this.ctx.fillText(this.messages[i].message, this.messages[i].xPos, this.messages[i].yPos);
-            }
-        }
-
-        this.ctx.fillStyle = "black";
     }
 
     renderBoard(images) {

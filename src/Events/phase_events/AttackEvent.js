@@ -1,5 +1,6 @@
 import Event from "../Event.js";
 import Messages from "../../Messages.js";
+import { MessageState } from "../../constants.js";
 
 export class AttackEvent extends Event{
 
@@ -10,7 +11,7 @@ export class AttackEvent extends Event{
         this.objectiveMinion    = objectiveMinion;      // Minion objetivo
     }
 
-    execute(messages) {
+    execute(messagesContainer) {
 
         let damage;
 
@@ -22,8 +23,8 @@ export class AttackEvent extends Event{
             damage = this.attack();
         }
         
-        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage);
-        messages.push(doneDamage);
+        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage, MessageState.APPEAR, 0.1, 0.2, 0.6, 0.0);
+        messagesContainer.messages.push(doneDamage);
     }
 
     attack(){

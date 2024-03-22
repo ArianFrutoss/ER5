@@ -27,6 +27,9 @@ export default {
     //Counter of elements loaded in game
     assetsLoaded: 0,
         
-    txtPruebas: {}
+    txtPruebas: {},
+
+    playerOneHealth: 20,
+    playerTwoHealth: 20,
 }
 

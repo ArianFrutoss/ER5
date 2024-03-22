@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -8,7 +8,8 @@ import CardFactory from "./Cards/CardFactory.js";
 import DeckContainer from "./Cards/DeckContainer.js";
 import TurnContainer from "./Turns/TurnContainer.js";
 import Mouse from "./Mouse.js";
-import { AttackEvent } from "./Events/phase_events/AttackEvent.js";
+import Button from "./Button/Button.js";
+import ButtonContainer from "./Button/ButtonContainer.js";
 
 
 export default class Game {
@@ -30,8 +31,7 @@ export default class Game {
         this.canvas = canvas;
         this.ctx = ctx
         this.mouse = mouse;
-        this.currentTurn = firstTurn
-        
+        this.currentTurn = firstTurn;
     }
 
     static init(data, canvas, ctx) {
@@ -42,20 +42,21 @@ export default class Game {
         const deckContainer = new DeckContainer();
         deckContainer.createDecks(data);
 
-        const turns = new TurnContainer(board.grids, deckContainer);
+        const buttonContainer = ButtonContainer.create(ctx);
+
+        const turns = new TurnContainer(board.grids, deckContainer, buttonContainer);
         
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
-
-     
+ 
+        
         
         const firstTurn = Math.floor(Math.random()*2);
         turns.CreateTurns(mouse);
 
         console.log(turns.turnContainer);
- 
-        // turns.turnContainer[0].showPlayerData();
-        // turns.turnContainer[1].showPlayerData();
+
+      
 
         return new Game(turns, null, assets, null, null, deckContainer, board, null, null, canvas, ctx, mouse, firstTurn);
     }
@@ -82,11 +83,21 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.updateGame();
-
                 this.deckContainer.updateDecks(this.mouse)
-                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse)
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse);
+
                 this.gridsArray.update(this.mouse, this.deckContainer);
-                this.mouse.update()
+                this.mouse.update();
+                this.turnContainer.buttonContainer.updateButtons(this.mouse);
+
+                if(this.turnContainer.turnContainer[this.currentTurn].finished){
+                    this.turnContainer.turnContainer[this.currentTurn].finished = false
+                    this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
+                    this.currentTurn = (this.currentTurn + 1) % 2;
+                    this.turnCounter++;
+
+                }
+
                 break;
 
             case GameState.GAMEOVER:
@@ -109,7 +120,7 @@ export default class Game {
             case GameState.PLAYING:
                 this.drawGame();
                 this.drawAllCards();
-
+                this.turnContainer.buttonContainer.renderButtons();
                 this.ctx.font         = "bold 30px Arial";
                 this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
                 this.ctx.fillText("Click Derecho: " + this.mouse.rightClick + "--------" + "Click Izquierdo: " + this.mouse.leftClick, 100, 150);  
@@ -214,11 +225,9 @@ export default class Game {
     }
 
     renderHeroes(){
-        
         //Hero Render
         const hero = this.turnContainer.turnContainer[this.currentTurn].mainCharacter
-        const enemyTurn = (this.currentTurn+1) % 2
-        const enemy = this.turnContainer.turnContainer[enemyTurn].mainCharacter
+        const enemy = this.turnContainer.turnContainer[(this.currentTurn+1) % 2].mainCharacter
         const images = this.images.images
         this.drawCard(images, hero, IconsPos.PLAYER_X[this.currentTurn], IconsPos.PLAYER_Y[this.currentTurn])
         this.ctx.fillText(hero.name[this.language],IconsPos.PLAYER_NAME_X[this.currentTurn], IconsPos.PLAYER_NAME_Y[this.currentTurn])
@@ -250,22 +259,29 @@ export default class Game {
                     const slotsXSize = slot.xSize - 2;
                     const slotsYSize = slot.ySize - 2;
 
-                    if (slot.state === SlotsState.SELECTED){
+                    if (slot.isAviable){
                         
-                        this.ctx.fillStyle = "white"
+                        this.ctx.fillStyle = "green";
+                    }
+
+                    else if (slot.state === SlotsState.SELECTED){
+                        
+                        this.ctx.fillStyle = "white";
                     }
 
                     else if (slot.state === SlotsState.HOVER){
                         
-                        this.ctx.fillStyle = "purple"
+                        this.ctx.fillStyle = "purple";
                     }
 
                     else{
                         
-                        this.ctx.fillStyle = "black"
+                        this.ctx.fillStyle = "black";
                     }
 
                     this.ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
+                    
+                    this.ctx.fillStyle = "black";
                 }
             }
         }
@@ -277,7 +293,7 @@ export default class Game {
             
                 for (let j = 0; j < deck.cards.length; j++) {
                     const card = deck.cards[j];
-                    this.drawCard(this.images.images, card, card.xPos , card.yPos )
+                    this.drawCard(this.images.images, card, card.xPos , card.yPos)
             
                 
             }
@@ -479,6 +495,7 @@ export default class Game {
         }
     }
 
+    // mover a turncontainer 
     updateTurns(){
         this.turnChange();
     }   

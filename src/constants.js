@@ -64,7 +64,8 @@ export const CardId = {
     ALIVE:          7,
     DEAD:           8,
     STUNNED:        9,
-    ATTACK:         10
+    ATTACK:         10,
+    BLOCKED:        11,
 }
 
 export const GridId = {
@@ -76,6 +77,12 @@ export const GridId = {
 } 
 
 export const SlotsState = {
+    NOT_SELECTED:   0,
+    SELECTED:       1,
+    HOVER:          2
+}
+
+export const ButtonState = {
     NOT_SELECTED:   0,
     SELECTED:       1,
     HOVER:          2

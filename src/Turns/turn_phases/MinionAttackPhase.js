@@ -43,9 +43,8 @@ export default class MinionAttackPhase extends Phase {
                 // Ejecucion del evento de ataque
                 const attackEvent = new AttackEvent(attacker, enemy);
                 attackEvent.execute();
-
-                // cambio el estado de la propia fase --> he metido estados a esta fase por que se puede mover y atacar.
-                this.state = MovePhaseStates.NONE;
+                attacker.state = CardId.NOT_SELECTED;
+                enemy.state = CardId.NOT_SELECTED;
 
                 return true;
             } else {

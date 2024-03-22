@@ -10,6 +10,7 @@ export default class Slot{
         this.ySize              = ySize;
         this.state              = SlotsState.NOT_SELECTED;
         this.isEmpty            = true;
+        this.isAviable          = false;
         this.card;
         this.grid;
     }
@@ -95,6 +96,7 @@ export default class Slot{
                 if (card.xPos === this.xPos && card.yPos === this.yPos){
                     
                     this.isEmpty = false;
+                    this.isAviable = false;
                     this.state = SlotsState.NOT_SELECTED;
                     break;
                 }
@@ -129,15 +131,37 @@ export default class Slot{
                 if (card.xPos === this.xPos && card.yPos === this.yPos){
                             
                     this.isEmpty = false;
+                    this.isAviable = false;
                     this.state = SlotsState.NOT_SELECTED;
                     break;
                 }
 
                 else{
-                    
+
                     this.isEmpty = true;
                 }
             }   
         }
+    }
+
+    calculateDistance(minion){
+
+        const slotXSize = this.xSize;     // Ancho del slot en x
+        const slotYSize = this.ySize;     // Alto del slot en y
+
+        const xPosMinion = minion.xPos;     // Posicion en x del Minion
+        const xPosSlot = this.xPos;          // Posicion en x del Slot
+        const yPosMinion = minion.yPos;     // Posicion en y del Minion
+        const yPosSlot = this.yPos;          // Posicion en y del Slot
+        
+        // Calcular la diferencia en píxeles en slots
+        const xDifference = Math.abs(xPosMinion - xPosSlot);
+        const yDifference = Math.abs(yPosMinion - yPosSlot);
+        
+        // Calcular la distancia en  slots
+        const distanceXSlots = Math.ceil(xDifference / slotXSize);
+        const distanceYSlots = Math.ceil(yDifference / slotYSize);
+
+        return distanceXSlots + distanceYSlots;
     }
 }

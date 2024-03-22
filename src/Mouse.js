@@ -39,6 +39,30 @@ export default class Mouse {
         return mouse;
     }
 
+    isCollidingWithButton(button){
+        const buttonWidth   = button.width;
+        const buttonHeight  = button.height;
+  
+        let colision;
+
+        if(this.x >= button.x && this.x <= button.x + buttonWidth){
+
+            if(this.y >= button.y && this.y <= button.y + buttonHeight){
+
+                colision = true;
+            }else{
+
+                colision = false;
+            }
+
+        }else {
+
+            colision = false;
+        }
+
+        return colision;
+    }
+
     assignAddEventListeners(){
 
         this.canvas.addEventListener("mousemove", this.canvasMousemoveHandler.bind(this), false);

@@ -17,6 +17,7 @@ export default class Weapon extends Card{
         this.action         = CardActions.NOT_ACTIVE      
     }
     updateScale(mouse, decks){
+
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
         if (!isAnyCardScaled[0]) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)

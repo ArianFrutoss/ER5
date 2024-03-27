@@ -3,17 +3,22 @@ import Phase from "./Phase.js";
 
 export default class PrepareEventPhase extends Phase{
 
-    constructor(handDeck, eventDeck, handGrid,eventGrid){
+    constructor(handDeck, eventDeck, handGrid,eventGrid, mouse){
         super();
         this.handDeck   = handDeck;
         this.handGrid   = handGrid;
         this.activeEventDeck  = eventDeck;
         this.activeEventGrid  = eventGrid;
+
         
     }
     
-    execute(eventContainer){
-        
+    execute(eventContainer, mouse){
+        const decks = [this.handDeck, this.activeEventDeck]
+        for (let i = 0; i < decks.length; i++) {
+            const deck = decks[i];
+            deck.update(mouse, decks)
+        }
         const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)
 
         const isAnyGridSelected = this.isGridSelected(this.activeEventGrid)

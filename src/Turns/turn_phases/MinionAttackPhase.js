@@ -16,6 +16,11 @@ export default class MinionAttackPhase extends Phase {
     // funcion para realizar el ataque
     attack(messages) {
 
+        const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck]
+        for (let i = 0; i < decks.length; i++) {
+            const deck = decks[i];
+            deck.update(this.mouse, decks)
+        }
         // Comprobar si hay alguna carta seleccionada del mazo de minions activos
         let isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
 

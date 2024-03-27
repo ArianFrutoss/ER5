@@ -55,12 +55,12 @@ export default class Turn {
             const buttons                   = this.buttonContainer;
       
             const defaultPhase          = new DefaultPhase(buttons, mouse);
-            const discardPhase          = new DiscardPhase(handDeck, graveYardDeck)
+            const discardPhase          = new DiscardPhase(handDeck, graveYardDeck, mouse)
             const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck)
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
             const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, boardGrid, mouse);
-            const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid);
-            const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck)
+            const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid, mouse);
+            const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck, mouse)
     
             const phasesArray = [defaultPhase, discardPhase, drawCardPhase, minionMovementPhase, minionAttackPhase, prepareEventPhase, useEventPhase];
     
@@ -121,7 +121,7 @@ export default class Turn {
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
-                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer)
+                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse)
                 if (isPreparationFinished) {
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;

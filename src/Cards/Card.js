@@ -22,10 +22,10 @@ export default class Card{
         // this.objective      = objective;
   	
     }
-    updateScale(){
+    updateScale(mouse, decks){
         
     }
-    update(){
+    update(mouse, decks){
 
     }
 }

@@ -11,9 +11,10 @@ import { CardId, IconsId, TypeId } from "../constants.js";
 
 export default class CardFactory {
 
-    constructor(cardData) {
+    constructor(cardData, images) {
         this.cardData = cardData;
-        this.cards = []
+        this.images   = images
+        this.cards    = []
     }
 
 
@@ -24,7 +25,7 @@ export default class CardFactory {
             const id = this.cardData[i].card_id;
             const name = [this.cardData[i].name, this.cardData[i].izena];
             const description = [this.cardData[i].description, this.cardData[i].deskripzioa];
-            const image = this.cardData[i].image;
+            const image = [this.images[CardId.BIG_SIZE][id-1], this.images[CardId.SMALL_SIZE][id-1]]
             const rarity = this.setRarity(this.cardData[i].rarity)
             const category = this.cardData[i].category
             const quantity = this.cardData[i].quantity

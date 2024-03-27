@@ -7,8 +7,8 @@ export default class Deck {
         this.deckId = deckId;
         this.cards  = cards
     }
-    static createInitDeck(data){
-        const cardFact = new CardFactory(data)
+    static createInitDeck(data, images){
+        const cardFact = new CardFactory(data, images)
         cardFact.createCards()
 
         return new Deck (DecksId.INITIAL_DECK, cardFact.cards)

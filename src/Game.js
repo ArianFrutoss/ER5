@@ -42,8 +42,9 @@ export default class Game {
         const board = Board.initBoard(canvas);
         const assets = Asset.create();
         assets.loadImages(data);
+        const cardImgs = assets.images[ImageTypes.CARD_IMAGE]
         const deckContainer = new DeckContainer();
-        deckContainer.createDecks(data);
+        deckContainer.createDecks(data, cardImgs);
 
         const buttonContainer = ButtonContainer.create(ctx);
 

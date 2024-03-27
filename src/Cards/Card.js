@@ -22,7 +22,9 @@ export default class Card{
         // this.objective      = objective;
   	
     }
-
+    updateScale(){
+        
+    }
     update(mouse,decks){
 
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -72,28 +74,5 @@ export default class Card{
             }
         }
             this.previousState = this.state
-    }
-
-        isAnyCard(decks,state){
-            let result = []
-            for (let i = 0; i < decks.length; i++) {
-                const deck = decks[i];
-                for (let j = 0; j < deck.cards.length; j++) {
-                    const card = deck.cards[j];
-                    result[0] = card.state === state ? true : false
-                    if (result === true) {
-                        result[1] = card
-                        return result
-                        
-                    }
-                }            
-            }
-            return result
-        }
-
-
-    // The logic for the case ATTACK
-    attack(){
-        
     }
 }

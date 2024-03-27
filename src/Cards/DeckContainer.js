@@ -84,7 +84,13 @@ export default class DeckContainer {
         }
 
     }
-
+    updateScale(mouse, decks = this.decks){
+        for (let i = 2; i < decks.length; i++) {
+            const deck = decks[i];
+            deck.updateScale(mouse, decks)
+            
+        }
+    }
     updateDecks(mouse, decks = this.decks){
         for (let i = 2; i < decks.length; i++) {
             const deck = decks[i];

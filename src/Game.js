@@ -86,7 +86,8 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.updateGame();
-                this.deckContainer.updateDecks(this.mouse)
+                this.deckContainer.updateScale(this.mouse)
+                // this.deckContainer.updateDecks(this.mouse)
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer);
 
                 this.gridsArray.update(this.mouse, this.deckContainer);

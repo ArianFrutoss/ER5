@@ -43,6 +43,46 @@ export default class Minion extends Card {
     }
     
     update(mouse, decks) {
+            
+        const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
+        const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
+
+        if (!isAnyCardScaled[0]) {
+            const isCollidingWithMouse = mouse.isCollidingWithCard(this)
+    
+            switch (this.state) {
+                case CardId.NOT_SELECTED:
+                    
+                    this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
+                    
+                    break;
+    
+                    case CardId.HOVER:
+                        this.state = isCollidingWithMouse   ? this.state = CardId.HOVER : CardId.NOT_SELECTED
+                        this.state =
+                            !mouse.leftClick    && !isAnyCardSelected[0] && mouse.previousStateLeft      ? CardId.SELECTED            : this.state
+                        break;
+    
+                    case CardId.SELECTED:
+                        this.state = 
+                            !mouse.leftClick      && mouse.previousStateLeft  && isCollidingWithMouse    ? CardId.NOT_SELECTED        :  this.state
+                        // console.log("selected");
+                        break;
+
+                    case CardId.SCALED:
+        
+                        break;
+                
+                    case CardId.ATTACK:
+
+                        
+                        break;
+                
+                default:
+                    break;
+            }
+        } 
+            this.previousState = this.state
         this.minionLogic()
     }
     minionLogic() {

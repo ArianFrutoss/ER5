@@ -53,7 +53,7 @@ export default class Turn {
       
             const buttons                   = this.buttonContainer;
       
-            const defaultPhase          = new DefaultPhase(buttons, mouse);
+            const defaultPhase          = new DefaultPhase(buttons, handDeck, activeMinionDeck, eventDeck);
             const discardPhase          = new DiscardPhase(handDeck, graveYardDeck)
             const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck)
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
@@ -118,6 +118,7 @@ export default class Turn {
             case PhaseStates.PREPARE_EVENT:
                 const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute()
                 if (isPreparationFinished) {
+                    this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
                 }
@@ -126,6 +127,7 @@ export default class Turn {
             case PhaseStates.USE_EVENT_CARD:
                 const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse)
                 if (isUsageFinished) {
+                    this.buttonContainer.resetStatesButtons();
                      this.phaseState = PhaseStates.DEFAULT;
                      this.actionsCounter++;
                 }
@@ -135,6 +137,7 @@ export default class Turn {
             case PhaseStates.MOVEMENT:
                 const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute()
                 if(isMovementFinished){
+                    this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
                 }
@@ -143,6 +146,7 @@ export default class Turn {
             case PhaseStates.ATTACK:
                 const isAttackFinished = this.phasesArray[PhaseStates.ATTACK].execute()
                 if(isAttackFinished){
+                    this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
                 }
@@ -159,7 +163,7 @@ export default class Turn {
                 break;
             
             case PhaseStates.DEFAULT:
-          
+                
                 this.phaseState = this.phasesArray[PhaseStates.DEFAULT].update();
                 
                 break;

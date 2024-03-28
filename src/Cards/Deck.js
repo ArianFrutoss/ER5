@@ -1,4 +1,4 @@
-import { DecksId } from "../constants.js";
+import { CardId, DecksId } from "../constants.js";
 import CardFactory from "./CardFactory.js";
 
 export default class Deck {
@@ -50,5 +50,17 @@ export default class Deck {
         }
 
     }
-    
+
+    isAnyCardSelected(){
+        for(let i = 0; i < this.cards.length; i++){
+
+            const card = this.cards[i];
+
+            if(card.state === CardId.SELECTED){
+
+                return true;
+            }
+        }
+        return false;
+    }
 }

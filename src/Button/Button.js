@@ -2,7 +2,7 @@ import { ButtonState } from "../constants.js";
 
 export default class Button {
 
-    constructor(ctx, x, y, width, height, text, state, phaseState){
+    constructor(ctx, x, y, width, height, text, state, phaseState, color){
         
         this.ctx        = ctx;
         this.x          = x;
@@ -12,10 +12,11 @@ export default class Button {
         this.text       = text;
         this.state      = state;
         this.phaseState = phaseState;
+        this.color      = color;
 }
 
     render(){
-        this.ctx.fillStyle = "#582900";
+        this.ctx.fillStyle = this.color;
         this.roundRect(this.ctx, this.x, this.y, this.width, this.height, 10); // Llamada a la función para dibujar un rectángulo redondeado
         this.ctx.fill();
     
@@ -44,7 +45,7 @@ export default class Button {
 
     update(mouse){
         const state = this.state;
-
+   
     
         const isCollidingWithMouse = mouse.isCollidingWithButton(this);
         
@@ -52,21 +53,26 @@ export default class Button {
         switch(state){
             case ButtonState.NOT_SELECTED:
             
-                this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
+                this.state = isCollidingWithMouse ? ButtonState.HOVER : ButtonState.NOT_SELECTED;
+                this.color = "#582900";
 
                 break;
 
             case ButtonState.SELECTED:
-                this.state = mouse.leftClick ? ButtonState.NOT_SELECTED : ButtonState.SELECTED;
-
+                this.color = "red";
+                this.state = mouse.rightClick ? ButtonState.NOT_SELECTED : ButtonState.SELECTED;
                 break;
 
             case ButtonState.HOVER:
-                
-                this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
-                this.state = mouse.leftClick ? ButtonState.SELECTED : ButtonState.NOT_SELECTED;
+    
+                this.state = isCollidingWithMouse ?  ButtonState.HOVER : ButtonState.NOT_SELECTED;
+                this.state = mouse.leftClick ? ButtonState.SELECTED: ButtonState.NOT_SELECTED;
                 break;
-
         }
+
+
     }
+
+
+    
 }

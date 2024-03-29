@@ -11,7 +11,7 @@ import UseEventPhase from "./turn_phases/UseEventPhase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck, buttonContainer){
+    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck, buttonContainer, eventContainer){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
@@ -20,6 +20,7 @@ export default class Turn {
         this.graveyardDeck      = graveyardDeck;            // Mazo cementerio
         this.mainCharacter      = mainCharacter;            // Carta de Character asignada  predefinida desde turnContainer
         this.gridArray          = gridArray;                // Array de rejillas
+        this.eventContainer     = eventContainer            // Contenedor de eventos
         this.eventDeck          = eventDeck;                // Mazo de eventos
         this.preparingEventDeck = preparingEventDeck;       // mazo de eventos en preparacion
         this.activeMinionDeck   = activeMinionDeck;         // Mazo de minions activos
@@ -54,12 +55,12 @@ export default class Turn {
             const buttons                   = this.buttonContainer;
       
             const defaultPhase          = new DefaultPhase(buttons, handDeck, activeMinionDeck, eventDeck);
-            const discardPhase          = new DiscardPhase(handDeck, graveYardDeck)
+            const discardPhase          = new DiscardPhase(handDeck, graveYardDeck, mouse)
             const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck)
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, mouse);
             const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, boardGrid, mouse);
-            const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid);
-            const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck)
+            const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid, mouse);
+            const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck, mouse)
     
             const phasesArray = [defaultPhase, discardPhase, drawCardPhase, minionMovementPhase, minionAttackPhase, prepareEventPhase, useEventPhase];
     
@@ -71,7 +72,7 @@ export default class Turn {
     //     console.log(this.mainCharacter.image);
     // }
 
-    update(mouse){
+    update(mouse, enemyActiveMinionDeck, messages){
         switch(this.state){
             
             case TurnStates.INITIALIZE:
@@ -83,11 +84,16 @@ export default class Turn {
             
             case TurnStates.EXECUTION:
                 // console.log("executiio");
-                const isPhasesOver = this.execute(mouse);
-                if (isPhasesOver) {
-                   this.state = TurnStates.END
+                const isPhasesOver = this.execute(mouse, messages);
+                if (enemyActiveMinionDeck.cards.length === 0) {
+                    this.finished = true
+                }else{
+                    if (isPhasesOver) {
+                       this.state = TurnStates.END
+                    }
+                    this.finished = false
+
                 }
-                this.finished = false
                 break;
 
             case TurnStates.END:
@@ -103,8 +109,7 @@ export default class Turn {
 
     init(){
         this.restoreCardStatesFromActiveDecks()
-        this.applyEvents()
-        this.reduceEventCardsCooldown()
+        this.eventContainer.executeEvents()
         this.actionsCounter = 0
         this.phasesArray[PhaseStates.DRAW_CARD].execute()
         
@@ -112,11 +117,11 @@ export default class Turn {
         this.active = true;
     }
 
-    execute(mouse){
+    execute(mouse, messages){
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
-                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute()
+                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse)
                 if (isPreparationFinished) {
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
@@ -144,7 +149,7 @@ export default class Turn {
                 break;
                 
             case PhaseStates.ATTACK:
-                const isAttackFinished = this.phasesArray[PhaseStates.ATTACK].execute()
+                const isAttackFinished = this.phasesArray[PhaseStates.ATTACK].execute(messages)
                 if(isAttackFinished){
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
@@ -218,7 +223,4 @@ export default class Turn {
         }
     }
     
-    applyEvents(){
-        
-    }
 }

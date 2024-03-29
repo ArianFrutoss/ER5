@@ -10,11 +10,13 @@ import TurnContainer from "./Turns/TurnContainer.js";
 import Mouse from "./Mouse.js";
 import Button from "./Button/Button.js";
 import ButtonContainer from "./Button/ButtonContainer.js";
+import MessagesContainer from "./MessagesContainer.js";
+import EventContainer from "./Events/EventContainer.js";
 
 
 export default class Game {
 
-    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, activeEventsArray, rarity,canvas, ctx, mouse, firstTurn) {
+    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer) {
 
         this.turnContainer = turnArray;
         this.handsArray = handsArray;
@@ -24,7 +26,7 @@ export default class Game {
         this.boardMinionsArray = boardMinionsArray;
         this.deckContainer = deckContainer;
         this.gridsArray = gridsArray;
-        this.activeEventsArray = activeEventsArray;
+        this.eventContainer = eventContainer;
         this.turnCounter = 0;
         this.rarity = rarity;
         this.gameState = GameState.LOAD_GAME;
@@ -32,6 +34,7 @@ export default class Game {
         this.ctx = ctx
         this.mouse = mouse;
         this.currentTurn = firstTurn;
+        this.messagesContainer = messagesContainer;
     }
 
     static init(data, canvas, ctx) {
@@ -39,26 +42,27 @@ export default class Game {
         const board = Board.initBoard(canvas);
         const assets = Asset.create();
         assets.loadImages(data);
+        const cardImgs = assets.images[ImageTypes.CARD_IMAGE]
         const deckContainer = new DeckContainer();
-        deckContainer.createDecks(data);
+        deckContainer.createDecks(data, cardImgs);
 
         const buttonContainer = ButtonContainer.create(ctx);
 
-        const turns = new TurnContainer(board.grids, deckContainer, buttonContainer);
-        
+        const eventContainer = new EventContainer()
+        const turns = new TurnContainer(board.grids, deckContainer, buttonContainer, eventContainer);
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
  
-        
+        const messages = new MessagesContainer();
         
         const firstTurn = Math.floor(Math.random()*2);
-        turns.CreateTurns(mouse);
+        turns.CreateTurns(mouse, eventContainer);
 
         console.log(turns.turnContainer);
 
       
 
-        return new Game(turns, null, assets, null, null, deckContainer, board, null, null, canvas, ctx, mouse, firstTurn);
+        return new Game(turns, null, assets, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages);
     }
 
     update() {
@@ -83,21 +87,26 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.updateGame();
-                this.deckContainer.updateDecks(this.mouse)
-                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse);
+                this.deckContainer.updateScale(this.mouse)
+                // this.deckContainer.updateDecks(this.mouse)
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer);
 
                 this.gridsArray.update(this.mouse, this.deckContainer);
                 this.mouse.update();
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
 
-                if(this.turnContainer.turnContainer[this.currentTurn].finished){
-                    this.turnContainer.turnContainer[this.currentTurn].finished = false
-                    this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
-                    this.currentTurn = (this.currentTurn + 1) % 2;
-                    this.turnCounter++;
-
+                if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length === 0){
+                    this.gameState = GameState.GAMEOVER
+                }else{
+                    if(this.turnContainer.turnContainer[this.currentTurn].finished){
+                        this.turnContainer.turnContainer[this.currentTurn].finished = false
+                        this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
+                        this.currentTurn = (this.currentTurn + 1) % 2;
+                        this.turnCounter++;
+    
+                    }
+                    this.messagesContainer.update(this.ctx);
                 }
-
                 break;
 
             case GameState.GAMEOVER:
@@ -123,13 +132,34 @@ export default class Game {
                 this.turnContainer.buttonContainer.renderButtons();
                 this.ctx.font         = "bold 30px Arial";
                 this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
-                this.ctx.fillText("Click Derecho: " + this.mouse.rightClick + "--------" + "Click Izquierdo: " + this.mouse.leftClick, 100, 150);  
+                this.renderMessage();
                 break;
 
+
+            case GameState.GAMEOVER:
+                this.ctx.font         = "bold 60px Arial";
+                this.ctx.fillText(this.turnContainer.turnContainer[(this.currentTurn+1)%2].mainCharacter.name[LanguageId.ENG] + "  WON", 1000, 500);
+                break;
             default:
                 break;
 
         }
+    }
+
+    renderMessage(){
+
+        for (let i = 0; i < this.messagesContainer.messages.length; i++){
+
+            const message = this.messagesContainer.messages[i];
+
+            this.ctx.font = "80px LongaIberica-DEMO";
+            this.ctx.fillStyle = "red";
+            this.ctx.globalAlpha = message.alpha;
+            this.ctx.fillText(message.message, message.xPos, message.yPos);
+            this.ctx.globalAlpha = 1.0;
+        }    
+        
+        this.ctx.fillStyle = "black";
     }
 
     drawGame() {
@@ -145,7 +175,6 @@ export default class Game {
         this.renderGrids();
 
         this.renderHeroes()
-
     }
 
     renderBoard(images) {
@@ -275,12 +304,12 @@ export default class Game {
                     }
 
                     else{
-                        
+                        this.ctx.filter = "opacity(50%)"
                         this.ctx.fillStyle = "black";
                     }
 
                     this.ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
-                    
+                    this.ctx.filter = "opacity(100%)"
                     this.ctx.fillStyle = "black";
                 }
             }

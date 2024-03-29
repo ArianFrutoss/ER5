@@ -3,16 +3,21 @@ import Phase from "./Phase.js";
 
 export default class UseEventPhase extends Phase{
 
-    constructor(eventGrid, eventDeck, boardGrid, activeMinions, enemyActiveMinions){
+    constructor(eventGrid, eventDeck, boardGrid, activeMinions, enemyActiveMinions, mouse){
         super();
         this.eventGrid              = eventGrid;
         this.eventDeck              = eventDeck;
         this.boardGrid              = boardGrid;
         this.activeMinions          = activeMinions;
         this.enemyActiveMinions     = enemyActiveMinions;
+        this.mouse                  = mouse
     }
     execute(mouse){
-        
+        const decks = [this.eventDeck, this.activeMinions, this.enemyActiveMinions]
+        for (let i = 0; i < decks.length; i++) {
+            const deck = decks[i];
+            deck.update(mouse, decks)
+        }
         const isAnyCardSelected  = this.eventDeck.isAnyCard(this.eventDeck, CardId.SELECTED)
         const isAnyMinionHovered = this.activeMinions.isAnyCard(this.activeMinions, CardId.HOVER)
         

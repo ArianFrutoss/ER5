@@ -3,13 +3,14 @@ import Phase from "./Phase.js";
 
 export default class DiscardPhase extends Phase{
 
-    constructor(handDeck,  graveyardDeck){
+    constructor(handDeck,  graveyardDeck, mouse){
         super();
         this.handDeck       = handDeck;
         this.graveyardDeck  = graveyardDeck;
+        this.mouse          = mouse
     }
     execute(){
-        
+        this.handDeck.update(this.mouse, this.handDeck)
         if (this.handDeck.cards.length > 4) {
             const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)
             if (isAnyCardSelected[0]) {

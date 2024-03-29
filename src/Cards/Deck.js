@@ -7,11 +7,18 @@ export default class Deck {
         this.deckId = deckId;
         this.cards  = cards
     }
-    static createInitDeck(data){
-        const cardFact = new CardFactory(data)
+    static createInitDeck(data, images){
+        const cardFact = new CardFactory(data, images)
         cardFact.createCards()
 
         return new Deck (DecksId.INITIAL_DECK, cardFact.cards)
+    }
+    updateScale(mouse, decks){
+        for (let i = 0; i < this.cards.length; i++) {
+            const card = this.cards[i];
+            card.updateScale(mouse, decks)
+            
+        } 
     }
     update(mouse, decks){
         for (let i = 0; i < this.cards.length; i++) {
@@ -20,6 +27,7 @@ export default class Deck {
             
         }
     }
+
     
     isAnyCard(decks,state){
         

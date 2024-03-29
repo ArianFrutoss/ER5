@@ -6,8 +6,8 @@ export default class DeckContainer {
         this.decks = []
     }
 
-    createDecks(data) {
-            const initialDeck = this.createInitDeck(data)
+    createDecks(data, images) {
+            const initialDeck = this.createInitDeck(data, images)
             for (let i = 0; i < Object.keys(DecksId).length - 1; i++) {
     
                 const deck = new Deck(i)
@@ -17,8 +17,8 @@ export default class DeckContainer {
             this.assignCardsToDecks(initialDeck.cards)
     }
  
-    createInitDeck(data) {
-        return Deck.createInitDeck(data)
+    createInitDeck(data, images) {
+        return Deck.createInitDeck(data, images)
 
     }
 
@@ -84,7 +84,13 @@ export default class DeckContainer {
         }
 
     }
-
+    updateScale(mouse, decks = this.decks){
+        for (let i = 2; i < decks.length; i++) {
+            const deck = decks[i];
+            deck.updateScale(mouse, decks)
+            
+        }
+    }
     updateDecks(mouse, decks = this.decks){
         for (let i = 2; i < decks.length; i++) {
             const deck = decks[i];

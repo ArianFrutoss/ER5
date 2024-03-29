@@ -16,9 +16,8 @@ export default class DefaultPhase extends Phase {
     update(){
 
         let returnState     = this.buttonContainer.isAnyButtonSelected();
-        const cardSelected  = this.activeMinionDeck.isAnyCardSelected() || this.handDeck.isAnyCardSelected() || this.eventDeck.isAnyCardSelected();
 
-        if(returnState !== undefined && (returnState === PhaseStates.DISCARD_CARD || cardSelected)){
+        if(returnState !== undefined){
            
             console.log(returnState);
             return returnState;

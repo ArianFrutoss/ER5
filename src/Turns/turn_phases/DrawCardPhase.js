@@ -14,7 +14,9 @@ export default class DrawCardPhase extends Phase{
         for (let i = 0; i < quantity; i++) {
             if (this.eventDeck.cards.length > 0) {
                 if (this.handDeck.cards.length < MAXIMUN_CARDS_IN_HAND) {
-                    this.handDeck.cards.push(this.eventDeck.cards[this.eventDeck.cards.length - 1]);
+                    const card = this.eventDeck.cards[this.eventDeck.cards.length - 1]
+                    this.handDeck.cards.push(card);
+                    card.setDeck(this.handDeck)
                     this.eventDeck.cards.pop();            
                 }            
                 
@@ -29,6 +31,7 @@ export default class DrawCardPhase extends Phase{
         for (let i = this.graveyardDeck.cards.length-1; i > -1; i--) {
             const card = this.graveyardDeck.cards[i];
             this.eventDeck.cards.push(card)
+            card.setDeck(this.eventDeck)
             this.graveyardDeck.cards.pop()
         }
         this.eventDeck.shuffle()

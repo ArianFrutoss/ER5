@@ -18,6 +18,7 @@ export default class DiscardPhase extends Phase{
                 const card = this.handDeck.cards[position]
                 this.handDeck.cards.splice(position, 1)
                 this.graveyardDeck.cards.push(card)
+                card.setDeck(this.graveyardDeck)
                 card.state = CardId.NOT_SELECTED
                 card.xPos =  -500
                 card.yPos =  -500

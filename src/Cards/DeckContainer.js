@@ -34,22 +34,23 @@ export default class DeckContainer {
 
                 case TypeId.HERO:
                     this.decks[DecksId.MAIN_CHARACTER_DECK].cards.push(card)
-                    card.deck = this.decks[DecksId.MAIN_CHARACTER_DECK]
+                    card.setDeck(this.decks[DecksId.MAIN_CHARACTER_DECK])
+                    
                     break;
 
                 case TypeId.MINION:
                     if (this.decks[DecksId.PLAYER_1_MINION_DECK].cards.length === this.decks[DecksId.PLAYER_2_MINION_DECK].cards.length) {
                         this.decks[DecksId.PLAYER_1_MINION_DECK].cards.push(card)
-                        card.deck = this.decks[DecksId.PLAYER_1_MINION_DECK]
+                        card.setDeck(this.decks[DecksId.PLAYER_1_MINION_DECK])
                     } else {
                         this.decks[DecksId.PLAYER_2_MINION_DECK].cards.push(card)
-                        card.deck = this.decks[DecksId.PLAYER_2_MINION_DECK]
+                        card.setDeck(this.decks[DecksId.PLAYER_2_MINION_DECK])
                     }
                     break;
 
                 default:
                     this.decks[DecksId.EVENT_DECK].cards.push(card)
-                    card.deck = this.decks[DecksId.EVENT_DECK]
+                    card.setDeck(this.decks[DecksId.EVENT_DECK])
                     break;
             }
         }
@@ -59,7 +60,7 @@ export default class DeckContainer {
                 const card = cards[j];
                 if (card.id === 3) {
                     this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK+i].cards.push(card)
-                    card.deck = this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK+i]
+                    card.setDeck(this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK+i])
                 }
             }
             

@@ -95,4 +95,7 @@ export default class Weapon extends Card{
                 break;
         }
     }
+    setDeck(deck){
+        this.deck = deck
+    }
 }

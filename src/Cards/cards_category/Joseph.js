@@ -82,4 +82,7 @@ export default class Joseph extends Card{
     josephLogic(){
         
     }
+    setDeck(deck){
+        this.deck = deck
+    }
 }

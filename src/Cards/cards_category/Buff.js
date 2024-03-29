@@ -87,4 +87,7 @@ export default class Buff extends Card {
     buffLogic(){
         
     }
+    setDeck(deck){
+        this.deck = deck
+    }
 }

@@ -80,4 +80,7 @@ export default class MainCharacter extends Card{
         mainCharacterLogic(){
             
         }
+        setDeck(deck){
+            this.deck = deck
+        }
     }

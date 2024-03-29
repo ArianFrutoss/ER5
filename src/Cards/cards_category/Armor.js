@@ -85,6 +85,9 @@ export default class Armor extends Card{
     armorLogic(){
         
     }
+    setDeck(deck){
+        this.deck = deck
+    }
 }        
 
 

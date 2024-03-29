@@ -83,5 +83,8 @@ export default class Spell extends Card{
     spellLogic(){
         
     }
+    setDeck(deck){
+        this.deck = deck
+    }
 }
 

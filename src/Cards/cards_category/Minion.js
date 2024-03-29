@@ -91,5 +91,8 @@ export default class Minion extends Card {
             this.yPos = -500
         }
     }
+    setDeck(deck){
+        this.deck = deck
+    }
 }
 

@@ -87,4 +87,7 @@ export default class Curse extends Card{
     curseLogic(){
         
     }
+    setDeck(deck){
+        this.deck = deck
+    }
 }

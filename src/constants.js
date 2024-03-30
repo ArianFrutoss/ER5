@@ -50,7 +50,8 @@ export const CardActions = {
     NOT_ACTIVE:    -1,
     COOLDOWN:       0,
     READY:          1,
-    ON_USE:         2
+    ON_USE:         2,
+    WORN_OUT:       3
 }
 
 export const CardId = {

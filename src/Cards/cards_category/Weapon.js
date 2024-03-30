@@ -98,4 +98,25 @@ export default class Weapon extends Card{
     setDeck(deck){
         this.deck = deck
     }
+    checkDurability(){
+        if (this.durability <= 0) {
+            this.action = CardActions.WORN_OUT
+        }
+    }
+    removeIfWornOut(activeEventDeck, graveyardDeck){
+
+        this.checkDurability()
+        if (this.action === CardActions.WORN_OUT) {
+            for (let i = 0; i < activeEventDeck.cards.length; i++) {
+                const card = activeEventDeck.cards[i];
+                if (card.action === CardActions.WORN_OUT) {
+                    activeEventDeck.cards.splice(i, 1)
+                    graveyardDeck.cards.push(card)
+                    this.setDeck(graveyardDeck)
+                    return true
+                }
+            }  
+        }
+        return false
+    }
 }

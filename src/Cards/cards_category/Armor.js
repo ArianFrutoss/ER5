@@ -1,4 +1,4 @@
-import { CardId } from "../../constants.js";
+import { CardActions, CardId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Armor extends Card{
@@ -87,6 +87,11 @@ export default class Armor extends Card{
     }
     setDeck(deck){
         this.deck = deck
+    }
+    checkDurability(){
+        if (this.durability <= 0) {
+            this.action = CardActions.WORN_OUT
+        }
     }
 }        
 

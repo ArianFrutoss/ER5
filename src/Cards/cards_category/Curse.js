@@ -90,4 +90,9 @@ export default class Curse extends Card{
     setDeck(deck){
         this.deck = deck
     }
+    checkDurability(){
+        if (this.durability <= 0) {
+            this.action = CardActions.WORN_OUT
+        }
+    }
 }

@@ -1,14 +1,17 @@
 
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, MovePhaseStates } from "../../constants.js";
+import { CardActions, CardId, MovePhaseStates } from "../../constants.js";
 
 export default class MinionAttackPhase extends Phase {
 
-    constructor(activeMinionDeck, enemyActiveMinionDeck, mouse) {
+    constructor(activeMinionDeck, enemyActiveMinionDeck,activeEventDeck, enemyActiveEventDeck, graveyardDeck, mouse) {
         super();
         this.activeMinionDeck = activeMinionDeck;         // Deck de minions activos
         this.enemyActiveMinionDeck = enemyActiveMinionDeck;    // Deck de minions activos del rival
+        this.activeEventDeck = activeEventDeck;
+        this.enemyActiveEventDeck = enemyActiveEventDeck;
+        this.graveyardDeck  = graveyardDeck;
         this.mouse = mouse;                    // Objeto Mouse
     }
 
@@ -21,6 +24,7 @@ export default class MinionAttackPhase extends Phase {
             const deck = decks[i];
             deck.update(this.mouse, decks)
         }
+
         // Comprobar si hay alguna carta seleccionada del mazo de minions activos
         let isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
 
@@ -50,6 +54,12 @@ export default class MinionAttackPhase extends Phase {
                 attackEvent.execute(messages);
                 attacker.state = CardId.NOT_SELECTED;
                 enemy.state = CardId.NOT_SELECTED;
+                if (attacker.weapon != undefined) {
+                    const isDestroyed = attacker.weapon.removeIfWornOut(this.activeEventDeck, this.graveyardDeck)
+                    if (isDestroyed) {
+                        attacker.setWeapon(undefined)
+                    }
+                }
                 this.removeEnemyIfDead(enemy,enemyPosition)
                 return true;
             } else {
@@ -71,6 +81,7 @@ export default class MinionAttackPhase extends Phase {
             enemy.state =  CardId.DEAD
         }
     }
+
 
     calculateDistance(attacker, enemy) {
         const boardSlotXSize = 133;     // Ancho del slot en X

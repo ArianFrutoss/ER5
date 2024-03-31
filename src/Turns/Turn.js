@@ -11,7 +11,7 @@ import UseEventPhase from "./turn_phases/UseEventPhase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck, buttonContainer, eventContainer){
+    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck, buttonContainer, eventContainer, turnId){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
@@ -32,7 +32,7 @@ export default class Turn {
         this.actionsCounter     = 0;                        // Contador de acciones maximo 5
         this.maxActions         = 3;                        // maximo de acciones
         this.finished = false
-
+        this.turnId             = turnId
     }
 
     createPhases(mouse, grids, decks, turnCounter){
@@ -114,6 +114,16 @@ export default class Turn {
         this.actionsCounter = 0
         this.phasesArray[PhaseStates.DRAW_CARD].execute()
         
+        // Spawnear nuevo Minion
+        const newMinion = this.minionDeck.spawnNewMinions(this.activeMinionDeck);
+        
+        // Posicionar nuevo Minion en el Grid
+        if (newMinion != undefined){
+            
+            newMinion.assignMinionToBoardGrid(this.gridArray[GridId.BOARD_GRID], this.turnId);
+            console.log(this.activeMinionDeck);
+        }
+
         // indicar turno activo
         this.active = true;
     }

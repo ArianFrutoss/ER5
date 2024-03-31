@@ -71,4 +71,19 @@ export default class Deck {
         }
         return false;
     }
+
+    spawnNewMinions(activeMinionDeck){
+
+        if (activeMinionDeck.cards.length < 3 && this.cards.length > 0){
+            
+            activeMinionDeck.cards.push(this.cards[this.cards.length - 1]);
+            
+            const card = activeMinionDeck.cards[activeMinionDeck.cards.length - 1];
+
+            card.setDeck(activeMinionDeck);
+            this.cards.pop();
+            
+            return card;
+        }
+    }
 }

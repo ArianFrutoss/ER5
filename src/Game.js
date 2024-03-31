@@ -52,7 +52,8 @@ export default class Game {
         const turns = new TurnContainer(board.grids, deckContainer, buttonContainer, eventContainer);
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
- 
+        console.log(deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards);
+        console.log(deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards);
         const messages = new MessagesContainer();
         
         const firstTurn = Math.floor(Math.random()*2);

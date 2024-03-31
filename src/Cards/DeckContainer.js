@@ -60,6 +60,7 @@ export default class DeckContainer {
                 const card = cards[j];
                 if (card.id === 3) {
                     this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK+i].cards.push(card)
+                    this.decks[DecksId.PLAYER_1_MINION_DECK+i].cards.splice(j--, 1)
                     card.setDeck(this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK+i])
                 }
             }

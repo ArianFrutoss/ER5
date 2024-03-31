@@ -1,4 +1,4 @@
-import { CardActions, CardId, RarityId } from "../../constants.js";
+import { CardActions, CardId, RarityId, BorderId, TurnId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Minion extends Card {
@@ -96,6 +96,28 @@ export default class Minion extends Card {
     }
     setDeck(deck){
         this.deck = deck
+    }
+
+    assignMinionToBoardGrid(boardGrid, turn){
+
+        const boardYPos = turn === TurnId.PLAYER_1 ? 4 : 0;
+        let aviablePositions = [];
+        
+        for (let i = 0; i < boardGrid.slots[boardYPos].length; i++){
+
+            const slot = boardGrid.slots[boardYPos][i];
+
+            if (slot.isEmpty){
+
+                aviablePositions.push(i);
+            }
+        }
+
+        const randomXPos = aviablePositions[Math.floor(Math.random() * aviablePositions.length)];
+        
+        this.xPos = boardGrid.slots[boardYPos][randomXPos].xPos;
+        this.yPos = boardGrid.slots[boardYPos][randomXPos].yPos;
+        this.size = BorderId.SMALL_SIZE;
     }
 }
 

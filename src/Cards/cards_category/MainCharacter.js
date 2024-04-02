@@ -1,8 +1,8 @@
 import { BorderId, CardActions, CardId, IconsPos } from "../../constants.js";
 import Card from "../Card.js";
 export default class MainCharacter extends Card{
-    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, durability, cooldown){
-            super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory);
+    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown){
+            super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
     
             // Card attributes     		   	
             this.durability = durability;

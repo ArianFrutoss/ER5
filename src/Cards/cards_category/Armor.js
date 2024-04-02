@@ -2,9 +2,9 @@ import { BorderId, CardActions, CardId, IconsPos } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Armor extends Card{
-    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, health, attack, defense, speed, durability, cooldown){
+    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown){
         
-        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory);
+        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
             this.health     = health;
             this.attack     = attack;
@@ -97,8 +97,9 @@ export default class Armor extends Card{
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
-            ctx.font = "25px LongaIberica-DEMO";
+        ctx.font = "25px LongaIberica-DEMO";
 
+        if (this.state != CardId.BLOCKED) {
             //CARD IMAGE
             let size = this.size
             if (this.state === CardId.SCALED ) {
@@ -157,6 +158,11 @@ export default class Armor extends Card{
                     this.imageAttributes[3],
                     IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
                 ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+            } else {
+                ctx.drawImage(
+                    this.imageReverse,
+                     xPos, yPos)
+            }
     }
 }        
 

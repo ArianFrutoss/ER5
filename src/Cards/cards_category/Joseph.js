@@ -3,9 +3,9 @@ import Card from "../Card.js";
 
 export default class Joseph extends Card{
 
-    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, effect){
+    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effect){
 
-        super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory);
+        super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
         this.effect = effect; // efecto carta joseph
         
@@ -91,6 +91,7 @@ export default class Joseph extends Card{
         let xPos = this.xPos
         let yPos = this.yPos
             ctx.font = "25px LongaIberica-DEMO";
+            if (this.state != CardId.BLOCKED) {
 
             //CARD IMAGE
             let size = this.size
@@ -128,6 +129,10 @@ export default class Joseph extends Card{
                 
                 this.imageRarity,
                 IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
-    
+            } else {
+                ctx.drawImage(
+                    this.imageReverse,
+                     xPos, yPos)
+            }
     }
 }

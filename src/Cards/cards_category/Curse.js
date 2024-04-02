@@ -3,9 +3,9 @@ import Card from "../Card.js";
 
 export default class Curse extends Card{
 
-    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, attack, defense, speed, durability, cooldown){
+    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack, defense, speed, durability, cooldown){
 
-        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory);
+        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
         // Card attributes     
         this.attack     = attack;
@@ -100,8 +100,8 @@ export default class Curse extends Card{
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
-            ctx.font = "25px LongaIberica-DEMO";
-
+        ctx.font = "25px LongaIberica-DEMO";
+        if (this.state != CardId.BLOCKED) {
             //CARD IMAGE
             let size = this.size
             if (this.state === CardId.SCALED ) {
@@ -138,6 +138,10 @@ export default class Curse extends Card{
                 
                 this.imageRarity,
                 IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
-    
+            } else {
+                ctx.drawImage(
+                    this.imageReverse,
+                     xPos, yPos)
+            }
     }
 }

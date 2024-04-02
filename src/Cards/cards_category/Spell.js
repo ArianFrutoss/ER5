@@ -3,9 +3,9 @@ import Card from "../Card.js";
 
 export default class Spell extends Card{
 
-    constructor(id, name, description, image, rarity, category, type,  xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, durability, cooldown){
+    constructor(id, name, description, image, rarity, category, type,  xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown){
 
-        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory);
+        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
         // Card attributes   
         this.durability = durability;
@@ -93,9 +93,10 @@ export default class Spell extends Card{
     }
     render(ctx, language){
         ctx.fillStyle = "black"
+        ctx.font = "25px LongaIberica-DEMO";
         let xPos = this.xPos
         let yPos = this.yPos
-            ctx.font = "25px LongaIberica-DEMO";
+        if (this.state != CardId.BLOCKED) {
 
             //CARD IMAGE
             let size = this.size
@@ -130,9 +131,13 @@ export default class Spell extends Card{
                     }
             //RARITY ICON
             ctx.drawImage(
-                
                 this.imageRarity,
                 IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
+            } else {
+                ctx.drawImage(
+                    this.imageReverse,
+                     xPos, yPos)
+            }
     
     }
 }

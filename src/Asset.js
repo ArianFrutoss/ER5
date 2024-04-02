@@ -36,7 +36,6 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/board.png";
-        //Preguntar si el globals.images es necesario
         images.push(image);
         this.assetsToLoad.push(image);
 
@@ -44,7 +43,6 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/event_deck_full.png";
-        //Preguntar si el globals.images es necesario
         images.push(image);
         this.assetsToLoad.push(image);
 
@@ -52,7 +50,6 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/event_deck_half.png";
-        //Preguntar si el globals.images es necesario
         images.push(image);
         this.assetsToLoad.push(image);
         
@@ -60,7 +57,6 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/event_deck_empty.png";
-        //Preguntar si el globals.images es necesario
         images.push(image);
         this.assetsToLoad.push(image);
 
@@ -68,7 +64,6 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/minion_deck_full.png";
-        //Preguntar si el globals.images es necesario
         images.push(image);
         this.assetsToLoad.push(image);
 
@@ -76,7 +71,6 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/minion_deck_half.png";
-        //Preguntar si el globals.images es necesario
         images.push(image);
         this.assetsToLoad.push(image);
 
@@ -84,7 +78,6 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/minion_deck_empty.png";
-        //Preguntar si el globals.images es necesario
         images.push(image);
         this.assetsToLoad.push(image);
 
@@ -92,7 +85,6 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/background/gem.png";
-        //Preguntar si el globals.images es necesario
         images.push(image);
         this.assetsToLoad.push(image);
 
@@ -113,14 +105,12 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = `../media/images/cards_img/${img}`;
-        //Preguntar si el globals.images es necesario
         normalSize.push(image);
         this.assetsToLoad.push(image);
 
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = `../media/images/cards_img/mini_${img}`;
-        //Preguntar si el globals.images es necesario
         smallSize.push(image);
         this.assetsToLoad.push(image);
     
@@ -140,17 +130,21 @@ export default class Asset {
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/others/border_card.png";
-        //Preguntar si el globals.images es necesario
         images.push(image);
         this.assetsToLoad.push(image);
 
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
         image.src = "../media/images/others/border_board_card.png";
-        //Preguntar si el globals.images es necesario
         images.push(image);
         this.assetsToLoad.push(image);
         this.images.push(images) 
+
+        image = new Image();
+        image.addEventListener("load", this.loadHandler.bind(this), false);
+        image.src = "../media/images/others/reverse_card.png";
+        images.push(image);
+        this.assetsToLoad.push(image);
     }
 
     loadCardIcons() {

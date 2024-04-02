@@ -3,9 +3,9 @@ import Card from "../Card.js";
 
 export default class Buff extends Card {
 
-    constructor(id ,name, description ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, attack=0, defense=0, speed=0, health=0, durability=0, cooldown=0){
+    constructor(id ,name, description ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack=0, defense=0, speed=0, health=0, durability=0, cooldown=0){
 
-        super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory);
+        super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
         // Card attributes 
         this.attack     = attack;
@@ -99,7 +99,9 @@ export default class Buff extends Card {
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
-            ctx.font = "25px LongaIberica-DEMO";
+        ctx.font = "25px LongaIberica-DEMO";
+        
+        if (this.state != CardId.BLOCKED) {
 
             //CARD IMAGE
             let size = this.size
@@ -137,6 +139,10 @@ export default class Buff extends Card {
                 
                 this.imageRarity,
                 IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
-    
+            } else {
+                ctx.drawImage(
+                    this.imageReverse,
+                     xPos, yPos)
+            }
     }
 }

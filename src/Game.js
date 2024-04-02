@@ -79,6 +79,11 @@ export default class Game {
                 // Funcion que Spawnea los Minions en el tablero
                 this.assignMinionsToBoardGrid(this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
 
+                this.turnContainer.turnContainer[this.currentTurn].handDeck.cards
+                for (let i = 0; i < this.turnContainer.turnContainer[(this.currentTurn +1) %2].handDeck.cards.length; i++) {
+                    const card = this.turnContainer.turnContainer[(this.currentTurn+1) %2].handDeck.cards[i];
+                    card.state = CardId.BLOCKED
+                }
                 if (this.images.isLoaded) {
                     
                     this.gameState = GameState.PLAYING

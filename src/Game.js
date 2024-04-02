@@ -134,8 +134,7 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.drawGame();
-                this.drawAllCards();
-                this.turnContainer.turnContainer[this.currentTurn].render(this.ctx, this.language)
+                this.turnContainer.render(this.ctx, this.language)
                 this.turnContainer.buttonContainer.renderButtons();
                 this.ctx.font         = "bold 30px Arial";
                 this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
@@ -181,7 +180,7 @@ export default class Game {
         // Funcion para renderizar los Grids
         this.renderGrids();
 
-        this.renderHeroes()
+
     }
 
     renderBoard(images) {

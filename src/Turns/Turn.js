@@ -241,10 +241,8 @@ export default class Turn {
         
         this.handDeck.renderCards(ctx, language)
         this.activeMinionDeck.renderCards(ctx, language)
-        this.enemyActiveMinionDeck.renderCards(ctx, language)
         this.preparingEventDeck.renderCards(ctx, language)
-        this.enemyPreparingEventDeck.renderCards(ctx, language)
         this.mainCharacter.render(ctx, language)
-        this.enemyHandDeck.renderCards(ctx, language)
+
     }
 }

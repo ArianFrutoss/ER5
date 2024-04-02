@@ -69,12 +69,10 @@ export default class Messages{
 
     render(ctx){
 
-        ctx.font = "100px LongaIberica-DEMO";
+        ctx.font = "80px LongaIberica-DEMO";
         ctx.fillStyle = "red";
         ctx.globalAlpha = this.alpha;
         ctx.fillText(this.message, this.xPos, this.yPos);
-        ctx.globalAlpha = 1.0;        
-        
-        ctx.fillStyle = "black";
+        ctx.globalAlpha = 1.0;
     }
 }

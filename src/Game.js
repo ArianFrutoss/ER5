@@ -133,12 +133,8 @@ export default class Game {
                 break;
 
             case GameState.PLAYING:
-                this.drawGame();
-                this.turnContainer.render(this.ctx, this.language)
-                this.turnContainer.buttonContainer.renderButtons();
-                this.ctx.font         = "bold 30px Arial";
-                this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
-                this.renderMessage();
+                this.renderGame();
+
                 break;
 
 
@@ -152,23 +148,7 @@ export default class Game {
         }
     }
 
-    renderMessage(){
-
-        for (let i = 0; i < this.messagesContainer.messages.length; i++){
-
-            const message = this.messagesContainer.messages[i];
-
-            this.ctx.font = "80px LongaIberica-DEMO";
-            this.ctx.fillStyle = "red";
-            this.ctx.globalAlpha = message.alpha;
-            this.ctx.fillText(message.message, message.xPos, message.yPos);
-            this.ctx.globalAlpha = 1.0;
-        }    
-        
-        this.ctx.fillStyle = "black";
-    }
-
-    drawGame() {
+    renderGame() {
         const images = this.images.images
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -176,6 +156,12 @@ export default class Game {
 
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer)
+        this.messagesContainer.render(this.ctx)
+
+        this.turnContainer.render(this.ctx, this.language)
+        this.turnContainer.buttonContainer.renderButtons();
+        this.ctx.font         = "bold 30px Arial";
+        this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
 
     }
 

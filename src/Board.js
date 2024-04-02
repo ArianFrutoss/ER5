@@ -169,7 +169,16 @@ export default class Board{
             image, xPos, yPos
         )
 
+            this.renderGrids(ctx)
 
+    }
+    renderGrids(ctx) {
 
+        // Cantidad de Grids que se van a renderizar
+        const gridsLength = this.grids.length;
+
+        for (let i = 0; i < gridsLength; i++) {
+            this.grids[i].render(ctx)
+        }
     }
 }

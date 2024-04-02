@@ -64,6 +64,37 @@ export default class Slot{
         }
     }
 
+    render(ctx){
+        // Posicion y tamaño de los Slots
+        const slotsXPos = this.xPos;
+        const slotsYPos = this.yPos;
+        const slotsXSize = this.xSize - 2;
+        const slotsYSize = this.ySize - 2;
+
+        if (this.isAviable){
+            
+            ctx.fillStyle = "green";
+        }
+
+        else if (this.state === SlotsState.SELECTED){
+            
+            ctx.fillStyle = "white";
+        }
+
+        else if (this.state === SlotsState.HOVER){
+            
+            ctx.fillStyle = "purple";
+        }
+
+        else{
+            ctx.filter = "opacity(50%)"
+            ctx.fillStyle = "black";
+        }
+
+        ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
+        ctx.filter = "opacity(100%)"
+        ctx.fillStyle = "black";
+    }
     isSlotSelected(grid){
 
         let result = false;
@@ -74,7 +105,7 @@ export default class Slot{
 
                 const slot = grid.slots[i][j];
 
-                if (slot.state === SlotsState.SELECTED){
+                if (this.state === SlotsState.SELECTED){
                     
                     result = true;
                     return result;

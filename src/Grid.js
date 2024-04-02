@@ -68,6 +68,21 @@ export default class Grid{
         }
     }
 
+    render(ctx){
+                    // Numero de filas y comumnas de los Slots
+                    const rows = this.slots.length;
+                    const columns = this.slots[0].length;
+        
+                    for (let j = 0; j < rows; j++) {
+        
+                        for (let k = 0; k < columns; k++) {
+        
+                            const slot = this.slots[j][k];
+                            slot.render(ctx)
+                            
+                        }
+                    }
+    }
     aviableSlots(minionSelected){
 
         for (let i = 0; i < this.slots.length; i++){

@@ -174,8 +174,8 @@ export default class Game {
 
         this.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
 
-        // Funcion para renderizar los Grids
-        this.renderBoard(images);
+        // Funcion para renderizar Board
+        this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer)
 
         // Funcion para renderizar los Grids
         this.renderGrids();
@@ -183,94 +183,7 @@ export default class Game {
 
     }
 
-    renderBoard(images) {
 
-        this.ctx.font = "30px LongaIberica-DEMO";
-        
-
-        let image = images[ImageTypes.BOARD_IMAGE][BoardId.BOARD];
-        let xPos = 0;
-        let yPos = 0;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.EVENT_DECK_FULL];
-        xPos = 25;
-        yPos = this.canvas.height / 2 - image.height / 2;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_FULL];
-        xPos = 75;
-        yPos = 12;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_HALF];
-        xPos = 75;
-        yPos = 872;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
-        xPos = 295;
-        yPos = 55;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        this.ctx.fillText(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
-
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
-        xPos = 295;
-        yPos = 925;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        this.ctx.fillText(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
-
-        image = images[ImageTypes.GAME_RARITY][RarityId.COMMON];
-        xPos = 1595;
-        yPos = 20;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-
-
-    }
-
-    renderHeroes(){
-        //Hero Render
-        const hero = this.turnContainer.turnContainer[this.currentTurn].mainCharacter
-        const enemy = this.turnContainer.turnContainer[(this.currentTurn+1) % 2].mainCharacter
-        const images = this.images.images
-        this.drawCard(images, hero, IconsPos.PLAYER_X[this.currentTurn], IconsPos.PLAYER_Y[this.currentTurn])
-        this.ctx.fillText(hero.name[this.language],IconsPos.PLAYER_NAME_X[this.currentTurn], IconsPos.PLAYER_NAME_Y[this.currentTurn])
-
-        this.drawCard(images, enemy, IconsPos.PLAYER_X[(this.currentTurn+1)%2], IconsPos.PLAYER_Y[(this.currentTurn+1)%2])
-        this.ctx.fillText(enemy.name[this.language],IconsPos.PLAYER_NAME_X[(this.currentTurn+1)%2], IconsPos.PLAYER_NAME_Y[(this.currentTurn+1)%2])
-
-    }
     renderGrids() {
 
         // Cantidad de Grids que se van a renderizar

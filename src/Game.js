@@ -42,7 +42,7 @@ export default class Game {
         const board = Board.initBoard(canvas);
         const assets = Asset.create();
         assets.loadImages(data);
-        const cardImgs = assets.images[ImageTypes.CARD_IMAGE]
+        const cardImgs = assets.images
         const deckContainer = new DeckContainer();
         deckContainer.createDecks(data, cardImgs);
 
@@ -130,6 +130,7 @@ export default class Game {
             case GameState.PLAYING:
                 this.drawGame();
                 this.drawAllCards();
+                this.turnContainer.turnContainer[this.currentTurn].render(this.ctx, this.language)
                 this.turnContainer.buttonContainer.renderButtons();
                 this.ctx.font         = "bold 30px Arial";
                 this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
@@ -323,7 +324,7 @@ export default class Game {
             
                 for (let j = 0; j < deck.cards.length; j++) {
                     const card = deck.cards[j];
-                    this.drawCard(this.images.images, card, card.xPos , card.yPos)
+                    // this.drawCard(this.images.images, card, card.xPos , card.yPos)
             
                 
             }

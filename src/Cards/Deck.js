@@ -1,4 +1,4 @@
-import { CardId, DecksId } from "../constants.js";
+import { CardId, DecksId, TypeId } from "../constants.js";
 import CardFactory from "./CardFactory.js";
 
 export default class Deck {
@@ -84,6 +84,13 @@ export default class Deck {
             this.cards.pop();
             
             return card;
+        }
+    }
+    renderCards(ctx, language){
+        for (let i = 0; i < this.cards.length; i++) {
+            const card = this.cards[i];
+                card.render(ctx, language)
+
         }
     }
 }

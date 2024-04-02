@@ -11,11 +11,12 @@ import UseEventPhase from "./turn_phases/UseEventPhase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, handDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, activeMinionDeck, buttonContainer, eventContainer, turnId){
+    constructor(gridArray, mainCharacter, handDeck, enemyHandDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, enemyPreparingEventDeck, activeMinionDeck, enemyActiveMinionDeck,  buttonContainer, eventContainer, turnId){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
         this.handDeck           = handDeck;                 // Mano del player
+        this.enemyHandDeck      = enemyHandDeck
         this.minionDeck         = minionDeck;               // Mazo de minions
         this.graveyardDeck      = graveyardDeck;            // Mazo cementerio
         this.mainCharacter      = mainCharacter;            // Carta de Character asignada  predefinida desde turnContainer
@@ -23,7 +24,9 @@ export default class Turn {
         this.eventContainer     = eventContainer            // Contenedor de eventos
         this.eventDeck          = eventDeck;                // Mazo de eventos
         this.preparingEventDeck = preparingEventDeck;       // mazo de eventos en preparacion
+        this.enemyPreparingEventDeck = enemyPreparingEventDeck
         this.activeMinionDeck   = activeMinionDeck;         // Mazo de minions activos
+        this.enemyActiveMinionDeck = enemyActiveMinionDeck
         this.buttonContainer    = buttonContainer;          // Contenedor de buttons
         this.active             = false;                    // Variable para saber si el turno esta activo
         this.state              = TurnStates.INITIALIZE;     // Estado del turno
@@ -106,6 +109,7 @@ export default class Turn {
                 }
                 break;
         }
+
     }
 
     init(){
@@ -233,5 +237,14 @@ export default class Turn {
                 card.cooldown--
         }
     }
-    
+    render(ctx,language){
+        
+        this.handDeck.renderCards(ctx, language)
+        this.activeMinionDeck.renderCards(ctx, language)
+        this.enemyActiveMinionDeck.renderCards(ctx, language)
+        this.preparingEventDeck.renderCards(ctx, language)
+        this.enemyPreparingEventDeck.renderCards(ctx, language)
+        this.mainCharacter.render(ctx, language)
+        this.enemyHandDeck.renderCards(ctx, language)
+    }
 }

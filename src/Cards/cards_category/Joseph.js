@@ -1,11 +1,11 @@
-import { CardId } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Joseph extends Card{
 
-    constructor(id, name, description, image, rarity, type, xPos, yPos, objective, effect){
+    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, effect){
 
-        super(id,name, description, image, rarity, type, xPos, yPos, objective);
+        super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory);
 
         this.effect = effect; // efecto carta joseph
         
@@ -84,5 +84,50 @@ export default class Joseph extends Card{
     }
     setDeck(deck){
         this.deck = deck
+    }
+    render(ctx, language){
+
+        ctx.fillStyle = "black"
+        let xPos = this.xPos
+        let yPos = this.yPos
+            ctx.font = "25px LongaIberica-DEMO";
+
+            //CARD IMAGE
+            let size = this.size
+            if (this.state === CardId.SCALED ) {
+                xPos = 800
+                yPos = 300
+                size = CardId.BIG_SIZE
+                
+            }
+            ctx.drawImage(
+                this.image[size],                 //Img File
+                xPos,yPos                    //X & Y Position Source
+                )
+                
+                
+                // BORDER
+                ctx.drawImage(
+                    this.imageBorders[size],
+                    xPos, yPos)
+
+                    if (size === BorderId.NORMAL_SIZE) {
+                        ctx.font = "25px LongaIberica-DEMO";
+                        ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
+                        ctx.font = "15px LongaIberica-DEMO";
+                        ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
+                        ctx.font = "25px LongaIberica-DEMO";
+                        
+                        //CATEGORY ICON
+                        ctx.drawImage(
+                            this.imageCategory,
+                            IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
+                    }
+            //RARITY ICON
+            ctx.drawImage(
+                
+                this.imageRarity,
+                IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
+    
     }
 }

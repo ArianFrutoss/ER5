@@ -1,24 +1,30 @@
 import globals from "./globals.js";
-import { Game } from "./constants.js";
+import { GameState } from "./constants.js";
 
 export default function update(){
 
     switch(globals.gameState){
 
-        case Game.LOAD_GAME:
-            console.log("load game");
+        case GameState.INVALID:
+            // add logic
+            showMouseXY();
             break;
 
-        case Game.PLAYING:
-            console.log("playing");
+        case GameState.PLAYING:
+            // add logic
             break;
 
-        case Game.GAMEOVER:
-            console.log("gameover");
+        case GameState.GAMEOVER:
+            // add logic
             break;
 
         default:
             
             break;
     }
+}
+
+function showMouseXY(){
+
+    console.log("X:" + globals.mouse.x + " Y:" + globals.mouse.y);
 }

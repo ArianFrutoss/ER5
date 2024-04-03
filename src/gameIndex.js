@@ -1,24 +1,34 @@
 import globals from "./globals.js";
-import update from  "./gameLogic.js";
-import render from  "./gameRender.js";
-import { initHTMLelements, initVars } from "./initialize.js";
+import {initHTMLelements, initVars, testArray } from "./initialize.js";
+import logJSON from "./fakeJSONRead.js";
+import Asset from "./Asset.js";
+import Game from "./Game.js";
+import { GameState } from "./constants.js";
 
+let game
 window.onload = init;
-
 function init(){
-    initHTMLelements();
+    fetch('http://localhost:3000/test')
+    .then((response) => response.json())
+    .then((data) => {        
+        
+        const html = initHTMLelements();
+        const canvas = html[0];
+        const ctx = html[1];
+        initVars();
+        
+        //initEvents(canvas);
+        
+        game = Game.init(data,canvas,ctx);
 
-    initVars();
-
-    window.requestAnimationFrame(gameLoop);
+        window.requestAnimationFrame(gameLoop,canvas);
+    });
 }
 
-
 // GAME EXECUTE
-function gameLoop(timeStamp){
+function gameLoop(timeStamp, canvas){
 
-
-    window.requestAnimationFrame(gameLoop, globals.canvas);
+    window.requestAnimationFrame(gameLoop, canvas);
 
     const elapsedCycleSeconds = (timeStamp - globals.previousCycleMiliseconds) / 1000; 
 
@@ -28,9 +38,9 @@ function gameLoop(timeStamp){
 
     if(globals.deltaTime >= globals.frameTimeObj){
 
-        update();
+        game.update();
 
-        render();
+        game.render();
 
         globals.deltaTime -= globals.frameTimeObj;
     }

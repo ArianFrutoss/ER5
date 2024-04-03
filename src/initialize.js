@@ -1,36 +1,62 @@
 import globals from "./globals.js";
-import { Game, FPS } from "./constants.js";
+import { GameState, FPS, GridId } from "./constants.js"
+import CardFactory from "./Cards/CardFactory.js";
+import jsonArray from "../cards.js";
+
 
 function initHTMLelements(){
-
+    
+    console.log("initHtml");
     //canvas
-    globals.canvas = document.getElementById('gameScreen');
+    const canvas = document.getElementById('gameScreen');
 
     //Context
-    globals.ctx = globals.canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
 
     //Eliminacion del Anti-Aliasing
-    globals.ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = false;
 
-    globals.txtPruebas = document.getElementById('txtPruebas');
-
-
+    return [canvas,ctx]
+    // globals.txtPruebas = document.getElementById('txtPruebas');
 }
 
 // funcion inicializa variables del juego
 function initVars(){
-
+console.log("initVars");
     //variables de gestion de tiempo
     globals.previousCycleMiliseconds = 0;
     globals.deltaTime = 0;
     globals.frameTimeObj = 1 / FPS;
     
     //Inicializamos el estado del juego
-    globals.gameState = Game.INVALID;
+    globals.gameState = GameState.INVALID;
+
+    globals.action = {
+
+        mousePressed: false
+    }
+
+    globals.mouse = {
+        x: -1,
+        y: -1
+    }
+}
+
+function testArray(){
+
+    // console.log(jsonArray);
+
+    // const cardFactory = new CardFactory(jsonArray);
+    
+    // cardFactory.createCards();
+    
+    // console.log(globals.cards);
 }
 
 // Exportar funciones
-export {
+export{
+
     initHTMLelements,
-    initVars
+    initVars,
+    testArray,
 }

@@ -1,12 +1,9 @@
-import {Game} from "./constants.js"
+import {GameState} from "./constants.js"
 
 export default {
-    // Acceso al canvas y context
-    canvas: {},
-    ctx: {},
 
     // Estados de juego. 
-    gameState: Game.INVALID,
+    gameState: GameState.INVALID,
 
     previousCycleMiliseconds: -1,
 
@@ -14,6 +11,25 @@ export default {
 
     frameTimeObj: 0,
 
-    txtPruebas: {}
+    txtPruebas: {},
+
+    cards: [],
+
+    action: {},
+    
+    mouse: {},
+
+    images: [],
+
+    //Stores elements to load(IMG/Sounds)
+    assetsToLoad: [],
+
+    //Counter of elements loaded in game
+    assetsLoaded: 0,
+        
+    txtPruebas: {},
+
+    playerOneHealth: 20,
+    playerTwoHealth: 20,
 }
 

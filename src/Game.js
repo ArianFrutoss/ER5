@@ -92,7 +92,6 @@ export default class Game {
                 // this.deckContainer.updateDecks(this.mouse)
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer);
 
-                this.gridsArray.update(this.mouse, this.deckContainer);
                 this.mouse.update();
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
 

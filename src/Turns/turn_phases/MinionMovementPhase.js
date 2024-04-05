@@ -3,40 +3,64 @@ import { CardId, SlotsState } from "../../constants.js";
 
 export default class MinionMovementPhase extends Phase {
 
-    constructor(activeMinionDeck, boardGrid, mouse) {
+    constructor(activeMinionDeck, enemyActiveMinionDeck, boardGrid, mouse) {
         super();
         this.activeMinionDeck = activeMinionDeck;         // Deck de minions activos
+        this.enemyActiveMinionDeck = enemyActiveMinionDeck  // Deck de minions enemigos activos
         this.boardGrid = boardGrid;             // Grid del tablero
         this.mouse = mouse;                    // Objeto Mouse
     }
 
-    execute() {
-        this.boardGrid.clearSlots();
+    execute(){
+        
+        this.boardGrid.cancelAviableSlots();
         this.activeMinionDeck.update(this.mouse, this.activeMinionDeck)
-        const isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
-        const isAnySlotHovered  = this.boardGrid.isAnySlot(this.boardGrid, SlotsState.HOVER);
+        this.boardGrid.update(this.mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck]);
 
-        if (isAnyCardSelected[0] && isAnySlotHovered[0]) {
+        const isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
+        const isAnySlotHovered  = this.boardGrid.isAnySlot(SlotsState.HOVER);
+        const isAnySlotSelected  = this.boardGrid.isAnySlot(SlotsState.SELECTED);
+
+        let distance;
+        let minionSelected;
+        let slotHovered;
+        let slotSelected;
+
+        if (isAnyCardSelected[0] && isAnySlotHovered[0]){
+
+            const minionPosition            = isAnyCardSelected[1];
+            const slotPositionHoveredI      = isAnySlotHovered[1];
+            const slotPositionHoveredJ      = isAnySlotHovered[2];
             
-            const minionPosition    = isAnyCardSelected[1];
-            const slotPositionI     = isAnySlotHovered[1];
-            const slotPositionJ     = isAnySlotHovered[2];
-            
-            const minionSelected    = this.activeMinionDeck.cards[minionPosition];
-            const slotSelected      = this.boardGrid.slots[slotPositionI][slotPositionJ];
+            minionSelected    = this.activeMinionDeck.cards[minionPosition];
+            slotHovered       = this.boardGrid.slots[slotPositionHoveredI][slotPositionHoveredJ];
             
             this.boardGrid.aviableSlots(minionSelected);
             
-            const distance = slotSelected.calculateDistance(minionSelected);
+            distance = slotHovered.calculateDistance(minionSelected);
+        }
 
-            if (minionSelected.speed >= distance){
+        if (isAnyCardSelected[0] && isAnySlotSelected[0]){
 
-                if (isAnySlotHovered[0] && !this.mouse.leftClick && this.mouse.previousStateLeft){
+            const minionPosition            = isAnyCardSelected[1];
+            const slotPositionSelectedI     = isAnySlotSelected[1];
+            const slotPositionSelectedJ     = isAnySlotSelected[2];
+            
+            minionSelected    = this.activeMinionDeck.cards[minionPosition];
+            slotSelected      = this.boardGrid.slots[slotPositionSelectedI][slotPositionSelectedJ];
 
-                    this.moveMinion(minionSelected, slotSelected);
-                    this.boardGrid.clearSlots();
-                    return true;
-                }
+            this.boardGrid.aviableSlots(minionSelected);
+            
+            distance = slotSelected.calculateDistance(minionSelected);
+        }
+        
+        if (minionSelected != undefined && minionSelected.speed >= distance){
+            
+            if (isAnySlotSelected[0]){
+                
+                this.moveMinion(minionSelected, slotSelected);
+                this.boardGrid.clearSlots();
+                return true;
             }
         }
     }

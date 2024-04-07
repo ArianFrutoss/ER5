@@ -28,8 +28,8 @@ export default class Messages{
                 
                 this.appearCounter += globals.deltaTime;
                 this.alpha += 0.2;
-
-                if (this.appearCounter > this.timeInAppear){
+                
+                if (this.appearCounter > this.timeInAppear && this.appearCounter >= 1){
                     
                     this.appearCounter = 0;
                     this.state = MessageState.ON;

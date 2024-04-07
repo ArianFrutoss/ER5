@@ -92,6 +92,7 @@ export default class Game {
                 break;
 
             case GameState.PLAYING:
+                console.log(this.messagesContainer.messages);
                 this.updateGame();
                 this.deckContainer.updateScale(this.mouse)
                 // this.deckContainer.updateDecks(this.mouse)
@@ -110,7 +111,7 @@ export default class Game {
                         this.turnCounter++;
     
                     }
-                    this.messagesContainer.update(this.ctx);
+                    this.messagesContainer.update();
                 }
                 break;
 

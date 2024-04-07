@@ -34,34 +34,34 @@ export default class MinionAttackPhase extends Phase {
         
         const messages = messagesContainer.messages;
 
-        if (messages.length === 0 && isAnyCardSelected[0] === false){
+        if (messages[1] === undefined && isAnyCardSelected[0] === false){
 
             const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any attacker minion", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[0] = message;
-            messages[0].drawMessage = true;
+            messages[1] = message;
+            messages[1].drawMessage = true;
         }
         
-        if (messages.length === 0 && isAnyCardSelected[0]){
+        if (messages[1] === undefined && isAnyCardSelected[0]){
 
             const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any enemy minion to attack", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[0] = message;
-            messages[0].drawMessage = false;
+            messages[1] = message;
+            messages[1].drawMessage = false;
         }
         
-        if (messages[0].drawMessage && messages.length === 1 && isAnyCardSelected[0]){
+        if (messages[1].drawMessage && messages[1] != undefined && isAnyCardSelected[0]){
             
-            messages[0].timeInOn = 0;
+            messages[1].timeInOn = 0;
         }
 
-        if (messages[0].drawMessage === false && messages.length === 1 && isAnyCardSelected[0] === false){
+        if (messages[1].drawMessage === false && messages[1] != undefined && isAnyCardSelected[0] === false){
             
-            messages[0].timeInOn = 0;
+            messages[1].timeInOn = 0;
         }
         
         // Comprobar si hay enemigo seleccionado
         if (isEnemyCardHovered[0] && !this.mouse.leftClick && this.mouse.previousStateLeft) {
             
-            messages[0].timeInOn = 0;
+            messages[1].timeInOn = 0;
 
             // Escoger las posiciones de las cartas en los decks
             const attackerPosition = isAnyCardSelected[1];

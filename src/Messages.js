@@ -17,6 +17,7 @@ export default class Messages{
         this.fadeCounter    = 0;
         this.appearCounter  = 0;
         this.onCounter      = 0;
+        this.drawMessage    = false;
     }
 
     update(messages){

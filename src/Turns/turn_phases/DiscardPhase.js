@@ -18,7 +18,7 @@ export default class DiscardPhase extends Phase{
             if (messagesContainer.messages.length < 1){
 
                 const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any card to discard", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-                messagesContainer.messages.push(message);
+                messagesContainer.messages[0] = message;
             }
 
             const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)

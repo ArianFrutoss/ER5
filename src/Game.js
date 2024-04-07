@@ -155,10 +155,9 @@ export default class Game {
 
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer)
-        this.messagesContainer.render(this.ctx)
-
         this.turnContainer.render(this.ctx, this.language)
         this.turnContainer.buttonContainer.renderButtons();
+        this.messagesContainer.render(this.ctx)
         this.ctx.font         = "bold 30px Arial";
         this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
 

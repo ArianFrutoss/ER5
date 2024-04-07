@@ -3,11 +3,12 @@ import { MessageState } from "./constants.js";
 
 export default class Messages{
 
-    constructor(xPos, yPos, message, state, timeToFade, timeToAppear, timeInOn, alpha){
+    constructor(xPos, yPos, message, type, state, timeToFade, timeToAppear, timeInOn, alpha){
 
         this.xPos           = xPos;
         this.yPos           = yPos;
         this.message        = message;
+        this.type           = type;
         this.state          = state;
         this.timeToFade     = timeToFade;
         this.timeToAppear   = timeToAppear;
@@ -64,8 +65,6 @@ export default class Messages{
                 break;
         }
     }
-
-    
 
     render(ctx){
 

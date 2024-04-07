@@ -80,7 +80,7 @@ export default class Turn {
         switch(this.state){
             
             case TurnStates.INITIALIZE:
-                this.init();
+                this.init(messages);
                 console.log("init");
                 this.state = TurnStates.EXECUTION
                 this.finished = false
@@ -102,7 +102,7 @@ export default class Turn {
 
             case TurnStates.END:
                 console.log("end");
-                const isEndTurn = this.end();
+                const isEndTurn = this.end(messages);
                 if (isEndTurn) {
                     this.finished = true
                     
@@ -112,7 +112,7 @@ export default class Turn {
 
     }
 
-    init(){
+    init(messages){
         this.restoreCardStatesFromActiveDecks()
         this.eventContainer.executeEvents()
         this.actionsCounter = 0
@@ -184,7 +184,7 @@ export default class Turn {
             
             case PhaseStates.DEFAULT:
                 
-                this.phaseState = this.phasesArray[PhaseStates.DEFAULT].update();
+                this.phaseState = this.phasesArray[PhaseStates.DEFAULT].execute(messages);
                 
                 break;
             default:
@@ -197,7 +197,7 @@ export default class Turn {
         }
     }
 
-    end(){
+    end(messages){
         const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute()
         if (isCardDiscarded) {
             this.blockCardStatesFromHandDeck()

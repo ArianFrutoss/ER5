@@ -173,7 +173,7 @@ export default class Turn {
                 break; 
                 
             case PhaseStates.DISCARD_CARD:
-                const isDiscardFinished = this.phasesArray[PhaseStates.DISCARD_CARD].execute();
+                const isDiscardFinished = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messages);
 
                 if(isDiscardFinished){
                     return true
@@ -198,7 +198,7 @@ export default class Turn {
     }
 
     end(messages){
-        const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute()
+        const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messages)
         if (isCardDiscarded) {
             this.blockCardStatesFromHandDeck()
             // cambio de turno

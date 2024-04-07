@@ -1,5 +1,7 @@
 import { CardId } from "../../constants.js";
 import Phase from "./Phase.js";
+import { MessageState, MessageType, HelpMessagesPos } from "../../constants.js";
+import Messages from "../../Messages.js";
 
 export default class DiscardPhase extends Phase{
 
@@ -9,11 +11,20 @@ export default class DiscardPhase extends Phase{
         this.graveyardDeck  = graveyardDeck;
         this.mouse          = mouse
     }
-    execute(){
+    execute(messagesContainer){
         this.handDeck.update(this.mouse, this.handDeck)
         if (this.handDeck.cards.length > 4) {
+            
+            if (messagesContainer.messages.length < 1){
+
+                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any card to discard", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+                messagesContainer.messages.push(message);
+            }
+
             const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)
             if (isAnyCardSelected[0]) {
+
+                messagesContainer.messages[0].timeInOn = 0;
                 const position = isAnyCardSelected[1]
                 const card = this.handDeck.cards[position]
                 this.handDeck.cards.splice(position, 1)

@@ -1,5 +1,5 @@
 import ButtonContainer from "../../Button/ButtonContainer.js";
-import { ButtonState, CardActions, PhaseStates, MessageState, MessageType } from "../../constants.js";
+import { ButtonState, CardActions, PhaseStates, MessageState, MessageType, HelpMessagesPos } from "../../constants.js";
 import Phase from "./Phase.js";
 import Messages from "../../Messages.js";
 
@@ -15,14 +15,18 @@ export default class DefaultPhase extends Phase {
     }
 
     execute(messagesContainer){
+        
+        if (messagesContainer.messages.length < 1){
 
-        const message = new Messages(1000, 300, "Select any button to enter in the phase", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, null, 0.2, 0.0);
-        messagesContainer.messages.push(message);
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any button to enter in the phase", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            messagesContainer.messages.push(message);
+        }
 
         let returnState     = this.buttonContainer.isAnyButtonSelected();
 
         if(returnState !== undefined){
-            message.timeInOn = 0;
+            
+            messagesContainer.messages[0].timeInOn = 0;
             console.log(returnState);
             return returnState;
         }else{

@@ -13,6 +13,9 @@ export default class UseEventPhase extends Phase{
         this.mouse                  = mouse
     }
     execute(mouse){
+
+        this.eventGrid.update(mouse, this.eventDeck);
+        this.boardGrid.update(mouse, [this.activeMinions, this.enemyActiveMinions]);
         const decks = [this.eventDeck, this.activeMinions, this.enemyActiveMinions]
         for (let i = 0; i < decks.length; i++) {
             const deck = decks[i];
@@ -29,9 +32,9 @@ export default class UseEventPhase extends Phase{
             const minionCard        = this.activeMinions.cards[minionPosition]
 
             if (isAnyMinionHovered[0] && !mouse.leftClick   && mouse.previousStateLeft) {
-                
+
                 switch (eventCard.category) {
-                    case TypeId.WEAPON:
+                    case TypeId.WEAPON:  
                     case TypeId.ARMOR:
                         if (eventCard.action === CardActions.READY) {
                             eventCard.category === TypeId.WEAPON ?  minionCard.weapon = eventCard : minionCard.armor = eventCard

@@ -1,10 +1,10 @@
-import { CardActions, CardId } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Armor extends Card{
-    constructor(id, name, description, image, rarity,category, type, xPos, yPos, health, attack, defense, speed, durability, cooldown){
+    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown){
         
-        super(id, name, description, image, rarity, category, xPos, yPos);
+        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
             this.health     = health;
             this.attack     = attack;
@@ -92,6 +92,77 @@ export default class Armor extends Card{
         if (this.durability <= 0) {
             this.action = CardActions.WORN_OUT
         }
+    }
+    render(ctx, language){
+        ctx.fillStyle = "black"
+        let xPos = this.xPos
+        let yPos = this.yPos
+        ctx.font = "25px LongaIberica-DEMO";
+
+        if (this.state != CardId.BLOCKED) {
+            //CARD IMAGE
+            let size = this.size
+            if (this.state === CardId.SCALED ) {
+                xPos = 800
+                yPos = 300
+                size = CardId.BIG_SIZE
+                
+            }
+            ctx.drawImage(
+                this.image[size],                 //Img File
+                xPos,yPos                    //X & Y Position Source
+                )
+                
+                
+                // BORDER
+                ctx.drawImage(
+                    this.imageBorders[size],
+                    xPos, yPos)
+
+                    if (size === BorderId.NORMAL_SIZE) {
+                        ctx.font = "25px LongaIberica-DEMO";
+                        ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
+                        ctx.font = "15px LongaIberica-DEMO";
+                        ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
+                        ctx.font = "25px LongaIberica-DEMO";
+                        
+                        //CATEGORY ICON
+                        ctx.drawImage(
+                            this.imageCategory,
+                            IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
+                    }
+            //RARITY ICON
+            ctx.drawImage(
+                
+                this.imageRarity,
+                IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
+    
+                //ATTRIBUTES ICONS & VALUES
+                ctx.drawImage(
+                    this.imageAttributes[0],
+                    IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
+
+                ctx.fillText(this.cooldown, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+
+                ctx.drawImage(
+                    this.imageAttributes[1],
+                    IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
+                ctx.fillText(this.durability, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+
+                ctx.drawImage(
+                    this.imageAttributes[2],
+                    IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
+                ctx.fillText(this.defense, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+
+                ctx.drawImage(
+                    this.imageAttributes[3],
+                    IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
+                ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+            } else {
+                ctx.drawImage(
+                    this.imageReverse,
+                     xPos, yPos)
+            }
     }
 }        
 

@@ -1,4 +1,4 @@
-import { DecksId, GridId } from "./constants.js";
+import { BoardId, DecksId, GridId, ImageTypes, RarityId } from "./constants.js";
 import globals from "./globals.js";
 import Grid from "./Grid.js";
 
@@ -60,5 +60,90 @@ export default class Board{
         const grids = [board, eventBoardAtacker, eventBoardDefender, handAtacker, handDefender];
 
         return new Board(grids);
+    }
+
+    render(images, ctx, canvas, deckContainer) {
+
+        ctx.font = "30px LongaIberica-DEMO";
+        
+        let image = images[ImageTypes.BOARD_IMAGE][BoardId.BOARD];
+        let xPos = 0;
+        let yPos = 0;
+
+        ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.EVENT_DECK_FULL];
+        xPos = 25;
+        yPos = canvas.height / 2 - image.height / 2;
+
+        ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_FULL];
+        xPos = 75;
+        yPos = 12;
+
+        ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_HALF];
+        xPos = 75;
+        yPos = 872;
+
+        ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
+        xPos = 295;
+        yPos = 55;
+
+        ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        ctx.fillText(deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
+
+        image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
+        xPos = 295;
+        yPos = 925;
+
+        ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+        ctx.fillText(deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
+
+        image = images[ImageTypes.GAME_RARITY][RarityId.COMMON];
+        xPos = 1595;
+        yPos = 20;
+
+        ctx.drawImage(
+
+            image, xPos, yPos
+        )
+
+            this.renderGrids(ctx)
+
+    }
+    
+    renderGrids(ctx) {
+
+        // Cantidad de Grids que se van a renderizar
+        const gridsLength = this.grids.length;
+
+        for (let i = 0; i < gridsLength; i++) {
+            this.grids[i].render(ctx)
+        }
     }
 }

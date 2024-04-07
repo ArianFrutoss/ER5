@@ -6,7 +6,7 @@ import MainCharacter from "./cards_category/MainCharacter.js";
 import Minion from "./cards_category/Minion.js";
 import Spell from "./cards_category/Spell.js";
 import Weapon from "./cards_category/Weapon.js";
-import { CardId, IconsId, TypeId } from "../constants.js";
+import { BorderId, CardId, IconsId, ImageTypes, RarityId, TypeId } from "../constants.js";
 
 
 export default class CardFactory {
@@ -25,13 +25,19 @@ export default class CardFactory {
             const id = this.cardData[i].card_id;
             const name = [this.cardData[i].name, this.cardData[i].izena];
             const description = [this.cardData[i].description, this.cardData[i].deskripzioa];
-            const image = [this.images[CardId.BIG_SIZE][id-1], this.images[CardId.SMALL_SIZE][id-1]]
             const rarity = this.setRarity(this.cardData[i].rarity)
             const category = this.cardData[i].category
-            const quantity = this.cardData[i].quantity
-            // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS
             const type = this.cardData[i].type;
-
+            const image = [this.images[ImageTypes.CARD_IMAGE][CardId.BIG_SIZE][id-1], this.images[ImageTypes.CARD_IMAGE][CardId.SMALL_SIZE][id-1] ]
+            const imageRarity = this.images[ImageTypes.CARD_RARITY][rarity]
+            const imageBorders = [this.images[ImageTypes.CARD_BORDER][CardId.BIG_SIZE], this.images[ImageTypes.CARD_BORDER][CardId.SMALL_SIZE]]
+            const imageReverse = this.images[ImageTypes.CARD_BORDER][BorderId.REVERSE]
+            const weaponRarityImage = this.images[ImageTypes.EQUIP_RARITY]
+            const armorRarityImage = this.images[ImageTypes.EQUIP_RARITY]
+            let imageCategory 
+            let imageAttributes
+            // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS
+            const quantity = this.cardData[i].quantity
             const xPos = -400;
             const yPos = -400;
             const objective = "objective";
@@ -40,71 +46,79 @@ export default class CardFactory {
 
             switch (category) {
                 case "Armor_card":
+                    imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
+                    imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.ARMOR]
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createArmor(id, name, description, image, rarity, TypeId.ARMOR, xPos, yPos, attributes);
+                        card = this.createArmor(id, name, description, image, rarity, TypeId.ARMOR, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
                         this.cards.push(card)
 
                     }
                     break;
 
                 case "Buff_card":
+                    imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
+                    imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.BUFF]
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createBuff(id, name, description, image, rarity, TypeId.BUFF, type, xPos, yPos, attributes);
+                        card = this.createBuff(id, name, description, image, rarity, TypeId.BUFF, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
                         this.cards.push(card)
                     }
                     break;
 
                 case "Curse_card":
+                    imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
+                    imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.CURSE]
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createBuff(id, name, description, image, rarity, TypeId.CURSE, type, xPos, yPos, attributes);
+                        card = this.createCurse(id, name, description, image, rarity, TypeId.CURSE, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
                         this.cards.push(card)
                     }
                     break;
 
                 case "Joseph_card":
+                    imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.JOSEPH]
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createJoseph(id, name, description, image, rarity, TypeId.JOSEPH, type, xPos, yPos, effects)
+                        card = this.createJoseph(id, name, description, image, rarity, TypeId.JOSEPH, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse)
                         this.cards.push(card)
 
                     }
                     break;
 
                 case "Hero_card":
+                    imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.HERO]
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createMainCharacter(id, name, description, image, rarity, TypeId.HERO, type, xPos, yPos, effects)
+                        card = this.createMainCharacter(id, name, description, image, rarity, TypeId.HERO, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effects)
                         card.size = CardId.SMALL_SIZE
                         this.cards.push(card)
                     }
                     break;
 
                 case "Minion_card":
+                    imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.SPEED], this.images[ImageTypes.CARD_ICONS][IconsId.LIFE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
+                    imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.MINION]
                     for (let i = 0; i < quantity; i++) {
-
-                        card = this.createMinion(id, name, description, image, rarity, TypeId.MINION, xPos, yPos, attributes);
+                        card = this.createMinion(id, name, description, image, rarity, TypeId.MINION,"Melee", xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage);
                         this.cards.push(card)
                     }
                     break;
 
                 case "Spell_card":
+                    imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
+                    imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.SPELL]
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createSpell(id, name, description, image, rarity, TypeId.SPELL, type, xPos, yPos, attributes);
+                        card = this.createSpell(id, name, description, image, rarity, TypeId.SPELL, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
                         this.cards.push(card)
                     }
                     break;
 
                 case "Weapon_card":
+                    imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
+                    imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.WEAPON]
                     for (let i = 0; i < quantity; i++) {
-
-                        card = this.createWeapon(id, name, description, image, rarity, TypeId.WEAPON, type, xPos, yPos, attributes)
+                        card = this.createWeapon(id, name, description, image, rarity, TypeId.WEAPON, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse)
                         this.cards.push(card)
                     }
                     break;
 
                 default:
-                    for (let i = 0; i < quantity; i++) {
-                        card = this.createBuff(id, name, description, image, rarity, TypeId.BUFF, type, xPos, yPos, attributes);
-                        this.cards.push(card)
-                    }
                     break;
             }
 
@@ -135,9 +149,8 @@ export default class CardFactory {
                 break;
         }
     }
-    createMinion(id, name, description, image, rarity, type, xPos, yPos, attributes) {
-        let equipedWeapon = [];
-        let equipedArmor = [];
+    createMinion(id, name, description, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage) {
+
 
         attributes = this.setAttributeValues(attributes)
         let attack  = attributes[IconsId.DAMAGE]
@@ -145,16 +158,15 @@ export default class CardFactory {
         let hp = attributes[IconsId.LIFE]
         let speed = attributes[IconsId.SPEED]
 
-
-
-        const minion = new Minion(id, name, description, image, rarity, type, "Melee", xPos, yPos, attack, defense, hp, speed, equipedWeapon, equipedArmor);
+        const minion = new Minion(id, name, description, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage, attack, defense, hp, speed);
 
         return minion
 
     }
 
 
-    createArmor(id, name, description, image, rarity, type, xPos, yPos, attributes) {
+    createArmor(id, name, description, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
+
         attributes = this.setAttributeValues(attributes)
         let attack = attributes[IconsId.DAMAGE];
         if (!attack) {
@@ -179,13 +191,13 @@ export default class CardFactory {
         }
 
 
-        const armor = new Armor(id, name, description, image, rarity, type, "Melee", xPos, yPos, health, attack, defense, speed, durability, cooldown);
+        const armor = new Armor(id, name, description, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown);
 
         return armor
 
     }
 
-    createBuff(id, name, description, image, rarity, type, xPos, yPos, objective, attributes) {
+    createBuff(id, name, description, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
         let attack
         let defense
         let health
@@ -202,45 +214,57 @@ export default class CardFactory {
 
         }
 
-        const buff = new Buff(id, name, description, image, rarity, type, xPos, yPos, objective, attack, defense, speed, health, durability, cooldown)
+        const buff = new Buff(id, name, description, image, rarity, category,"Ranged", xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse)
         return buff
 
     }
 
-    createCurse(id, name, description, image, rarity, type, xPos, yPos, objective, attributes, effects) {
-        let attack = effects.attack;
-        let defense = effects.defense;
-        let speed = effects.speed;
-        let durability = attributes.durability;
-        let cooldown = attributes.cooldown;
+    createCurse(id, name, description, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
+        let attack
+        let defense
+        let health
+        let speed
+        let durability
+        let cooldown
+        if (attributes != null) {
+            attack = attributes.attack;
+            defense = attributes.defense;
+            health = attributes.hp;
+            speed = attributes.speed;
+            durability = attributes.durability;
+            cooldown = attributes.cooldown;
 
-        const curse = new Curse(id, name, description, image, rarity, type, xPos, yPos, objective, attack, defense, speed, durability, cooldown);
+        }
+
+        const curse = new Curse(id, name, description, image, rarity, type, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack, defense, speed, durability, cooldown);
+
         return curse
 
 
     }
 
-    createJoseph(id, name, description, image, rarity, type, xPos, yPos, objective, effects) {
+    createJoseph(id, name, description, image, rarity, category, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
         let armorEffect = effects.Armor;
 
-        const joseph = new Joseph(id, name, description, image, rarity, type, xPos, yPos, objective, armorEffect)
+        const joseph = new Joseph(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, armorEffect,)
         return joseph
 
     }
 
-    createMainCharacter(id, name, description, image, rarity, type, xPos, yPos, objective, effects) {
+    createMainCharacter(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effects) {
         let attack = effects.attack;
         let defense = effects.defense;
         let speed = effects.speed;
         let durability = effects.durability;
         let cooldown = effects.cooldown;
 
-        const mainCharacter = new MainCharacter(id, name, description, image, rarity, type, xPos, yPos, objective, durability, cooldown);
+        const mainCharacter = new MainCharacter(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown);
+
         return mainCharacter
 
     }
 
-    createSpell(id, name, description, image, rarity, type, xPos, yPos, objective, attributes) {
+    createSpell(id, name, description, image, rarity,category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
         let attack
         let defense
         let health
@@ -257,15 +281,13 @@ export default class CardFactory {
 
         }
 
-        const spell = new Spell(id, name, description, image, rarity, type, xPos, yPos, objective, durability, cooldown);
+        const spell = new Spell(id, name, description, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown);
         return spell
 
     }
 
-    createWeapon(id, name, description, image, rarity, category, type, xPos, yPos, attributes) {
-
+    createWeapon(id, name, description, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
         attributes = this.setAttributeValues(attributes)
-
         let range = attributes[IconsId.RANGE];
         let attack = attributes[IconsId.DAMAGE];
         let defense = attributes[IconsId.DEFENSE];
@@ -281,8 +303,7 @@ export default class CardFactory {
         let weaponType = attributes.weaponType;
 
 
-        const weapon = new Weapon(id, name, description, image, rarity, category, type, xPos, yPos, range, attack, defense, speed, durability, cooldown);
-
+        const weapon = new Weapon(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, range, attack, defense, speed, durability, cooldown);
         return weapon
 
 

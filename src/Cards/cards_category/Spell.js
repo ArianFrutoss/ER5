@@ -1,11 +1,11 @@
-import { CardId } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Spell extends Card{
 
-    constructor(id, name, description, image, rarity, type,  xPos, yPos, objective, durability, cooldown){
+    constructor(id, name, description, image, rarity, category, type,  xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown){
 
-        super(id, name, description, image, rarity, type, xPos, yPos, objective);
+        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
         // Card attributes   
         this.durability = durability;
@@ -91,6 +91,54 @@ export default class Spell extends Card{
             this.action = CardActions.WORN_OUT
         }
     }
+    render(ctx, language){
+        ctx.fillStyle = "black"
+        ctx.font = "25px LongaIberica-DEMO";
+        let xPos = this.xPos
+        let yPos = this.yPos
+        if (this.state != CardId.BLOCKED) {
+
+            //CARD IMAGE
+            let size = this.size
+            if (this.state === CardId.SCALED ) {
+                xPos = 800
+                yPos = 300
+                size = CardId.BIG_SIZE
+                
+            }
+            ctx.drawImage(
+                this.image[size],                 //Img File
+                xPos,yPos                    //X & Y Position Source
+                )
+                
+                
+                // BORDER
+                ctx.drawImage(
+                    this.imageBorders[size],
+                    xPos, yPos)
+
+                    if (size === BorderId.NORMAL_SIZE) {
+                        ctx.font = "25px LongaIberica-DEMO";
+                        ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
+                        ctx.font = "15px LongaIberica-DEMO";
+                        ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
+                        ctx.font = "25px LongaIberica-DEMO";
+                        
+                        //CATEGORY ICON
+                        ctx.drawImage(
+                            this.imageCategory,
+                            IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
+                    }
+            //RARITY ICON
+            ctx.drawImage(
+                this.imageRarity,
+                IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
+            } else {
+                ctx.drawImage(
+                    this.imageReverse,
+                     xPos, yPos)
+            }
     
+    }
 }
 

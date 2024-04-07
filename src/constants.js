@@ -110,7 +110,8 @@ export const CardImageId = {
 }
 export const BorderId = {
     NORMAL_SIZE: 0,
-    SMALL_SIZE: 1
+    SMALL_SIZE: 1,
+    REVERSE: 2
 }
 export const IconsId = {
     DAMAGE:     0,

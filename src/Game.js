@@ -42,7 +42,7 @@ export default class Game {
         const board = Board.initBoard(canvas);
         const assets = Asset.create();
         assets.loadImages(data);
-        const cardImgs = assets.images[ImageTypes.CARD_IMAGE]
+        const cardImgs = assets.images
         const deckContainer = new DeckContainer();
         deckContainer.createDecks(data, cardImgs);
 
@@ -79,6 +79,11 @@ export default class Game {
                 // Funcion que Spawnea los Minions en el tablero
                 this.assignMinionsToBoardGrid(this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK], this.gridsArray.grids[GridId.BOARD_GRID]);
 
+                this.turnContainer.turnContainer[this.currentTurn].handDeck.cards
+                for (let i = 0; i < this.turnContainer.turnContainer[(this.currentTurn +1) %2].handDeck.cards.length; i++) {
+                    const card = this.turnContainer.turnContainer[(this.currentTurn+1) %2].handDeck.cards[i];
+                    card.state = CardId.BLOCKED
+                }
                 if (this.images.isLoaded) {
                     
                     this.gameState = GameState.PLAYING
@@ -127,12 +132,8 @@ export default class Game {
                 break;
 
             case GameState.PLAYING:
-                this.drawGame();
-                this.drawAllCards();
-                this.turnContainer.buttonContainer.renderButtons();
-                this.ctx.font         = "bold 30px Arial";
-                this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
-                this.renderMessage();
+                this.renderGame();
+
                 break;
 
 
@@ -146,298 +147,20 @@ export default class Game {
         }
     }
 
-    renderMessage(){
-
-        for (let i = 0; i < this.messagesContainer.messages.length; i++){
-
-            const message = this.messagesContainer.messages[i];
-
-            this.ctx.font = "80px LongaIberica-DEMO";
-            this.ctx.fillStyle = "red";
-            this.ctx.globalAlpha = message.alpha;
-            this.ctx.fillText(message.message, message.xPos, message.yPos);
-            this.ctx.globalAlpha = 1.0;
-        }    
-        
-        this.ctx.fillStyle = "black";
-    }
-
-    drawGame() {
+    renderGame() {
         const images = this.images.images
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
 
-        // Funcion para renderizar los Grids
-        this.renderBoard(images);
-
-        // Funcion para renderizar los Grids
-        this.renderGrids();
-
-        this.renderHeroes()
-    }
-
-    renderBoard(images) {
-
-        this.ctx.font = "30px LongaIberica-DEMO";
-        
-
-        let image = images[ImageTypes.BOARD_IMAGE][BoardId.BOARD];
-        let xPos = 0;
-        let yPos = 0;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.EVENT_DECK_FULL];
-        xPos = 25;
-        yPos = this.canvas.height / 2 - image.height / 2;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_FULL];
-        xPos = 75;
-        yPos = 12;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_HALF];
-        xPos = 75;
-        yPos = 872;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
-        xPos = 295;
-        yPos = 55;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        this.ctx.fillText(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
-
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
-        xPos = 295;
-        yPos = 925;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-        this.ctx.fillText(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
-
-        image = images[ImageTypes.GAME_RARITY][RarityId.COMMON];
-        xPos = 1595;
-        yPos = 20;
-
-        this.ctx.drawImage(
-
-            image, xPos, yPos
-        )
-
-
-
-    }
-
-    renderHeroes(){
-        //Hero Render
-        const hero = this.turnContainer.turnContainer[this.currentTurn].mainCharacter
-        const enemy = this.turnContainer.turnContainer[(this.currentTurn+1) % 2].mainCharacter
-        const images = this.images.images
-        this.drawCard(images, hero, IconsPos.PLAYER_X[this.currentTurn], IconsPos.PLAYER_Y[this.currentTurn])
-        this.ctx.fillText(hero.name[this.language],IconsPos.PLAYER_NAME_X[this.currentTurn], IconsPos.PLAYER_NAME_Y[this.currentTurn])
-
-        this.drawCard(images, enemy, IconsPos.PLAYER_X[(this.currentTurn+1)%2], IconsPos.PLAYER_Y[(this.currentTurn+1)%2])
-        this.ctx.fillText(enemy.name[this.language],IconsPos.PLAYER_NAME_X[(this.currentTurn+1)%2], IconsPos.PLAYER_NAME_Y[(this.currentTurn+1)%2])
-
-    }
-    renderGrids() {
-
-        // Cantidad de Grids que se van a renderizar
-        const gridsLength = this.gridsArray.grids.length;
-
-        for (let i = 0; i < gridsLength; i++) {
-
-            // Numero de filas y comumnas de los Slots
-            const rows = this.gridsArray.grids[i].slots.length;
-            const columns = this.gridsArray.grids[i].slots[0].length;
-
-            for (let j = 0; j < rows; j++) {
-
-                for (let k = 0; k < columns; k++) {
-
-                    const slot = this.gridsArray.grids[i].slots[j][k];
-
-                    // Posicion y tamaño de los Slots
-                    const slotsXPos = slot.xPos;
-                    const slotsYPos = slot.yPos;
-                    const slotsXSize = slot.xSize - 2;
-                    const slotsYSize = slot.ySize - 2;
-
-                    if (slot.isAviable){
-                        
-                        this.ctx.fillStyle = "green";
-                    }
-
-                    else if (slot.state === SlotsState.SELECTED){
-                        
-                        this.ctx.fillStyle = "white";
-                    }
-
-                    else if (slot.state === SlotsState.HOVER){
-                        
-                        this.ctx.fillStyle = "purple";
-                    }
-
-                    else{
-                        this.ctx.filter = "opacity(50%)"
-                        this.ctx.fillStyle = "black";
-                    }
-
-                    this.ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
-                    this.ctx.filter = "opacity(100%)"
-                    this.ctx.fillStyle = "black";
-                }
-            }
-        }
-    }
-
-    drawAllCards() {
-        for (let i = 2; i < 8; i++) {
-            const deck = this.deckContainer.decks[i];
-            
-                for (let j = 0; j < deck.cards.length; j++) {
-                    const card = deck.cards[j];
-                    this.drawCard(this.images.images, card, card.xPos , card.yPos)
-            
-                
-            }
-
-        }
-
-    }
-
-    drawCard(images, card, xPos, yPos) {
-        this.ctx.font = "25px LongaIberica-DEMO";
-
-        //CARD IMAGE
-        let size = card.size
-        if (card.state === CardId.SCALED ) {
-            xPos = 800
-            yPos = 300
-            size = CardId.BIG_SIZE
-            
-        }
-
-
-        this.ctx.drawImage(
-            images[ImageTypes.CARD_IMAGE][size][card.id - 1],                 //Img File
-            xPos,yPos                    //X & Y Position Source
-            )
-            
-            
-            // BORDER
-            this.ctx.drawImage(
-                images[ImageTypes.CARD_BORDER][size],
-                xPos, yPos)
-                if (size === BorderId.NORMAL_SIZE) {
-                    this.ctx.font = "25px LongaIberica-DEMO";
-                    this.ctx.fillText(card.name[this.language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
-                    this.ctx.font = "15px LongaIberica-DEMO";
-                    this.ctx.fillText(card.description[this.language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
-                    this.ctx.font = "25px LongaIberica-DEMO";
-                    
-                    //CATEGORY ICON
-                    this.ctx.drawImage(
-                        images[ImageTypes.CARD_TYPE][card.category],
-                        IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
-                }
-        //RARITY ICON
-        this.ctx.drawImage(
-            images[ImageTypes.CARD_RARITY][card.rarity],
-            IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
-
-
-        switch (card.category) {
-            case TypeId.MINION:
-                //STAT ICONS
-                this.ctx.drawImage(
-                    images[ImageTypes.CARD_ICONS][IconsId.DEFENSE],
-                    IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
-
-                this.ctx.fillText(card.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
-
-                this.ctx.drawImage(
-                    images[ImageTypes.CARD_ICONS][IconsId.SPEED],
-                    IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                this.ctx.fillText(card.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
-
-                this.ctx.drawImage(
-                    images[ImageTypes.CARD_ICONS][IconsId.DAMAGE],
-                    IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                this.ctx.fillText(card.attack, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
-
-                this.ctx.drawImage(
-                    images[ImageTypes.CARD_ICONS][IconsId.LIFE],
-                    IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                this.ctx.fillText(card.health, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-                let equipRarity
-                    if (card.weapon != undefined) {
-                        equipRarity = card.weapon.rarity
-                    } else {
-                        equipRarity = RarityId.NONE
-                    }
-                    
-                //EQUIPMENT RARITY
-                this.ctx.drawImage(
-                    images[ImageTypes.EQUIP_RARITY][equipRarity],
-                    IconsPos.WEAPON_X[size] + xPos, IconsPos.WEAPON_Y[size] + yPos)
-
-                this.ctx.drawImage(
-                    images[ImageTypes.EQUIP_RARITY][RarityId.NONE],
-                    IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
-                break;
-
-            case TypeId.WEAPON:
-            case TypeId.ARMOR:
-                this.ctx.drawImage(
-                    images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN],
-                    IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
-
-                this.ctx.fillText(card.cooldown, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
-
-                this.ctx.drawImage(
-                    images[ImageTypes.CARD_ICONS][IconsId.DURABILITY],
-                    IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                this.ctx.fillText(card.durability, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
-
-                this.ctx.drawImage(
-                    images[ImageTypes.CARD_ICONS][IconsId.DEFENSE],
-                    IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                this.ctx.fillText(card.defense, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
-
-                this.ctx.drawImage(
-                    images[ImageTypes.CARD_ICONS][IconsId.DAMAGE],
-                    IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                this.ctx.fillText(card.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-
-            default:
-                break;
-        }
+        // Funcion para renderizar Board
+        this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer)
+        this.messagesContainer.render(this.ctx)
+
+        this.turnContainer.render(this.ctx, this.language)
+        this.turnContainer.buttonContainer.renderButtons();
+        this.ctx.font         = "bold 30px Arial";
+        this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
 
     }
 

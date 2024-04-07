@@ -19,4 +19,14 @@ export default class MessagesContainer{
             }
         }
     }
+    render(ctx){
+            for (let i = 0; i < this.messages.length; i++){
+                const message = this.messages[i];
+                message.render(ctx)
+
+            }    
+            
+            ctx.fillStyle = "black";
+        }
+
 }

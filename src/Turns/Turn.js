@@ -112,7 +112,7 @@ export default class Turn {
 
     }
 
-    init(messages){
+    init(){
         this.restoreCardStatesFromActiveDecks()
         this.eventContainer.executeEvents()
         this.actionsCounter = 0
@@ -136,7 +136,7 @@ export default class Turn {
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
-                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse)
+                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse, messages)
                 if (isPreparationFinished) {
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;

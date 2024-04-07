@@ -145,7 +145,7 @@ export default class Turn {
                 break;
 
             case PhaseStates.USE_EVENT_CARD:
-                const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse)
+                const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse, messages)
                 if (isUsageFinished) {
                     this.buttonContainer.resetStatesButtons();
                      this.phaseState = PhaseStates.DEFAULT;

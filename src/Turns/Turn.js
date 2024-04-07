@@ -155,7 +155,7 @@ export default class Turn {
                 break;
             
             case PhaseStates.MOVEMENT:
-                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute()
+                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute(messages)
                 if(isMovementFinished){
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;

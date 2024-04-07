@@ -36,7 +36,7 @@ export default class MinionAttackPhase extends Phase {
 
         if (messages.length === 0 && isAnyCardSelected[0] === false){
 
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any minion", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any attacker minion", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
             messages[0] = message;
             messages[0].drawMessage = true;
         }
@@ -49,6 +49,11 @@ export default class MinionAttackPhase extends Phase {
         }
         
         if (messages[0].drawMessage && messages.length === 1 && isAnyCardSelected[0]){
+            
+            messages[0].timeInOn = 0;
+        }
+
+        if (messages[0].drawMessage === false && messages.length === 1 && isAnyCardSelected[0] === false){
             
             messages[0].timeInOn = 0;
         }

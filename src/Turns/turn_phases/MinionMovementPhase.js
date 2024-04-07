@@ -1,5 +1,6 @@
 import Phase from "./Phase.js";
-import { CardId, SlotsState } from "../../constants.js";
+import { CardId, SlotsState, MessageState, MessageType, HelpMessagesPos } from "../../constants.js";
+import Messages from "../../Messages.js";
 
 export default class MinionMovementPhase extends Phase {
 
@@ -11,7 +12,7 @@ export default class MinionMovementPhase extends Phase {
         this.mouse = mouse;                    // Objeto Mouse
     }
 
-    execute(){
+    execute(messagesContainer){
         
         this.boardGrid.cancelAviableSlots();
         this.activeMinionDeck.update(this.mouse, this.activeMinionDeck)
@@ -25,6 +26,32 @@ export default class MinionMovementPhase extends Phase {
         let minionSelected;
         let slotHovered;
         let slotSelected;
+
+        const messages = messagesContainer.messages;
+
+        if (messages.length === 0 && isAnyCardSelected[0] === false){
+
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any minion to move", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            messages[0] = message;
+            messages[0].drawMessage = true;
+        }
+        
+        if (messages.length === 0 && isAnyCardSelected[0]){
+
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any slot to move the minion", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            messages[0] = message;
+            messages[0].drawMessage = false;
+        }
+        
+        if (messages[0].drawMessage && messages.length === 1 && isAnyCardSelected[0]){
+            
+            messages[0].timeInOn = 0;
+        }
+
+        if (messages[0].drawMessage === false && messages.length === 1 && isAnyCardSelected[0] === false){
+            
+            messages[0].timeInOn = 0;
+        }
 
         if (isAnyCardSelected[0] && isAnySlotHovered[0]){
 
@@ -57,6 +84,8 @@ export default class MinionMovementPhase extends Phase {
         if (minionSelected != undefined && minionSelected.speed >= distance){
             
             if (isAnySlotSelected[0]){
+                
+                messages[0].timeInOn = 0;
                 
                 this.moveMinion(minionSelected, slotSelected);
                 this.boardGrid.clearSlots();

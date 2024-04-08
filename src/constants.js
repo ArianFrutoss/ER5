@@ -226,3 +226,7 @@ export const HelpMessagesPos = {
     X_POS:  1740,
     Y_POS:   880,
 }
+
+export const TimerId = {
+    TURN_TIMER:     0,
+}

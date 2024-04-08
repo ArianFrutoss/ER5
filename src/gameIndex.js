@@ -30,18 +30,25 @@ function gameLoop(timeStamp, canvas){
 
     window.requestAnimationFrame(gameLoop, canvas);
 
-    const elapsedCycleSeconds = (timeStamp - globals.previousCycleMiliseconds) / 1000; 
+    //Real Time Loop Execution
+    const elapsedCycleSeconds = (timeStamp - globals.previousCycleMilliseconds) / 1000; //seconds
 
-    globals.previousCycleMiliseconds = timeStamp;
+    //Last Executed Loop Time
+    globals.previousCycleMilliseconds = timeStamp;
 
-    globals.deltaTime += elapsedCycleSeconds;
 
-    if(globals.deltaTime >= globals.frameTimeObj){
+    //Fixes delayed Frame Time regarding frameTimeObj
+    globals.deltaTime += elapsedCycleSeconds
+
+    globals.cycleRealTime += elapsedCycleSeconds
+    if(globals.cycleRealTime >= globals.frameTimeObj){
 
         game.update();
 
         game.render();
 
-        globals.deltaTime -= globals.frameTimeObj;
+        //Fixes Excesive Time
+        globals.cycleRealTime -= globals.frameTimeObj;
+        globals.deltaTime = 0;
     }
 }

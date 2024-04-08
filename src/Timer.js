@@ -5,6 +5,7 @@ export default class Timer{
     constructor (value, timerChangeValue, timerId){
 
         this.value               = value;               // Valor del temporizador
+        this.previousValue       = value                // Valor inicial del Temporizador
         this.timerChangeCounter  = 0;                   // Temporizador para cambiar valor
         this.timerChangeValue    = timerChangeValue;    // Tiempo para cambiar valor (seconds)
         this.timerId             = timerId              // Id del temporizador
@@ -22,6 +23,12 @@ export default class Timer{
 
             // Reseteamos timeChangeCounter
             this.timerChangeCounter = 0;
+        }
+        
+        if (this.value < 0){
+            
+            // Reseteamos el Timer
+            this.value = this.previousValue;
         }
     }
 }

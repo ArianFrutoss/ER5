@@ -192,11 +192,16 @@ export default class Turn {
                 break;
         }
 
-        if(this.actionsCounter === this.maxActions){
+        const value = timerContainer.update(TimerId.TURN_TIMER);
+        console.log(value);
+        if (value <= 0){
+
             this.state = TurnStates.END;
         }
 
-        timerContainer.update(TimerId.TURN_TIMER);
+        if(this.actionsCounter === this.maxActions){
+            this.state = TurnStates.END;
+        }
     }
 
     end(messages){

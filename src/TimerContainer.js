@@ -24,6 +24,8 @@ export default class TimerContainer{
             if (timer.timerId === timerId){
 
                 timer.update();
+
+                return timer.value;
             }
         }
     }

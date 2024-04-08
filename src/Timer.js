@@ -13,6 +13,12 @@ export default class Timer{
 
     update(){
 
+        if (this.value <= 0){
+            
+            // Reseteamos el Timer
+            this.value = this.previousValue;
+        }
+
         // Incrementamos el contador de cambio de valor
         this.timerChangeCounter += globals.deltaTime;
 
@@ -23,12 +29,6 @@ export default class Timer{
 
             // Reseteamos timeChangeCounter
             this.timerChangeCounter = 0;
-        }
-        
-        if (this.value < 0){
-            
-            // Reseteamos el Timer
-            this.value = this.previousValue;
         }
     }
 }

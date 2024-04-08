@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TurnStates } from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates } from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -76,11 +76,11 @@ export default class Turn {
     //     console.log(this.mainCharacter.image);
     // }
 
-    update(mouse, enemyActiveMinionDeck, messages){
+    update(mouse, enemyActiveMinionDeck, messages, timerContainer){
         switch(this.state){
             
             case TurnStates.INITIALIZE:
-                this.init(messages);
+                this.init();
                 console.log("init");
                 this.state = TurnStates.EXECUTION
                 this.finished = false
@@ -88,7 +88,7 @@ export default class Turn {
             
             case TurnStates.EXECUTION:
                 // console.log("executiio");
-                const isPhasesOver = this.execute(mouse, messages);
+                const isPhasesOver = this.execute(mouse, messages, timerContainer);
                 if (enemyActiveMinionDeck.cards.length === 0) {
                     this.finished = true
                 }else{
@@ -132,7 +132,7 @@ export default class Turn {
         this.active = true;
     }
 
-    execute(mouse, messages){
+    execute(mouse, messages, timerContainer){
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
@@ -195,6 +195,8 @@ export default class Turn {
         if(this.actionsCounter === this.maxActions){
             this.state = TurnStates.END;
         }
+
+        timerContainer.update(TimerId.TURN_TIMER);
     }
 
     end(messages){

@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -12,11 +12,11 @@ import Button from "./Button/Button.js";
 import ButtonContainer from "./Button/ButtonContainer.js";
 import MessagesContainer from "./MessagesContainer.js";
 import EventContainer from "./Events/EventContainer.js";
-
+import TimerContainer from "./TimerContainer.js";
 
 export default class Game {
 
-    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer) {
+    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer) {
 
         this.turnContainer = turnArray;
         this.handsArray = handsArray;
@@ -35,6 +35,7 @@ export default class Game {
         this.mouse = mouse;
         this.currentTurn = firstTurn;
         this.messagesContainer = messagesContainer;
+        this.timerContainer = timerContainer;
     }
 
     static init(data, canvas, ctx) {
@@ -60,10 +61,11 @@ export default class Game {
         turns.CreateTurns(mouse, eventContainer);
 
         console.log(turns.turnContainer);
+        
+        const timerContainer = new TimerContainer();
+        timerContainer.create();
 
-      
-
-        return new Game(turns, null, assets, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages);
+        return new Game(turns, null, assets, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer);
     }
 
     update() {
@@ -92,11 +94,10 @@ export default class Game {
                 break;
 
             case GameState.PLAYING:
-                console.log(this.messagesContainer.messages);
                 this.updateGame();
                 this.deckContainer.updateScale(this.mouse)
                 // this.deckContainer.updateDecks(this.mouse)
-                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer);
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer);
 
                 this.mouse.update();
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);

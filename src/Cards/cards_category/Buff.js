@@ -145,4 +145,27 @@ export default class Buff extends Card {
                      xPos, yPos)
             }
     }
+
+    static create(id, name, description, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
+        let attack;
+        let defense;
+        let health;
+        let speed;
+        let durability;
+        let cooldown;
+        if (attributes != null) {
+            attack = attributes.attack;
+            defense = attributes.defense;
+            health = attributes.hp;
+            speed = attributes.speed;
+            durability = attributes.durability;
+            cooldown = attributes.cooldown;
+
+        }
+
+        const buff = new Buff(id, name, description, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack, defense, speed, health, durability, cooldown);
+
+        return buff;
+
+    }
 }

@@ -1,4 +1,4 @@
-import { BorderId, CardActions, CardId, IconsPos } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId} from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Armor extends Card{
@@ -163,6 +163,36 @@ export default class Armor extends Card{
                     this.imageReverse,
                      xPos, yPos)
             }
+    }
+
+    static create(id, name, description, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
+
+    let attack = attributes[IconsId.DAMAGE];
+        if (!attack) {
+            attack = 0
+        }
+        let health = attributes[IconsId.LIFE]
+        if (!health) {
+            health = 0
+        }
+        let defense = attributes[IconsId.DEFENSE];
+        if (!defense) {
+            defense = 0
+        }
+        let speed = attributes[IconsId.SPEED];
+        if (!speed) {
+            speed = 0
+        }
+        let durability = attributes[IconsId.DURABILITY];
+        let cooldown = attributes[IconsId.COOLDOWN];
+        if (!cooldown) {
+            cooldown = 0
+        }
+
+
+        const armor = new Armor(id, name, description, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown);
+
+        return armor;
     }
 }        
 

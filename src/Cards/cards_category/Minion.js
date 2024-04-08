@@ -1,4 +1,4 @@
-import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId } from "../../constants.js";
+import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Minion extends Card {
@@ -206,6 +206,20 @@ export default class Minion extends Card {
                 ctx.drawImage(
                     equipRarityImg,
                     IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
+    }
+
+    static create(id, name, description, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage, attributes){
+
+        
+            let attack  = attributes[IconsId.DAMAGE]
+            let defense = attributes[IconsId.DEFENSE]
+            let hp      = attributes[IconsId.LIFE]
+            let speed   = attributes[IconsId.SPEED]
+    
+            const minion = new Minion(id, name, description, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage, attack, defense, hp, speed);
+    
+            return minion
+    
     }
 }
 

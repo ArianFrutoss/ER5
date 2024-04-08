@@ -144,4 +144,25 @@ export default class Curse extends Card{
                      xPos, yPos)
             }
     }
+
+    static create(id, name, description, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
+        let attack
+        let defense
+        let speed
+        let durability
+        let cooldown
+        if (attributes != null) {
+            attack = attributes.attack;
+            defense = attributes.defense;
+            speed = attributes.speed;
+            durability = attributes.durability;
+            cooldown = attributes.cooldown;
+
+        }
+
+        const curse = new Curse(id, name, description, image, rarity, type, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack, defense, speed, durability, cooldown);
+
+        return curse
+
+    }
 }

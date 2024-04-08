@@ -135,4 +135,13 @@ export default class Joseph extends Card{
                      xPos, yPos)
             }
     }
+
+    static create(id, name, description, image, rarity, category, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
+
+        let armorEffect = effects.Armor;
+
+        const joseph = new Joseph(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, armorEffect);
+
+        return joseph;
+    }
 }

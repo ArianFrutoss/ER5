@@ -127,4 +127,15 @@ export default class MainCharacter extends Card{
                     IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
         
         }
+
+        static create(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effects) {
+            
+            let durability = effects.durability;
+            let cooldown = effects.cooldown;
+    
+            const mainCharacter = new MainCharacter(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown);
+    
+            return mainCharacter;
+    
+        }
     }

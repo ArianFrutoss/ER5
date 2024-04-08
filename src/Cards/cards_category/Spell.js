@@ -140,5 +140,22 @@ export default class Spell extends Card{
             }
     
     }
+
+    static create(id, name, description, image, rarity,category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
+      
+        let durability
+        let cooldown
+        if (attributes != null) {
+
+            durability = attributes.durability;
+            cooldown = attributes.cooldown;
+
+        }
+
+        const spell = new Spell(id, name, description, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown);
+        
+        return spell;
+
+    }
 }
 

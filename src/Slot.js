@@ -96,7 +96,7 @@ export default class Slot{
         ctx.fillStyle = "black";
     }
     isSlotSelected(grid){
-
+        
         let result = false;
         
         for (let i = 0; i < grid.slots.length; i++){

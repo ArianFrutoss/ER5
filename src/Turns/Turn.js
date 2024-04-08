@@ -62,7 +62,7 @@ export default class Turn {
             const discardPhase          = new DiscardPhase(handDeck, graveYardDeck, mouse)
             const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck)
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, activeEventDeck, enemyActiveEventDeck, graveYardDeck, mouse);
-            const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, boardGrid, mouse);
+            const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, enemyActiveMinionDeck, boardGrid, mouse);
             const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid, mouse);
             const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck, mouse)
     
@@ -80,7 +80,7 @@ export default class Turn {
         switch(this.state){
             
             case TurnStates.INITIALIZE:
-                this.init();
+                this.init(messages);
                 console.log("init");
                 this.state = TurnStates.EXECUTION
                 this.finished = false
@@ -102,7 +102,7 @@ export default class Turn {
 
             case TurnStates.END:
                 console.log("end");
-                const isEndTurn = this.end();
+                const isEndTurn = this.end(messages);
                 if (isEndTurn) {
                     this.finished = true
                     
@@ -136,7 +136,7 @@ export default class Turn {
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
-                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse)
+                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse, messages)
                 if (isPreparationFinished) {
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
@@ -145,7 +145,7 @@ export default class Turn {
                 break;
 
             case PhaseStates.USE_EVENT_CARD:
-                const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse)
+                const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse, messages)
                 if (isUsageFinished) {
                     this.buttonContainer.resetStatesButtons();
                      this.phaseState = PhaseStates.DEFAULT;
@@ -155,7 +155,7 @@ export default class Turn {
                 break;
             
             case PhaseStates.MOVEMENT:
-                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute()
+                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute(messages)
                 if(isMovementFinished){
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
@@ -173,7 +173,7 @@ export default class Turn {
                 break; 
                 
             case PhaseStates.DISCARD_CARD:
-                const isDiscardFinished = this.phasesArray[PhaseStates.DISCARD_CARD].execute();
+                const isDiscardFinished = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messages);
 
                 if(isDiscardFinished){
                     return true
@@ -184,7 +184,7 @@ export default class Turn {
             
             case PhaseStates.DEFAULT:
                 
-                this.phaseState = this.phasesArray[PhaseStates.DEFAULT].update();
+                this.phaseState = this.phasesArray[PhaseStates.DEFAULT].execute(messages);
                 
                 break;
             default:
@@ -197,8 +197,8 @@ export default class Turn {
         }
     }
 
-    end(){
-        const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute()
+    end(messages){
+        const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messages)
         if (isCardDiscarded) {
             this.blockCardStatesFromHandDeck()
             // cambio de turno

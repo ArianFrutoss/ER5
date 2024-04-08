@@ -216,3 +216,13 @@ export const MessageState = {
     FADE:   2,
     OFF:    3,
 }
+
+export const MessageType = {
+    HELP_MESSAGE:   0,
+    DAMAGE_MESSAGE: 1,
+}
+
+export const HelpMessagesPos = {
+    X_POS:  1740,
+    Y_POS:   880,
+}

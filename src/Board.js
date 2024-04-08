@@ -62,42 +62,6 @@ export default class Board{
         return new Board(grids);
     }
 
-    update(mouse, decksContainer){
-
-        for (let i = 0; i < this.grids.length; i++){
-            
-            const grid = this.grids[i];
-            
-            switch (grid.id){
-
-                case GridId.BOARD_GRID:
-                    
-                    this.grids[i].update(mouse, [decksContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK], decksContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK]]);
-                    break;
-
-                case GridId.PLAYER_1_HAND_GRID:
-                    
-                    this.grids[i].update(mouse, decksContainer.decks[DecksId.PLAYER_1_HAND_DECK]);
-                    break;
-
-                case GridId.PLAYER_2_HAND_GRID:
-
-                    this.grids[i].update(mouse, decksContainer.decks[DecksId.PLAYER_2_HAND_DECK]);
-                    break;
-
-                case GridId.PLAYER_1_EVENT_GRID:
-
-                    this.grids[i].update(mouse, decksContainer.decks[DecksId.PLAYER_1_PREPARING_EVENT_DECK]);
-                    break;
-
-                case GridId.PLAYER_2_EVENT_GRID:
-
-                    this.grids[i].update(mouse, decksContainer.decks[DecksId.PLAYER_2_PREPARING_EVENT_DECK]);
-                    break;
-            }
-        }
-    }
-
     render(images, ctx, canvas, deckContainer) {
 
         ctx.font = "30px LongaIberica-DEMO";
@@ -172,6 +136,7 @@ export default class Board{
             this.renderGrids(ctx)
 
     }
+    
     renderGrids(ctx) {
 
         // Cantidad de Grids que se van a renderizar

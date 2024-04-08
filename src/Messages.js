@@ -1,21 +1,23 @@
 import globals from "./globals.js";
-import { MessageState } from "./constants.js";
+import { MessageState, MessageType } from "./constants.js";
 
 export default class Messages{
 
-    constructor(xPos, yPos, message, state, timeToFade, timeToAppear, timeInOn, alpha){
+    constructor(xPos, yPos, message, type, state, timeInFade, timeInAppear, timeInOn){
 
         this.xPos           = xPos;
         this.yPos           = yPos;
         this.message        = message;
+        this.type           = type;
         this.state          = state;
-        this.timeToFade     = timeToFade;
-        this.timeToAppear   = timeToAppear;
+        this.timeInFade     = timeInFade;
+        this.timeInAppear   = timeInAppear;
         this.timeInOn       = timeInOn;
-        this.alpha          = alpha;
+        this.alpha          = 0.0;
         this.fadeCounter    = 0;
         this.appearCounter  = 0;
         this.onCounter      = 0;
+        this.drawMessage    = false;
     }
 
     update(messages){
@@ -26,8 +28,8 @@ export default class Messages{
                 
                 this.appearCounter += globals.deltaTime;
                 this.alpha += 0.2;
-
-                if (this.appearCounter > this.timeToAppear){
+                
+                if (this.appearCounter > this.timeInAppear && this.appearCounter >= 1){
                     
                     this.appearCounter = 0;
                     this.state = MessageState.ON;
@@ -38,7 +40,7 @@ export default class Messages{
 
                 this.onCounter += globals.deltaTime;
                 
-                if (this.onCounter > this.timeInOn){
+                if (this.onCounter > this.timeInOn && this.timeInOn != null){
                     
                     this.onCounter = 0;
                     this.state = MessageState.FADE;
@@ -50,7 +52,7 @@ export default class Messages{
                 this.fadeCounter += globals.deltaTime;
                 this.alpha -= 0.2;
                 
-                if (this.fadeCounter > this.timeToFade){
+                if (this.fadeCounter > this.timeInFade){
                     
                     this.fadeCounter = 0;
                     this.state = MessageState.OFF;
@@ -65,12 +67,36 @@ export default class Messages{
         }
     }
 
-    
-
     render(ctx){
+
+        switch (this.type){
+
+            case MessageType.DAMAGE_MESSAGE:
+                this.renderDamageMessage(ctx);
+                break
+
+            case MessageType.HELP_MESSAGE:
+                this.renderHelpMessage(ctx);
+                break
+
+            default:
+                break;
+        }
+    }
+
+    renderDamageMessage(ctx){
 
         ctx.font = "80px LongaIberica-DEMO";
         ctx.fillStyle = "red";
+        ctx.globalAlpha = this.alpha;
+        ctx.fillText(this.message, this.xPos, this.yPos);
+        ctx.globalAlpha = 1.0;
+    }
+
+    renderHelpMessage(ctx){
+
+        ctx.font = "20px LongaIberica-DEMO";
+        ctx.fillStyle = "white";
         ctx.globalAlpha = this.alpha;
         ctx.fillText(this.message, this.xPos, this.yPos);
         ctx.globalAlpha = 1.0;

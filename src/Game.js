@@ -92,12 +92,12 @@ export default class Game {
                 break;
 
             case GameState.PLAYING:
+                console.log(this.messagesContainer.messages);
                 this.updateGame();
                 this.deckContainer.updateScale(this.mouse)
                 // this.deckContainer.updateDecks(this.mouse)
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer);
 
-                this.gridsArray.update(this.mouse, this.deckContainer);
                 this.mouse.update();
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
 
@@ -111,7 +111,7 @@ export default class Game {
                         this.turnCounter++;
     
                     }
-                    this.messagesContainer.update(this.ctx);
+                    this.messagesContainer.update();
                 }
                 break;
 
@@ -156,10 +156,9 @@ export default class Game {
 
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer)
-        this.messagesContainer.render(this.ctx)
-
         this.turnContainer.render(this.ctx, this.language)
         this.turnContainer.buttonContainer.renderButtons();
+        this.messagesContainer.render(this.ctx)
         this.ctx.font         = "bold 30px Arial";
         this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
 

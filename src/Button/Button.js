@@ -60,7 +60,7 @@ export default class Button {
 
             case ButtonState.SELECTED:
                 this.color = "red";
-                this.state = mouse.rightClick ? ButtonState.NOT_SELECTED : ButtonState.SELECTED;
+                this.state = isCollidingWithMouse && mouse.rightClick ? ButtonState.NOT_SELECTED : ButtonState.SELECTED;
                 break;
 
             case ButtonState.HOVER:

@@ -136,50 +136,87 @@ export default class Turn {
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
-                const isPreparationFinished = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse, messages)
+                const isPreparationFinished  = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse, messages);
+
+                const isPreparationCancelled = this.phasesArray[PhaseStates.PREPARE_EVENT].isPhaseCancelled(this.buttonContainer);
                 if (isPreparationFinished) {
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
+                }else if(isPreparationCancelled){
+
+                    this.phaseState = PhaseStates.DEFAULT;
+
                 }
                 break;
 
             case PhaseStates.USE_EVENT_CARD:
-                const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse, messages)
+                const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse, messages);
+
+                const isUseEventCancelled   = this.phasesArray[PhaseStates.USE_EVENT_CARD].isEventCancelled(this.buttonContainer);
+
                 if (isUsageFinished) {
                     this.buttonContainer.resetStatesButtons();
                      this.phaseState = PhaseStates.DEFAULT;
                      this.actionsCounter++;
+                }else if(isUseEventCancelled){
+
+                    this.phaseState = PhaseStates.DEFAULT;
+
                 }
                 
                 break;
             
             case PhaseStates.MOVEMENT:
-                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute(messages)
+                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute(messages);
+
+                const isMovementCancelled   = this.phasesArray[PhaseStates.MOVEMENT].isPhaseCancelled(this.buttonContainer);
+
                 if(isMovementFinished){
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
+                }else if(isMovementCancelled){
+
+                    this.phaseState = PhaseStates.DEFAULT;
+
                 }
                 break;
                 
             case PhaseStates.ATTACK:
-                const isAttackFinished = this.phasesArray[PhaseStates.ATTACK].execute(messages)
+                const isAttackFinished  = this.phasesArray[PhaseStates.ATTACK].execute(messages);
+
+                const isAttackCancelled = this.phasesArray[PhaseStates.ATTACK].isPhaseCancelled(this.buttonContainer);
+
                 if(isAttackFinished){
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
+                }else if(isAttackCancelled){
+
+                    this.phaseState = PhaseStates.DEFAULT;
+                    
                 }
                 break; 
                 
             case PhaseStates.DISCARD_CARD:
                 const isDiscardFinished = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messages);
 
+                const isDiscardCancelled = this.phasesArray[PhaseStates.DISCARD_CARD].isPhaseCancelled(this.buttonContainer);
+
+                if(isDiscardCancelled){
+
+                    this.phaseState = PhaseStates.DEFAULT;
+                    
+                }
+
                 if(isDiscardFinished){
+                    this.buttonContainer.resetStatesButtons();
                     return true
                 }else{
                     return false
                 }
+
                 break;
             
             case PhaseStates.DEFAULT:

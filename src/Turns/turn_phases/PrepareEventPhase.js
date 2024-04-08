@@ -1,4 +1,4 @@
-import { CardActions, CardId, SlotsState, MessageState, MessageType, HelpMessagesPos } from "../../constants.js";
+import { CardActions, CardId, SlotsState, MessageState, MessageType, HelpMessagesPos, PhaseStates} from "../../constants.js";
 import Phase from "./Phase.js";
 import Messages from "../../Messages.js";
 
@@ -79,6 +79,20 @@ export default class PrepareEventPhase extends Phase{
                 return true
             }
             
+        }        
+    }
+
+    isPhaseCancelled(buttonContainer){
+        
+        const buttonState = buttonContainer.isAnyButtonSelected();
+
+        if(buttonState === PhaseStates.DEFAULT){
+
+            return true;
+        }else {
+
+            return false;
         }
+
     }
 }

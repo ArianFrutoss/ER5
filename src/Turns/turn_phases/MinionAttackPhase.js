@@ -1,7 +1,7 @@
 
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, MessageState, MessageType, HelpMessagesPos } from "../../constants.js";
+import { CardId, MessageState, MessageType, HelpMessagesPos, PhaseStates } from "../../constants.js";
 import Messages from "../../Messages.js";
 
 export default class MinionAttackPhase extends Phase {
@@ -141,5 +141,19 @@ export default class MinionAttackPhase extends Phase {
         
         let aux = this.attack(messages);
         return aux;
+    }
+
+    isPhaseCancelled(buttonContainer){
+        
+        const buttonState = buttonContainer.isAnyButtonSelected();
+
+        if(buttonState === PhaseStates.DEFAULT){
+
+            return true;
+        }else {
+
+            return false;
+        }
+
     }
 }

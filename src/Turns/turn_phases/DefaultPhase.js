@@ -22,16 +22,24 @@ export default class DefaultPhase extends Phase {
             messagesContainer.messages[1] = message;
         }
         
-        let returnState     = this.buttonContainer.isAnyButtonSelected();
+        let returnState       = this.buttonContainer.isAnyButtonSelected();
 
+        
+        
         if(returnState !== undefined){
-            
+     
             messagesContainer.messages[1].timeInOn = 0;
             console.log(returnState);
             return returnState;
+
         }else{
+
             return this.state;
+
         }
     }
+
+
 }
+
 

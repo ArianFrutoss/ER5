@@ -1,5 +1,5 @@
 import Phase from "./Phase.js";
-import { CardId, SlotsState, MessageState, MessageType, HelpMessagesPos } from "../../constants.js";
+import { CardId, SlotsState, MessageState, MessageType, HelpMessagesPos, PhaseStates } from "../../constants.js";
 import Messages from "../../Messages.js";
 
 export default class MinionMovementPhase extends Phase {
@@ -92,6 +92,8 @@ export default class MinionMovementPhase extends Phase {
                 return true;
             }
         }
+
+
     }
 
     // funcion para realizar el movimiento
@@ -100,5 +102,19 @@ export default class MinionMovementPhase extends Phase {
         minionSelected.xPos = slotSelected.xPos;
         minionSelected.yPos = slotSelected.yPos;
         minionSelected.state = CardId.NOT_SELECTED;
+    }
+
+    isPhaseCancelled(buttonContainer){
+        
+        const buttonState = buttonContainer.isAnyButtonSelected();
+
+        if(buttonState === PhaseStates.DEFAULT){
+
+            return true;
+        }else {
+
+            return false;
+        }
+
     }
 }

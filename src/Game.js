@@ -92,7 +92,7 @@ export default class Game {
                 break;
 
             case GameState.PLAYING:
-                console.log(this.messagesContainer.messages);
+                // console.log(this.messagesContainer.messages);
                 this.updateGame();
                 this.deckContainer.updateScale(this.mouse)
                 // this.deckContainer.updateDecks(this.mouse)

@@ -28,17 +28,39 @@ export default class ButtonContainer{
         }        
     }
 
-    updateButtons(mouse){
+    // updateButtons(mouse){
 
-        for(let i = 0; i < this.container.length; i++){
+    //     for(let i = 0; i < this.container.length; i++){
 
+    //         const button = this.container[i];
+
+    //         button.update(mouse);
+            
+            
+    //     }
+    // }
+
+    updateButtons(mouse) {
+        let selectedCount = 0;
+    
+        for (let i = 0; i < this.container.length; i++) {
             const button = this.container[i];
-
             button.update(mouse);
-            
-            
+    
+            if (button.state === ButtonState.SELECTED) {
+                selectedCount++;
+            }
+
+            if (selectedCount > 1) {
+
+                button.state = ButtonState.NOT_SELECTED;
+            }
         }
+    
+     
     }
+    
+
 
     isAnyButtonSelected(){
         for(let i = 0; i < this.container.length; i++){
@@ -48,7 +70,10 @@ export default class ButtonContainer{
                 
                 return  button.phaseState;
             }
+
         }
+
+        return PhaseStates.DEFAULT;
     }
 
     resetStatesButtons(){
@@ -60,4 +85,6 @@ export default class ButtonContainer{
             button.state = ButtonState.NOT_SELECTED;
         }
     }
+
+    
 }

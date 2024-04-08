@@ -1,4 +1,4 @@
-import { MAXIMUN_CARDS_IN_HAND } from "../../constants.js";
+import { MAXIMUN_CARDS_IN_HAND , PhaseStates} from "../../constants.js";
 import Phase from "./Phase.js";
 
 export default class DrawCardPhase extends Phase{
@@ -35,5 +35,19 @@ export default class DrawCardPhase extends Phase{
             this.graveyardDeck.cards.pop()
         }
         this.eventDeck.shuffle()
+    }
+
+    isPhaseCancelled(buttonContainer){
+        
+        const buttonState = buttonContainer.isAnyButtonSelected();
+
+        if(buttonState === PhaseStates.DEFAULT){
+
+            return true;
+        }else {
+
+            return false;
+        }
+
     }
 }

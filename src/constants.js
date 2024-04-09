@@ -205,8 +205,8 @@ export const IconsPos = {
     ARMOR_Y:[15,0],
     PLAYER_X:[10,170],
     PLAYER_Y:[700,215],
-    PLAYER_NAME_X: [140,30],
-    PLAYER_NAME_Y: [790,300],
+    PLAYER_NAME_X: [200,130],
+    PLAYER_NAME_Y: [787,295],
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 

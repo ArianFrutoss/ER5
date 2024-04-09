@@ -282,12 +282,12 @@ export default class Turn {
                 card.cooldown--
         }
     }
-    render(ctx,language){
+    render(ctx,language, currentTurn){
         
         this.handDeck.renderCards(ctx, language)
         this.activeMinionDeck.renderCards(ctx, language)
         this.preparingEventDeck.renderCards(ctx, language)
-        this.mainCharacter.render(ctx, language)
+        this.mainCharacter.render(ctx, language, currentTurn)
 
     }
 }

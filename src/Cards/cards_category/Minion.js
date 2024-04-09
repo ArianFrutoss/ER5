@@ -9,9 +9,13 @@ export default class Minion extends Card {
 
         // Card attributes   
         this.attack             = attack;
+        this.previousAttack     = attack;
         this.defense            = defense;
+        this.previousDefense    = defense;
         this.health             = health;
+        this.previousHealth     = health;
         this.speed              = speed;
+        this.previousSpeed      = speed;
         this.weapon             = undefined;
         this.armor              = undefined;
         this.weaponRarityImage  = weaponRarityImage
@@ -121,6 +125,12 @@ export default class Minion extends Card {
         this.yPos = boardGrid.slots[boardYPos][randomXPos].yPos;
         this.size = BorderId.SMALL_SIZE;
     }
+
+    restoreMinionsHp(){
+        
+        this.health = this.previousHealth;
+    }
+
     render(ctx, language){
         ctx.fillStyle = "black"
         let xPos = this.xPos

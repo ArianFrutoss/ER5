@@ -59,10 +59,11 @@ export default class TurnContainer {
         this.turnContainer = [turn1, turn2]; //player 1 pos 0, player 2 pos 1;
     }  
 
-    render(ctx, language){
-        for (let i = 0; i < this.turnContainer.length; i++) {
-            const turn = this.turnContainer[i];
-            turn.render(ctx, language)
-        }
+    render(ctx, language, currentTurn){
+        const turn = this.turnContainer[currentTurn]
+        const pos = (currentTurn+1)%2
+        const enemyTurn = this.turnContainer[pos]
+        turn.render(ctx, language, currentTurn)
+        enemyTurn.render(ctx, language, pos)
     }
 }

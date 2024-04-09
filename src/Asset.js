@@ -183,7 +183,7 @@ export default class Asset {
         //Ejemplo de crear una carta
         image = new Image();
         image.addEventListener("load", this.loadHandler.bind(this), false);
-        image.src = "../media/images/icons/weapon2.png";
+        image.src = "../media/images/icons/weapon_equip.png";
         images.push(image);
         this.assetsToLoad.push(image);
 

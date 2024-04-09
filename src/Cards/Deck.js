@@ -86,6 +86,17 @@ export default class Deck {
             return card;
         }
     }
+
+    restoreDeckMinionsHp(){
+        
+        for (let i = 0; i < this.cards.length; i++){
+
+            const minion = this.cards[i];
+
+            minion.restoreMinionsHp();
+        }
+    }
+
     renderCards(ctx, language){
         for (let i = 0; i < this.cards.length; i++) {
             const card = this.cards[i];

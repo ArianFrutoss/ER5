@@ -125,6 +125,12 @@ export default class Minion extends Card {
         this.yPos = boardGrid.slots[boardYPos][randomXPos].yPos;
         this.size = BorderId.SMALL_SIZE;
     }
+
+    restoreMinionsHp(){
+        
+        this.health = this.previousHealth;
+    }
+
     render(ctx, language){
         ctx.fillStyle = "black"
         let xPos = this.xPos

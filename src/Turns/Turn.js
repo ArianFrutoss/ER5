@@ -230,7 +230,7 @@ export default class Turn {
         }
 
         const value = timerContainer.update(TimerId.TURN_TIMER);
-        console.log(value);
+        
         if (value <= 0){
 
             this.state = TurnStates.END;
@@ -245,6 +245,7 @@ export default class Turn {
         const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messages)
         if (isCardDiscarded) {
             this.blockCardStatesFromHandDeck()
+            this.enemyActiveMinionDeck.restoreDeckMinionsHp();
             // cambio de turno
             this.active = false;
             return true

@@ -1,8 +1,9 @@
-import { Images } from "./ImageNames.js";
+import { Images } from "./imageNames.js";
 
 export default class Asset {
 
     constructor(){
+
         this.images = []
         this.assetsToLoad = []
         this.assetsLoaded = 0
@@ -10,6 +11,7 @@ export default class Asset {
     }
 
     static create(){
+        
         return new Asset()
     }
 
@@ -23,27 +25,6 @@ export default class Asset {
         this.loadGameRarity();
         this.loadCardType();
         this.loadBackground();
-
-    }
-
-    loadBackground(){
-
-        let images = [];
-        let image;
-
-        const backgroundImages = Images.backgroundImages;
-        
-        for (let i = 0; i < backgroundImages.length; i++){
-
-            // Crear Board
-            image = new Image();
-            image.addEventListener("load", this.loadHandler.bind(this), false);
-            image.src = "../media/images/background/" + backgroundImages[i] + ".png";
-            images.push(image);
-            this.assetsToLoad.push(image);
-        }
-
-        this.images.push(images);
     }
 
     loadCardImages(data) {
@@ -76,124 +57,39 @@ export default class Asset {
         this.images.push(images);
     }
 
+    loadBackground(){
+
+        this.createImage(Images.backgroundImages, "background");
+    }
+
     loadCardBorders(){
 
-        let images = [];
-        let image;
-
-        const cardBordersImages = Images.cardBordersImages;
-        
-        for (let i = 0; i < cardBordersImages.length; i++){
-
-            // Crear Bordes de las Cartas
-            image = new Image();
-            image.addEventListener("load", this.loadHandler.bind(this), false);
-            image.src = "../media/images/others/" + cardBordersImages[i] + ".png";
-            images.push(image);
-            this.assetsToLoad.push(image);
-        }
-
-        this.images.push(images)
+        this.createImage(Images.cardBordersImages, "others");
     }
 
     loadCardIcons(){
 
-        let images = [];
-        let image;
-
-        const cardIconsImages = Images.cardIconsImages;
-        
-        for (let i = 0; i < cardIconsImages.length; i++){
-
-            // Crear los Iconos de las Cartas
-            image = new Image();
-            image.addEventListener("load", this.loadHandler.bind(this), false);
-            image.src = "../media/images/icons/" + cardIconsImages[i] + ".png";
-            images.push(image);
-            this.assetsToLoad.push(image);
-        }
-
-        this.images.push(images);
+        this.createImage(Images.cardIconsImages, "icons");
     }
 
     loadCardRarity(){
 
-        let images = [];
-        let image;
-        
-        const cardRarityImages = Images.cardRarityImages;
-        
-        for (let i = 0; i < cardRarityImages.length; i++){
-
-            // Crear las Rarezas de las Cartas
-            image = new Image();
-            image.addEventListener("load", this.loadHandler.bind(this), false);
-            image.src = "../media/images/icons/" + cardRarityImages[i] + ".png";
-            images.push(image);
-            this.assetsToLoad.push(image);
-        }
-
-        this.images.push(images);
+        this.createImage(Images.cardRarityImages, "icons");
     }
 
     loadEquipmentRarity(){
 
-        let images = [];
-        let image;
-
-        const equipmentRarityImages = Images.equipmentRarityImages;
-        
-        for (let i = 0; i < equipmentRarityImages.length; i++){
-
-            // Crear las Rarezas de las Equipaciones
-            image = new Image();
-            image.addEventListener("load", this.loadHandler.bind(this), false);
-            image.src = "../media/images/icons/" + equipmentRarityImages[i] + ".png";
-            images.push(image);
-            this.assetsToLoad.push(image);
-        }
-
-        this.images.push(images);
+        this.createImage(Images.equipmentRarityImages, "icons");
     }
 
     loadGameRarity(){
 
-        let images = [];
-        let image;
-
-        const gameRarityImages = Images.gameRarityImages;
-        
-        for (let i = 0; i < gameRarityImages.length; i++){
-
-            // Crear las rarezas de la Partida
-            image = new Image();
-            image.addEventListener("load", this.loadHandler.bind(this), false);
-            image.src = "../media/images/icons/" + gameRarityImages[i] + ".png";
-            images.push(image);
-            this.assetsToLoad.push(image);
-        }
-
-        this.images.push(images);
+        this.createImage(Images.gameRarityImages, "icons");
     }
 
     loadCardType(){
 
-        let images = [];
-        let image;
-
-        const cardTypeImages = Images.cardTypeImages;
-        
-        for (let i = 0; i < cardTypeImages.length; i++){
-
-            // Crear los Tipos de Cartas
-            image = new Image();
-            image.addEventListener("load", this.loadHandler.bind(this), false);
-            image.src = "../media/images/icons/" + cardTypeImages[i] + ".png";
-            images.push(image);
-            this.assetsToLoad.push(image);
-        }
-
-        this.images.push(images);
+        this.createImage(Images.cardTypeImages, "icons");
     }
 
     loadHandler() {
@@ -229,5 +125,23 @@ export default class Asset {
             this.isLoaded = true;
             console.log("Assets loaded");
         }
+    }
+
+    createImage(imagesToCreate, file) {
+
+        let images = [];
+        let image;
+
+        for (let i = 0; i < imagesToCreate.length; i++) {
+
+            // Crear Bordes de las Cartas
+            image = new Image();
+            image.addEventListener("load", this.loadHandler.bind(this), false);
+            image.src = "../media/images/" + file + "/" + imagesToCreate[i] + ".png";
+            images.push(image);
+            this.assetsToLoad.push(image);
+        }
+        
+        this.images.push(images);
     }
 }

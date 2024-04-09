@@ -220,13 +220,12 @@ export default class Minion extends Card {
 
     static create(id, name, description, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage, attributes){
 
-        
-            let attack  = attributes[IconsId.DAMAGE]
-            let defense = attributes[IconsId.DEFENSE]
             let hp      = attributes[IconsId.LIFE]
+            let defense = attributes[IconsId.DEFENSE]
+            let attack  = attributes[IconsId.DAMAGE]
             let speed   = attributes[IconsId.SPEED]
     
-            const minion = new Minion(id, name, description, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage, attack, defense, hp, speed);
+            const minion = new Minion(id, name, description, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage, hp, defense, attack, speed);
     
             return minion
     

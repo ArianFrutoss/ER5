@@ -6,7 +6,9 @@ export default class MainCharacter extends Card{
     
             // Card attributes     		   	
             this.durability = durability;
-            this.cooldown   = cooldown; 		
+            this.cooldown   = cooldown; 
+            this.player= 0
+            	
         }
         updateScale(mouse, decks){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -83,7 +85,7 @@ export default class MainCharacter extends Card{
         setDeck(deck){
             this.deck = deck
         }
-        render(ctx, language){
+        render(ctx, language, currentTurn){
             ctx.fillStyle = "black"
             let xPos = this.xPos
             let yPos = this.yPos
@@ -107,7 +109,11 @@ export default class MainCharacter extends Card{
                     ctx.drawImage(
                         this.imageBorders[size],
                         xPos, yPos)
-    
+
+                    // NAME
+                        ctx.font = "25px LongaIberica-DEMO";
+                        ctx.fillText(this.name[language],IconsPos.PLAYER_NAME_X[currentTurn], IconsPos.PLAYER_NAME_Y[currentTurn]);
+
                         if (size === BorderId.NORMAL_SIZE) {
                             ctx.font = "25px LongaIberica-DEMO";
                             ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);

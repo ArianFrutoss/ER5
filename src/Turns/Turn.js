@@ -228,8 +228,8 @@ export default class Turn {
 
                 break;
         }
-
-        const value = timerContainer.update(TimerId.TURN_TIMER);
+        const value = 1
+        // const value = timerContainer.update(TimerId.TURN_TIMER);
         console.log(value);
         if (value <= 0){
 
@@ -281,12 +281,12 @@ export default class Turn {
                 card.cooldown--
         }
     }
-    render(ctx,language){
+    render(ctx,language, currentTurn){
         
         this.handDeck.renderCards(ctx, language)
         this.activeMinionDeck.renderCards(ctx, language)
         this.preparingEventDeck.renderCards(ctx, language)
-        this.mainCharacter.render(ctx, language)
+        this.mainCharacter.render(ctx, language, currentTurn)
 
     }
 }

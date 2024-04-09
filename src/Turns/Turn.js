@@ -76,7 +76,7 @@ export default class Turn {
     //     console.log(this.mainCharacter.image);
     // }
 
-    update(mouse, enemyActiveMinionDeck, messages, timerContainer){
+    update(mouse, enemyActiveMinionDeck, messagesContainer, timerContainer){
         switch(this.state){
             
             case TurnStates.INITIALIZE:
@@ -88,7 +88,7 @@ export default class Turn {
             
             case TurnStates.EXECUTION:
                 // console.log("executiio");
-                const isPhasesOver = this.execute(mouse, messages, timerContainer);
+                const isPhasesOver = this.execute(mouse, messagesContainer, timerContainer);
                 if (enemyActiveMinionDeck.cards.length === 0) {
                     this.finished = true
                 }else{
@@ -102,7 +102,7 @@ export default class Turn {
 
             case TurnStates.END:
                 console.log("end");
-                const isEndTurn = this.end(messages);
+                const isEndTurn = this.end(messagesContainer);
                 if (isEndTurn) {
                     this.finished = true
                     
@@ -132,11 +132,11 @@ export default class Turn {
         this.active = true;
     }
 
-    execute(mouse, messages, timerContainer){
+    execute(mouse, messagesContainer, timerContainer){
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
-                const isPreparationFinished  = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse, messages);
+                const isPreparationFinished  = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse, messagesContainer);
 
                 const isPreparationCancelled = this.phasesArray[PhaseStates.PREPARE_EVENT].isPhaseCancelled(this.buttonContainer);
                 if (isPreparationFinished) {
@@ -151,7 +151,7 @@ export default class Turn {
                 break;
 
             case PhaseStates.USE_EVENT_CARD:
-                const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse, messages);
+                const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse, messagesContainer);
 
                 const isUseEventCancelled   = this.phasesArray[PhaseStates.USE_EVENT_CARD].isEventCancelled(this.buttonContainer);
 
@@ -168,7 +168,7 @@ export default class Turn {
                 break;
             
             case PhaseStates.MOVEMENT:
-                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute(messages);
+                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute(messagesContainer);
 
                 const isMovementCancelled   = this.phasesArray[PhaseStates.MOVEMENT].isPhaseCancelled(this.buttonContainer);
 
@@ -184,7 +184,7 @@ export default class Turn {
                 break;
                 
             case PhaseStates.ATTACK:
-                const isAttackFinished  = this.phasesArray[PhaseStates.ATTACK].execute(messages);
+                const isAttackFinished  = this.phasesArray[PhaseStates.ATTACK].execute(messagesContainer);
 
                 const isAttackCancelled = this.phasesArray[PhaseStates.ATTACK].isPhaseCancelled(this.buttonContainer);
 
@@ -200,7 +200,7 @@ export default class Turn {
                 break; 
                 
             case PhaseStates.DISCARD_CARD:
-                const isDiscardFinished = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messages);
+                const isDiscardFinished = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messagesContainer);
 
                 const isDiscardCancelled = this.phasesArray[PhaseStates.DISCARD_CARD].isPhaseCancelled(this.buttonContainer);
 
@@ -221,7 +221,7 @@ export default class Turn {
             
             case PhaseStates.DEFAULT:
                 
-                this.phaseState = this.phasesArray[PhaseStates.DEFAULT].execute(messages);
+                this.phaseState = this.phasesArray[PhaseStates.DEFAULT].execute(messagesContainer);
                 
                 break;
             default:
@@ -233,6 +233,7 @@ export default class Turn {
         
         if (value <= 0){
             
+            messagesContainer.messages[1].timeInOn = 0;
             this.state = TurnStates.END;
         }
 
@@ -241,8 +242,8 @@ export default class Turn {
         }
     }
 
-    end(messages){
-        const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messages)
+    end(messagesContainer){
+        const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messagesContainer)
         if (isCardDiscarded) {
             this.blockCardStatesFromHandDeck()
             this.enemyActiveMinionDeck.restoreDeckMinionsHp();

@@ -16,8 +16,8 @@
         <h2>Log in</h2>
         <input id="email" type="email" name="email" value="" placeholder="Email">
         <input id="password" type="password" name="password" value="" placeholder="Password">
-        <button onclick="login()">Log in</button>
-        <button onclick="goToRegister()">If you don't have acount go to register</button>
+        <button id = "enterLogin" onclick="login()">Log in</button>
+        <button id = "goToRegister" onclick="goToRegister()">If you don't have acount go to register</button>
     </section>
 
     <section hidden id="register">
@@ -25,7 +25,7 @@
         <input id="email_register" type="email" name="email" value="" placeholder="Email">
         <input id="user_register" type="user" name="user" value="" placeholder="User">
         <input id="password_register" type="password" name="password" value="" placeholder="Password">
-        <button onclick="Register()">register</button>
+        <button id = "enterRegister" onclick="register()">register</button>
     </section>
 
     <button hidden id="btnPlay" onclick="startPlaying()" >Start Game</button>

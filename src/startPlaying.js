@@ -1,66 +1,92 @@
 function login(){
-    
-    const result =postLogin();
-    // let gameScreen = document.getElementById("login");
-    // gameScreen.style.display = "none";
 
-    // let btnPlay = document.getElementById("btnPlay");
-    // btnPlay.style.display = "block";
+    document.getElementById("enterLogin").addEventListener("click", function (e) {
+        let user = {
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value
+            };
+        fetch("http://localhost:3000/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res[0]);
 
-    // let goToRegister = document.getElementById("goToRegister");
-    // goToRegister.style.display = "none";
+                if (res[0] != undefined){
 
-    // let register = document.getElementById("register");
-    // register.style.display = "none";
-}
+                    let gameScreen = document.getElementById("login");
+                    gameScreen.style.display = "none";
 
-async function postLogin(){
- 
-    let user = {
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value 
-        };
-        let response = await fetch('localhost:3000/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;'
-        },
-        body: JSON.stringify(user)
-        });
-        
-        let result = response.json();
+                    let btnPlay = document.getElementById("btnPlay");
+                    btnPlay.style.display = "block";
 
-        return result;
+                    let goToRegister = document.getElementById("goToRegister");
+                    goToRegister.style.display = "none";
+
+                    let register = document.getElementById("register");
+                    register.style.display = "none";
+                }
+            })
+        })
 }
 
 function goToRegister(){
 
-    let gameScreen = document.getElementById("login");
-    gameScreen.style.display = "none";
+    document.getElementById("goToRegister").addEventListener("click", function (e) {
 
-    let btnPlay = document.getElementById("btnPlay");
-    btnPlay.style.display = "none";
+        let gameScreen = document.getElementById("login");
+        gameScreen.style.display = "none";
 
-    let goToRegister = document.getElementById("goToRegister");
-    goToRegister.style.display = "none";
+        let btnPlay = document.getElementById("btnPlay");
+        btnPlay.style.display = "none";
 
-    let register = document.getElementById("register");
-    register.style.display = "block";
+        let goToRegister = document.getElementById("goToRegister");
+        goToRegister.style.display = "none";
+
+        let register = document.getElementById("register");
+        register.style.display = "block";
+    })
 }
 
 function register(){
 
-    let login = document.getElementById("login");
-    login.style.display = "none";
+    document.getElementById("enterRegister").addEventListener("click", function (e) {
+            let user = {
+                email: document.getElementById("email_register").value,
+                username: document.getElementById("user_register").value,
+                password: document.getElementById("password_register").value
+                };
+            fetch("http://localhost:3000/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(user)
+            })
+                .then((res) => res)
+                .then((res) => {
+                    console.log(res);
 
-    let btnPlay = document.getElementById("btnPlay");
-    btnPlay.style.display = "none";
+                    if (res != undefined){
 
-    let goToRegister = document.getElementById("goToRegister");
-    goToRegister.style.display = "block";
+                        let gameScreen = document.getElementById("login");
+                        gameScreen.style.display = "block";
 
-    let register = document.getElementById("register");
-    register.style.display = "none";
+                        let btnPlay = document.getElementById("btnPlay");
+                        btnPlay.style.display = "none";
+
+                        let goToRegister = document.getElementById("goToRegister");
+                        goToRegister.style.display = "none";
+
+                        let register = document.getElementById("register");
+                        register.style.display = "none";
+                    }
+                })
+            })
 }
 
 function startPlaying(){

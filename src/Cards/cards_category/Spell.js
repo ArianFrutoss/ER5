@@ -1,11 +1,11 @@
-import { BorderId, CardActions, CardId, IconsPos } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Spell extends Card{
 
-    constructor(id, texts, image, rarity, category, type,  xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown){
+    constructor(id, texts, image, rarity, category, type,  xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, durability, cooldown){
 
-        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
+        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
         // Card attributes   
         this.durability = durability;
@@ -96,6 +96,7 @@ export default class Spell extends Card{
         ctx.font = "25px LongaIberica-DEMO";
         let xPos = this.xPos
         let yPos = this.yPos
+        let cardVFX
         if (this.state != CardId.BLOCKED) {
 
             //CARD IMAGE
@@ -105,6 +106,18 @@ export default class Spell extends Card{
                 yPos = 300
                 size = CardId.BIG_SIZE
                 
+            }else if(this.state === CardId.SELECTED){
+                cardVFX = this.imageVFX[VFXId.SELECTED][size]
+                ctx.drawImage(
+                    cardVFX,                 //Img File
+                    IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                    )
+            }else if(this.state === CardId.HOVER){
+                cardVFX = this.imageVFX[VFXId.HOVER][size]
+                ctx.drawImage(
+                    cardVFX,                 //Img File
+                    IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                    )
             }
             ctx.drawImage(
                 this.image[size],                 //Img File
@@ -143,7 +156,7 @@ export default class Spell extends Card{
     
     }
 
-    static create(id, texts, image, rarity,category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
+    static create(id, texts, image, rarity,category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx,) {
       
         let durability
         let cooldown
@@ -154,7 +167,7 @@ export default class Spell extends Card{
 
         }
 
-        const spell = new Spell(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown);
+        const spell = new Spell(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, durability, cooldown);
         
         return spell;
 

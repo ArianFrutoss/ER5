@@ -104,4 +104,13 @@ export default class Deck {
 
         }
     }
+
+    deselect(){
+
+        for (let i = 0; i < this.cards.length; i++){
+
+            const card = this.cards[i];
+            card.deselect();
+        }
+    }
 }

@@ -249,10 +249,9 @@ export default class Turn {
             this.enemyActiveMinionDeck.restoreDeckMinionsHp();
             this.buttonContainer.deselect();
             this.gridArray.deselect();
-            // this.handDeck.deselect();
-            // this.activeMinionDeck.deselect();
-            // this.enemyActiveMinionDeck.deselect();
-            // this.preparingEventDeck.deselect();
+            this.activeMinionDeck.deselect();
+            this.enemyActiveMinionDeck.deselect();
+            this.preparingEventDeck.deselect();
 
             // cambio de turno
             this.active = false;

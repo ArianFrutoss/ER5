@@ -63,7 +63,7 @@ export default class Board{
     }
 
     deselect(){
-
+        console.log(1221);
         for (let i = 0; i < this.grids.length; i++){
 
             const grid = this.grids[i];

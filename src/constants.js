@@ -111,7 +111,15 @@ export const CardImageId = {
 export const BorderId = {
     NORMAL_SIZE: 0,
     SMALL_SIZE: 1,
-    REVERSE: 2
+    REVERSE: 2,
+    HOVER: 3,
+    SELECTED: 4,
+    MINI_HOVER: 5,
+    MINI_SELECTED: 6
+}
+export const VFXId = {
+    SELECTED: 0,
+    HOVER: 1
 }
 export const IconsId = {
     LIFE:           0,
@@ -219,6 +227,8 @@ export const IconsPos = {
     PLAYER_Y:[700,215],
     PLAYER_NAME_X: [200,130],
     PLAYER_NAME_Y: [787,295],
+    VFX_X:[-25,-13],
+    VFX_Y:[-40,-15]
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 

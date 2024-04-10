@@ -1,11 +1,11 @@
-import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId } from "../../constants.js";
+import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Minion extends Card {
 
-    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage, attack, defense, health, speed) {
+    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed) {
 
-        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
+        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
         // Card attributes   
         this.attack             = attack;
@@ -136,7 +136,7 @@ export default class Minion extends Card {
         let xPos = this.xPos
         let yPos = this.yPos
             ctx.font = "25px LongaIberica-DEMO";
-
+        let cardVFX
             //CARD IMAGE
             let size = this.size
             if (this.state === CardId.SCALED ) {
@@ -144,6 +144,18 @@ export default class Minion extends Card {
                 yPos = 300
                 size = CardId.BIG_SIZE
                 
+            }else if(this.state === CardId.SELECTED){
+                cardVFX = this.imageVFX[VFXId.SELECTED][size]
+                ctx.drawImage(
+                    cardVFX,                 //Img File
+                    IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                    )
+            }else if(this.state === CardId.HOVER){
+                cardVFX = this.imageVFX[VFXId.HOVER][size]
+                ctx.drawImage(
+                    cardVFX,                 //Img File
+                    IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                    )
             }
             ctx.drawImage(
                 this.image[size],                 //Img File
@@ -219,15 +231,14 @@ export default class Minion extends Card {
                     IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
     }
 
-    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage, attributes){
+    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes){
 
-        
-            let attack  = attributes[IconsId.DAMAGE]
+            let hp      = attributes[IconsId.LIFE]
             let defense = attributes[IconsId.DEFENSE]
-            let hp  = attributes[IconsId.DAMAGE]
+            let attack  = attributes[IconsId.DAMAGE]
             let speed   = attributes[IconsId.SPEED]
     
-            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, weaponRarityImage, armorRarityImage, attack, defense, hp, speed);
+            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed);
     
             return minion
     

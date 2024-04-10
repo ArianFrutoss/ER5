@@ -1,10 +1,10 @@
-import { BorderId, CardActions, CardId, IconsPos, IconsId} from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId} from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Armor extends Card{
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, health, attack, defense, speed, durability, cooldown){
         
-        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
+        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
             this.health     = health;
             this.attack     = attack;
@@ -98,7 +98,7 @@ export default class Armor extends Card{
         let xPos = this.xPos
         let yPos = this.yPos
         ctx.font = "25px LongaIberica-DEMO";
-
+        let cardVFX
         if (this.state != CardId.BLOCKED) {
             //CARD IMAGE
             let size = this.size
@@ -107,6 +107,18 @@ export default class Armor extends Card{
                 yPos = 300
                 size = CardId.BIG_SIZE
                 
+            }else if(this.state === CardId.SELECTED){
+                cardVFX = this.imageVFX[VFXId.SELECTED][size]
+                ctx.drawImage(
+                    cardVFX,                 //Img File
+                    IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                    )
+            }else if(this.state === CardId.HOVER){
+                cardVFX = this.imageVFX[VFXId.HOVER][size]
+                ctx.drawImage(
+                    cardVFX,                 //Img File
+                    IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                    )
             }
             ctx.drawImage(
                 this.image[size],                 //Img File
@@ -166,7 +178,7 @@ export default class Armor extends Card{
             }
     }
 
-    static create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
+    static create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx,){
 
     let attack = attributes[IconsId.DAMAGE];
         if (!attack) {
@@ -191,7 +203,7 @@ export default class Armor extends Card{
         }
 
 
-        const armor = new Armor(id, texts, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown);
+        const armor = new Armor(id, texts, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, health, attack, defense, speed, durability, cooldown);
 
         return armor;
     }

@@ -3,9 +3,9 @@ import Card from "../Card.js";
 
 export default class Joseph extends Card{
 
-    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effect){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effect){
 
-        super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
+        super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
         this.effect = effect; // efecto carta joseph
         
@@ -113,11 +113,12 @@ export default class Joseph extends Card{
                     xPos, yPos)
 
                     if (size === BorderId.NORMAL_SIZE) {
-                        ctx.font = "25px LongaIberica-DEMO";
-                        ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
-                        ctx.font = "15px LongaIberica-DEMO";
-                        ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
-                        ctx.font = "25px LongaIberica-DEMO";
+                        // ctx.font = "25px LongaIberica-DEMO";
+                        // ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
+                        // ctx.font = "15px LongaIberica-DEMO";
+                        // ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
+                        // ctx.font = "25px LongaIberica-DEMO";
+                        this.texts.render(ctx, xPos, yPos);
                         
                         //CATEGORY ICON
                         ctx.drawImage(
@@ -136,11 +137,11 @@ export default class Joseph extends Card{
             }
     }
 
-    static create(id, name, description, image, rarity, category, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
+    static create(id, texts, image, rarity, category, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
 
         let armorEffect = effects.Armor;
 
-        const joseph = new Joseph(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, armorEffect);
+        const joseph = new Joseph(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, armorEffect);
 
         return joseph;
     }

@@ -29,7 +29,7 @@ export default class DefaultPhase extends Phase {
         if(returnState !== undefined){
      
             messagesContainer.messages[1].timeInOn = 0;
-            console.log(returnState);
+            // console.log(returnState);
             return returnState;
 
         }else{

@@ -1,8 +1,8 @@
 import { BorderId, CardActions, CardId, IconsPos } from "../../constants.js";
 import Card from "../Card.js";
 export default class MainCharacter extends Card{
-    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown){
-            super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown){
+            super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
     
             // Card attributes     		   	
             this.durability = durability;
@@ -99,7 +99,7 @@ export default class MainCharacter extends Card{
                 }
                 ctx.drawImage(
                     this.image[size],                 //Img File
-                    xPos,yPos                    //X & Y Position Source
+                    xPos, yPos                    //X & Y Position Source
                     )
                     
                     
@@ -109,12 +109,12 @@ export default class MainCharacter extends Card{
                         xPos, yPos)
     
                         if (size === BorderId.NORMAL_SIZE) {
-                            ctx.font = "25px LongaIberica-DEMO";
-                            ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
-                            ctx.font = "15px LongaIberica-DEMO";
-                            ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
-                            ctx.font = "25px LongaIberica-DEMO";
-                            
+                            // ctx.font = "25px LongaIberica-DEMO";
+                            // ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
+                            // ctx.font = "15px LongaIberica-DEMO";
+                            // ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
+                            // ctx.font = "25px LongaIberica-DEMO";
+                            this.texts.render(ctx, xPos, yPos);
                             //CATEGORY ICON
                             ctx.drawImage(
                                 this.imageCategory,
@@ -128,12 +128,12 @@ export default class MainCharacter extends Card{
         
         }
 
-        static create(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effects) {
+        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effects) {
             
             let durability = effects.durability;
             let cooldown = effects.cooldown;
     
-            const mainCharacter = new MainCharacter(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown);
+            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown);
     
             return mainCharacter;
     

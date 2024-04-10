@@ -158,8 +158,9 @@ export const DecksId = {
 }
 export const LanguageId = {
     ENG : 0,
-    EUS : 1
+    EUS : 1,
 }
+
 export const EventsId = {
     COOLDOWN:0,
 }
@@ -175,10 +176,12 @@ export const BoardId = {
 }
 
 export const IconsPos = {
-    NAME_X:85,
-    NAME_Y:245,
-    DESCRIPTION_X:10,
-    DESCRIPTION_Y:291,
+    NAME: 0,
+    DESCRIPTION: 1,
+    NAME_X:121,
+    NAME_Y:238,
+    DESCRIPTION_X:125,
+    DESCRIPTION_Y:191,
     RARITY_X:[100,47],
     RARITY_Y:[-5,-12],
     CATEGORY_X:115,

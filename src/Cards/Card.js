@@ -3,11 +3,12 @@ import Mouse from "../Mouse.js";
 import { CardActions, CardId, DecksId, TypeId } from "../constants.js";
 export default class Card{
 
-    constructor(id, name, description, image, rarity, category, type = "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
+    constructor(id, texts, image, rarity, category, type = "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
 
         this.id             = id;
-        this.name           = name;
-        this.description    = description;
+        // this.name           = name;
+        // this.description    = description;
+        this.texts          = texts;
         this.image          = image;
         this.imageRarity    = imageRarity
         this.imageAttributes = imageAttributes

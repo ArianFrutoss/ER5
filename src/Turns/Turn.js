@@ -230,7 +230,7 @@ export default class Turn {
         }
 
         const value = timerContainer.update(TimerId.TURN_TIMER);
-        console.log(value);
+        // console.log(value);
         if (value <= 0){
 
             this.state = TurnStates.END;

@@ -2,9 +2,9 @@ import { BorderId, CardActions, CardId, IconsPos, IconsId} from "../../constants
 import Card from "../Card.js";
 
 export default class Armor extends Card{
-    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown){
         
-        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
+        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
             this.health     = health;
             this.attack     = attack;
@@ -110,7 +110,7 @@ export default class Armor extends Card{
             }
             ctx.drawImage(
                 this.image[size],                 //Img File
-                xPos,yPos                    //X & Y Position Source
+                xPos, yPos                    //X & Y Position Source
                 )
                 
                 
@@ -120,12 +120,13 @@ export default class Armor extends Card{
                     xPos, yPos)
 
                     if (size === BorderId.NORMAL_SIZE) {
-                        ctx.font = "25px LongaIberica-DEMO";
-                        ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
-                        ctx.font = "15px LongaIberica-DEMO";
-                        ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
-                        ctx.font = "25px LongaIberica-DEMO";
-                        
+                        // ctx.font = "25px LongaIberica-DEMO";
+                        // ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
+                        // ctx.font = "15px LongaIberica-DEMO";
+                        // ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
+                        // ctx.font = "25px LongaIberica-DEMO";
+                        this.texts.render(ctx, xPos, yPos);
+
                         //CATEGORY ICON
                         ctx.drawImage(
                             this.imageCategory,
@@ -165,7 +166,7 @@ export default class Armor extends Card{
             }
     }
 
-    static create(id, name, description, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
+    static create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
 
     let attack = attributes[IconsId.DAMAGE];
         if (!attack) {
@@ -190,7 +191,7 @@ export default class Armor extends Card{
         }
 
 
-        const armor = new Armor(id, name, description, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown);
+        const armor = new Armor(id, texts, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown);
 
         return armor;
     }

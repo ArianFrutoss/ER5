@@ -3,9 +3,9 @@ import Card from "../Card.js";
 
 export default class Buff extends Card {
 
-    constructor(id ,name, description ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack=0, defense=0, speed=0, health=0, durability=0, cooldown=0){
+    constructor(id , texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack=0, defense=0, speed=0, health=0, durability=0, cooldown=0){
 
-        super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
+        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
         // Card attributes 
         this.attack     = attack;
@@ -113,7 +113,7 @@ export default class Buff extends Card {
             }
             ctx.drawImage(
                 this.image[size],                 //Img File
-                xPos,yPos                    //X & Y Position Source
+                xPos, yPos                    //X & Y Position Source
                 )
                 
                 
@@ -123,12 +123,13 @@ export default class Buff extends Card {
                     xPos, yPos)
 
                     if (size === BorderId.NORMAL_SIZE) {
-                        ctx.font = "25px LongaIberica-DEMO";
-                        ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
-                        ctx.font = "15px LongaIberica-DEMO";
-                        ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
-                        ctx.font = "25px LongaIberica-DEMO";
+                        // ctx.font = "25px LongaIberica-DEMO";
+                        // ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
+                        // ctx.font = "15px LongaIberica-DEMO";
+                        // ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
+                        // ctx.font = "25px LongaIberica-DEMO";
                         
+                        this.texts.render(ctx, xPos, yPos);
                         //CATEGORY ICON
                         ctx.drawImage(
                             this.imageCategory,
@@ -146,7 +147,7 @@ export default class Buff extends Card {
             }
     }
 
-    static create(id, name, description, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
+    static create(id,  texts, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
         let attack;
         let defense;
         let health;
@@ -163,7 +164,7 @@ export default class Buff extends Card {
 
         }
 
-        const buff = new Buff(id, name, description, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack, defense, speed, health, durability, cooldown);
+        const buff = new Buff(id,  texts, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack, defense, speed, health, durability, cooldown);
 
         return buff;
 

@@ -2,9 +2,9 @@ import { BorderId, CardActions, CardId, IconsPos, IconsId } from "../../constant
 import Card from "../Card.js";
 
 export default class Weapon extends Card{
-    constructor(id, name, description, image, rarity, category, type = "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, range, attack, defense, speed, durability, cooldown){
+    constructor(id, texts, image, rarity, category, type = "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, range, attack, defense, speed, durability, cooldown){
 
-        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,);
+        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,);
 
         // Card attributes   
         this.type           = type;
@@ -139,7 +139,7 @@ export default class Weapon extends Card{
                 }
                 ctx.drawImage(
                     this.image[size],                 //Img File
-                    xPos,yPos                    //X & Y Position Source
+                    xPos, yPos                    //X & Y Position Source
                     )
                     
                     
@@ -149,44 +149,46 @@ export default class Weapon extends Card{
                         xPos, yPos)
     
                         if (size === BorderId.NORMAL_SIZE) {
-                            ctx.font = "25px LongaIberica-DEMO";
-                            ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
-                            ctx.font = "15px LongaIberica-DEMO";
-                            ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
-                            ctx.font = "25px LongaIberica-DEMO";
+                            // ctx.font = "25px LongaIberica-DEMO";
+                            // ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
+                            // ctx.font = "15px LongaIberica-DEMO";
+                            // ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
+                            // ctx.font = "25px LongaIberica-DEMO";
                             
+                            this.texts.render(ctx, xPos, yPos);
+
                             //CATEGORY ICON
                             ctx.drawImage(
                                 this.imageCategory,
-                                IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
+                                IconsPos.CATEGORY_X +      xPos, IconsPos.CATEGORY_Y + yPos)
                         }
                 //RARITY ICON
                 ctx.drawImage(
                     
                     this.imageRarity,
-                    IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
+                    IconsPos.RARITY_X[size] +      xPos, IconsPos.RARITY_Y[size] + yPos)
         
                     //ATTRIBUTES ICONS & VALUES
                     ctx.drawImage(
                         this.imageAttributes[0],
-                        IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
+                        IconsPos.FIRST_ICON_X[size] +      xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
     
-                    ctx.fillText(this.cooldown, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                    ctx.fillText(this.cooldown, IconsPos.FIRST_ICON_NUMBER_X[size] +       xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
     
                     ctx.drawImage(
                         this.imageAttributes[1],
-                        IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                    ctx.fillText(this.durability, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                        IconsPos.SECOND_ICON_X[size] +     xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
+                    ctx.fillText(this.durability, IconsPos.SECOND_ICON_NUMBER_X[size] +    xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
     
                     ctx.drawImage(
                         this.imageAttributes[2],
-                        IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                    ctx.fillText(this.defense, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                        IconsPos.THIRD_ICON_X[size] +      xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
+                    ctx.fillText(this.defense, IconsPos.THIRD_ICON_NUMBER_X[size] +    xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
     
                     ctx.drawImage(
                         this.imageAttributes[3],
-                        IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                    ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                        IconsPos.FOURTH_ICON_X[size] +     xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
+                    ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
         } else {
             ctx.drawImage(
                 this.imageReverse,
@@ -194,7 +196,7 @@ export default class Weapon extends Card{
         }
     }
 
-    static create(id, name, description, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
+    static create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
 
         let range   = attributes[IconsId.RANGE];
         let attack  = attributes[IconsId.DAMAGE];
@@ -211,7 +213,7 @@ export default class Weapon extends Card{
         
 
 
-        const weapon = new Weapon(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, range, attack, defense, speed, durability, cooldown);
+        const weapon = new Weapon(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, range, attack, defense, speed, durability, cooldown);
         return weapon;
 
 

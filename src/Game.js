@@ -157,7 +157,7 @@ export default class Game {
 
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer)
-        this.turnContainer.render(this.ctx, this.language)
+        this.turnContainer.render(this.ctx, this.language, this.currentTurn)
         this.turnContainer.buttonContainer.renderButtons();
         this.messagesContainer.render(this.ctx)
         this.ctx.font         = "bold 30px Arial";

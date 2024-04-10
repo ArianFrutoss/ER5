@@ -34,6 +34,7 @@ export default class DefaultPhase extends Phase {
 
         }else{
 
+            messagesContainer.messages[1].timeInOn = 0;
             return this.state;
 
         }

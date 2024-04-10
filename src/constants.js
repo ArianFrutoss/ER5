@@ -114,16 +114,21 @@ export const BorderId = {
     REVERSE: 2
 }
 export const IconsId = {
-    DAMAGE:     0,
-    DEFENSE:    1,
-    LIFE:       2,
-    SPEED:      3,
-    RANGE:      4,
-    DURABILITY: 5,
-    COOLDOWN:   6
-
+    LIFE:           0,
+    DEFENSE:        1,
+    DAMAGE:         2,
+    SPEED:          3,
+    DURABILITY:     4,
+    COOLDOWN:       5,
+    WEAPON:         6,
+    ARMOR:          7,
+    MINI_LIFE:      8,
+    MINI_DEFENSE:   9,
+    MINI_DAMAGE:   10,
+    MINI_SPEED:    11,
+    MINI_WEAPON:   12,
+    MINI_ARMOR:    13,
 }
-
 export const TypeId = {
     MINION: 0,
     BUFF: 1,
@@ -133,14 +138,18 @@ export const TypeId = {
     ARMOR:5,
     WEAPON:6,
     SPELL: 7,
-
 }
 export const RarityId = {
-    COMMON: 0,
-    RARE: 1,
-    EPIC: 2,
-    LEGENDARY: 3,
-    NONE : 4,
+    COMMON:         0,
+    RARE:           1,
+    EPIC:           2,
+    LEGENDARY:      3,
+    NONE:           4,
+    MINI_COMMON:    5,
+    MINI_RARE:      6,
+    MINI_EPIC:      7,
+    MINI_LEGENDARY: 8,
+    MINI_NONE:      9,
 }
 export const DecksId = {
     INITIAL_DECK:                  -1,
@@ -166,12 +175,12 @@ export const EventsId = {
 }
 export const BoardId = {
     BOARD:              0,
-    EVENT_DECK_FULL:    1,
+    EVENT_DECK_EMPTY:   1,
     EVENT_DECK_HALF:    2,
-    EVENT_DECK_EMPTY:   3,
-    MINION_DECK_FULL:   4,
+    EVENT_DECK_FULL:    3,
+    MINION_DECK_EMPTY:  4,
     MINION_DECK_HALF:   5,
-    MINION_DECK_EMPTY:  6,
+    MINION_DECK_FULL:   6,
     GEM:                7,
 }
 
@@ -208,8 +217,8 @@ export const IconsPos = {
     ARMOR_Y:[15,0],
     PLAYER_X:[10,170],
     PLAYER_Y:[700,215],
-    PLAYER_NAME_X: [140,30],
-    PLAYER_NAME_Y: [790,300],
+    PLAYER_NAME_X: [200,130],
+    PLAYER_NAME_Y: [787,295],
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 

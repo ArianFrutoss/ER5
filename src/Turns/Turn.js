@@ -234,13 +234,9 @@ export default class Turn {
 
         const value = timerContainer.update(TimerId.TURN_TIMER);
         
-        if (value <= 0){
+        if (value <= 0 || this.actionsCounter === this.maxActions){
             
             messagesContainer.messages[1].timeInOn = 0;
-            this.state = TurnStates.END;
-        }
-
-        if(this.actionsCounter === this.maxActions){
             this.state = TurnStates.END;
         }
     }

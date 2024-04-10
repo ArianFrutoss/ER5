@@ -37,6 +37,7 @@ export default class CardFactory {
             const imageBorders = [this.images[ImageTypes.CARD_BORDER][CardId.BIG_SIZE], this.images[ImageTypes.CARD_BORDER][CardId.SMALL_SIZE]]
             const imageReverse = this.images[ImageTypes.CARD_BORDER][BorderId.REVERSE]
             const weaponRarityImage = this.images[ImageTypes.EQUIP_RARITY]
+            // console.log(weaponRarityImage);
             const armorRarityImage = this.images[ImageTypes.EQUIP_RARITY]
             let imageCategory 
             let imageAttributes
@@ -52,6 +53,7 @@ export default class CardFactory {
                 case "Armor_card":
                     imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.ARMOR]
+                
                     for (let i = 0; i < quantity; i++) {
                         card = this.createArmor(id, texts, image, rarity, TypeId.ARMOR, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
                         this.cards.push(card)
@@ -169,11 +171,12 @@ export default class CardFactory {
 
     }
 
-
+    // id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse
     createArmor(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
-
-        attributes = this.setAttributeValues(attributes)
         
+   
+        attributes = this.setAttributeValues(attributes)
+     
         const armor = Armor.create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
 
         return armor

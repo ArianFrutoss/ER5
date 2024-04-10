@@ -144,9 +144,10 @@ export default class Armor extends Card{
                     IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
 
                 ctx.fillText(this.cooldown, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
-
+   
                 ctx.drawImage(
                     this.imageAttributes[1],
+                    
                     IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
                 ctx.fillText(this.durability, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
 
@@ -168,6 +169,7 @@ export default class Armor extends Card{
 
     static create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
 
+    
     let attack = attributes[IconsId.DAMAGE];
         if (!attack) {
             attack = 0
@@ -185,12 +187,13 @@ export default class Armor extends Card{
             speed = 0
         }
         let durability = attributes[IconsId.DURABILITY];
+
         let cooldown = attributes[IconsId.COOLDOWN];
         if (!cooldown) {
             cooldown = 0
         }
 
-
+        // id, texts, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown
         const armor = new Armor(id, texts, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, health, attack, defense, speed, durability, cooldown);
 
         return armor;

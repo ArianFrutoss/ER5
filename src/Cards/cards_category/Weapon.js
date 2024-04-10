@@ -198,6 +198,7 @@ export default class Weapon extends Card{
 
     static create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
 
+   
         let range   = attributes[IconsId.RANGE];
         let attack  = attributes[IconsId.DAMAGE];
         let defense = attributes[IconsId.DEFENSE];

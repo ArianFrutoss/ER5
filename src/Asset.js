@@ -71,6 +71,7 @@ export default class Asset {
     loadCardIcons(){
 
         this.createImage(Images.cardIconsImages, "icons");
+        console.log(this.images[2]);
     }
 
     loadCardRarity(){

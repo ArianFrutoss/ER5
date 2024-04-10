@@ -1,4 +1,4 @@
-import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Weapon extends Card{
@@ -215,19 +215,19 @@ export default class Weapon extends Card{
 
     static create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
 
-   
-        let range   = attributes[IconsId.RANGE];
-        let attack  = attributes[IconsId.DAMAGE];
-        let defense = attributes[IconsId.DEFENSE];
+        
+        let range   = attributes[StatsId.RANGE];
+        let attack  = attributes[StatsId.DAMAGE];
+        let defense = attributes[StatsId.DEFENSE];
         if (!defense) {
             defense = 0
         }
-        let speed = attributes[IconsId.SPEED];
+        let speed = attributes[StatsId.SPEED];
         if (!speed) {
             speed = 0
         }
-        let durability = attributes[IconsId.DURABILITY];
-        let cooldown = attributes[IconsId.COOLDOWN];
+        let durability = attributes[StatsId.DURABILITY];
+        let cooldown = attributes[StatsId.COOLDOWN];
         
 
 

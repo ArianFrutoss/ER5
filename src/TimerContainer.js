@@ -24,8 +24,20 @@ export default class TimerContainer{
             if (timer.timerId === timerId){
 
                 timer.update();
-
                 return timer.value;
+            }
+        }
+    }
+
+    restartTimerValue(timerId){
+
+        for (let i = 0; i < this.timer.length; i++){
+            
+            const timer = this.timer[i];
+
+            if (timer.timerId === timerId){
+
+                timer.restart();
             }
         }
     }

@@ -31,4 +31,10 @@ export default class Timer{
             this.timerChangeCounter = 0;
         }
     }
+
+    restart(){
+
+        // Reseteamos el Timer
+        this.value = this.previousValue;
+    }
 }

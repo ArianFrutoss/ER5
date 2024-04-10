@@ -80,7 +80,7 @@ export default class Turn {
         switch(this.state){
             
             case TurnStates.INITIALIZE:
-                this.init();
+                this.init(timerContainer);
                 console.log("init");
                 this.state = TurnStates.EXECUTION
                 this.finished = false
@@ -112,11 +112,14 @@ export default class Turn {
 
     }
 
-    init(){
+    init(timerContainer){
         this.restoreCardStatesFromActiveDecks()
         this.eventContainer.executeEvents()
         this.actionsCounter = 0
         this.phasesArray[PhaseStates.DRAW_CARD].execute()
+
+        // Restablecer el Timer
+        timerContainer.restartTimerValue(TimerId.TURN_TIMER);
         
         // Spawnear nuevo Minion
         const newMinion = this.minionDeck.spawnNewMinions(this.activeMinionDeck);

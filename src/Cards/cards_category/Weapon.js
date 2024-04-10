@@ -1,10 +1,10 @@
-import { BorderId, CardActions, CardId, IconsPos, IconsId } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Weapon extends Card{
-    constructor(id, name, description, image, rarity, category, type = "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, range, attack, defense, speed, durability, cooldown){
+    constructor(id, name, description, image, rarity, category, type = "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, range, attack, defense, speed, durability, cooldown){
 
-        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,);
+        super(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX);
 
         // Card attributes   
         this.type           = type;
@@ -124,11 +124,14 @@ export default class Weapon extends Card{
     render(ctx, language){
         let xPos = this.xPos
         let yPos = this.yPos
+        let cardVFX
         if (this.state != CardId.BLOCKED) {
-            
+            // console.log(this.imageVFX);
             ctx.fillStyle = "black"
                 ctx.font = "25px LongaIberica-DEMO";
-    
+            if (this.state != CardId.NOT_ACTIVE) {
+                // console.log(this.state, CardId.HOVER, CardId.SELECTED);
+            }
                 //CARD IMAGE
                 let size = this.size
                 if (this.state === CardId.SCALED ) {
@@ -136,7 +139,21 @@ export default class Weapon extends Card{
                     yPos = 300
                     size = CardId.BIG_SIZE
                     
+                }else if(this.state === CardId.SELECTED){
+                    cardVFX = this.imageVFX[VFXId.SELECTED][size]
+                    ctx.drawImage(
+                        cardVFX,                 //Img File
+                        IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                        )
+                }else if(this.state === CardId.HOVER){
+                    cardVFX = this.imageVFX[VFXId.HOVER][size]
+                    ctx.drawImage(
+                        cardVFX,                 //Img File
+                        IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                        )
                 }
+
+
                 ctx.drawImage(
                     this.image[size],                 //Img File
                     xPos,yPos                    //X & Y Position Source
@@ -194,8 +211,8 @@ export default class Weapon extends Card{
         }
     }
 
-    static create(id, name, description, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse) {
-
+    static create(id, name, description, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx,) {
+        console.log(attributes);
         let range   = attributes[IconsId.RANGE];
         let attack  = attributes[IconsId.DAMAGE];
         let defense = attributes[IconsId.DEFENSE];
@@ -211,7 +228,7 @@ export default class Weapon extends Card{
         
 
 
-        const weapon = new Weapon(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, range, attack, defense, speed, durability, cooldown);
+        const weapon = new Weapon(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, range, attack, defense, speed, durability, cooldown);
         return weapon;
 
 

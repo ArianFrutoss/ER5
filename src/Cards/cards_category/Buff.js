@@ -1,11 +1,11 @@
-import { BorderId, CardActions, CardId, IconsPos } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Buff extends Card {
 
-    constructor(id ,name, description ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack=0, defense=0, speed=0, health=0, durability=0, cooldown=0){
+    constructor(id ,name, description ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, attack=0, defense=0, speed=0, health=0, durability=0, cooldown=0){
 
-        super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
+        super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
         // Card attributes 
         this.attack     = attack;
@@ -100,7 +100,7 @@ export default class Buff extends Card {
         let xPos = this.xPos
         let yPos = this.yPos
         ctx.font = "25px LongaIberica-DEMO";
-        
+        let cardVFX
         if (this.state != CardId.BLOCKED) {
 
             //CARD IMAGE
@@ -110,6 +110,18 @@ export default class Buff extends Card {
                 yPos = 300
                 size = CardId.BIG_SIZE
                 
+            }else if(this.state === CardId.SELECTED){
+                cardVFX = this.imageVFX[VFXId.SELECTED][size]
+                ctx.drawImage(
+                    cardVFX,                 //Img File
+                    IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                    )
+            }else if(this.state === CardId.HOVER){
+                cardVFX = this.imageVFX[VFXId.HOVER][size]
+                ctx.drawImage(
+                    cardVFX,                 //Img File
+                    IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                    )
             }
             ctx.drawImage(
                 this.image[size],                 //Img File
@@ -146,7 +158,7 @@ export default class Buff extends Card {
             }
     }
 
-    static create(id, name, description, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse){
+    static create(id, name, description, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx,){
         let attack;
         let defense;
         let health;
@@ -163,7 +175,7 @@ export default class Buff extends Card {
 
         }
 
-        const buff = new Buff(id, name, description, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, attack, defense, speed, health, durability, cooldown);
+        const buff = new Buff(id, name, description, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, attack, defense, speed, health, durability, cooldown);
 
         return buff;
 

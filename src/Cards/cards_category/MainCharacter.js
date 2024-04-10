@@ -1,8 +1,8 @@
-import { BorderId, CardActions, CardId, IconsPos } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 export default class MainCharacter extends Card{
-    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown){
-            super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
+    constructor(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, durability, cooldown){
+            super(id,name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
     
             // Card attributes     		   	
             this.durability = durability;
@@ -90,7 +90,7 @@ export default class MainCharacter extends Card{
             let xPos = this.xPos
             let yPos = this.yPos
                 ctx.font = "25px LongaIberica-DEMO";
-    
+            let cardVFX
                 //CARD IMAGE
                 let size = this.size
                 if (this.state === CardId.SCALED ) {
@@ -98,6 +98,18 @@ export default class MainCharacter extends Card{
                     yPos = 300
                     size = CardId.BIG_SIZE
                     
+                }else if(this.state === CardId.SELECTED){
+                    cardVFX = this.imageVFX[VFXId.SELECTED][size]
+                    ctx.drawImage(
+                        cardVFX,                 //Img File
+                        IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                        )
+                }else if(this.state === CardId.HOVER){
+                    cardVFX = this.imageVFX[VFXId.HOVER][size]
+                    ctx.drawImage(
+                        cardVFX,                 //Img File
+                        IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
+                        )
                 }
                 ctx.drawImage(
                     this.image[size],                 //Img File
@@ -134,12 +146,12 @@ export default class MainCharacter extends Card{
         
         }
 
-        static create(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effects) {
+        static create(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects) {
             
             let durability = effects.durability;
             let cooldown = effects.cooldown;
     
-            const mainCharacter = new MainCharacter(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, durability, cooldown);
+            const mainCharacter = new MainCharacter(id, name, description, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, durability, cooldown);
     
             return mainCharacter;
     

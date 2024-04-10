@@ -212,9 +212,9 @@ export default class Minion extends Card {
                 //WEAPON RARITY
                 let equipRarityImg
                     if (this.weapon != undefined) {
-                        equipRarityImg = this.weaponRarityImage[this.weapon.rarity]
+                        equipRarityImg = this.weaponRarityImage[size][this.weapon.rarity]
                     } else {
-                        equipRarityImg = this.weaponRarityImage[RarityId.NONE]
+                        equipRarityImg = this.weaponRarityImage[size][RarityId.NONE]
                     }
                 ctx.drawImage(
                     equipRarityImg,
@@ -222,9 +222,9 @@ export default class Minion extends Card {
 
                 //WEAPON RARITY
                     if (this.armor != undefined) {
-                        equipRarityImg = this.armorRarityImage[this.armor.rarity]
+                        equipRarityImg = this.armorRarityImage[size][this.armor.rarity]
                     } else {
-                        equipRarityImg = this.armorRarityImage[RarityId.NONE]
+                        equipRarityImg = this.armorRarityImage[size][RarityId.NONE]
                     }
                 ctx.drawImage(
                     equipRarityImg,

@@ -1,3 +1,4 @@
+import { ImageTypes } from "./constants.js";
 import { Images } from "./imageNames.js";
 
 export default class Asset {

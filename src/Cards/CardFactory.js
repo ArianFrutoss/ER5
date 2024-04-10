@@ -37,9 +37,19 @@ export default class CardFactory {
             const imageBorders = [this.images[ImageTypes.CARD_BORDER][CardId.BIG_SIZE], this.images[ImageTypes.CARD_BORDER][CardId.SMALL_SIZE]]
             const imageReverse = this.images[ImageTypes.CARD_BORDER][BorderId.REVERSE]
             const vfx = [[this.images[ImageTypes.CARD_BORDER][BorderId.SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_SELECTED]], [this.images[ImageTypes.CARD_BORDER][BorderId.HOVER], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_HOVER]]]
-            const weaponRarityImage = this.images[ImageTypes.EQUIP_RARITY]
+            
+            const images = this.images[ImageTypes.EQUIP_RARITY]
+            let normalSize = []
+            let smallSize = []
+            for (let i = 0; i < 5; i++) {
+                normalSize.push(images[i]);
+                smallSize.push(images[i+5])
+                
+            }
+            const weaponRarityImage = [normalSize, smallSize]
+
             // console.log(weaponRarityImage);
-            const armorRarityImage = this.images[ImageTypes.EQUIP_RARITY]
+            const armorRarityImage = [normalSize, smallSize]
             let imageCategory 
             let imageAttributes
             // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS

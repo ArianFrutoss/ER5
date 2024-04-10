@@ -11,8 +11,24 @@
     <canvas id="gameScreen" width="1920" height="1080">
         Your browser does not support the HTML5 canvas tag
     </canvas>
-    
-    <button id="btnPlay" onclick="startPlaying()" >Start Game</button>
+
+    <section id="login">
+        <h2>Log in</h2>
+        <input id="email" type="email" name="email" value="" placeholder="Email">
+        <input id="password" type="password" name="password" value="" placeholder="Password">
+        <button id = "enterLogin" onclick="login()">Log in</button>
+        <button id = "goToRegister" onclick="goToRegister()">If you don't have acount go to register</button>
+    </section>
+
+    <section hidden id="register">
+        <h2>register</h2>
+        <input id="email_register" type="email" name="email" value="" placeholder="Email">
+        <input id="user_register" type="user" name="user" value="" placeholder="User">
+        <input id="password_register" type="password" name="password" value="" placeholder="Password">
+        <button id = "enterRegister" onclick="register()">register</button>
+    </section>
+
+    <button hidden id="btnPlay" onclick="startPlaying()" >Start Game</button>
 </body>
 <script type="module" src="./src/gameIndex.js"></script>
 <script src="./src/startPlaying.js"></script>

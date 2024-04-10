@@ -112,7 +112,7 @@ export default class MainCharacter extends Card{
 
                     // NAME
                         ctx.font = "25px LongaIberica-DEMO";
-                        ctx.fillText(this.name[language],IconsPos.PLAYER_NAME_X[currentTurn], IconsPos.PLAYER_NAME_Y[currentTurn]);
+                        // ctx.fillText(this.name[language],IconsPos.PLAYER_NAME_X[currentTurn], IconsPos.PLAYER_NAME_Y[currentTurn]);
 
                         if (size === BorderId.NORMAL_SIZE) {
                             // ctx.font = "25px LongaIberica-DEMO";

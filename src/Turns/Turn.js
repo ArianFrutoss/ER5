@@ -244,8 +244,16 @@ export default class Turn {
     end(messagesContainer){
         const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messagesContainer)
         if (isCardDiscarded) {
-            this.blockCardStatesFromHandDeck()
+
+            this.blockCardStatesFromHandDeck();
             this.enemyActiveMinionDeck.restoreDeckMinionsHp();
+            this.buttonContainer.deselect();
+            // this.gridArray.deselect();
+            // this.handDeck.deselect();
+            // this.activeMinionDeck.deselect();
+            // this.enemyActiveMinionDeck.deselect();
+            // this.preparingEventDeck.deselect();
+
             // cambio de turno
             this.active = false;
             return true

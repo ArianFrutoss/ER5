@@ -17,12 +17,16 @@ function login(){
                 console.log(res[0]);
 
                 if (res[0] != undefined){
-
+                    localStorage.setItem("username", res[0].username);
+                    localStorage.setItem("email", res[0].email);
                     let gameScreen = document.getElementById("login");
                     gameScreen.style.display = "none";
 
                     let btnPlay = document.getElementById("btnPlay");
                     btnPlay.style.display = "block";
+
+                    let logout = document.getElementById("Logout");
+                    logout.style.display = "block";
 
                     let goToRegister = document.getElementById("goToRegister");
                     goToRegister.style.display = "none";
@@ -102,4 +106,9 @@ function startPlaying(){
 
     let register = document.getElementById("register");
     register.style.display = "none";
+}
+function logout() {
+    localStorage.setItem("username", "");
+    localStorage.setItem("email", "");
+    window.location.href = 'http://127.0.0.1:5501/'
 }

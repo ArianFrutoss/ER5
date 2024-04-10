@@ -6,6 +6,34 @@ import Game from "./Game.js";
 import { GameState } from "./constants.js";
 
 let game
+if (localStorage.getItem("username") != "") {
+    let gameScreen = document.getElementById("login");
+    gameScreen.style.display = "none";
+
+    let btnPlay = document.getElementById("btnPlay");
+    btnPlay.style.display = "block";
+    
+    let logout = document.getElementById("Logout");
+    logout.style.display = "block";
+
+    let goToRegister = document.getElementById("goToRegister");
+    goToRegister.style.display = "none";
+
+    let register = document.getElementById("register");
+    register.style.display = "none";
+} else {
+    let gameScreen = document.getElementById("login");
+    gameScreen.style.display = "block";
+
+    let btnPlay = document.getElementById("btnPlay");
+    btnPlay.style.display = "none";
+
+    let goToRegister = document.getElementById("goToRegister");
+    goToRegister.style.display = "block";
+
+    let register = document.getElementById("register");
+    register.style.display = "none";
+}
 window.onload = init;
 function init(){
     fetch('http://localhost:3000/test')

@@ -152,4 +152,16 @@ export default class Grid{
 
         return result
     }
+
+    deselect(){
+
+        for (let i = 0; i < this.slots.length; i++){
+
+            for (let j = 0; j < this.slots[0].length; j++){
+            
+                const slot = this.slots[i][j];
+                slot.deselect();
+            }
+        }
+    }
 }

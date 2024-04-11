@@ -52,9 +52,9 @@ export default class TurnContainer {
 
         let turnCounter = 0
         const turn1 = new Turn(this.gridArray, hero1, player1HandDeck, player2HandDeck, player1MinionDeck, graveYardDeck, eventDeck, player1PreparingEventDeck, player2PreparingEventDeck, player1ActiveMinionDeck, player2ActiveMinionDeck, buttonContainer, eventContainer, TurnId.PLAYER_1);
-        turn1.createPhases(mouse, this.gridArray, this.deckContainer.decks, turnCounter++);
+        turn1.createPhases(mouse, this.gridArray.grids, this.deckContainer.decks, turnCounter++);
         const turn2 = new Turn(this.gridArray, hero2, player2HandDeck, player1HandDeck, player2MinionDeck, graveYardDeck, eventDeck, player2PreparingEventDeck, player1PreparingEventDeck, player2ActiveMinionDeck, player1ActiveMinionDeck, buttonContainer, eventContainer, TurnId.PLAYER_2);
-        turn2.createPhases(mouse, this.gridArray, this.deckContainer.decks, turnCounter);
+        turn2.createPhases(mouse, this.gridArray.grids, this.deckContainer.decks, turnCounter);
 
         this.turnContainer = [turn1, turn2]; //player 1 pos 0, player 2 pos 1;
     }  

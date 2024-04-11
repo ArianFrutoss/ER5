@@ -28,17 +28,14 @@ export default class ButtonContainer{
         }        
     }
 
-    // updateButtons(mouse){
+    deselect(){
 
-    //     for(let i = 0; i < this.container.length; i++){
+        for (let i = 0; i < this.container.length; i++){
 
-    //         const button = this.container[i];
-
-    //         button.update(mouse);
-            
-            
-    //     }
-    // }
+            const button = this.container[i];
+            button.deselect();
+        }
+    }
 
     updateButtons(mouse) {
         let selectedCount = 0;

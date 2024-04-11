@@ -195,4 +195,10 @@ export default class Slot{
 
         return distanceXSlots + distanceYSlots;
     }
+
+    deselect(){
+
+        this.state = SlotsState.NOT_SELECTED;
+        this.isAviable = false;
+    }
 }

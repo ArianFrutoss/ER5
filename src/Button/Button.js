@@ -73,6 +73,9 @@ export default class Button {
 
     }
 
+    deselect(){
 
+        this.state = ButtonState.NOT_SELECTED;
+    }
     
 }

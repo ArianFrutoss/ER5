@@ -21,6 +21,9 @@ if (localStorage.getItem("username") != "") {
 
     let register = document.getElementById("register");
     register.style.display = "none";
+
+    addUserData();
+
 } else {
     let gameScreen = document.getElementById("login");
     gameScreen.style.display = "block";
@@ -80,3 +83,25 @@ function gameLoop(timeStamp, canvas){
         globals.deltaTime = 0;
     }
 }
+
+function addUserData() {
+    
+    let newDiv = document.createElement("div");
+    let user   = document.createTextNode("user : " + localStorage.getItem("username"));
+    let email  = document.createTextNode("email : " + localStorage.getItem("email"));
+    let br     = document.createElement("br");
+    newDiv.appendChild(user);
+    newDiv.appendChild(br);
+    newDiv.appendChild(email);
+    
+
+    newDiv.style.marginLeft = "10px";
+    
+    // añade el elemento creado y su contenido al DOM
+    let currentDiv = document.getElementById("div1");
+    document.body.insertBefore(newDiv, currentDiv);
+
+
+}
+
+

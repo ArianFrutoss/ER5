@@ -62,6 +62,15 @@ export default class Board{
         return new Board(grids);
     }
 
+    deselect(){
+
+        for (let i = 0; i < this.grids.length; i++){
+
+            const grid = this.grids[i];
+            grid.deselect();
+        }
+    }
+
     render(images, ctx, canvas, deckContainer) {
 
         ctx.font = "30px LongaIberica-DEMO";

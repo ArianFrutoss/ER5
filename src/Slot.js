@@ -199,5 +199,6 @@ export default class Slot{
     deselect(){
 
         this.state = SlotsState.NOT_SELECTED;
+        this.isAviable = false;
     }
 }

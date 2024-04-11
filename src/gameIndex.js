@@ -37,7 +37,11 @@ if (localStorage.getItem("username") != "") {
     let register = document.getElementById("register");
     register.style.display = "none";
 }
-window.onload = init;
+
+let btnPlay = document.getElementById("btnPlay");
+
+btnPlay.addEventListener("click", init);
+
 function init(){
     fetch('http://localhost:3000/test')
     .then((response) => response.json())
@@ -96,12 +100,14 @@ function addUserData() {
     
 
     newDiv.style.marginLeft = "10px";
+    let btnPlay = document.getElementById("btnPlay");
+    btnPlay.addEventListener("click", ()=> {
+        newDiv.style.display = "none";
+    });
     
     // añade el elemento creado y su contenido al DOM
     let currentDiv = document.getElementById("div1");
     document.body.insertBefore(newDiv, currentDiv);
-
-
 }
 
 

@@ -13,12 +13,12 @@ function login(){
     })
     .then((res) => res.json())
     .then((res) => {
-        console.log(res[0]);
+        console.log(res);
 
-        if (res[0] != undefined){
+        if (res != undefined){
 
-            localStorage.setItem("username", res[0].username);
-            localStorage.setItem("email", res[0].email);
+            localStorage.setItem("username", res.username);
+            localStorage.setItem("email", res.email);
             
             let gameScreen = document.getElementById("login");
             gameScreen.style.display = "none";

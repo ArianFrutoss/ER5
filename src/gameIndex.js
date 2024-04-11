@@ -43,7 +43,7 @@ let btnPlay = document.getElementById("btnPlay");
 btnPlay.addEventListener("click", init);
 
 function init(){
-    fetch('http://localhost:3000/test')
+    fetch('https://er-5.vercel.app/test')
     .then((response) => response.json())
     .then((data) => {        
         

@@ -4,7 +4,7 @@ function login(){
         email: document.getElementById("email").value,
         password: document.getElementById("password").value
         };
-    fetch("http://localhost:3000/login", {
+    fetch("https://er-5.vercel.app/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -65,7 +65,7 @@ function register(){
         };
 
     if(user.password === user.password2){
-            fetch("http://localhost:3000/register", {
+            fetch("https://er-5.vercel.app/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -118,7 +118,7 @@ function startPlaying(){
 function logout() {
     localStorage.setItem("username", "");
     localStorage.setItem("email", "");
-    window.location.href = 'http://127.0.0.1:5501/'
+    window.location.href = 'https://er-5.vercel.app/'
 }
 
 function addUserData() {

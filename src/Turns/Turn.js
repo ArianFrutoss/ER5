@@ -147,7 +147,7 @@ export default class Turn {
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
                 }else if(isPreparationCancelled){
-
+                    this.deselect();
                     this.phaseState = PhaseStates.DEFAULT;
 
                 }
@@ -163,7 +163,7 @@ export default class Turn {
                      this.phaseState = PhaseStates.DEFAULT;
                      this.actionsCounter++;
                 }else if(isUseEventCancelled){
-
+                    this.deselect();
                     this.phaseState = PhaseStates.DEFAULT;
 
                 }
@@ -180,7 +180,7 @@ export default class Turn {
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
                 }else if(isMovementCancelled){
-
+                    this.deselect();
                     this.phaseState = PhaseStates.DEFAULT;
 
                 }
@@ -196,7 +196,7 @@ export default class Turn {
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
                 }else if(isAttackCancelled){
-
+                    this.deselect();
                     this.phaseState = PhaseStates.DEFAULT;
                     
                 }
@@ -208,7 +208,7 @@ export default class Turn {
                 const isDiscardCancelled = this.phasesArray[PhaseStates.DISCARD_CARD].isPhaseCancelled(this.buttonContainer);
 
                 if(isDiscardCancelled){
-
+                    this.deselect();
                     this.phaseState = PhaseStates.DEFAULT;
                     
                 }
@@ -268,6 +268,7 @@ export default class Turn {
         this.activeMinionDeck.deselect();
         this.enemyActiveMinionDeck.deselect();
         this.preparingEventDeck.deselect();
+        this.handDeck.deselect();
     }
 
     restoreCardStatesFromActiveDecks(){

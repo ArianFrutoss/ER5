@@ -11,7 +11,7 @@ export default class TimerContainer{
     create(){
 
         // Crear Timer
-        const timer = new Timer(6, 1, TimerId.TURN_TIMER);
+        const timer = new Timer(60, 1, TimerId.TURN_TIMER);
         this.timer.push(timer);
     }
 

@@ -1,3 +1,4 @@
+import { ImageTypes } from "./constants.js";
 import { Images } from "./imageNames.js";
 
 export default class Asset {
@@ -70,6 +71,7 @@ export default class Asset {
     loadCardIcons(){
 
         this.createImage(Images.cardIconsImages, "icons");
+        console.log(this.images[2]);
     }
 
     loadCardRarity(){

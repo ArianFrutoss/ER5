@@ -7,7 +7,7 @@ import Minion from "./cards_category/Minion.js";
 import Spell from "./cards_category/Spell.js";
 import Weapon from "./cards_category/Weapon.js";
 import TextContainer from "../TextContainer.js";
-import { BorderId, CardId, IconsId, ImageTypes, RarityId, TypeId } from "../constants.js";
+import { BorderId, CardId, IconsId, ImageTypes, RarityId, StatsId, TypeId } from "../constants.js";
 
 
 
@@ -37,9 +37,19 @@ export default class CardFactory {
             const imageBorders = [this.images[ImageTypes.CARD_BORDER][CardId.BIG_SIZE], this.images[ImageTypes.CARD_BORDER][CardId.SMALL_SIZE]]
             const imageReverse = this.images[ImageTypes.CARD_BORDER][BorderId.REVERSE]
             const vfx = [[this.images[ImageTypes.CARD_BORDER][BorderId.SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_SELECTED]], [this.images[ImageTypes.CARD_BORDER][BorderId.HOVER], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_HOVER]]]
-            const weaponRarityImage = this.images[ImageTypes.EQUIP_RARITY]
+            
+            const images = this.images[ImageTypes.EQUIP_RARITY]
+            let normalSize = []
+            let smallSize = []
+            for (let i = 0; i < 5; i++) {
+                normalSize.push(images[i]);
+                smallSize.push(images[i+5])
+                
+            }
+            const weaponRarityImage = [normalSize, smallSize]
+
             // console.log(weaponRarityImage);
-            const armorRarityImage = this.images[ImageTypes.EQUIP_RARITY]
+            const armorRarityImage = [normalSize, smallSize]
             let imageCategory 
             let imageAttributes
             // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS
@@ -186,8 +196,15 @@ export default class CardFactory {
  
 
     createWeapon(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
+        if (id ===4) {
+            
+            console.log(attributes);
+        }
         attributes = this.setAttributeValues(attributes)
-
+        if (id ===4) {
+            
+            console.log(attributes);
+        }
         const weapon = Weapon.create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
         
         return weapon;
@@ -204,30 +221,30 @@ export default class CardFactory {
                 
             }
             switch (attribute.attribute_id - 1) {
-                case IconsId.DEFENSE:
-
-                    attributesResult[IconsId.DEFENSE] = attribute.attribute_value
+                case StatsId.DEFENSE:
+                
+                    attributesResult[StatsId.DEFENSE] = attribute.attribute_value
                     break;
 
-                case IconsId.DAMAGE:
-                    attributesResult[IconsId.DAMAGE] = attribute.attribute_value
+                case StatsId.DAMAGE:
+                    attributesResult[StatsId.DAMAGE] = attribute.attribute_value
                     break;
 
-                case IconsId.LIFE:
-                    attributesResult[IconsId.LIFE] = attribute.attribute_value
+                case StatsId.LIFE:
+                    attributesResult[StatsId.LIFE] = attribute.attribute_value
                     break;
 
-                case IconsId.SPEED:
-                    attributesResult[IconsId.SPEED] = attribute.attribute_value
+                case StatsId.SPEED:
+                    attributesResult[StatsId.SPEED] = attribute.attribute_value
                     break;
-                case IconsId.RANGE:
-                    attributesResult[IconsId.RANGE] = attribute.attribute_value
+                case StatsId.RANGE:
+                    attributesResult[StatsId.RANGE] = attribute.attribute_value
                     break;
-                case IconsId.DURABILITY:
-                    attributesResult[IconsId.DURABILITY] = attribute.attribute_value
+                case StatsId.DURABILITY:
+                    attributesResult[StatsId.DURABILITY] = attribute.attribute_value
                     break;
-                case IconsId.COOLDOWN:
-                    attributesResult[IconsId.COOLDOWN] = attribute.attribute_value
+                case StatsId.COOLDOWN:
+                    attributesResult[StatsId.COOLDOWN] = attribute.attribute_value
                     break;
 
                 default:

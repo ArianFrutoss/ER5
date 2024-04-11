@@ -121,7 +121,7 @@ export const VFXId = {
     SELECTED: 0,
     HOVER: 1
 }
-export const IconsId = {
+export const StatsId = {
     DAMAGE:     0,
     DEFENSE:    1,
     LIFE:       2,
@@ -129,14 +129,22 @@ export const IconsId = {
     RANGE:      4,
     DURABILITY: 5,
     COOLDOWN:   6,
-    WEAPON:         7,
-    ARMOR:          8,
-    MINI_LIFE:      9,
-    MINI_DEFENSE:   10,
-    MINI_DAMAGE:   11,
-    MINI_SPEED:    12,
-    MINI_WEAPON:   13,
-    MINI_ARMOR:    14,
+}
+export const IconsId = {
+    LIFE:       0,
+    DEFENSE:    1,
+    DAMAGE:     2,
+    SPEED:      3,
+    DURABILITY: 4,
+    COOLDOWN:   5,
+    WEAPON:         6,
+    ARMOR:          7,
+    MINI_LIFE:      8,
+    MINI_DEFENSE:   9,
+    MINI_DAMAGE:   10,
+    MINI_SPEED:    11,
+    MINI_WEAPON:   12,
+    MINI_ARMOR:    13,
 }
 export const TypeId = {
     MINION: 0,
@@ -220,10 +228,10 @@ export const IconsPos = {
     FOURTH_ICON_Y:[345,90],
     FOURTH_ICON_NUMBER_X:[25,30],
     FOURTH_ICON_NUMBER_Y:[360,110],
-    WEAPON_X:[10,10],
-    WEAPON_Y:[15,0],
-    ARMOR_X:[191,90],
-    ARMOR_Y:[15,0],
+    WEAPON_X:[10,22],
+    WEAPON_Y:[15,10],
+    ARMOR_X:[191,91],
+    ARMOR_Y:[15,10],
     PLAYER_X:[10,170],
     PLAYER_Y:[700,215],
     PLAYER_NAME_X: [200,130],

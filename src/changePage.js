@@ -34,6 +34,8 @@ function login(){
 
             let register = document.getElementById("register");
             register.style.display = "none";
+
+            addUserData();
         }
     })
 }
@@ -117,4 +119,22 @@ function logout() {
     localStorage.setItem("username", "");
     localStorage.setItem("email", "");
     window.location.href = 'http://127.0.0.1:5501/'
+}
+
+function addUserData() {
+    // crea un nuevo div
+    // y añade contenido
+    let newDiv = document.createElement("div");
+    let user   = document.createTextNode("user: " + localStorage.getItem("username"));
+    let email  = document.createTextNode("email: " + localStorage.getItem("email"));
+    let br     = document.createElement("br");
+    newDiv.appendChild(user); //añade texto al div creado.
+    newDiv.appendChild(br);
+    newDiv.appendChild(email);
+
+    newDiv.style.marginLeft = "10px";
+    
+    // añade el elemento creado y su contenido al DOM
+    let currentDiv = document.getElementById("div1");
+    document.body.insertBefore(newDiv, currentDiv);
 }

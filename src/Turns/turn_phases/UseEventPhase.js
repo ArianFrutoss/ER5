@@ -1,4 +1,4 @@
-import { CardActions, CardId, SlotsState, TypeId, MessageState, MessageType, HelpMessagesPos , PhaseStates} from "../../constants.js";
+import { CardActions, CardId, SlotsState, TypeId, MessageState, MessageType, HelpMessagesPos , PhaseStates, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3 } from "../../constants.js";
 import Phase from "./Phase.js";
 import Messages from "../../Messages.js";
 
@@ -31,7 +31,7 @@ export default class UseEventPhase extends Phase{
             
             if (messages[MessageType.HELP_MESSAGE] === undefined){
             
-                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "There are no cards in the event grid, Select other action", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageUseEventPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
                 messages[MessageType.HELP_MESSAGE] = message;console.log(messages[MessageType.HELP_MESSAGE].alpha);
             }
         }
@@ -40,14 +40,14 @@ export default class UseEventPhase extends Phase{
 
             if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0] === false){
             
-                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any prepared event card to use", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageUseEventPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
                 messages[MessageType.HELP_MESSAGE] = message;
                 messages[MessageType.HELP_MESSAGE].drawMessage = true;
             }
             
             if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0]){
     
-                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any minion to use the event card", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageUseEventPhase3, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
                 messages[MessageType.HELP_MESSAGE] = message;
                 messages[MessageType.HELP_MESSAGE].drawMessage = false;
             }

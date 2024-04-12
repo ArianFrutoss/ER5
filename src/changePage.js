@@ -1,24 +1,30 @@
-function login(){
+import { BaseURL, BaseURLValue } from "./constants.js";
 
+document.getElementById("enterLogin").addEventListener("click", login)
+document.getElementById("goToRegister").addEventListener("click", goToRegister)
+document.getElementById("enterRegister").addEventListener("click", register)
+document.getElementById("btnPlay").addEventListener("click", startPlaying)
+document.getElementById("Logout").addEventListener("click", logout)
+function login(){
     let user = {
         email: document.getElementById("email").value,
         password: document.getElementById("password").value
         };
-    fetch("http://localhost:3000/login", {
+    fetch(`${BaseURL[BaseURLValue]}/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(user)
+        
     })
     .then((res) => res.json())
     .then((res) => {
-        console.log(res);
 
         if (res != undefined){
-
             localStorage.setItem("username", res.username);
             localStorage.setItem("email", res.email);
+            localStorage.setItem("opponents", JSON.stringify(res.opponents))
             
             let gameScreen = document.getElementById("login");
             gameScreen.style.display = "none";
@@ -36,6 +42,20 @@ function login(){
             register.style.display = "none";
 
             addUserData();
+
+            let caja = document.getElementById("caja");
+            caja.style.display = "block";
+            let dropDown = document.getElementById("player_list");
+            dropDown.style.display = "block";
+            
+            for (let i = 0; i < res.opponents.length; i++) {
+                const opponent = res.opponents[i].username;
+                const option = document.createElement("option")
+                option.text = opponent
+                dropDown.add(option)
+                
+            }
+
         }
     })
 }
@@ -65,7 +85,7 @@ function register(){
         };
 
     if(user.password === user.password2){
-            fetch("http://localhost:3000/register", {
+            fetch(`${BaseURL[BaseURLValue]}/users`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -113,13 +133,15 @@ function startPlaying(){
 
     let register = document.getElementById("register");
     register.style.display = "none";
+
+    let dropDown = document.getElementById("player_list");
+    dropDown.style.display = "none";
 }
 
 function logout() {
-    localStorage.setItem("username", "");
-    localStorage.setItem("email", "");
-    window.location.href = 'http://127.0.0.1:5501/'
-}
+    localStorage.clear()
+    location.reload()
+}   
 
 function addUserData() {
     // crea un nuevo div
@@ -133,6 +155,13 @@ function addUserData() {
     newDiv.appendChild(email);
 
     newDiv.style.marginLeft = "10px";
+
+    let btnPlay = document.getElementById("btnPlay");
+    let caja    = document.getElementById("caja");
+    btnPlay.addEventListener("click", ()=> {
+        newDiv.style.display = "none";
+        caja.style.display   = "none";
+    });
     
     // añade el elemento creado y su contenido al DOM
     let currentDiv = document.getElementById("div1");

@@ -261,3 +261,12 @@ export const HelpMessagesPos = {
 export const TimerId = {
     TURN_TIMER:     0,
 }
+
+export const BaseURL= [
+    "http://localhost:3000",
+    "https://er5-server.onrender.com" 
+]
+
+// 0 for localhost base-url
+// 1 for render base-url
+export const BaseURLValue = 0

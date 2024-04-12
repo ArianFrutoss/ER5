@@ -16,8 +16,8 @@
         <h2>Log in</h2>
         <input id="email" type="email" name="email" value="" placeholder="Email">
         <input id="password" type="password" name="password" value="" placeholder="Password">
-        <button id = "enterLogin" onclick="login()">Log in</button>
-        <button id = "goToRegister" onclick="goToRegister()">If you don't have acount go to register</button>
+        <button id = "enterLogin" >Log in</button>
+        <button id = "goToRegister" ">If you don't have acount go to register</button>
     </section>
 
     <section hidden id="register">
@@ -26,16 +26,27 @@
         <input id="user_register" type="user" name="user" value="" placeholder="User">
         <input id="password_register" type="password" name="password" value="" placeholder="Password">
         <input id = "password_confirm" type="password" name="password2" placeholder="confirm password">
-        <button id = "enterRegister" onclick="register()">register</button>
+        <button id = "enterRegister" >register</button>
     </section>
 
    
 
-    <button hidden id="btnPlay" onclick="startPlaying()" >Start Game</button>
-    <button hidden id="Logout" onclick="logout()" >Log Out</button>
+    <button hidden id="btnPlay" >Start Game</button>
+    <button hidden id="Logout"  >Log Out</button>
+    <select hidden id="player_list"></select>
+    
+    
+    <div id="caja">
+        <label for="languages">LANGUAGES: </label>
+        <select name="languages" id="languages">
+            <option value="0">ENGLISH</option>
+            <option value="1">EUSKERA</option>
+        </select>
+    </div>
+ 
     
     <div id="div1"></div>
 
 <script type="module" src="./src/gameIndex.js"></script>
-<script src="./src/changePage.js"></script>
+<script type="module" src="./src/changePage.js"></script>
 </html>

@@ -6,8 +6,8 @@ export default class DeckContainer {
         this.decks = []
     }
 
-    createDecks(data, images) {
-            const initialDeck = this.createInitDeck(data, images)
+    createDecks(data, images, language) {
+            const initialDeck = this.createInitDeck(data, images, language)
             for (let i = 0; i < Object.keys(DecksId).length - 1; i++) {
     
                 const deck = new Deck(i)
@@ -17,8 +17,8 @@ export default class DeckContainer {
             this.assignCardsToDecks(initialDeck.cards)
     }
  
-    createInitDeck(data, images) {
-        return Deck.createInitDeck(data, images)
+    createInitDeck(data, images, language) {
+        return Deck.createInitDeck(data, images, language)
 
     }
 

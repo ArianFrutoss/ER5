@@ -11,7 +11,7 @@ export default class TextContainer{
 
     }
 
-    static create(cardData){
+    static create(cardData, language){
 
         const description = new Text(cardData.description, LanguageId.ENG, IconsPos.DESCRIPTION);
         const deskripzioa = new Text(cardData.deskripzioa , LanguageId.EUS, IconsPos.DESCRIPTION);
@@ -19,7 +19,7 @@ export default class TextContainer{
         const izena = new Text(cardData.izena, LanguageId.EUS, IconsPos.NAME);
         const container = [description, deskripzioa, name, izena];
 
-        return new TextContainer(container, LanguageId.ENG);
+        return new TextContainer(container, language);
     }
 
     render(ctx, xPos, yPos){

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./media/css/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>ER5</title>
     
 </head>
@@ -13,11 +14,21 @@
     </canvas>
 
     <section hidden id="login">
-        <h2>Log in</h2>
-        <input id="email" type="email" name="email" value="" placeholder="Email">
-        <input id="password" type="password" name="password" value="" placeholder="Password">
-        <button id = "enterLogin" onclick="login()">Log in</button>
-        <button id = "goToRegister" onclick="goToRegister()">If you don't have acount go to register</button>
+        <h2>Login</h2>
+        <div class="input-box">
+            <input id="email" type="email" name="email" value="" placeholder="Email">
+            <i class='bx bx-envelope' ></i>
+        </div>
+        <div class="input-box">
+            <input id="password" type="password" name="password" value="" placeholder="Password">
+            <i class='bx bxs-lock-alt' ></i>
+        </div>
+
+        <button id = "enterLogin" class="btn" onclick="login()">Login</button>
+        <!-- <button id = "goToRegister" class="btn" onclick="goToRegister()">If you don't have acount go to register</button> -->
+        <div class="register-link">
+            <p>don't have an account?</p><a onclick="goToRegister()" id="goToRegister">register</a>
+        </div>
     </section>
 
     <section hidden id="register">
@@ -29,7 +40,6 @@
         <button id = "enterRegister" onclick="register()">register</button>
     </section>
 
-   
 
     <button hidden id="btnPlay" onclick="startPlaying()" >Start Game</button>
     <button hidden id="Logout" onclick="logout()" >Log Out</button>

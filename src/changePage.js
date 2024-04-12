@@ -36,6 +36,9 @@ function login(){
             register.style.display = "none";
 
             addUserData();
+
+            let caja = document.getElementById("caja");
+            caja.style.display = "block";
         }
     })
 }
@@ -113,6 +116,7 @@ function startPlaying(){
 
     let register = document.getElementById("register");
     register.style.display = "none";
+    
 }
 
 function logout() {
@@ -135,8 +139,10 @@ function addUserData() {
     newDiv.style.marginLeft = "10px";
 
     let btnPlay = document.getElementById("btnPlay");
+    let caja    = document.getElementById("caja");
     btnPlay.addEventListener("click", ()=> {
         newDiv.style.display = "none";
+        caja.style.display   = "none";
     });
     
     // añade el elemento creado y su contenido al DOM

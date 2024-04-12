@@ -24,6 +24,11 @@ if (localStorage.getItem("username") != "") {
 
     addUserData();
 
+    let caja = document.getElementById("caja");
+    caja.style.display = "block";
+
+ 
+
 } else {
     let gameScreen = document.getElementById("login");
     gameScreen.style.display = "block";
@@ -36,6 +41,9 @@ if (localStorage.getItem("username") != "") {
 
     let register = document.getElementById("register");
     register.style.display = "none";
+
+    let caja = document.getElementById("caja");
+    caja.style.display = "none";
 }
 
 let btnPlay = document.getElementById("btnPlay");

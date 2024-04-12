@@ -144,26 +144,18 @@ function logout() {
 }   
 
 function addUserData() {
-    // crea un nuevo div
-    // y añade contenido
-    let newDiv = document.createElement("div");
-    let user   = document.createTextNode("user: " + localStorage.getItem("username"));
-    let email  = document.createTextNode("email: " + localStorage.getItem("email"));
-    let br     = document.createElement("br");
-    newDiv.appendChild(user); //añade texto al div creado.
-    newDiv.appendChild(br);
-    newDiv.appendChild(email);
 
-    newDiv.style.marginLeft = "10px";
+    let userData   = document.getElementById("user-data");
+    let user   = document.createTextNode("user : " + localStorage.getItem("username"));
+    let email  = document.createTextNode("email : " + localStorage.getItem("email"));
+    let br     = document.createElement("br");
+    userData.appendChild(user);
+    userData.appendChild(br);
+    userData.appendChild(email);
+    let caja = document.getElementById("caja");
 
     let btnPlay = document.getElementById("btnPlay");
-    let caja    = document.getElementById("caja");
     btnPlay.addEventListener("click", ()=> {
-        newDiv.style.display = "none";
         caja.style.display   = "none";
     });
-    
-    // añade el elemento creado y su contenido al DOM
-    let currentDiv = document.getElementById("div1");
-    document.body.insertBefore(newDiv, currentDiv);
 }

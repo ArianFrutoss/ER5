@@ -26,29 +26,41 @@ export default class UseEventPhase extends Phase{
         const isAnyMinionHovered = this.activeMinions.isAnyCard(this.activeMinions, CardId.HOVER)
         
         const messages = messagesContainer.messages;
-
-        if (messages[1] === undefined && isAnyCardSelected[0] === false){
-
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any prepared event card to use", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = true;
-        }
         
-        if (messages[1] === undefined && isAnyCardSelected[0]){
-
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any minion to use the event card", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = false;
-        }
-        
-        if (messages[1].drawMessage && messages.length === 1 && isAnyCardSelected[0]){
+        if (isAnyCardSelected.length === 0){
             
-            messages[1].timeInOn = 0;
+            if (messages[MessageType.HELP_MESSAGE] === undefined){
+            
+                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "There are no cards in the event grid, Select other action", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+                messages[MessageType.HELP_MESSAGE] = message;console.log(messages[MessageType.HELP_MESSAGE].alpha);
+            }
         }
 
-        if (messages[1].drawMessage === false && messages.length === 1 && isAnyCardSelected[0] === false){
+        else{
+
+            if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0] === false){
             
-            messages[1].timeInOn = 0;
+                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any prepared event card to use", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+                messages[MessageType.HELP_MESSAGE] = message;
+                messages[MessageType.HELP_MESSAGE].drawMessage = true;
+            }
+            
+            if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0]){
+    
+                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any minion to use the event card", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+                messages[MessageType.HELP_MESSAGE] = message;
+                messages[MessageType.HELP_MESSAGE].drawMessage = false;
+            }
+            
+            if (messages[MessageType.HELP_MESSAGE].drawMessage && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0]){
+                
+                messages[MessageType.HELP_MESSAGE].timeInOn = 0;
+            }
+    
+            if (messages[MessageType.HELP_MESSAGE].drawMessage === false && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0] === false){
+                
+                messages[MessageType.HELP_MESSAGE].timeInOn = 0;
+            }
         }
 
         if (isAnyCardSelected[0] && isAnyMinionHovered[0]) {
@@ -60,7 +72,7 @@ export default class UseEventPhase extends Phase{
 
             if (isAnyMinionHovered[0] && !mouse.leftClick   && mouse.previousStateLeft) {
 
-                messages[1].timeInOn = 0;
+                messages[MessageType.HELP_MESSAGE].timeInOn = 0;
 
                 switch (eventCard.category) {
                     case TypeId.WEAPON:  
@@ -90,12 +102,13 @@ export default class UseEventPhase extends Phase{
         }
     }
 
-    isEventCancelled(buttonContainer){
+    isEventCancelled(buttonContainer, messagesContainer){
         
         const buttonState = buttonContainer.isAnyButtonSelected();
 
         if(buttonState === PhaseStates.DEFAULT){
 
+            messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             return true;
         }else {
 

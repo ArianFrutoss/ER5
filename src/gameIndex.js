@@ -3,55 +3,65 @@ import {initHTMLelements, initVars, testArray } from "./initialize.js";
 import logJSON from "./fakeJSONRead.js";
 import Asset from "./Asset.js";
 import Game from "./Game.js";
-import { GameState } from "./constants.js";
-
+import { BaseURL, BaseURLValue } from "./constants.js";
 let game
-if (localStorage.getItem("username") != "") {
-    let gameScreen = document.getElementById("login");
-    gameScreen.style.display = "none";
+let gameScreen = document.getElementById("login");
+let btnPlay = document.getElementById("btnPlay");
+let logout = document.getElementById("Logout");
+let goToRegister = document.getElementById("goToRegister");
+let register = document.getElementById("register");
+let caja = document.getElementById("caja");
+let dropDown = document.getElementById("player_list");
+if (localStorage.getItem("username") != null) {
 
-    let btnPlay = document.getElementById("btnPlay");
-    btnPlay.style.display = "block";
+    gameScreen.style.display = "none";
     
-    let logout = document.getElementById("Logout");
     logout.style.display = "block";
 
-    let goToRegister = document.getElementById("goToRegister");
     goToRegister.style.display = "none";
 
-    let register = document.getElementById("register");
     register.style.display = "none";
 
     addUserData();
 
-    let caja = document.getElementById("caja");
     caja.style.display = "block";
 
  
 
+    dropDown.style.display = "block";
+    
+    let opponents = JSON.parse(localStorage.getItem("opponents"))
+
+    for (let i = 0; i < opponents.length; i++) {
+        const opponent = opponents[i].username;
+        const option = document.createElement("option")
+        option.text = opponent
+        dropDown.add(option)
+        
+    }
 } else {
-    let gameScreen = document.getElementById("login");
     gameScreen.style.display = "block";
 
-    let btnPlay = document.getElementById("btnPlay");
     btnPlay.style.display = "none";
 
-    let goToRegister = document.getElementById("goToRegister");
     goToRegister.style.display = "block";
 
-    let register = document.getElementById("register");
     register.style.display = "none";
 
-    let caja = document.getElementById("caja");
     caja.style.display = "none";
 }
-
-let btnPlay = document.getElementById("btnPlay");
+dropDown.addEventListener("change", showBtnIfOpponentSelected);
 
 btnPlay.addEventListener("click", init);
 
+function showBtnIfOpponentSelected() {
+        if (dropDown.value != "") {
+        btnPlay.style.display = "block"
+    }
+}
+
 function init(){
-    fetch('http://localhost:3000/test')
+    fetch(`${BaseURL[BaseURLValue]}/test`)
     .then((response) => response.json())
     .then((data) => {        
         

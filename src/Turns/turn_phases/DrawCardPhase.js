@@ -37,12 +37,13 @@ export default class DrawCardPhase extends Phase{
         this.eventDeck.shuffle()
     }
 
-    isPhaseCancelled(buttonContainer){
+    isPhaseCancelled(buttonContainer, messagesContainer){
         
         const buttonState = buttonContainer.isAnyButtonSelected();
 
         if(buttonState === PhaseStates.DEFAULT){
 
+            messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             return true;
         }else {
 

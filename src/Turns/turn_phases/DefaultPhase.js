@@ -16,10 +16,10 @@ export default class DefaultPhase extends Phase {
 
     execute(messagesContainer){
         
-        if (messagesContainer.messages[1] === undefined){
+        if (messagesContainer.messages[MessageType.HELP_MESSAGE] === undefined){
             
             const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any button to enter in the phase", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messagesContainer.messages[1] = message;
+            messagesContainer.messages[MessageType.HELP_MESSAGE] = message;
         }
         
         let returnState       = this.buttonContainer.isAnyButtonSelected();
@@ -28,23 +28,29 @@ export default class DefaultPhase extends Phase {
         
         if(returnState !== undefined){
             
-            if (returnState === PhaseStates.DISCARD_CARD){
-
-                messagesContainer.messages[1].timeInOn = 0;
-            }
-
             // console.log(returnState);
             return returnState;
 
         }else{
-
-            messagesContainer.messages[1].timeInOn = 0;
             return this.state;
 
         }
     }
 
+    isPhaseCancelled(buttonContainer, messagesContainer){
+        
+        const buttonState = buttonContainer.isAnyButtonSelected();
 
+        if(buttonState != PhaseStates.DEFAULT){
+
+            messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
+            return buttonState;
+        }else {
+
+            return false;
+        }
+
+    }
 }
 
 

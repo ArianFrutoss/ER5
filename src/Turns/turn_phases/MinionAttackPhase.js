@@ -34,34 +34,34 @@ export default class MinionAttackPhase extends Phase {
         
         const messages = messagesContainer.messages;
 
-        if (messages[1] === undefined && isAnyCardSelected[0] === false){
+        if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0] === false){
 
             const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any attacker minion", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = true;
+            messages[MessageType.HELP_MESSAGE] = message;
+            messages[MessageType.HELP_MESSAGE].drawMessage = true;
         }
         
-        if (messages[1] === undefined && isAnyCardSelected[0]){
+        if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0]){
 
             const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any enemy minion to attack", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = false;
+            messages[MessageType.HELP_MESSAGE] = message;
+            messages[MessageType.HELP_MESSAGE].drawMessage = false;
         }
         
-        if (messages[1].drawMessage && messages[1] != undefined && isAnyCardSelected[0]){
+        if (messages[MessageType.HELP_MESSAGE].drawMessage && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0]){
             
-            messages[1].timeInOn = 0;
+            messages[MessageType.HELP_MESSAGE].timeInOn = 0;
         }
 
-        if (messages[1].drawMessage === false && messages[1] != undefined && isAnyCardSelected[0] === false){
+        if (messages[MessageType.HELP_MESSAGE].drawMessage === false && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0] === false){
             
-            messages[1].timeInOn = 0;
+            messages[MessageType.HELP_MESSAGE].timeInOn = 0;
         }
         
         // Comprobar si hay enemigo seleccionado
         if (isEnemyCardHovered[0] && !this.mouse.leftClick && this.mouse.previousStateLeft) {
             
-            messages[1].timeInOn = 0;
+            messages[MessageType.HELP_MESSAGE].timeInOn = 0;
 
             // Escoger las posiciones de las cartas en los decks
             const attackerPosition = isAnyCardSelected[1];
@@ -143,12 +143,13 @@ export default class MinionAttackPhase extends Phase {
         return aux;
     }
 
-    isPhaseCancelled(buttonContainer){
+    isPhaseCancelled(buttonContainer, messagesContainer){
         
         const buttonState = buttonContainer.isAnyButtonSelected();
 
         if(buttonState === PhaseStates.DEFAULT){
 
+            messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             return true;
         }else {
 

@@ -1,5 +1,5 @@
 import Phase from "./Phase.js";
-import { CardId, SlotsState, MessageState, MessageType, HelpMessagesPos, PhaseStates } from "../../constants.js";
+import { CardId, SlotsState, MessageState, MessageType, HelpMessagesPos, PhaseStates, messageMovimentPhase1, messageMovimentPhase2 } from "../../constants.js";
 import Messages from "../../Messages.js";
 
 export default class MinionMovementPhase extends Phase {
@@ -31,14 +31,14 @@ export default class MinionMovementPhase extends Phase {
 
         if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0] === false){
 
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any minion to move", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageMovimentPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
             messages[MessageType.HELP_MESSAGE] = message;
             messages[MessageType.HELP_MESSAGE].drawMessage = true;
         }
         
         if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0]){
 
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any slot to move the minion", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageMovimentPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
             messages[MessageType.HELP_MESSAGE] = message;
             messages[MessageType.HELP_MESSAGE].drawMessage = false;
         }

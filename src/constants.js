@@ -249,8 +249,8 @@ export const MessageState = {
 }
 
 export const MessageType = {
-    HELP_MESSAGE:   0,
-    DAMAGE_MESSAGE: 1,
+    DAMAGE_MESSAGE:     0,
+    HELP_MESSAGE:       1,
 }
 
 export const HelpMessagesPos = {

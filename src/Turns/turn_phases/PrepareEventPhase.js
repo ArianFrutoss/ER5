@@ -29,28 +29,28 @@ export default class PrepareEventPhase extends Phase{
         
         const messages = messagesContainer.messages;
 
-        if (messages[1] === undefined && isAnyCardSelected[0] === false){
+        if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0] === false){
 
             const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any event card to prepare", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = true;
+            messages[MessageType.HELP_MESSAGE] = message;
+            messages[MessageType.HELP_MESSAGE].drawMessage = true;
         }
         
-        if (messages[1] === undefined && isAnyCardSelected[0]){
+        if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0]){
 
             const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any slot of the event grid to start to preparing the event card", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = false;
+            messages[MessageType.HELP_MESSAGE] = message;
+            messages[MessageType.HELP_MESSAGE].drawMessage = false;
         }
         
-        if (messages[1].drawMessage && messages[1] != undefined && isAnyCardSelected[0]){
+        if (messages[MessageType.HELP_MESSAGE].drawMessage && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0]){
             
-            messages[1].timeInOn = 0;
+            messages[MessageType.HELP_MESSAGE].timeInOn = 0;
         }
 
-        if (messages[1].drawMessage === false && messages[1] != undefined && isAnyCardSelected[0] === false){
+        if (messages[MessageType.HELP_MESSAGE].drawMessage === false && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0] === false){
             
-            messages[1].timeInOn = 0;
+            messages[MessageType.HELP_MESSAGE].timeInOn = 0;
         }
 
         if (isAnyCardSelected[0] && isAnySlotSelected[0]){
@@ -60,7 +60,7 @@ export default class PrepareEventPhase extends Phase{
 
             if (deckLength < 5) {
 
-                messages[1].timeInOn = 0;
+                messages[MessageType.HELP_MESSAGE].timeInOn = 0;
                 const card = this.handDeck.cards[position]
                 this.handDeck.cards.splice(position, 1)
                 this.activeEventDeck.cards.push(card)
@@ -82,12 +82,13 @@ export default class PrepareEventPhase extends Phase{
         }        
     }
 
-    isPhaseCancelled(buttonContainer){
+    isPhaseCancelled(buttonContainer, messagesContainer){
         
         const buttonState = buttonContainer.isAnyButtonSelected();
 
         if(buttonState === PhaseStates.DEFAULT){
 
+            messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             return true;
         }else {
 

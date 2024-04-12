@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates } from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType } from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -141,7 +141,7 @@ export default class Turn {
             case PhaseStates.PREPARE_EVENT:
                 const isPreparationFinished  = this.phasesArray[PhaseStates.PREPARE_EVENT].execute(this.eventContainer, mouse, messagesContainer);
 
-                const isPreparationCancelled = this.phasesArray[PhaseStates.PREPARE_EVENT].isPhaseCancelled(this.buttonContainer);
+                const isPreparationCancelled = this.phasesArray[PhaseStates.PREPARE_EVENT].isPhaseCancelled(this.buttonContainer, messagesContainer);
                 if (isPreparationFinished) {
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
@@ -156,7 +156,7 @@ export default class Turn {
             case PhaseStates.USE_EVENT_CARD:
                 const isUsageFinished = this.phasesArray[PhaseStates.USE_EVENT_CARD].execute(mouse, messagesContainer);
 
-                const isUseEventCancelled   = this.phasesArray[PhaseStates.USE_EVENT_CARD].isEventCancelled(this.buttonContainer);
+                const isUseEventCancelled   = this.phasesArray[PhaseStates.USE_EVENT_CARD].isEventCancelled(this.buttonContainer, messagesContainer);
 
                 if (isUsageFinished) {
                     this.buttonContainer.resetStatesButtons();
@@ -173,7 +173,7 @@ export default class Turn {
             case PhaseStates.MOVEMENT:
                 const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute(messagesContainer);
 
-                const isMovementCancelled   = this.phasesArray[PhaseStates.MOVEMENT].isPhaseCancelled(this.buttonContainer);
+                const isMovementCancelled   = this.phasesArray[PhaseStates.MOVEMENT].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isMovementFinished){
                     this.buttonContainer.resetStatesButtons();
@@ -189,7 +189,7 @@ export default class Turn {
             case PhaseStates.ATTACK:
                 const isAttackFinished  = this.phasesArray[PhaseStates.ATTACK].execute(messagesContainer);
 
-                const isAttackCancelled = this.phasesArray[PhaseStates.ATTACK].isPhaseCancelled(this.buttonContainer);
+                const isAttackCancelled = this.phasesArray[PhaseStates.ATTACK].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isAttackFinished){
                     this.buttonContainer.resetStatesButtons();
@@ -205,7 +205,7 @@ export default class Turn {
             case PhaseStates.DISCARD_CARD:
                 const isDiscardFinished = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messagesContainer);
 
-                const isDiscardCancelled = this.phasesArray[PhaseStates.DISCARD_CARD].isPhaseCancelled(this.buttonContainer);
+                const isDiscardCancelled = this.phasesArray[PhaseStates.DISCARD_CARD].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isDiscardCancelled){
                     this.deselect();
@@ -226,6 +226,12 @@ export default class Turn {
                 
                 this.phaseState = this.phasesArray[PhaseStates.DEFAULT].execute(messagesContainer);
                 
+                const isChangePhase = this.phasesArray[PhaseStates.DEFAULT].isPhaseCancelled(this.buttonContainer, messagesContainer);
+
+                if(isChangePhase != false){
+                    
+                    this.phaseState = isChangePhase;
+                }
                 break;
             default:
 
@@ -236,7 +242,7 @@ export default class Turn {
         
         if (value <= 0 || this.actionsCounter === this.maxActions){
             
-            messagesContainer.messages[1].timeInOn = 0;
+            messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             this.state = TurnStates.END;
         }
     }
@@ -245,10 +251,10 @@ export default class Turn {
 
         const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messagesContainer)
 
-        // Deseleccionar elementos
-        this.deselect();
-
         if (isCardDiscarded) {
+
+            // Deseleccionar elementos
+            this.deselect();
             
             this.blockCardStatesFromHandDeck();
             this.enemyActiveMinionDeck.restoreDeckMinionsHp();

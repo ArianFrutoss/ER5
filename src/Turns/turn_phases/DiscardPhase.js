@@ -15,16 +15,16 @@ export default class DiscardPhase extends Phase{
         this.handDeck.update(this.mouse, this.handDeck)
         if (this.handDeck.cards.length > 4) {
             
-            if (messagesContainer.messages[1] === undefined){
+            if (messagesContainer.messages[MessageType.HELP_MESSAGE] === undefined){
 
                 const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any card to discard", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-                messagesContainer.messages[1] = message;
+                messagesContainer.messages[MessageType.HELP_MESSAGE] = message;
             }
 
             const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)
             if (isAnyCardSelected[0]) {
 
-                messagesContainer.messages[1].timeInOn = 0;
+                messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
                 const position = isAnyCardSelected[1]
                 const card = this.handDeck.cards[position]
                 this.handDeck.cards.splice(position, 1)
@@ -40,12 +40,13 @@ export default class DiscardPhase extends Phase{
         }
     }
     
-    isPhaseCancelled(buttonContainer){
+    isPhaseCancelled(buttonContainer, messagesContainer){
         
         const buttonState = buttonContainer.isAnyButtonSelected();
 
         if(buttonState === PhaseStates.DEFAULT){
-
+            
+            messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             return true;
         }else {
 

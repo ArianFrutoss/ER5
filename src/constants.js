@@ -269,6 +269,8 @@ export const BaseURL= [
 
 // 0 for localhost base-url
 // 1 for render base-url
+
 export const BaseURLValue = 0
 
-export const messageDefaultPhase =  [["Select any button to enter in the phase"], ["Aukeratu edozein botoi fasean sartzeko"]];
+export const messageDefaultPhase = [["Select any button to enter in the phase"], ["Aukeratu edozein botoi fasean sartzeko"]];
+export const messageDiscardPhase = [["Select any card to discard"],["Aukeratu baztertzeko edozein txartel"]];

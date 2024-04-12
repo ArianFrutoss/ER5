@@ -1,6 +1,6 @@
 import { CardId } from "../../constants.js";
 import Phase from "./Phase.js";
-import { MessageState, MessageType, HelpMessagesPos, PhaseStates } from "../../constants.js";
+import { MessageState, MessageType, HelpMessagesPos, PhaseStates, messageDiscardPhase } from "../../constants.js";
 import Messages from "../../Messages.js";
 
 export default class DiscardPhase extends Phase{
@@ -17,7 +17,7 @@ export default class DiscardPhase extends Phase{
             
             if (messagesContainer.messages[MessageType.HELP_MESSAGE] === undefined){
 
-                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any card to discard", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageDiscardPhase, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
                 messagesContainer.messages[MessageType.HELP_MESSAGE] = message;
             }
 

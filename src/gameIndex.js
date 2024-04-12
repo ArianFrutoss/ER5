@@ -3,10 +3,9 @@ import {initHTMLelements, initVars, testArray } from "./initialize.js";
 import logJSON from "./fakeJSONRead.js";
 import Asset from "./Asset.js";
 import Game from "./Game.js";
-import { GameState } from "./constants.js";
-
+import { BaseURL, BaseURLValue } from "./constants.js";
 let game
-if (localStorage.getItem("username") != "") {
+if (localStorage.getItem("username") != null) {
     let gameScreen = document.getElementById("login");
     gameScreen.style.display = "none";
 
@@ -29,6 +28,18 @@ if (localStorage.getItem("username") != "") {
 
  
 
+    let dropDown = document.getElementById("player_list");
+    dropDown.style.display = "block";
+    
+    let opponents = JSON.parse(localStorage.getItem("opponents"))
+
+    for (let i = 0; i < opponents.length; i++) {
+        const opponent = opponents[i].username;
+        const option = document.createElement("option")
+        option.text = opponent
+        dropDown.add(option)
+        
+    }
 } else {
     let gameScreen = document.getElementById("login");
     gameScreen.style.display = "block";
@@ -51,7 +62,7 @@ let btnPlay = document.getElementById("btnPlay");
 btnPlay.addEventListener("click", init);
 
 function init(){
-    fetch('http://localhost:3000/test')
+    fetch(`${BaseURL[BaseURLValue]}/test`)
     .then((response) => response.json())
     .then((data) => {        
         

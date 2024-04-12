@@ -1,7 +1,7 @@
 
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, MessageState, MessageType, HelpMessagesPos, PhaseStates } from "../../constants.js";
+import { CardId, MessageState, MessageType, HelpMessagesPos, PhaseStates, messageAttackPhase1, messageAttackPhase2 } from "../../constants.js";
 import Messages from "../../Messages.js";
 
 export default class MinionAttackPhase extends Phase {
@@ -36,14 +36,14 @@ export default class MinionAttackPhase extends Phase {
 
         if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0] === false){
 
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any attacker minion", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageAttackPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
             messages[MessageType.HELP_MESSAGE] = message;
             messages[MessageType.HELP_MESSAGE].drawMessage = true;
         }
         
         if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0]){
 
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any enemy minion to attack", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageAttackPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
             messages[MessageType.HELP_MESSAGE] = message;
             messages[MessageType.HELP_MESSAGE].drawMessage = false;
         }

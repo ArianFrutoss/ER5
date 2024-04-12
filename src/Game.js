@@ -159,7 +159,7 @@ export default class Game {
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer)
         this.turnContainer.render(this.ctx, this.language, this.currentTurn)
         this.turnContainer.buttonContainer.renderButtons(this.language);
-        this.messagesContainer.render(this.ctx)
+        this.messagesContainer.render(this.ctx, this.language);
         this.ctx.font         = "bold 30px Arial";
         this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
 

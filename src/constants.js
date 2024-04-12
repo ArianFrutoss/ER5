@@ -269,4 +269,22 @@ export const BaseURL= [
 
 // 0 for localhost base-url
 // 1 for render base-url
+
 export const BaseURLValue = 0
+
+export const messageDefaultPhase        = [["Select any button to enter in the phase"], ["Aukeratu edozein botoi fasean sartzeko"]];
+
+export const messageDiscardPhase        = [["Select any card to discard"], ["Aukeratu baztertzeko edozein txartel"]];
+
+export const messageAttackPhase1        = [["Select any attacker minion"], ["Aukeratu minioi erasotzaile bat"]];
+export const messageAttackPhase2        = [["Select any enemy minion to attack"], ["Aukeratu edozein minioi etsai erasotzeko"]];
+
+export const messageMovimentPhase1      = [["Select any minion to move"], ["Aukeratu minioi bat mugitzeko"]];
+export const messageMovimentPhase2      = [["Select any slot to move the minion"], ["Aukeratu edozein zirrikitu minioia mugitzeko"]];
+
+export const messagePrepareEventPhase1  = [["Select any event card to prepare"], ["Aukeratu prestatu beharreko edozein gertakari-txartel"]];
+export const messagePrepareEventPhase2  = [["Select any slot of the event grid to start to preparing the event card"], ["Aukeratu edozein zirrikitu gertaeraren txartela prestatzen hasteko"]];
+
+export const messageUseEventPhase1      = [["There are no cards in the event grid, Select other action"], ["Ez dago txartelik ekitaldien laukian, aukeratu beste ekintza bat"]];
+export const messageUseEventPhase2      = [["Select any prepared event card to use"], ["Aukeratu erabili beharreko ekitaldietarako txartel prestatua"]];
+export const messageUseEventPhase3      = [["Select any minion to use the event card"], ["Aukeratu edozein minioi gertaeraren txartela erabiltzeko"]];

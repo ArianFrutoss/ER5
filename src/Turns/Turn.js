@@ -127,7 +127,7 @@ export default class Turn {
         // Posicionar nuevo Minion en el Grid
         if (newMinion != undefined){
             
-            newMinion.assignMinionToBoardGrid(this.gridArray[GridId.BOARD_GRID], this.turnId);
+            newMinion.assignMinionToBoardGrid(this.gridArray.grids[GridId.BOARD_GRID], this.turnId);
             console.log(this.activeMinionDeck);
         }
 

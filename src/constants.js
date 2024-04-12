@@ -273,4 +273,8 @@ export const BaseURL= [
 export const BaseURLValue = 0
 
 export const messageDefaultPhase = [["Select any button to enter in the phase"], ["Aukeratu edozein botoi fasean sartzeko"]];
-export const messageDiscardPhase = [["Select any card to discard"],["Aukeratu baztertzeko edozein txartel"]];
+
+export const messageDiscardPhase = [["Select any card to discard"], ["Aukeratu baztertzeko edozein txartel"]];
+
+export const messageAttackPhase1 = [["Select any attacker minion"], ["Aukeratu minioi erasotzaile bat"]];
+export const messageAttackPhase2 = [["Select any enemy minion to attack"], ["Aukeratu edozein minioi etsai erasotzeko"]];

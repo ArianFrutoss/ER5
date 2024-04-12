@@ -127,7 +127,7 @@ export default class Turn {
         // Posicionar nuevo Minion en el Grid
         if (newMinion != undefined){
             
-            newMinion.assignMinionToBoardGrid(this.gridArray[GridId.BOARD_GRID], this.turnId);
+            newMinion.assignMinionToBoardGrid(this.gridArray.grids[GridId.BOARD_GRID], this.turnId);
             console.log(this.activeMinionDeck);
         }
 
@@ -245,14 +245,14 @@ export default class Turn {
 
         const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messagesContainer)
 
-        // Deseleccionar elementos
-        this.deselect();
-
         if (isCardDiscarded) {
-            
+
+            // Deseleccionar elementos
+            this.deselect();
+
             this.blockCardStatesFromHandDeck();
             this.enemyActiveMinionDeck.restoreDeckMinionsHp();
-            
+
             // cambio de turno
             this.active = false;
             return true

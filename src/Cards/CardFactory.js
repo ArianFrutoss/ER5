@@ -196,15 +196,8 @@ export default class CardFactory {
  
 
     createWeapon(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
-        if (id ===4) {
-            
-            console.log(attributes);
-        }
         attributes = this.setAttributeValues(attributes)
-        if (id ===4) {
-            
-            console.log(attributes);
-        }
+
         const weapon = Weapon.create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
         
         return weapon;

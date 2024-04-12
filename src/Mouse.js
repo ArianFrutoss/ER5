@@ -17,8 +17,8 @@ export default class Mouse {
         this.previousStateRight = this.rightClick;
     }
     isCollidingWithCard(card){
-        const cardLength = card.size === BorderId.NORMAL_SIZE ? 247 : 133
-        const cardHeight = card.size === BorderId.NORMAL_SIZE ? 379 : 155
+        const cardLength = card.size === BorderId.NORMAL_SIZE ? 197.6 : 133
+        const cardHeight = card.size === BorderId.NORMAL_SIZE ? 303.2 : 155
         let result
         if (this.x >= card.xPos && this.x <=card.xPos + cardLength) {
             if (this.y >= card.yPos && this.y <=card.yPos + cardHeight) {

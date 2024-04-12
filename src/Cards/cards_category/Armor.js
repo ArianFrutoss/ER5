@@ -1,4 +1,4 @@
-import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId} from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId} from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Armor extends Card{
@@ -99,12 +99,23 @@ export default class Armor extends Card{
         let yPos = this.yPos
         ctx.font = "25px LongaIberica-DEMO";
         let cardVFX
+        if (this.deck.deckId === DecksId.PLAYER_1_HAND_DECK || this.deck.deckId === DecksId.PLAYER_2_HAND_DECK) {
+            ctx.setTransform(0.8, 0, 0, 0.8, 0, 0);
+            for (let i = 0; i < this.deck.cards.length; i++) {
+                const card = this.deck.cards[i];
+                if (this === card) {
+                    xPos = this.xPos * 1.25
+                    yPos = this.yPos * 1.25
+                }
+            }
+        }
         if (this.state != CardId.BLOCKED) {
             //CARD IMAGE
             let size = this.size
             if (this.state === CardId.SCALED ) {
-                xPos = 800
-                yPos = 300
+                ctx.setTransform(1.6, 0, 0, 1.6, 0, 0);
+                xPos = 475
+                yPos = 140
                 size = CardId.BIG_SIZE
                 
             }else if(this.state === CardId.SELECTED){
@@ -173,10 +184,14 @@ export default class Armor extends Card{
                     IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
                 ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
             } else {
+                
                 ctx.drawImage(
                     this.imageReverse,
                      xPos, yPos)
             }
+            
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+            
     }
 
     static create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx,){

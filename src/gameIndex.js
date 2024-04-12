@@ -5,30 +5,29 @@ import Asset from "./Asset.js";
 import Game from "./Game.js";
 import { BaseURL, BaseURLValue } from "./constants.js";
 let game
+let gameScreen = document.getElementById("login");
+let btnPlay = document.getElementById("btnPlay");
+let logout = document.getElementById("Logout");
+let goToRegister = document.getElementById("goToRegister");
+let register = document.getElementById("register");
+let caja = document.getElementById("caja");
+let dropDown = document.getElementById("player_list");
 if (localStorage.getItem("username") != null) {
-    let gameScreen = document.getElementById("login");
-    gameScreen.style.display = "none";
 
-    let btnPlay = document.getElementById("btnPlay");
-    btnPlay.style.display = "block";
+    gameScreen.style.display = "none";
     
-    let logout = document.getElementById("Logout");
     logout.style.display = "block";
 
-    let goToRegister = document.getElementById("goToRegister");
     goToRegister.style.display = "none";
 
-    let register = document.getElementById("register");
     register.style.display = "none";
 
     addUserData();
 
-    let caja = document.getElementById("caja");
     caja.style.display = "block";
 
  
 
-    let dropDown = document.getElementById("player_list");
     dropDown.style.display = "block";
     
     let opponents = JSON.parse(localStorage.getItem("opponents"))
@@ -41,25 +40,25 @@ if (localStorage.getItem("username") != null) {
         
     }
 } else {
-    let gameScreen = document.getElementById("login");
     gameScreen.style.display = "block";
 
-    let btnPlay = document.getElementById("btnPlay");
     btnPlay.style.display = "none";
 
-    let goToRegister = document.getElementById("goToRegister");
     goToRegister.style.display = "block";
 
-    let register = document.getElementById("register");
     register.style.display = "none";
 
-    let caja = document.getElementById("caja");
     caja.style.display = "none";
 }
-
-let btnPlay = document.getElementById("btnPlay");
+dropDown.addEventListener("change", showBtnIfOpponentSelected);
 
 btnPlay.addEventListener("click", init);
+
+function showBtnIfOpponentSelected() {
+        if (dropDown.value != "") {
+        btnPlay.style.display = "block"
+    }
+}
 
 function init(){
     fetch(`${BaseURL[BaseURLValue]}/test`)

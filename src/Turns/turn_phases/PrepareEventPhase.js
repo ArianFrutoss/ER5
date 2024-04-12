@@ -1,4 +1,4 @@
-import { CardActions, CardId, SlotsState, MessageState, MessageType, HelpMessagesPos, PhaseStates} from "../../constants.js";
+import { CardActions, CardId, SlotsState, MessageState, MessageType, HelpMessagesPos, PhaseStates, messagePrepareEventPhase1, messagePrepareEventPhase2 } from "../../constants.js";
 import Phase from "./Phase.js";
 import Messages from "../../Messages.js";
 
@@ -31,14 +31,14 @@ export default class PrepareEventPhase extends Phase{
 
         if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0] === false){
 
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any event card to prepare", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messagePrepareEventPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
             messages[MessageType.HELP_MESSAGE] = message;
             messages[MessageType.HELP_MESSAGE].drawMessage = true;
         }
         
         if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0]){
 
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any slot of the event grid to start to preparing the event card", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messagePrepareEventPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
             messages[MessageType.HELP_MESSAGE] = message;
             messages[MessageType.HELP_MESSAGE].drawMessage = false;
         }

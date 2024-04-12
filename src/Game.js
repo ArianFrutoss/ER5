@@ -16,12 +16,12 @@ import TimerContainer from "./TimerContainer.js";
 
 export default class Game {
 
-    constructor(turnArray, handsArray, images, cardsArray, boardMinionsArray, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer) {
+    constructor(turnArray, handsArray, images, language, cardsArray, boardMinionsArray, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer) {
 
         this.turnContainer = turnArray;
         this.handsArray = handsArray;
         this.images = images
-        this.language = LanguageId.ENG
+        this.language = language;
         this.cardsArray = cardsArray;
         this.boardMinionsArray = boardMinionsArray;
         this.deckContainer = deckContainer;
@@ -38,14 +38,14 @@ export default class Game {
         this.timerContainer = timerContainer;
     }
 
-    static init(data, canvas, ctx) {
+    static init(data, canvas, ctx, language) {
 
         const board = Board.initBoard(canvas);
         const assets = Asset.create();
         assets.loadImages(data);
         const cardImgs = assets.images
         const deckContainer = new DeckContainer();
-        deckContainer.createDecks(data, cardImgs);
+        deckContainer.createDecks(data, cardImgs, language);
 
         const buttonContainer = ButtonContainer.create(ctx);
 
@@ -64,8 +64,8 @@ export default class Game {
         
         const timerContainer = new TimerContainer();
         timerContainer.create();
-
-        return new Game(turns, null, assets, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer);
+       
+        return new Game(turns, null, assets, language, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer);
     }
 
     update() {
@@ -158,7 +158,7 @@ export default class Game {
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer)
         this.turnContainer.render(this.ctx, this.language, this.currentTurn)
-        this.turnContainer.buttonContainer.renderButtons();
+        this.turnContainer.buttonContainer.renderButtons(this.language);
         this.messagesContainer.render(this.ctx)
         this.ctx.font         = "bold 30px Arial";
         this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);

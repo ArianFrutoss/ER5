@@ -53,8 +53,9 @@ function init(){
         initVars();
         
         //initEvents(canvas);
-        
-        game = Game.init(data,canvas,ctx);
+        const language = parseInt(document.getElementById("languages").value);
+
+        game = Game.init(data,canvas,ctx, language);
 
         window.requestAnimationFrame(gameLoop,canvas);
     });
@@ -101,8 +102,10 @@ function addUserData() {
 
     newDiv.style.marginLeft = "10px";
     let btnPlay = document.getElementById("btnPlay");
+    let caja    = document.getElementById("caja");
     btnPlay.addEventListener("click", ()=> {
         newDiv.style.display = "none";
+        caja.style.display   = "none";
     });
     
     // añade el elemento creado y su contenido al DOM

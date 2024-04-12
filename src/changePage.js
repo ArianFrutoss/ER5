@@ -133,6 +133,11 @@ function addUserData() {
     newDiv.appendChild(email);
 
     newDiv.style.marginLeft = "10px";
+
+    let btnPlay = document.getElementById("btnPlay");
+    btnPlay.addEventListener("click", ()=> {
+        newDiv.style.display = "none";
+    });
     
     // añade el elemento creado y su contenido al DOM
     let currentDiv = document.getElementById("div1");

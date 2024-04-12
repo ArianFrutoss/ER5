@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { MessageState, MessageType } from "./constants.js";
+import { LanguageId, MessageState, MessageType } from "./constants.js";
 
 export default class Messages{
 
@@ -67,7 +67,7 @@ export default class Messages{
         }
     }
 
-    render(ctx){
+    render(ctx, language){
 
         switch (this.type){
 
@@ -76,7 +76,7 @@ export default class Messages{
                 break
 
             case MessageType.HELP_MESSAGE:
-                this.renderHelpMessage(ctx);
+                this.renderHelpMessage(ctx, language);
                 break
 
             default:
@@ -93,12 +93,12 @@ export default class Messages{
         ctx.globalAlpha = 1.0;
     }
 
-    renderHelpMessage(ctx){
-
+    renderHelpMessage(ctx, language){
+        
         ctx.font = "20px LongaIberica-DEMO";
         ctx.fillStyle = "white";
         ctx.globalAlpha = this.alpha;
-        ctx.fillText(this.message, this.xPos, this.yPos);
+        ctx.fillText(this.message[language], this.xPos, this.yPos);
         ctx.globalAlpha = 1.0;
     }
 }

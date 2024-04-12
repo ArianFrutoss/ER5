@@ -1,4 +1,4 @@
-import { MessageState } from "./constants.js";
+import { LanguageId, MessageState } from "./constants.js";
 
 export default class MessagesContainer{
 
@@ -23,7 +23,7 @@ export default class MessagesContainer{
         }
     }
 
-    render(ctx){
+    render(ctx, language){
 
         for (let i = 0; i < this.messages.length; i++){
 
@@ -31,7 +31,7 @@ export default class MessagesContainer{
 
             if (message != undefined){
 
-                message.render(ctx);
+                message.render(ctx, language);
                 ctx.fillStyle = "black";
             }
         }    

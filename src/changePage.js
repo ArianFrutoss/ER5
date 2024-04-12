@@ -4,7 +4,7 @@ function login(){
         email: document.getElementById("email").value,
         password: document.getElementById("password").value
         };
-    fetch("https://er-5.vercel.app/login", {
+    fetch("https://er5-server.onrender.com/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

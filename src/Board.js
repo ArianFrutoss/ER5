@@ -35,8 +35,8 @@ export default class Board{
         // Atributos de los Grids de Hand
         const handRows = 5;
         const handColumns = 1;
-        const handSlotXSize = 247;
-        const handSlotYSize = 379;
+        const handSlotXSize = 197.6;
+        const handSlotYSize = 303.2;
         const handXPos = canvas.width / 2 - handRows * handSlotXSize / 2;
         const handAtackerYpos = canvas.height - handColumns * handSlotYSize / 2 - modifyer;
         const handDefenderYpos = -handSlotYSize / 2 - modifyer;

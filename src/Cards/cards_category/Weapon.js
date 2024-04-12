@@ -1,4 +1,4 @@
-import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Weapon extends Card{
@@ -125,6 +125,16 @@ export default class Weapon extends Card{
         let xPos = this.xPos
         let yPos = this.yPos
         let cardVFX
+        if (this.deck.deckId === DecksId.PLAYER_1_HAND_DECK || this.deck.deckId === DecksId.PLAYER_2_HAND_DECK) {
+            ctx.setTransform(0.8, 0, 0, 0.8, 0, 0);
+            for (let i = 0; i < this.deck.cards.length; i++) {
+                const card = this.deck.cards[i];
+                if (this === card) {
+                    xPos = this.xPos * 1.25
+                    yPos = this.yPos * 1.25
+                }
+            }
+        }
         if (this.state != CardId.BLOCKED) {
             // console.log(this.imageVFX);
             ctx.fillStyle = "black"
@@ -135,8 +145,9 @@ export default class Weapon extends Card{
                 //CARD IMAGE
                 let size = this.size
                 if (this.state === CardId.SCALED ) {
-                    xPos = 800
-                    yPos = 300
+                    ctx.setTransform(1.6, 0, 0, 1.6, 0, 0);
+                    xPos = 475
+                    yPos = 140
                     size = CardId.BIG_SIZE
                     
                 }else if(this.state === CardId.SELECTED){
@@ -152,7 +163,6 @@ export default class Weapon extends Card{
                         IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
                         )
                 }
-
 
                 ctx.drawImage(
                     this.image[size],                 //Img File
@@ -211,6 +221,8 @@ export default class Weapon extends Card{
                 this.imageReverse,
                  xPos, yPos)
         }
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+        
     }
 
     static create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {

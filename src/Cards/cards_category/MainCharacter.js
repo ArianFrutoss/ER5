@@ -94,8 +94,9 @@ export default class MainCharacter extends Card{
                 //CARD IMAGE
                 let size = this.size
                 if (this.state === CardId.SCALED ) {
-                    xPos = 800
-                    yPos = 300
+                    ctx.setTransform(1.6, 0, 0, 1.6, 0, 0);
+                    xPos = 475
+                    yPos = 140
                     size = CardId.BIG_SIZE
                     
                 }else if(this.state === CardId.SELECTED){
@@ -143,6 +144,8 @@ export default class MainCharacter extends Card{
                     
                     this.imageRarity,
                     IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
+                    
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
         
         }
 

@@ -73,7 +73,7 @@ export default class Game {
 
             case GameState.LOAD_GAME:
                 for (let i = 0; i < 2; i++) {
-                    this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK+i].cards);                      
+                    this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK+i]);                      
                     this.turnContainer.turnContainer[i].mainCharacter.xPos = IconsPos.PLAYER_X[i]
                     this.turnContainer.turnContainer[i].mainCharacter.yPos = IconsPos.PLAYER_Y[i]
                 }
@@ -181,10 +181,12 @@ export default class Game {
     // Funcion que roba las Cards del EventDeck y las asigna al HandDeck              
     assignCardsToHand(eventDeck, handDeck) {
         
-        for (let i = handDeck.length; i < 5; i++) {
-            handDeck.push(eventDeck.cards[eventDeck.cards.length - 1]);
+        for (let i = handDeck.cards.length; i < 5; i++) {
+            const card = eventDeck.cards[eventDeck.cards.length - 1]
+            handDeck.cards.push(card);
+            card.deck = handDeck
             eventDeck.cards.pop();
-
+            
         }
 
     }

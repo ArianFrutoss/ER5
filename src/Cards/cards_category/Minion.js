@@ -140,8 +140,9 @@ export default class Minion extends Card {
             //CARD IMAGE
             let size = this.size
             if (this.state === CardId.SCALED ) {
-                xPos = 800
-                yPos = 300
+                ctx.setTransform(1.6, 0, 0, 1.6, 0, 0);
+                xPos = 475
+                yPos = 140
                 size = CardId.BIG_SIZE
                 
             }else if(this.state === CardId.SELECTED){
@@ -229,6 +230,8 @@ export default class Minion extends Card {
                 ctx.drawImage(
                     equipRarityImg,
                     IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
+                    
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
 
     static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes){

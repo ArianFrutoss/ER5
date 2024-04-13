@@ -11,6 +11,9 @@ export default class EventFactory {
     static create(card){
 
         switch (card.category) {
+            case TypeId.BUFF:
+            case TypeId.CURSE:
+            case TypeId.SPELL:
             case TypeId.ARMOR:
             case TypeId.WEAPON:
                 return new CooldownEvent (EventsId.COOLDOWN, card, card.cooldown)

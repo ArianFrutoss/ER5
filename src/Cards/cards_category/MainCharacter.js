@@ -1,14 +1,14 @@
 import { BorderId, CardActions, CardId, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 export default class MainCharacter extends Card{
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, durability, cooldown){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, durability=0, cooldown=0){
             super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
     
             // Card attributes     		   	
             this.durability = durability;
             this.cooldown   = cooldown; 
-            this.player= 0
-            	
+            this.player     = 0;
+            this.effect     = effect
         }
         updateScale(mouse, decks){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -149,12 +149,17 @@ export default class MainCharacter extends Card{
         
         }
 
-        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects) {
+        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes) {
             
-            let durability = effects.durability;
-            let cooldown = effects.cooldown;
-    
-            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, durability, cooldown);
+            let durability;
+            let cooldown;
+            if (attributes != null) {
+                durability = attributes.durability;
+                cooldown = attributes.cooldown;
+
+            }
+
+            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, durability, cooldown);
     
             return mainCharacter;
     

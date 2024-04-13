@@ -3,13 +3,15 @@ import Card from "../Card.js";
 
 export default class Spell extends Card{
 
-    constructor(id, texts, image, rarity, category, type,  xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, durability, cooldown){
+    constructor(id, texts, image, rarity, category, type,  xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, attack=0, durability=0, cooldown=0){
 
         super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
-        // Card attributes   
+        // Card attributes 
+        this.attack     = attack;   	
         this.durability = durability;
-        this.cooldown   = cooldown;
+        this.cooldown   = cooldown; 	
+        this.effect     = effect;	
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -168,18 +170,20 @@ export default class Spell extends Card{
             
     }
 
-    static create(id, texts, image, rarity,category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx,) {
-      
+    static create(id, texts, image, rarity,category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect) {
+        
+        let attack
         let durability
         let cooldown
         if (attributes != null) {
 
+            attack = attributes.attack;
             durability = attributes.durability;
             cooldown = attributes.cooldown;
 
         }
 
-        const spell = new Spell(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, durability, cooldown);
+        const spell = new Spell(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attack, durability, cooldown);
         
         return spell;
 

@@ -3,7 +3,7 @@ import Card from "../Card.js";
 
 export default class Buff extends Card {
 
-    constructor(id ,name, description ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, attack=0, defense=0, speed=0, health=0, durability=0, cooldown=0){
+    constructor(id ,name, description ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, attack=0, defense=0, speed=0, health=0, durability=0, cooldown=0){
 
         super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
@@ -13,7 +13,8 @@ export default class Buff extends Card {
         this.health     = health;
         this.speed      = speed; 		   	
         this.durability = durability;
-        this.cooldown   = cooldown; 		
+        this.cooldown   = cooldown; 	
+        this.effect     = effect;	
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -172,7 +173,7 @@ export default class Buff extends Card {
             
     }
 
-    static create(id, texts, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx,){
+    static create(id, texts, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect){
         let attack;
         let defense;
         let health;
@@ -189,7 +190,7 @@ export default class Buff extends Card {
 
         }
 
-        const buff = new Buff(id, texts, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, attack, defense, speed, health, durability, cooldown);
+        const buff = new Buff(id, texts, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attack, defense, speed, health, durability, cooldown);
 
         return buff;
 

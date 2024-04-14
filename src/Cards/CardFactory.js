@@ -24,6 +24,7 @@ export default class CardFactory {
         let card
 
         for (let i = 0; i < this.cardData.length; i++) {
+
             const id = this.cardData[i].card_id;
             // const name = [this.cardData[i].name, this.cardData[i].izena];
             // const description = [this.cardData[i].description, this.cardData[i].deskripzioa];
@@ -36,7 +37,8 @@ export default class CardFactory {
             const imageRarity = this.images[ImageTypes.CARD_RARITY][rarity]
             const imageBorders = [this.images[ImageTypes.CARD_BORDER][CardId.BIG_SIZE], this.images[ImageTypes.CARD_BORDER][CardId.SMALL_SIZE]]
             const imageReverse = this.images[ImageTypes.CARD_BORDER][BorderId.REVERSE]
-            const vfx = [[this.images[ImageTypes.CARD_BORDER][BorderId.SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_SELECTED]], [this.images[ImageTypes.CARD_BORDER][BorderId.HOVER], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_HOVER]]]
+            const vfx = [[this.images[ImageTypes.CARD_BORDER][BorderId.SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.EVENT_SELECTED]], 
+                         [this.images[ImageTypes.CARD_BORDER][BorderId.HOVER]   , this.images[ImageTypes.CARD_BORDER][BorderId.MINI_HOVER]   , this.images[ImageTypes.CARD_BORDER][BorderId.EVENT_HOVER]]]
             
             const images = this.images[ImageTypes.EQUIP_RARITY]
             let normalSize = []

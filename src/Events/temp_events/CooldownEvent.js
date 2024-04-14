@@ -10,7 +10,7 @@ export class CooldownEvent extends Event{
         this.cooldown   = cooldown;
     }
     execute(){
-        this.card.cooldown--
+        this.card.cooldown-= 0.5
         if (this.card.cooldown === 0) {
             this.card.action =  CardActions.READY
             return true

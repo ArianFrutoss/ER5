@@ -101,6 +101,7 @@ export default class Game {
 
                 if (this.currentTurn === 1) {
                     this.rotateBoardMinions()
+                    this.rotateMainCharacters()
                 }
 
                 if (this.images.isLoaded) {
@@ -280,9 +281,9 @@ export default class Game {
 
 
     setTurnDecksPositions(){
+        
         const turn = this.turnContainer.turnContainer[this.currentTurn];
         const enemyTurn = this.turnContainer.turnContainer[(this.currentTurn+1)%2];
-        
         this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID].freeSlots()
         enemyTurn.phasesArray[PhaseStates.PREPARE_EVENT].setEventGrid(this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
         enemyTurn.phasesArray[PhaseStates.USE_EVENT_CARD].setEventGrid(this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
@@ -296,6 +297,7 @@ export default class Game {
         this.assignCardsToGrids(turn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
 
         this.rotateBoardMinions()
+        this.rotateMainCharacters()
 
     }
 
@@ -335,6 +337,19 @@ export default class Game {
         }
     }
 
+    rotateMainCharacters(){
+        const turn = this.turnContainer.turnContainer[this.currentTurn];
+        const enemyTurn = this.turnContainer.turnContainer[(this.currentTurn+1)%2];
+
+        const xTemp = turn.mainCharacter.xPos
+        const yTemp = turn.mainCharacter.yPos
+
+        turn.mainCharacter.xPos = enemyTurn.mainCharacter.xPos
+        turn.mainCharacter.yPos = enemyTurn.mainCharacter.yPos
+
+        enemyTurn.mainCharacter.xPos = xTemp
+        enemyTurn.mainCharacter.yPos = yTemp
+    }
     setRotationPos(card, position){
         const rows = this.gridsArray.grids[GridId.BOARD_GRID].slots
         switch (position) {

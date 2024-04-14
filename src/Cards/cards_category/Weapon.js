@@ -225,7 +225,7 @@ export default class Weapon extends Card{
                         this.imageAttributes[0],
                         IconsPos.FIRST_ICON_X[size] +      xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
     
-                    ctx.fillText(this.cooldown, IconsPos.FIRST_ICON_NUMBER_X[size] +       xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                    ctx.fillText(Math.ceil(this.cooldown), IconsPos.FIRST_ICON_NUMBER_X[size] +       xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
     
                     ctx.drawImage(
                         this.imageAttributes[1],

@@ -90,7 +90,7 @@ export default class Grid{
             for (let j = 0; j < this.slots[0].length; j++){
 
                 const slot = this.slots[i][j];
-                const distance = slot.calculateDistance(minionSelected, xGap, yGap);
+                const distance = slot.calculateDistance(minionSelected);
 
                 if (minionSelected.speed >= distance && slot.isEmpty){
                     slot.isAviable = true;

@@ -96,4 +96,7 @@ export default class PrepareEventPhase extends Phase{
         }
 
     }
+    setEventGrid(grid){
+        this.activeEventGrid = grid
+    }
 }

@@ -42,8 +42,8 @@ export default class Grid{
                 const slotsYsize = ySizeSlots;
 
                 // Calculo de la posicion de los Slots
-                let slotsXPos = Math.floor(gridXPos + slotsXsize * j);
-                let slotsYPos = Math.floor(gridYpos + slotsYsize * i);
+                let slotsXPos = Math.floor(gridXPos + slotsXsize * j )+ 6.252*j;
+                let slotsYPos = Math.floor(gridYpos + slotsYsize * i )+ 6.251*i;
 
                 // Crear Slots
                 const slots = new Slot(slotsXPos, slotsYPos, slotsXsize, slotsYsize);
@@ -90,10 +90,9 @@ export default class Grid{
             for (let j = 0; j < this.slots[0].length; j++){
 
                 const slot = this.slots[i][j];
-                const distance = slot.calculateDistance(minionSelected);
-                
+                const distance = slot.calculateDistance(minionSelected, xGap, yGap);
+
                 if (minionSelected.speed >= distance && slot.isEmpty){
-                    
                     slot.isAviable = true;
                 }
             }

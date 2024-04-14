@@ -71,7 +71,7 @@ export default class PrepareEventPhase extends Phase{
                 card.xPos =  slot.xPos
                 card.yPos =  slot.yPos
                 card.state = CardId.NOT_SELECTED
-                card.size = CardId.SMALL_SIZE
+                card.size = CardId.EVENT_SIZE
                 card.action = CardActions.COOLDOWN
                 eventContainer.createEvent(card)
                 slot.state = SlotsState.NOT_SELECTED

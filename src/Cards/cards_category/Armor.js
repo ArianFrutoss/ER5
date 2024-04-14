@@ -131,17 +131,48 @@ export default class Armor extends Card{
                     IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
                     )
             }
+            if (this.deck.deckId === DecksId.PLAYER_1_PREPARING_EVENT_DECK || this.deck.deckId === DecksId.PLAYER_2_PREPARING_EVENT_DECK) {
+                let xTemp = xPos
+                let yTemp = yPos
+                if (this.state != CardId.SCALED) {
+                    ctx.setTransform(0.366, 0, 0, 0.38, 0, 0);
+                    xTemp = xPos * 2.734
+                    yTemp = yPos * 2.638
+                    size = CardId.EVENT_SIZE
+                }
+                    ctx.drawImage(
+                        this.image[CardId.BIG_SIZE],                 //Img File
+                        xTemp, yTemp                    //X & Y Position Source
+                        )
+                        
+                if (this.state != CardId.SCALED)
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);    
+                    
+                
+            }else{
+                
             ctx.drawImage(
                 this.image[size],                 //Img File
                 xPos, yPos                    //X & Y Position Source
                 )
-                
-                
+            }    
+
+            if (size != CardId.EVENT_SIZE) {
                 // BORDER
                 ctx.drawImage(
                     this.imageBorders[size],
                     xPos, yPos)
-
+                    if (this.state === CardId.SCALED) {
+                        console.log(size);
+                        
+                    }
+                //RARITY ICON
+                ctx.drawImage(
+                    this.imageRarity,
+                    IconsPos.RARITY_X[size] +      xPos, IconsPos.RARITY_Y[size] + yPos)
+                
+            }
+                
                     if (size === BorderId.NORMAL_SIZE) {
                         // ctx.font = "25px LongaIberica-DEMO";
                         // ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
@@ -155,12 +186,6 @@ export default class Armor extends Card{
                             this.imageCategory,
                             IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
                     }
-            //RARITY ICON
-            ctx.drawImage(
-                
-                this.imageRarity,
-                IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
-    
                 //ATTRIBUTES ICONS & VALUES
                 ctx.drawImage(
                     this.imageAttributes[0],

@@ -126,8 +126,8 @@ export default class MinionAttackPhase extends Phase {
         const yDifference = Math.abs(yPosAttacker - yPosEnemy);
 
         // Calcular la distancia en  slots
-        const distanceXSlots = Math.ceil(xDifference / boardSlotXSize);
-        const distanceYSlots = Math.ceil(yDifference / boardSlotYSize);
+        const distanceXSlots = Math.floor(xDifference / boardSlotXSize);
+        const distanceYSlots = Math.floor(yDifference / boardSlotYSize);
 
         console.log("Distancia en slots en el eje X:", distanceXSlots);
         console.log("Distancia en slots en el eje Y:", distanceYSlots);

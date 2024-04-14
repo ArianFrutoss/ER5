@@ -30,7 +30,7 @@ function login(){
             gameScreen.style.display = "none";
 
             let btnPlay = document.getElementById("btnPlay");
-            btnPlay.style.display = "block";
+            btnPlay.style.display = "none";
 
             let logout = document.getElementById("Logout");
             logout.style.display = "block";

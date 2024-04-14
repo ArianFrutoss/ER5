@@ -21,7 +21,7 @@ export default class Board{
         const boardSlotXSize = 133;
         const boardSlotYSize = 155;
         const boardXPos = canvas.width / 2 - boardRows * boardSlotXSize / 2;
-        const boardYPos = canvas.height / 2 - boardColumns * boardSlotYSize / 2 - modifyer;
+        const boardYPos = canvas.height / 2.3 - boardColumns * boardSlotYSize / 2 - modifyer;
 
         // Atributos de los Grids de Eventos
         const eventRows = 3;
@@ -38,8 +38,8 @@ export default class Board{
         const handSlotXSize = 197.6;
         const handSlotYSize = 303.2;
         const handXPos = canvas.width / 2 - handRows * handSlotXSize / 2;
-        const handAtackerYpos = canvas.height - handColumns * handSlotYSize / 2 - modifyer;
-        const handDefenderYpos = -handSlotYSize / 2 - modifyer;
+        const handAtackerYpos = canvas.height - handColumns * handSlotYSize / 1.7 - modifyer;
+        const handDefenderYpos = -handSlotYSize / 1.3 - modifyer;
 
         // Crear Grid de Board
         const board = Grid.initGrids(boardXPos, boardYPos, boardRows, boardColumns, GridId.BOARD_GRID, boardSlotXSize, boardSlotYSize);

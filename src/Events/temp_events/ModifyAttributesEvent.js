@@ -1,6 +1,6 @@
 import Event from "../Event.js";
 
-export class modifyAttributeEvent extends Event{
+export class ModifyAttributeEvent extends Event{
 
     constructor(objetive, attribute, value){
         super()

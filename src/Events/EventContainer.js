@@ -5,8 +5,13 @@ export default class EventContainer {
         this.events = []
     }
 
-    createEvent(card){
-        const event = EventFactory.create(card)
+    createCooldownEvent(card){
+        const event = EventFactory.createCooldownEvent(card)
+        this.events.push(event)
+    }
+
+    createCommonEvent(card, objectiveMinion){
+        const event = EventFactory.createCommonEvent(card, objectiveMinion)
         this.events.push(event)
     }
 

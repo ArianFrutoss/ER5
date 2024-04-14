@@ -13,7 +13,7 @@ export default class UseEventPhase extends Phase{
         this.enemyActiveMinions     = enemyActiveMinions;
         this.mouse                  = mouse
     }
-    execute(mouse, messagesContainer){
+    execute(eventContainer, mouse, messagesContainer){
 
         this.eventGrid.update(mouse, this.eventDeck);
         this.boardGrid.update(mouse, [this.activeMinions, this.enemyActiveMinions]);
@@ -22,9 +22,8 @@ export default class UseEventPhase extends Phase{
             const deck = decks[i];
             deck.update(mouse, decks)
         }
-        const isAnyCardSelected  = this.eventDeck.isAnyCard(this.eventDeck, CardId.SELECTED)
-        const isAnyMinionHovered = this.activeMinions.isAnyCard(this.activeMinions, CardId.HOVER)
         
+        const isAnyCardSelected  = this.eventDeck.isAnyCard(this.eventDeck, CardId.SELECTED)
         const messages = messagesContainer.messages;
         
         if (isAnyCardSelected.length === 0){
@@ -32,7 +31,7 @@ export default class UseEventPhase extends Phase{
             if (messages[MessageType.HELP_MESSAGE] === undefined){
             
                 const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageUseEventPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-                messages[MessageType.HELP_MESSAGE] = message;console.log(messages[MessageType.HELP_MESSAGE].alpha);
+                messages[MessageType.HELP_MESSAGE] = message;
             }
         }
 
@@ -63,42 +62,65 @@ export default class UseEventPhase extends Phase{
             }
         }
 
-        if (isAnyCardSelected[0] && isAnyMinionHovered[0]) {
-
+        if (isAnyCardSelected[0]) {
+            
             const eventPosition     = isAnyCardSelected[1]
-            const minionPosition    = isAnyMinionHovered[1]
             const eventCard         = this.eventDeck.cards[eventPosition]
-            const minionCard        = this.activeMinions.cards[minionPosition]
+            
+            let minionDeck;
 
-            if (isAnyMinionHovered[0] && !mouse.leftClick   && mouse.previousStateLeft) {
+            switch (eventCard.category){
 
-                messages[MessageType.HELP_MESSAGE].timeInOn = 0;
-
-                switch (eventCard.category) {
-                    case TypeId.WEAPON:  
-                    case TypeId.ARMOR:
-                        if (eventCard.action === CardActions.READY) {
-                            eventCard.category === TypeId.WEAPON ?  minionCard.weapon = eventCard : minionCard.armor = eventCard
-                            eventCard.state = CardId.NOT_SELECTED
-                            eventCard.action = CardActions.ON_USE
-                            for (let i = 0; i < this.eventGrid.slots.length; i++) {
-                                const rows = this.eventGrid.slots[i];
-                                for (let j = 0; j < rows.length; j++) {
-                                    const slot = rows[j];
-                                    slot.state = SlotsState.NOT_SELECTED
-                                }
-                                
-                            }
-                            return true
-                        }
-                        
-                        break;
-                
-                    default:
-                        break;
-                }
+                case TypeId.BUFF:
+                    minionDeck = this.activeMinions;
+                    break;
+                case TypeId.CURSE:
+                    minionDeck = this.enemyActiveMinions;
+                    break;
+                case TypeId.SPELL:
+                    minionDeck = this.enemyActiveMinions;
+                    break;
+                default:
+                    break;
             }
             
+            const isAnyMinionHovered = this.activeMinions.isAnyCard(minionDeck, CardId.HOVER)
+            
+            if (isAnyMinionHovered[0]){
+
+                const minionPosition    = isAnyMinionHovered[1]
+                const minionCard        = minionDeck.cards[minionPosition]
+
+                if (isAnyMinionHovered[0] && !mouse.leftClick   && mouse.previousStateLeft) {
+
+                    messages[MessageType.HELP_MESSAGE].timeInOn = 0;
+                    eventContainer.createCommonEvent(eventCard, minionCard)
+                    
+                    switch (eventCard.category) {
+                        case TypeId.WEAPON:  
+                        case TypeId.ARMOR:
+                            if (eventCard.action === CardActions.READY) {
+                                eventCard.category === TypeId.WEAPON ?  minionCard.weapon = eventCard : minionCard.armor = eventCard
+                                eventCard.state = CardId.NOT_SELECTED
+                                eventCard.action = CardActions.ON_USE
+                                for (let i = 0; i < this.eventGrid.slots.length; i++) {
+                                    const rows = this.eventGrid.slots[i];
+                                    for (let j = 0; j < rows.length; j++) {
+                                        const slot = rows[j];
+                                        slot.state = SlotsState.NOT_SELECTED
+                                    }
+                                    
+                                }
+                                return true
+                            }
+                            
+                            break;
+                    
+                        default:
+                            break;
+                    }
+                }
+            }
         }
     }
 

@@ -27,22 +27,34 @@ export default class EventFactory {
     static createCommonEvent(card, objectiveMinion){
         
         if (card.action === CardActions.READY){
+            
+            let length;
 
-            for (let i = 0; i < card.effect.length; i++){
-
-                const effect = card.effect[i];
+            if (card.effect === undefined){
                 
-                switch (card.category) {
+                length = 1;
+            }
+
+            else{
+
+                length = card.effect.length;
+            }
+            
+            for (let i = 0; i < length; i++){
+                
+                switch (card.category){
                     case TypeId.BUFF:
-                        return new ModifyAttributeEvent(objectiveMinion, effect.common_effect_attribute, -effect.common_effect_value);
+                        return new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, -card.effect[i].common_effect_value);
                     case TypeId.CURSE:
-                        return new ModifyAttributeEvent(objectiveMinion, effect.common_effect_attribute, effect.common_effect_value);
+                        return new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
                     case TypeId.SPELL:
-                        return new ModifyAttributeEvent(objectiveMinion, effect.common_effect_attribute, effect.common_effect_value);
+                        return new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
                     case TypeId.ARMOR:
-                        return new EquipEvent();
+                        const armor = new EquipEvent(card, objectiveMinion);
+                        armor.execute();
                     case TypeId.WEAPON:
-                        return new EquipEvent();
+                        const weapon = new EquipEvent(card, objectiveMinion);
+                        weapon.execute();
                     default:
                         break;
                 }

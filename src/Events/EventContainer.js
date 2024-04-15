@@ -12,7 +12,11 @@ export default class EventContainer {
 
     createCommonEvent(card, objectiveMinion){
         const event = EventFactory.createCommonEvent(card, objectiveMinion)
-        this.events.push(event)
+        
+        if (event != undefined){
+            
+            this.events.push(event)
+        }
     }
 
     executeEvents(){

@@ -80,6 +80,12 @@ export default class UseEventPhase extends Phase{
                 case TypeId.SPELL:
                     minionDeck = this.enemyActiveMinions;
                     break;
+                case TypeId.WEAPON:
+                    minionDeck = this.activeMinions;
+                    break;
+                case TypeId.ARMOR:
+                    minionDeck = this.activeMinions;
+                    break;
                 default:
                     break;
             }

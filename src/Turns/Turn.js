@@ -307,11 +307,28 @@ export default class Turn {
         }
     }
     render(ctx,language, currentTurn, xPos, yPos){
-        this.activeMinionDeck.renderCards(ctx, language)
-        this.preparingEventDeck.renderCards(ctx, language)
+
+        const card1 = this.activeMinionDeck.renderCards(ctx, language)
+        const card2 = this.preparingEventDeck.renderCards(ctx, language)
+        const card3 = this.handDeck.renderCards(ctx, language)
+
         this.mainCharacter.render(ctx, language, currentTurn)
         ctx.fillText(this.name ,xPos, yPos);
-        this.handDeck.renderCards(ctx, language)
 
+        const cards = [card1, card2, card3];
+
+        for (let i = 0; i < cards.length; i++){
+
+            const card = cards[i];
+
+            if (card != undefined){
+
+                ctx.globalAlpha = 0.3;
+                ctx.fillRect(0, 0, 1920, 1080);
+                ctx.globalAlpha = 1;
+                card.render(ctx, language);
+                ctx.filter = "blur(5px)";
+            }
+        }        
     }
 }

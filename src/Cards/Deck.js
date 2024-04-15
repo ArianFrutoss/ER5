@@ -98,11 +98,25 @@ export default class Deck {
     }
 
     renderCards(ctx, language){
-        for (let i = 0; i < this.cards.length; i++) {
-            const card = this.cards[i];
-                card.render(ctx, language)
 
+        let scaled;
+
+        for (let i = 0; i < this.cards.length; i++){
+
+            const card = this.cards[i];
+
+            if (card.state != CardId.SCALED){
+                
+                card.render(ctx, language);
+            }   
+
+            else{
+
+                scaled = card;
+            }
         }
+        
+        return scaled;
     }
 
     deselect(){

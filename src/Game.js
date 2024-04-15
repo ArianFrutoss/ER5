@@ -173,16 +173,11 @@ export default class Game {
         const images = this.images.images
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
-
         // Funcion para renderizar Board
-        this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer)
-        this.turnContainer.render(this.ctx, this.language, this.currentTurn)
+        this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer);
+        this.turnContainer.render(this.ctx, this.language, this.currentTurn);
         this.turnContainer.buttonContainer.renderButtons(this.language);
         this.messagesContainer.render(this.ctx, this.language);
-        this.ctx.font         = "bold 30px Arial";
-        this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
-
     }
 
     updateGame() {

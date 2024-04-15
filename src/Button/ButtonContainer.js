@@ -9,8 +9,8 @@ export default class ButtonContainer{
     static create(ctx){
         // Button(context, x, y, width, height, "texto", estado button, estado fase que devuelve)
         const btnMove           = new Button(ctx, 330, 200, ["move", "mugitu"], ButtonState.NOT_SELECTED, PhaseStates.MOVEMENT, "#582900");
-        const btnPrepareEvent   = new Button(ctx, 330, 350, ["prepare event", "ebentua prestatzea"], ButtonState.NOT_SELECTED, PhaseStates.PREPARE_EVENT, "#582900");
-        const btnUseEvent       = new Button(ctx, 330, 500, ["use event", "ebentua erabiltzea"], ButtonState.NOT_SELECTED, PhaseStates.USE_EVENT_CARD, "#582900");
+        const btnPrepareEvent   = new Button(ctx, 330, 350, ["prepare event", "prestatu"], ButtonState.NOT_SELECTED, PhaseStates.PREPARE_EVENT, "#582900");
+        const btnUseEvent       = new Button(ctx, 330, 500, ["use event", "erabili"], ButtonState.NOT_SELECTED, PhaseStates.USE_EVENT_CARD, "#582900");
         const btnAttack         = new Button(ctx, 330, 650, ["attack", " eraso"], ButtonState.NOT_SELECTED, PhaseStates.ATTACK, "#582900");
         const btnEndTurn        = new Button(ctx, 1450, 450,["end turn", "txanda amaitu"], ButtonState.NOT_SELECTED, PhaseStates.DISCARD_CARD,"#582900");
 

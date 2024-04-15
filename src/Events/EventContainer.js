@@ -22,10 +22,13 @@ export default class EventContainer {
     executeEvents(){
         for (let i = 0; i < this.events.length; i++) {
             const event = this.events[i];
-            const isOver = event.execute()
-            console.log(isOver);
-            if (isOver) {
-                this.events.splice(i, 1)
+            if (event != undefined){
+                const isOver = event.execute()
+                console.log(isOver);
+                if (isOver) {
+                    this.events.splice(i, 1)
+                }
+
             }
         }
     }

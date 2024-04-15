@@ -58,7 +58,7 @@ export default class PrepareEventPhase extends Phase{
             const deckLength = this.activeEventDeck.cards.length 
             const position = isAnyCardSelected[1]
 
-            if (deckLength < 5) {
+            if (deckLength < 9) {
 
                 messages[MessageType.HELP_MESSAGE].timeInOn = 0;
                 const card = this.handDeck.cards[position]
@@ -95,5 +95,8 @@ export default class PrepareEventPhase extends Phase{
             return false;
         }
 
+    }
+    setEventGrid(grid){
+        this.activeEventGrid = grid
     }
 }

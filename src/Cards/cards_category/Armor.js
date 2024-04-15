@@ -119,12 +119,18 @@ export default class Armor extends Card{
                 size = CardId.BIG_SIZE
                 
             }else if(this.state === CardId.SELECTED){
+                if (this.deck.deckId=== DecksId.PLAYER_1_HAND_DECK || this.deck.deckId === DecksId.PLAYER_2_HAND_DECK) {
+                    yPos-=100 
+                }
                 cardVFX = this.imageVFX[VFXId.SELECTED][size]
                 ctx.drawImage(
                     cardVFX,                 //Img File
                     IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
                     )
             }else if(this.state === CardId.HOVER){
+                if (this.deck.deckId=== DecksId.PLAYER_1_HAND_DECK || this.deck.deckId === DecksId.PLAYER_2_HAND_DECK) {
+                    yPos-=100 
+                }
                 cardVFX = this.imageVFX[VFXId.HOVER][size]
                 ctx.drawImage(
                     cardVFX,                 //Img File

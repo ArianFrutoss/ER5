@@ -1,5 +1,5 @@
 import Turn from "./Turn.js";
-import { DecksId, TurnId } from "../constants.js";
+import { DecksId, IconsPos, TurnId } from "../constants.js";
 
 export default class TurnContainer {
 
@@ -61,10 +61,15 @@ export default class TurnContainer {
     }  
 
     render(ctx, language, currentTurn){
+        const xPos = IconsPos.PLAYER_NAME_X[0]
+        const yPos = IconsPos.PLAYER_NAME_Y[0]
+        const enemyXpos = IconsPos.PLAYER_NAME_X[1]
+        const enemyYpos = IconsPos.PLAYER_NAME_Y[1]
+        
         const turn = this.turnContainer[currentTurn]
         const pos = (currentTurn+1)%2
         const enemyTurn = this.turnContainer[pos]
-        turn.render(ctx, language, currentTurn)
-        enemyTurn.render(ctx, language, pos)
+        turn.render(ctx, language, currentTurn, xPos, yPos)
+        enemyTurn.render(ctx, language, pos, enemyXpos, enemyYpos)
     }
 }

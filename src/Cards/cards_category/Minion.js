@@ -91,15 +91,22 @@ export default class Minion extends Card {
             this.previousState = this.state
         this.minionLogic()
     }
+
     minionLogic() {
         if (this.state === CardId.DEAD) {
             this.xPos = -500
             this.yPos = -500
         }
     }
+
     setWeapon(weapon){
         this.weapon = weapon
     }
+
+    setArmor(armor){
+        this.armor = armor
+    }
+
     setDeck(deck){
         this.deck = deck
     }

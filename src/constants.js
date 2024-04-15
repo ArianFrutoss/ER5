@@ -240,7 +240,13 @@ export const IconsPos = {
     PLAYER_NAME_X: [200,120],
     PLAYER_NAME_Y: [787,295],
     VFX_X:[-25,-13,-10],
-    VFX_Y:[-40,-15,-10]
+    VFX_Y:[-40,-15,-10],
+    EVENT_FADE_WIDTH: 100,
+    EVENT_FADE_HEIGTH: 100,
+    EVENT_CD_X: 30,
+    EVENT_CD_Y: 47,
+    EVENT_CD_IMAGE_X: 48,
+    EVENT_CD_IMAGE_Y: 35
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 

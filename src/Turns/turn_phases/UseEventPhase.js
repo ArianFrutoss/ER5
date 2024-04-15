@@ -123,4 +123,8 @@ export default class UseEventPhase extends Phase{
 
     }
 
+    setEventGrid(grid){
+        this.activeEventGrid = grid
+    }
+
 }

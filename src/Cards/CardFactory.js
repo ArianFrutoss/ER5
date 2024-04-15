@@ -24,7 +24,6 @@ export default class CardFactory {
         let card
 
         for (let i = 0; i < this.cardData.length; i++) {
-
             const id = this.cardData[i].card_id;
             // const name = [this.cardData[i].name, this.cardData[i].izena];
             // const description = [this.cardData[i].description, this.cardData[i].deskripzioa];

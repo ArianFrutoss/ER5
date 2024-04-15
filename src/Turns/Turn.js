@@ -307,10 +307,10 @@ export default class Turn {
     }
     render(ctx,language, currentTurn){
         
-        this.handDeck.renderCards(ctx, language)
         this.activeMinionDeck.renderCards(ctx, language)
         this.preparingEventDeck.renderCards(ctx, language)
         this.mainCharacter.render(ctx, language, currentTurn)
+        this.handDeck.renderCards(ctx, language)
 
     }
 }

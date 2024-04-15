@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType } from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -11,7 +11,7 @@ import UseEventPhase from "./turn_phases/UseEventPhase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, handDeck, enemyHandDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, enemyPreparingEventDeck, activeMinionDeck, enemyActiveMinionDeck,  buttonContainer, eventContainer, turnId){
+    constructor(gridArray, mainCharacter, handDeck, enemyHandDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, enemyPreparingEventDeck, activeMinionDeck, enemyActiveMinionDeck,  buttonContainer, eventContainer, turnId, name){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
@@ -36,6 +36,7 @@ export default class Turn {
         this.maxActions         = 3;                        // maximo de acciones
         this.finished = false
         this.turnId             = turnId
+        this.name               = name;
     }
 
     createPhases(mouse, grids, decks, turnCounter){
@@ -311,6 +312,6 @@ export default class Turn {
         this.activeMinionDeck.renderCards(ctx, language)
         this.preparingEventDeck.renderCards(ctx, language)
         this.mainCharacter.render(ctx, language, currentTurn)
-
+        ctx.fillText(this.name ,IconsPos.PLAYER_NAME_X[currentTurn], IconsPos.PLAYER_NAME_Y[currentTurn]);
     }
 }

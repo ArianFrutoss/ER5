@@ -237,7 +237,7 @@ export const IconsPos = {
     ARMOR_Y:[15,10],
     PLAYER_X:[10,170],
     PLAYER_Y:[700,215],
-    PLAYER_NAME_X: [200,130],
+    PLAYER_NAME_X: [200,120],
     PLAYER_NAME_Y: [787,295],
     VFX_X:[-25,-13,-10],
     VFX_Y:[-40,-15,-10]

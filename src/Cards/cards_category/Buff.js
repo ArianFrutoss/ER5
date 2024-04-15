@@ -3,15 +3,11 @@ import Card from "../Card.js";
 
 export default class Buff extends Card {
 
-    constructor(id ,name, description ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, attack=0, defense=0, speed=0, health=0, durability=0, cooldown=0){
+    constructor(id ,name, description ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability=0, cooldown=0){
 
         super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
-        // Card attributes 
-        this.attack     = attack;
-        this.defense    = defense;
-        this.health     = health;
-        this.speed      = speed; 		   	
+        // Card attributes 		   	
         this.durability = durability;
         this.cooldown   = cooldown; 	
         this.effect     = effect;	
@@ -201,23 +197,11 @@ export default class Buff extends Card {
     }
 
     static create(id, texts, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect){
-        let attack;
-        let defense;
-        let health;
-        let speed;
-        let durability;
-        let cooldown;
-        if (attributes != null) {
-            attack = attributes.attack;
-            defense = attributes.defense;
-            health = attributes.hp;
-            speed = attributes.speed;
-            durability = attributes.durability;
-            cooldown = attributes.cooldown;
+        
+        let durability = attributes[0].attribute_value;
+        let cooldown = attributes[1].attribute_value;
 
-        }
-
-        const buff = new Buff(id, texts, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attack, defense, speed, health, durability, cooldown);
+        const buff = new Buff(id, texts, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, durability, cooldown);
 
         return buff;
 

@@ -178,6 +178,7 @@ export default class CardFactory {
 
 
         attributes = this.setAttributeValues(attributes);
+
         const minion = Minion.create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes);
 
         return minion
@@ -198,11 +199,42 @@ export default class CardFactory {
  
 
     createWeapon(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
+
         attributes = this.setAttributeValues(attributes)
 
         const weapon = Weapon.create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
         
         return weapon;
+    }
+
+
+    createCurse(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
+
+        attributes = this.setAttributeValues(attributes)
+        console.log(attributes);
+        const curse = Curse.create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
+        
+        return curse;
+    }
+
+
+    createBuff(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
+
+        attributes = this.setAttributeValues(attributes)
+
+        const buff = Buff.create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
+        
+        return buff;
+    }
+
+    
+    createSpell(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
+
+        attributes = this.setAttributeValues(attributes)
+        
+        const spell = Spell.create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
+        
+        return spell;
     }
 
 

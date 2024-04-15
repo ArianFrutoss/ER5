@@ -44,11 +44,16 @@ export default class EventFactory {
                 
                 switch (card.category){
                     case TypeId.BUFF:
-                        return new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, -card.effect[i].common_effect_value);
+                        const buff = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, -card.effect[i].common_effect_value);
+                        // buff.execute();
+                        return buff;
                     case TypeId.CURSE:
-                        return new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
+                        const curse = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
+                        // curse.execute();
+                        return curse;
                     case TypeId.SPELL:
-                        return new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
+                        const spell = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
+                        spell.execute();
                     case TypeId.ARMOR:
                         const armor = new EquipEvent(card, objectiveMinion);
                         armor.execute();

@@ -3,12 +3,11 @@ import Card from "../Card.js";
 
 export default class Spell extends Card{
 
-    constructor(id, texts, image, rarity, category, type,  xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, attack=0, durability=0, cooldown=0){
+    constructor(id, texts, image, rarity, category, type,  xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability=0, cooldown=0){
 
         super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
-        // Card attributes 
-        this.attack     = attack;   	
+        // Card attributes 	
         this.durability = durability;
         this.cooldown   = cooldown; 	
         this.effect     = effect;	
@@ -200,18 +199,10 @@ export default class Spell extends Card{
 
     static create(id, texts, image, rarity,category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect) {
         
-        let attack
-        let durability
-        let cooldown
-        if (attributes != null) {
+        let durability = attributes[0].attribute_value;
+        let cooldown = attributes[1].attribute_value;
 
-            attack = attributes.attack;
-            durability = attributes.durability;
-            cooldown = attributes.cooldown;
-
-        }
-
-        const spell = new Spell(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attack, durability, cooldown);
+        const spell = new Spell(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, durability, cooldown);
         
         return spell;
 

@@ -101,7 +101,7 @@ export default class UseEventPhase extends Phase{
 
                     messages[MessageType.HELP_MESSAGE].timeInOn = 0;
                     eventContainer.createCommonEvent(eventCard, minionCard)
-                    
+
                     return true;
                 }
             }

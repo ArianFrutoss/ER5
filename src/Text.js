@@ -24,7 +24,7 @@ export default class Text{
             case IconsPos.DESCRIPTION:
                 ctx.font = "13px LongaIberica-DEMO";
 
-                const lines = this.initText(this.text, 30);
+                const lines = this.initText(this.text, 32);
 
                 for(let i = 0; i < lines.length; i++){
                     

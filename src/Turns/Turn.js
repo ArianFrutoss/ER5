@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos} from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -11,7 +11,7 @@ import UseEventPhase from "./turn_phases/UseEventPhase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, handDeck, enemyHandDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, enemyPreparingEventDeck, activeMinionDeck, enemyActiveMinionDeck,  buttonContainer, eventContainer, turnId, name){
+    constructor(gridArray, mainCharacter, otherMainCharacter, handDeck, enemyHandDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, enemyPreparingEventDeck, activeMinionDeck, enemyActiveMinionDeck,  buttonContainer, eventContainer, turnId, name){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
@@ -20,6 +20,7 @@ export default class Turn {
         this.minionDeck         = minionDeck;               // Mazo de minions
         this.graveyardDeck      = graveyardDeck;            // Mazo cementerio
         this.mainCharacter      = mainCharacter;            // Carta de Character asignada  predefinida desde turnContainer
+        this.otherMainCharacter = otherMainCharacter        // Carta del Character rival
         this.gridArray          = gridArray;                // Array de rejillas
         this.eventContainer     = eventContainer            // Contenedor de eventos
         this.eventDeck          = eventDeck;                // Mazo de eventos
@@ -306,36 +307,33 @@ export default class Turn {
                 card.cooldown--
         }
     }
+    
     render(ctx,language, currentTurn, xPos, yPos){
 
-        const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck, this.handDeck, this.enemyHandDeck, this.preparingEventDeck, this.enemyPreparingEventDeck, this.mainCharacter];
+        const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck, this.handDeck, this.enemyHandDeck, this.preparingEventDeck, this.enemyPreparingEventDeck, this.mainCharacter, this.otherMainCharacter];
         const card = this.activeMinionDeck.isAnyCard(decks, CardId.SCALED);
-        console.log(card);
-        if (card[2] != undefined){
-            
-            ctx.globalAlpha = 0.3;
-            ctx.fillRect(0, 0, 1920, 1080);
-            ctx.globalAlpha = 1;
-            ctx.filter = "blur(5px)";
-        }
         
-        this.activeMinionDeck.renderCards(ctx, language);
-        this.preparingEventDeck.renderCards(ctx, language);
-        this.handDeck.renderCards(ctx, language);
-        this.mainCharacter.render(ctx, language, currentTurn);
-        ctx.fillText(this.name ,xPos, yPos);
-        
-        if (card[2] != undefined){
-            
-            ctx.filter = "blur(0px)";
-            card[2].render(ctx, language);
-            ctx.filter = "blur(5px)";
-        }
-
         if (card[0] === false){
             
             ctx.globalAlpha = 1;
             ctx.filter = "blur(0px)";
+        }
+
+        this.activeMinionDeck.renderCards(ctx, language);
+        this.preparingEventDeck.renderCards(ctx, language);
+        this.handDeck.renderCards(ctx, language);
+        this.mainCharacter.render(ctx, language, currentTurn);
+        this.otherMainCharacter.render(ctx, language, currentTurn);
+        ctx.fillText(this.name ,xPos, yPos);
+        
+        if (card[2] != undefined){
+
+            ctx.globalAlpha = 0.3;
+            ctx.filter = "blur(0px)";
+            ctx.fillRect(0, 0, ScreenSize.X_SIZE, ScreenSize.Y_SIZE);
+            ctx.globalAlpha = 1;
+            card[2].render(ctx, language);
+            ctx.filter = "blur(3px)";
         }
     }
 }

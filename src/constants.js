@@ -291,3 +291,8 @@ export const messagePrepareEventPhase2  = [["Select any slot of the event grid t
 export const messageUseEventPhase1      = [["There are no cards in the event grid, Select other action"], ["Ez dago txartelik ekitaldien laukian, aukeratu beste ekintza bat"]];
 export const messageUseEventPhase2      = [["Select any prepared event card to use"], ["Aukeratu erabili beharreko ekitaldietarako txartel prestatua"]];
 export const messageUseEventPhase3      = [["Select any minion to use the event card"], ["Aukeratu edozein minioi gertaeraren txartela erabiltzeko"]];
+
+export const ScreenSize = {
+    X_SIZE: 1920,
+    Y_SIZE: 1080,
+}

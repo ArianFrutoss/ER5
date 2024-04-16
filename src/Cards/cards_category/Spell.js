@@ -192,6 +192,35 @@ export default class Spell extends Card{
                         ctx.drawImage(
                             this.imageCategory,
                             IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
+
+                        ctx.drawImage(
+                            this.imageAttributes[0],
+                            IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
+        
+                        ctx.fillText(Math.ceil(this.cooldown), IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+            
+                        ctx.drawImage(
+                            this.imageAttributes[1],
+                            
+                            IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
+                        ctx.fillText(this.durability, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                    }
+
+                    if(size === CardId.EVENT_SIZE){
+                     
+                        if(this.cooldown >= 0.1){
+
+                            ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                            ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
+                            
+
+                            ctx.fillStyle = "white";
+                            ctx.fillText(Math.ceil(this.cooldown), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            ctx.drawImage(
+                                this.imageAttributes[0],
+                                IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
+                        }
+                        
                     }
 
             } else {

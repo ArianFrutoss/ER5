@@ -209,45 +209,61 @@ export default class Weapon extends Card{
                         IconsPos.RARITY_X[size] +      xPos, IconsPos.RARITY_Y[size] + yPos)
                     
                 }
+                if (size === BorderId.NORMAL_SIZE) {
+                    // ctx.font = "25px LongaIberica-DEMO";
+                    // ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
+                    // ctx.font = "15px LongaIberica-DEMO";
+                    // ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
+                    // ctx.font = "25px LongaIberica-DEMO";
                     
-    
-                        if (size === BorderId.NORMAL_SIZE) {
-                            // ctx.font = "25px LongaIberica-DEMO";
-                            // ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
-                            // ctx.font = "15px LongaIberica-DEMO";
-                            // ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
-                            // ctx.font = "25px LongaIberica-DEMO";
-                            
-                            this.texts.render(ctx, xPos, yPos);
+                    this.texts.render(ctx, xPos, yPos);
 
                             //CATEGORY ICON
                             ctx.drawImage(
                                 this.imageCategory,
-                                IconsPos.CATEGORY_X +      xPos, IconsPos.CATEGORY_Y + yPos)
+                                IconsPos.CATEGORY_X +      xPos, IconsPos.CATEGORY_Y + yPos);
+
+                            //ATTRIBUTES ICONS & VALUES
+                            ctx.drawImage(
+                                this.imageAttributes[0],
+                                IconsPos.FIRST_ICON_X[size] +      xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
+
+                            ctx.fillText(Math.ceil(this.cooldown), IconsPos.FIRST_ICON_NUMBER_X[size] +       xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+
+                            ctx.drawImage(
+                                this.imageAttributes[1],
+                                IconsPos.SECOND_ICON_X[size] +     xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
+                            ctx.fillText(this.durability, IconsPos.SECOND_ICON_NUMBER_X[size] +    xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+
+                            ctx.drawImage(
+                                this.imageAttributes[2],
+                                IconsPos.THIRD_ICON_X[size] +      xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
+                            ctx.fillText(this.defense, IconsPos.THIRD_ICON_NUMBER_X[size] +    xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+
+                            ctx.drawImage(
+                                this.imageAttributes[3],
+                                IconsPos.FOURTH_ICON_X[size] +     xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
+                            ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                    }
+
+
+                    if(size === CardId.EVENT_SIZE){
+                     
+                        if(this.cooldown >= 0.1){
+
+                            ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                            ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
+                            
+
+                            ctx.fillStyle = "white";
+                            ctx.fillText(Math.ceil(this.cooldown), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            ctx.drawImage(
+                                this.imageAttributes[0],
+                                IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                         }
-        
-                    //ATTRIBUTES ICONS & VALUES
-                    ctx.drawImage(
-                        this.imageAttributes[0],
-                        IconsPos.FIRST_ICON_X[size] +      xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
-    
-                    ctx.fillText(Math.ceil(this.cooldown), IconsPos.FIRST_ICON_NUMBER_X[size] +       xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
-    
-                    ctx.drawImage(
-                        this.imageAttributes[1],
-                        IconsPos.SECOND_ICON_X[size] +     xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                    ctx.fillText(this.durability, IconsPos.SECOND_ICON_NUMBER_X[size] +    xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
-    
-                    ctx.drawImage(
-                        this.imageAttributes[2],
-                        IconsPos.THIRD_ICON_X[size] +      xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                    ctx.fillText(this.defense, IconsPos.THIRD_ICON_NUMBER_X[size] +    xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
-    
-                    ctx.drawImage(
-                        this.imageAttributes[3],
-                        IconsPos.FOURTH_ICON_X[size] +     xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                    ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-                    
+                        
+                    }
+
         } else {
             ctx.drawImage(
                 this.imageReverse,

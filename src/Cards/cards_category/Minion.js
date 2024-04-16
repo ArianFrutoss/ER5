@@ -91,15 +91,22 @@ export default class Minion extends Card {
             this.previousState = this.state
         this.minionLogic()
     }
+
     minionLogic() {
         if (this.state === CardId.DEAD) {
             this.xPos = -500
             this.yPos = -500
         }
     }
+
     setWeapon(weapon){
         this.weapon = weapon
     }
+
+    setArmor(armor){
+        this.armor = armor
+    }
+
     setDeck(deck){
         this.deck = deck
     }
@@ -180,7 +187,30 @@ export default class Minion extends Card {
                         //CATEGORY ICON
                         ctx.drawImage(
                             this.imageCategory,
-                            IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
+                            IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos);
+
+                                //ATTRIBUTES ICONS & VALUES
+                        ctx.drawImage(
+                            this.imageAttributes[0],
+                            IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
+
+                        ctx.fillText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+
+                        ctx.drawImage(
+                            this.imageAttributes[1],
+                            IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
+                        ctx.fillText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+
+                        ctx.drawImage(
+                            this.imageAttributes[2],
+                            IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
+                        ctx.fillText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+
+                        ctx.drawImage(
+                            this.imageAttributes[3],
+                            IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
+                        ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                        
                     }
             //RARITY ICON
             ctx.drawImage(
@@ -188,27 +218,7 @@ export default class Minion extends Card {
                 this.imageRarity,
                 IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
     
-                //ATTRIBUTES ICONS & VALUES
-                ctx.drawImage(
-                    this.imageAttributes[0],
-                    IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
-
-                ctx.fillText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
-
-                ctx.drawImage(
-                    this.imageAttributes[1],
-                    IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                ctx.fillText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
-
-                ctx.drawImage(
-                    this.imageAttributes[2],
-                    IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                ctx.fillText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
-
-                ctx.drawImage(
-                    this.imageAttributes[3],
-                    IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+        
 
                 //WEAPON RARITY
                 let equipRarityImg

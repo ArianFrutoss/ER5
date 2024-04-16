@@ -89,6 +89,14 @@ export default class MinionAttackPhase extends Phase {
                         attacker.setWeapon(undefined)
                     }
                 }
+
+                if (enemy.armor != undefined) {
+                    const isDestroyed = enemy.armor.removeIfWornOut(this.enemyActiveEventDeck, this.graveyardDeck)
+                    if (isDestroyed) {
+                        enemy.setArmor(undefined)
+                    }
+                }
+
                 this.removeEnemyIfDead(enemy,enemyPosition)
                 return true;
             } else {

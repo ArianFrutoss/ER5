@@ -1,9 +1,9 @@
-import { IconsPos, CardSize } from "./constants.js";
+import { IconsPos } from "./constants.js";
 import Line from "./Line.js";
 
 export default class Text{
 
-    constructor(text, language, type, size, lettersQuantity, lineSpace){
+    constructor(text, language, type, size, lettersQuantity, lineSpace, lines, maxWidth){
 
         this.text               = text;
         this.language           = language;
@@ -11,6 +11,8 @@ export default class Text{
         this.size               = size;
         this.lettersQuantity    = lettersQuantity;
         this.lineSpace          = lineSpace;
+        this.lines              = lines;
+        this.maxWidth           = maxWidth;
     }
 
 
@@ -20,7 +22,15 @@ export default class Text{
 
             case IconsPos.NAME:
                 ctx.font = this.size + "px LongaIberica-DEMO";
-                ctx.fillText(this.text, xPos + IconsPos.NAME_X, yPos + IconsPos.NAME_Y);
+
+                const names = this.initText();
+                
+                for(let i = 0; i < names.length; i++){
+                    
+                    const name = names[i];
+
+                    ctx.fillText(name.text, xPos + IconsPos.NAME_X, yPos + IconsPos.NAME_Y);
+                }
                 break;
             
             case IconsPos.DESCRIPTION:
@@ -51,7 +61,7 @@ export default class Text{
             const textWidth = this.lettersQuantity * this.size;
             const maxLettersQuantity = this.calculateLettersQuantity(words);
             
-            if (maxLettersQuantity < this.lettersQuantity * 4 && textWidth < CardSize.X_SIZE + 300){
+            if (maxLettersQuantity < this.lettersQuantity * this.lines && textWidth < this.maxWidth){
 
                 if ((line + word ).length < this.lettersQuantity){
                     
@@ -59,7 +69,7 @@ export default class Text{
 
                     if ((i+1) === words.length) {
 
-                        lines.push(line)
+                        lines.push(line);
                         break;
                     }
 
@@ -73,7 +83,7 @@ export default class Text{
 
             else{
                 
-                if (textWidth < CardSize.X_SIZE + 300){
+                if (textWidth < this.maxWidth){
 
                     this.lettersQuantity += 5;
                 }

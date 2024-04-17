@@ -12,10 +12,10 @@ export default class TextContainer{
 
     static create(cardData, language){
 
-        const description = new Text(cardData.description, LanguageId.ENG, IconsPos.DESCRIPTION, 12, 40, 15);
-        const deskripzioa = new Text(cardData.deskripzioa, LanguageId.EUS, IconsPos.DESCRIPTION, 12, 40, 15);
-        const name  = new Text(cardData.name, LanguageId.ENG, IconsPos.NAME, 15, 100, 15);
-        const izena = new Text(cardData.izena, LanguageId.EUS, IconsPos.NAME, 15, 100, 15);
+        const description = new Text(cardData.description, LanguageId.ENG, IconsPos.DESCRIPTION, 12, 40, 15, 4, 520);
+        const deskripzioa = new Text(cardData.deskripzioa, LanguageId.EUS, IconsPos.DESCRIPTION, 12, 40, 15, 4, 520);
+        const name  = new Text(cardData.name, LanguageId.ENG, IconsPos.NAME, 15, null, 15, 1, 300);
+        const izena = new Text(cardData.izena, LanguageId.EUS, IconsPos.NAME, 15, null, 15, 1, 300);
         const container = [description, deskripzioa, name, izena];
 
         return new TextContainer(container, language);

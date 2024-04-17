@@ -1,23 +1,32 @@
-import { MAXIMUN_CARDS_IN_HAND , PhaseStates} from "../../constants.js";
+import { CardId, CardImageId, MAXIMUN_CARDS_IN_HAND , PhaseStates} from "../../constants.js";
 import Phase from "./Phase.js";
 
 export default class DrawCardPhase extends Phase{
 
-    constructor(handDeck, handGrid, eventDeck, graveyardDeck){
+    constructor(handDeck, handGrid, eventDeck, graveyardDeck, josephDeck){
         super();
         this.handDeck       = handDeck;
         this.handGrid       = handGrid;
         this.eventDeck      = eventDeck;
-        this.graveyardDeck  = graveyardDeck
+        this.graveyardDeck  = graveyardDeck;
+        this.josephDeck     = josephDeck;
     }
     execute(quantity = 1){
         for (let i = 0; i < quantity; i++) {
             if (this.eventDeck.cards.length > 0) {
                 if (this.handDeck.cards.length < MAXIMUN_CARDS_IN_HAND) {
                     const card = this.eventDeck.cards[this.eventDeck.cards.length - 1]
-                    this.handDeck.cards.push(card);
-                    card.setDeck(this.handDeck)
-                    this.eventDeck.cards.pop();            
+                    if (card.id === CardImageId.JOSEPH) {
+                        i--
+                        card.state = CardId.ALIVE
+                        card.setDeck(this.josephDeck)
+                        this.josephDeck.cards.push(card)
+                        this.eventDeck.cards.pop();
+                    }else{
+                        this.handDeck.cards.push(card);
+                        card.setDeck(this.handDeck)
+                        this.eventDeck.cards.pop();            
+                    }
                 }            
                 
             } else {

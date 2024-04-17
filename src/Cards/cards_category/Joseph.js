@@ -1,3 +1,4 @@
+import { DestroyAllMinionsEvent } from "../../Events/phase_events/DestroyAllMinionsEvent.js";
 import { BorderId, CardActions, CardId, DecksId, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
@@ -6,7 +7,7 @@ export default class Joseph extends Card{
     constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect){
 
         super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
-
+        this.deckObjetives
         this.effect = effect; // efecto carta joseph
         
     }
@@ -77,14 +78,51 @@ export default class Joseph extends Card{
             }
         } 
             this.previousState = this.state
-        this.josephLogic()
+        this.josephLogic(mouse)
     }
-    josephLogic(){
+    josephLogic(mouse){
+        switch (this.state) {
+            case CardId.ALIVE:
+                this.xPos = 1750
+                this.yPos = 50
+                this.size = CardId.SMALL_SIZE
+                const event = new DestroyAllMinionsEvent(this.deckObjetives)
+                event.execute(mouse)
+                this.state = CardId.STUNNED
+                break;
         
+            default:
+                break;
+        }
+    }
+    setObjetive(decks){
+        this.deckObjetives = decks
     }
     setDeck(deck){
         this.deck = deck
     }
+    checkDurability(){
+        if (this.durability <= 0) {
+            this.action = CardActions.WORN_OUT
+        }
+    }
+    removeIfWornOut(activeEventDeck, graveyardDeck){
+
+        this.checkDurability()
+        if (this.action === CardActions.WORN_OUT) {
+            for (let i = 0; i < activeEventDeck.cards.length; i++) {
+                const card = activeEventDeck.cards[i];
+                if (card.action === CardActions.WORN_OUT) {
+                    activeEventDeck.cards.splice(i, 1)
+                    graveyardDeck.cards.push(card)
+                    this.setDeck(graveyardDeck)
+                    return true
+                }
+            }  
+        }
+        return false
+    }
+
     render(ctx, language){
 
         ctx.fillStyle = "black"

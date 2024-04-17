@@ -96,6 +96,9 @@ export default class Minion extends Card {
         if (this.state === CardId.DEAD) {
             this.xPos = -500
             this.yPos = -500
+            const index = this.deck.cards.indexOf(this)
+            this.deck.cards.splice(index, 1)
+            this.deck = undefined
         }
     }
 
@@ -113,7 +116,7 @@ export default class Minion extends Card {
 
     assignMinionToBoardGrid(boardGrid, turn){
 
-        const boardYPos = turn === TurnId.PLAYER_1 ? 4 : 0;
+        const boardYPos = 4;
         let aviablePositions = [];
         
         for (let i = 0; i < boardGrid.slots[boardYPos].length; i++){

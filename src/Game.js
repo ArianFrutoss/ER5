@@ -120,7 +120,8 @@ export default class Game {
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
                 
 
-                if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length === 0){
+                if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length + 
+                   this.turnContainer.turnContainer[this.currentTurn].minionDeck.cards.length === 0){
                     this.gameState = GameState.GAMEOVER
                 }else{
                     if(this.turnContainer.turnContainer[this.currentTurn].finished){
@@ -162,7 +163,7 @@ export default class Game {
 
             case GameState.GAMEOVER:
                 this.ctx.font         = "bold 60px Arial";
-                this.ctx.fillText(this.turnContainer.turnContainer[(this.currentTurn+1)%2].mainCharacter.name[LanguageId.ENG] + "  WON", 1000, 500);
+                // this.ctx.fillText(this.turnContainer.turnContainer[(this.currentTurn+1)%2].mainCharacter.name[LanguageId.ENG] + "  WON", 1000, 500);
                 break;
             default:
                 break;
@@ -182,7 +183,6 @@ export default class Game {
     }
 
     updateGame() {
-        
         // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
         // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards);
         // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards);
@@ -310,9 +310,11 @@ export default class Game {
                     if (card.yPos === row[0].yPos) {
                         positions[k] = i
                     }
-
-                    if (enemyCard.yPos === row[0].yPos) {
-                        enemyPositions[k] = i
+                    if (enemyCard != undefined) {
+                        if (enemyCard.yPos === row[0].yPos) {
+                            enemyPositions[k] = i
+                        }
+                        
                     }
                 
             }

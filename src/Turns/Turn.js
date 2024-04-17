@@ -244,7 +244,6 @@ export default class Turn {
         
         if (value <= 0 || this.actionsCounter === this.maxActions){
             
-            messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             this.state = TurnStates.END;
         }
     }

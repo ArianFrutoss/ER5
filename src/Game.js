@@ -54,6 +54,7 @@ export default class Game {
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
         const messages = new MessagesContainer();
+        messages.createHelpMessages();
         
         const firstTurn = Math.floor(Math.random()*2);
         turns.CreateTurns(mouse, eventContainer);
@@ -176,8 +177,8 @@ export default class Game {
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer);
         this.turnContainer.buttonContainer.renderButtons(this.language);
-        this.messagesContainer.render(this.ctx, this.language);
         this.turnContainer.render(this.ctx, this.language, this.currentTurn);
+        this.messagesContainer.render(this.ctx, this.language);
     }
 
     updateGame() {

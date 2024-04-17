@@ -20,7 +20,7 @@ export default class Messages{
     }
 
     update(messages){
-        console.log(this.alpha);
+        
         switch (this.state){
 
             case MessageState.APPEAR:

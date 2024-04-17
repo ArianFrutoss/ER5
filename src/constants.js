@@ -302,3 +302,8 @@ export const ScreenSize = {
     X_SIZE: 1920,
     Y_SIZE: 1080,
 }
+
+export const CardSize = {
+    X_SIZE: 197.6,
+    Y_SIZE: 303.2,
+}

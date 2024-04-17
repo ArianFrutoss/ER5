@@ -1,14 +1,16 @@
-import { IconsPos, LanguageId } from "./constants.js";
+import { IconsPos, CardSize } from "./constants.js";
 import Line from "./Line.js";
 
 export default class Text{
 
-    constructor(text, language, type){
+    constructor(text, language, type, size, lettersQuantity, lineSpace){
 
-        this.text       = text;
-        this.language   = language;
-        this.type       = type;
-
+        this.text               = text;
+        this.language           = language;
+        this.type               = type;
+        this.size               = size;
+        this.lettersQuantity    = lettersQuantity;
+        this.lineSpace          = lineSpace;
     }
 
 
@@ -17,14 +19,14 @@ export default class Text{
         switch(this.type){
 
             case IconsPos.NAME:
-                ctx.font = "15px LongaIberica-DEMO";
+                ctx.font = this.size + "px LongaIberica-DEMO";
                 ctx.fillText(this.text, xPos + IconsPos.NAME_X, yPos + IconsPos.NAME_Y);
                 break;
             
             case IconsPos.DESCRIPTION:
-                ctx.font = "13px LongaIberica-DEMO";
+                ctx.font = this.size + "px LongaIberica-DEMO";
 
-                const lines = this.initText(this.text, 30);
+                const lines = this.initText();
 
                 for(let i = 0; i < lines.length; i++){
                     
@@ -36,9 +38,9 @@ export default class Text{
         }
     }
 
-    initText(text, lettersQuantity) {
-        // const lines = Math.ceil(text.length / lettersQuantity)
-        const words = text.split(" ");
+    initText(){
+        
+        const words = this.text.split(" ");
         let lines   = [];
         let line    = "";
         let returnLines = [];
@@ -46,37 +48,69 @@ export default class Text{
         for (let i = 0; i < words.length; i++){
 
             const word = words[i];
-            if ((line + word ).length < lettersQuantity){
+            const textWidth = this.lettersQuantity * this.size;
+            const maxLettersQuantity = this.calculateLettersQuantity(words);
+            
+            if (maxLettersQuantity < this.lettersQuantity * 4 && textWidth < CardSize.X_SIZE + 300){
 
-                line += (word + " ");
+                if ((line + word ).length < this.lettersQuantity){
+                    
+                    line += (word + " ");
 
-                if ((i+1) === words.length) {
+                    if ((i+1) === words.length) {
 
-                    lines.push(line)
-                    break;
+                        lines.push(line)
+                        break;
+                    }
+
+                } else {
+
+                    lines.push(line);
+                    line = "";
+                    line += word + " ";
                 }
+            }
 
-            } else {
+            else{
+                
+                if (textWidth < CardSize.X_SIZE + 300){
 
-                lines.push(line);
-                line = "";
-                line += word + " ";
-    
+                    this.lettersQuantity += 5;
+                }
+                
+                else{
+
+                    this.size -= 1;
+                    this.lineSpace -= 10;
+                }
             }
         }
     
         for (let i = 0; i < lines.length; i++) {
             const lineText  = lines[i]
             const xPos      = 60
-            const yPos      = 80 + 17 * i
+            const modifier  = 8 * (4 - lines.length); 
+            const yPos      = 80 + modifier + 15 * i
     
             const line      = new Line(xPos, yPos, lineText)
-            
-            // globals.lines.push(line)
             
             returnLines.push(line);
         }
 
         return returnLines;
+    }
+
+    calculateLettersQuantity(words){
+
+        let maxLettersQuantity = 0;
+
+        for (let i = 0; i < words.length; i++){
+
+            const word = words[i];
+            
+            maxLettersQuantity += word.length;
+        }
+
+        return maxLettersQuantity;
     }
 }

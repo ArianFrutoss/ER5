@@ -23,9 +23,9 @@ export default class Text{
             case IconsPos.NAME:
                 ctx.font = this.size + "px LongaIberica-DEMO";
 
-                const names = this.initText();
+                const names = this.initCardText();
                 
-                for(let i = 0; i < names.length; i++){
+                for (let i = 0; i < names.length; i++){
                     
                     const name = names[i];
 
@@ -36,9 +36,9 @@ export default class Text{
             case IconsPos.DESCRIPTION:
                 ctx.font = this.size + "px LongaIberica-DEMO";
 
-                const lines = this.initText();
+                const lines = this.initCardText();
 
-                for(let i = 0; i < lines.length; i++){
+                for (let i = 0; i < lines.length; i++){
                     
                     const sentence = lines[i];
 
@@ -48,16 +48,16 @@ export default class Text{
         }
     }
 
-    initText(){
-        
+    initCardText(){
+            
         const words = this.text.split(" ");
-        let lines   = [];
-        let line    = "";
-        let returnLines = [];
+        const lines = [];
+        const returnLines = [];
+        let line = "";
 
-        for (let i = 0; i < words.length; i++){
+        for (let j = 0; j < words.length; j++){
 
-            const word = words[i];
+            const word = words[j];
             const textWidth = this.lettersQuantity * this.size;
             const maxLettersQuantity = this.calculateLettersQuantity(words);
             
@@ -67,7 +67,7 @@ export default class Text{
                     
                     line += (word + " ");
 
-                    if ((i+1) === words.length) {
+                    if ((j+1) === words.length) {
 
                         lines.push(line);
                         break;
@@ -96,18 +96,87 @@ export default class Text{
             }
         }
     
-        for (let i = 0; i < lines.length; i++) {
-            const lineText  = lines[i]
-            const xPos      = 60
+        for (let j = 0; j < lines.length; j++){
+
+            const lineText  = lines[j];
+            const xPos      = 60;
             const modifier  = 8 * (4 - lines.length); 
-            const yPos      = 80 + modifier + 15 * i
-    
-            const line      = new Line(xPos, yPos, lineText)
+            const yPos      = 80 + modifier + 15 * j;
+            const line      = new Line(xPos, yPos, lineText);
             
             returnLines.push(line);
         }
 
         return returnLines;
+    }
+
+    initMessageText(){
+        
+        for (let i = 0; i < this.text.length; i++){
+
+            for (let j = 0; j < this.text[i].length; j++){
+                
+                const text = this.text[i][j];
+                const words = text.split(" ");
+                const lines = [];
+                const returnLines = [];
+                let line = "";
+
+                for (let k = 0; k < words.length; k++){
+
+                    const word = words[k];
+                    const textWidth = this.lettersQuantity * this.size;
+                    const maxLettersQuantity = this.calculateLettersQuantity(words);
+                    
+                    if (maxLettersQuantity < this.lettersQuantity * this.lines && textWidth < this.maxWidth){
+
+                        if ((line + word ).length < this.lettersQuantity){
+                            
+                            line += (word + " ");
+
+                            if ((k+1) === words.length) {
+
+                                lines.push(line);
+                                break;
+                            }
+
+                        } else {
+
+                            lines.push(line);
+                            line = "";
+                            line += word + " ";
+                        }
+                    }
+
+                    else{
+                        
+                        if (textWidth < this.maxWidth){
+
+                            this.lettersQuantity += 5;
+                        }
+                        
+                        else{
+
+                            this.size -= 1;
+                            this.lineSpace -= 10;
+                        }
+                    }
+                }
+            
+                for (let k = 0; k < lines.length; k++){
+
+                    const lineText  = lines[k];
+                    const xPos      = 60;
+                    const modifier  = 8 * (4 - lines.length); 
+                    const yPos      = 80 + modifier + 15 * k;
+                    const line      = new Line(xPos, yPos, lineText);
+                    
+                    returnLines.push(line);
+                }
+
+                text = returnLines;
+            }
+        }
     }
 
     calculateLettersQuantity(words){

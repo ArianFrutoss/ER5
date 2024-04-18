@@ -27,7 +27,7 @@ export default class CardFactory {
             const id = this.cardData[i].card_id;
             // const name = [this.cardData[i].name, this.cardData[i].izena];
             // const description = [this.cardData[i].description, this.cardData[i].deskripzioa];
-            const texts  = TextContainer.create(this.cardData[i], language);
+            const texts  = TextContainer.createCardText(this.cardData[i], language);
 
             const rarity = this.setRarity(this.cardData[i].rarity)
             const category = this.cardData[i].category

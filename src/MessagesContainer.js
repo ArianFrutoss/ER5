@@ -1,6 +1,7 @@
 import { MessageType } from "./constants.js";
 import Messages from "./Messages.js";
-import { HelpMessagesPos, MessageState, messageDefaultPhase, messageDiscardPhase, messageMovimentPhase1, messageMovimentPhase2, messageAttackPhase1, messageAttackPhase2, messagePrepareEventPhase1, messagePrepareEventPhase2, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3 } from "./constants.js";
+import TextContainer from "./TextContainer.js";
+import { HelpMessagesPos, MessageState } from "./constants.js";
 
 export default class MessagesContainer{
 
@@ -32,19 +33,15 @@ export default class MessagesContainer{
 
     createHelpMessages(){
 
-        const defaultPhase          = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageDefaultPhase, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
-        const discardPhase          = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageDiscardPhase, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
-        const movimentPhase1        = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageMovimentPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
-        const movimentPhase2        = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageMovimentPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
-        const attackPhase1          = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageAttackPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
-        const attackPhase2          = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageAttackPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
-        const prepareEventPhase1    = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messagePrepareEventPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
-        const prepareEventPhase2    = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messagePrepareEventPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
-        const useEventPhase1        = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageUseEventPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
-        const useEventPhase2        = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageUseEventPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
-        const useEventPhase3        = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageUseEventPhase3, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
+        const textsContainer = TextContainer.createMessageText();
+        const messages = [];
 
-        const messages = [defaultPhase, discardPhase, movimentPhase1, movimentPhase2, attackPhase1, attackPhase2, prepareEventPhase1, prepareEventPhase2, useEventPhase1, useEventPhase2, useEventPhase3];
+        for (let i = 0; i < textsContainer.texts.length; i++){
+
+            const text = textsContainer.texts[i];
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, text, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.1, 0.2, null);
+            messages.push(message);
+        }
 
         this.helpMessage = messages;
     }

@@ -119,6 +119,22 @@ export default class Turn {
 
     init(timerContainer){
         this.restoreCardStatesFromActiveDecks()
+        // Spawnear nuevo Minion
+        if (this.minionDeck.cards.length>0) {
+        for (; this.activeMinionDeck.cards.length < 3;) {
+                const newMinion = this.minionDeck.spawnNewMinions(this.activeMinionDeck);
+                
+                // Posicionar nuevo Minion en el Grid
+                if (newMinion != undefined){
+                    
+                    newMinion.assignMinionToBoardGrid(this.gridArray.grids[GridId.BOARD_GRID], this.turnId);
+                } 
+                if (this.minionDeck.cards.length === 0) {
+                    break;
+                }
+            }
+        }
+
         this.eventContainer.executeEvents()
         this.actionsCounter = 0
         this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer)
@@ -126,15 +142,6 @@ export default class Turn {
         // Restablecer el Timer
         timerContainer.restartTimerValue(TimerId.TURN_TIMER);
         
-        // Spawnear nuevo Minion
-        const newMinion = this.minionDeck.spawnNewMinions(this.activeMinionDeck);
-        
-        // Posicionar nuevo Minion en el Grid
-        if (newMinion != undefined){
-            
-            newMinion.assignMinionToBoardGrid(this.gridArray.grids[GridId.BOARD_GRID], this.turnId);
-            console.log(this.activeMinionDeck);
-        }
 
         // indicar turno activo
         this.active = true;
@@ -261,6 +268,7 @@ export default class Turn {
             this.deselect();
             
             this.blockCardStatesFromHandDeck();
+            this.activeMinionDeck.restoreDeckMinionsHp()
             this.enemyActiveMinionDeck.restoreDeckMinionsHp();
             
             // cambio de turno

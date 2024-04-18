@@ -17,9 +17,7 @@ export class ModifyAttributeToAllMinions extends Event{
             for (let i = 0; i < this.decks.length; i++) {
                 const deck = this.decks[i];
                 for (let j = 0; j < deck.cards.length; j++) {
-                    console.log("entro");
                     const card = deck.cards[j];
-                    console.log(this.card, card);
                     EventFactory.createModifyAttributeEvent(this.card, card)
                 }
             }

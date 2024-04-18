@@ -134,6 +134,7 @@ export default class Minion extends Card {
         this.xPos = boardGrid.slots[boardYPos][randomXPos].xPos;
         this.yPos = boardGrid.slots[boardYPos][randomXPos].yPos;
         this.size = BorderId.SMALL_SIZE;
+        boardGrid.slots[boardYPos][randomXPos].isEmpty = false
     }
 
     restoreMinionsHp(){

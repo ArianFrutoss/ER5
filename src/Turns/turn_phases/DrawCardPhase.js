@@ -1,4 +1,4 @@
-import { CardId, CardImageId, MAXIMUN_CARDS_IN_HAND , PhaseStates} from "../../constants.js";
+import { CardActions, CardId, CardImageId, MAXIMUN_CARDS_IN_HAND , PhaseStates} from "../../constants.js";
 import Phase from "./Phase.js";
 
 export default class DrawCardPhase extends Phase{
@@ -11,15 +11,17 @@ export default class DrawCardPhase extends Phase{
         this.graveyardDeck  = graveyardDeck;
         this.josephDeck     = josephDeck;
     }
-    execute(quantity = 1){
+    execute(eventContainer, quantity = 1){
         for (let i = 0; i < quantity; i++) {
             if (this.eventDeck.cards.length > 0) {
                 if (this.handDeck.cards.length < MAXIMUN_CARDS_IN_HAND) {
                     const card = this.eventDeck.cards[this.eventDeck.cards.length - 1]
                     if (card.id === CardImageId.JOSEPH) {
                         i--
-                        card.state = CardId.ALIVE
+                        card.action = CardActions.READY
                         card.setDeck(this.josephDeck)
+                        card.graveyardDeck = this.graveyardDeck
+                        card.eventContainer = eventContainer
                         this.josephDeck.cards.push(card)
                         this.eventDeck.cards.pop();
                     }else{

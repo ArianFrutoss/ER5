@@ -2,6 +2,8 @@ import { CardActions, DecksId, EventsId, StatsId, TypeId } from "../constants.js
 import { CooldownEvent } from "./temp_events/CooldownEvent.js";
 import { ModifyAttributeEvent } from "./temp_events/ModifyAttributesEvent.js";
 import { EquipEvent } from "./temp_events/EquipEvent.js";
+import { DestroyAllMinionsEvent } from "./phase_events/DestroyAllMinionsEvent.js";
+import { ModifyAttributeToAllMinions } from "./temp_events/ModifyAttributeToAllMinions.js";
 
 export default class EventFactory {
 
@@ -25,7 +27,6 @@ export default class EventFactory {
     }
 
     static createCommonEvent(card, objectiveMinion){
-        
         if (card.action === CardActions.READY){
             
             let length;
@@ -64,6 +65,21 @@ export default class EventFactory {
                         break;
                 }
             }
+        }
+    }
+
+    static createDestroyAllMinionsEvent(decks, card){
+        return new DestroyAllMinionsEvent(decks, card)
+    }
+
+    static createModifyAttributeToAllMinions(decks, card){
+        return new ModifyAttributeToAllMinions(decks, card)
+    }
+    static createModifyAttributeEvent(card, objectiveMinion){
+        const length = card.effect != undefined ? card.effect.length : 1;
+        for (let i = 0; i < length; i++) {
+            const joseph = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
+            joseph.execute()
         }
     }
 }

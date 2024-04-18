@@ -45,11 +45,11 @@ export default class Game {
         assets.loadImages(data);
         const cardImgs = assets.images
         const deckContainer = new DeckContainer();
+        const eventContainer = new EventContainer()
         deckContainer.createDecks(data, cardImgs, language);
 
         const buttonContainer = ButtonContainer.create(ctx);
 
-        const eventContainer = new EventContainer()
         const turns = new TurnContainer(board, deckContainer, buttonContainer, eventContainer);
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
@@ -183,6 +183,7 @@ export default class Game {
     }
 
     updateGame() {
+        // console.log(this.eventContainer.events);
         // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
         // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards);
         // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards);
@@ -305,31 +306,30 @@ export default class Game {
                 const row = this.gridsArray.grids[GridId.BOARD_GRID].slots[i]
                 for (let k = 0; k < minionCards.length; k++) {
                     const card = minionCards[k];
-                    const enemyCard = enemyMinionCards[k];
-
                     if (card.yPos === row[0].yPos) {
                         positions[k] = i
                     }
-                    if (enemyCard != undefined) {
-                        if (enemyCard.yPos === row[0].yPos) {
-                            enemyPositions[k] = i
-                        }
-                        
-                    }
                 
             }
+                for (let k = 0; k < enemyMinionCards.length; k++) {
+                    const card = enemyMinionCards[k];
+                    if (card.yPos === row[0].yPos) {
+                        enemyPositions[k] = i
+                    }
+                    
+            }    
             
         }
 
         for (let i = 0; i < positions.length; i++) {
             const position = positions[i];
-            const enemyPosition = enemyPositions[i]
             const card = minionCards[i]
-            const enemyCard = enemyMinionCards[i]
             this.setRotationPos(card, position)
+        }
+        for (let i = 0; i < enemyPositions.length; i++) {
+            const enemyPosition = enemyPositions[i]
+            const enemyCard = enemyMinionCards[i]
             this.setRotationPos(enemyCard, enemyPosition)
-
-
         }
     }
 

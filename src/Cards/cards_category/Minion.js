@@ -139,6 +139,7 @@ export default class Minion extends Card {
     restoreMinionsHp(){
         
         this.health = this.previousHealth;
+        this.defense = this.previousDefense;
     }
 
     render(ctx, language){
@@ -192,29 +193,29 @@ export default class Minion extends Card {
                             this.imageCategory,
                             IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos);
 
-                                //ATTRIBUTES ICONS & VALUES
-                        ctx.drawImage(
-                            this.imageAttributes[0],
-                            IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
+                            
+                        }
+                        //ATTRIBUTES ICONS & VALUES
+                ctx.drawImage(
+                    this.imageAttributes[0],
+                    IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
 
-                        ctx.fillText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                ctx.fillText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
 
-                        ctx.drawImage(
-                            this.imageAttributes[1],
-                            IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                        ctx.fillText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                ctx.drawImage(
+                    this.imageAttributes[1],
+                    IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
+                ctx.fillText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
 
-                        ctx.drawImage(
-                            this.imageAttributes[2],
-                            IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                        ctx.fillText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                ctx.drawImage(
+                    this.imageAttributes[2],
+                    IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
+                ctx.fillText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
 
-                        ctx.drawImage(
-                            this.imageAttributes[3],
-                            IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                        ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-                        
-                    }
+                ctx.drawImage(
+                    this.imageAttributes[3],
+                    IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
+                ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
             //RARITY ICON
             ctx.drawImage(
                 

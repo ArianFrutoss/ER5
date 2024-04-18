@@ -121,7 +121,7 @@ export default class Turn {
         this.restoreCardStatesFromActiveDecks()
         this.eventContainer.executeEvents()
         this.actionsCounter = 0
-        this.phasesArray[PhaseStates.DRAW_CARD].execute()
+        this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer)
 
         // Restablecer el Timer
         timerContainer.restartTimerValue(TimerId.TURN_TIMER);

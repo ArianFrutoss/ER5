@@ -3,47 +3,65 @@ import {initHTMLelements, initVars, testArray } from "./initialize.js";
 import logJSON from "./fakeJSONRead.js";
 import Asset from "./Asset.js";
 import Game from "./Game.js";
-import { GameState } from "./constants.js";
-
+import { BaseURL, BaseURLValue } from "./constants.js";
 let game
-if (localStorage.getItem("username") != "") {
-    let gameScreen = document.getElementById("login");
-    gameScreen.style.display = "none";
+let gameScreen = document.getElementById("login");
+let btnPlay = document.getElementById("btnPlay");
+let logout = document.getElementById("Logout");
+let goToRegister = document.getElementById("goToRegister");
+let register = document.getElementById("register");
+let caja = document.getElementById("caja");
+let dropDown = document.getElementById("player_list");
+if (localStorage.getItem("username") != null) {
 
-    let btnPlay = document.getElementById("btnPlay");
-    btnPlay.style.display = "block";
+    gameScreen.style.display = "none";
     
-    let logout = document.getElementById("Logout");
     logout.style.display = "block";
 
-    let goToRegister = document.getElementById("goToRegister");
     goToRegister.style.display = "none";
 
-    let register = document.getElementById("register");
     register.style.display = "none";
 
     addUserData();
 
+    caja.style.display = "block";
+
+ 
+
+    dropDown.style.display = "block";
+    
+    let opponents = JSON.parse(localStorage.getItem("opponents"))
+
+    for (let i = 0; i < opponents.length; i++) {
+        const opponent = opponents[i].username;
+        const option = document.createElement("option")
+        option.text = opponent
+        dropDown.add(option)
+        
+    }
 } else {
-    let gameScreen = document.getElementById("login");
     gameScreen.style.display = "block";
 
-    let btnPlay = document.getElementById("btnPlay");
     btnPlay.style.display = "none";
 
-    let goToRegister = document.getElementById("goToRegister");
     goToRegister.style.display = "block";
 
-    let register = document.getElementById("register");
     register.style.display = "none";
-}
 
-let btnPlay = document.getElementById("btnPlay");
+    caja.style.display = "none";
+}
+dropDown.addEventListener("change", showBtnIfOpponentSelected);
 
 btnPlay.addEventListener("click", init);
 
+function showBtnIfOpponentSelected() {
+        if (dropDown.value != "") {
+        btnPlay.style.display = "block"
+    }
+}
+
 function init(){
-    fetch('https://er5-server.onrender.com/test')
+    fetch(`${BaseURL[BaseURLValue]}/test`)
     .then((response) => response.json())
     .then((data) => {        
         
@@ -53,8 +71,9 @@ function init(){
         initVars();
         
         //initEvents(canvas);
-        
-        game = Game.init(data,canvas,ctx);
+        const language = parseInt(document.getElementById("languages").value);
+
+        game = Game.init(data,canvas,ctx, language);
 
         window.requestAnimationFrame(gameLoop,canvas);
     });
@@ -90,24 +109,20 @@ function gameLoop(timeStamp, canvas){
 
 function addUserData() {
     
-    let newDiv = document.createElement("div");
+    let userData   = document.getElementById("user-data");
     let user   = document.createTextNode("user : " + localStorage.getItem("username"));
     let email  = document.createTextNode("email : " + localStorage.getItem("email"));
     let br     = document.createElement("br");
-    newDiv.appendChild(user);
-    newDiv.appendChild(br);
-    newDiv.appendChild(email);
-    
+    userData.appendChild(user);
+    userData.appendChild(br);
+    userData.appendChild(email);
+    let caja = document.getElementById("caja");
 
-    newDiv.style.marginLeft = "10px";
     let btnPlay = document.getElementById("btnPlay");
     btnPlay.addEventListener("click", ()=> {
-        newDiv.style.display = "none";
+        
+        caja.style.display   = "none";
     });
-    
-    // añade el elemento creado y su contenido al DOM
-    let currentDiv = document.getElementById("div1");
-    document.body.insertBefore(newDiv, currentDiv);
 }
 
 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./media/css/styles.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>ER5</title>
     
 </head>
@@ -13,29 +14,67 @@
     </canvas>
 
     <section hidden id="login">
-        <h2>Log in</h2>
-        <input id="email" type="email" name="email" value="" placeholder="Email">
-        <input id="password" type="password" name="password" value="" placeholder="Password">
-        <button id = "enterLogin" onclick="login()">Log in</button>
-        <button id = "goToRegister" onclick="goToRegister()">If you don't have acount go to register</button>
+        <h2>Login</h2>
+        <div class="input-box">
+            <input id="email" type="email" name="email" value="" placeholder="Email">
+            <i class='bx bx-envelope' ></i>
+        </div>
+        <div class="input-box">
+            <input id="password" type="password" name="password" value="" placeholder="Password">
+            <i class='bx bxs-lock-alt' ></i>
+        </div>
+
+        <button id = "enterLogin" class="btn">Login</button>
+        <!-- <button id = "goToRegister" class="btn" onclick="goToRegister()">If you don't have acount go to register</button> -->
+        <div class="register-link">
+            <p>don't have an account?</p><a id="goToRegister">register</a>
+        </div>
     </section>
 
     <section hidden id="register">
-        <h2>register</h2>
-        <input id="email_register" type="email" name="email" value="" placeholder="Email">
-        <input id="user_register" type="user" name="user" value="" placeholder="User">
-        <input id="password_register" type="password" name="password" value="" placeholder="Password">
-        <input id = "password_confirm" type="password" name="password2" placeholder="confirm password">
-        <button id = "enterRegister" onclick="register()">register</button>
+        <h2>Register</h2>
+        <div class="input-box">
+            <input id="email_register" type="email" name="email" value="" placeholder="Email">
+            <i class='bx bx-envelope' ></i>
+        </div>
+        <div class="input-box">
+            <input id="user_register" type="user" name="user" value="" placeholder="User">
+            <i class='bx bxs-user'></i>
+        </div>
+        <div class="input-box">
+            <input id="password_register" type="password" name="password" value="" placeholder="Password">
+            <i class='bx bxs-lock-alt' ></i>
+        </div>
+        <div class="input-box">
+            <input id = "password_confirm" type="password" name="password2" placeholder="confirm password">
+            <i class='bx bxs-lock-alt' ></i>
+        </div>
+        <button id = "enterRegister" class="btn" >Register</button>
     </section>
 
-   
+    <div id="caja">
+        <div id="user-data"></div>
+        <div class="idioma">
+            <label for="languages">Languages: </label>
+            <select name="languages" id="languages">
+                <option value="0">ENGLISH</option>
+                <option value="1">EUSKERA</option>
+            </select>
+        </div>
+        <div class="player_list">
+            <label for="player_list">Players:</label>
+            <select hidden id="player_list" name="player_list"></select>
+        </div>
+       
+        <button hidden id="btnPlay" class="btn-lobby" >Start Game</button>
+        <button hidden id="Logout"  class="btn-lobby" >Log Out</button>
+    </div>
+  
 
-    <button hidden id="btnPlay" onclick="startPlaying()" >Start Game</button>
-    <button hidden id="Logout" onclick="logout()" >Log Out</button>
-    
-    <div id="div1"></div>
+
+
 
 <script type="module" src="./src/gameIndex.js"></script>
-<script src="./src/changePage.js"></script>
+<script type="module" src="./src/changePage.js"></script>
+
 </html>

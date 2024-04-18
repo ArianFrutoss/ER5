@@ -1,8 +1,6 @@
-
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, MessageState, MessageType, HelpMessagesPos, PhaseStates } from "../../constants.js";
-import Messages from "../../Messages.js";
+import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2 } from "../../constants.js";
 
 export default class MinionAttackPhase extends Phase {
 
@@ -34,34 +32,18 @@ export default class MinionAttackPhase extends Phase {
         
         const messages = messagesContainer.messages;
 
-        if (messages[1] === undefined && isAnyCardSelected[0] === false){
+        if (isAnyCardSelected[0] === false){
 
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any attacker minion", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = true;
-        }
-        
-        if (messages[1] === undefined && isAnyCardSelected[0]){
-
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any enemy minion to attack", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = false;
-        }
-        
-        if (messages[1].drawMessage && messages[1] != undefined && isAnyCardSelected[0]){
-            
-            messages[1].timeInOn = 0;
+            messagesContainer.activeMessage(messageAttackPhase1);
         }
 
-        if (messages[1].drawMessage === false && messages[1] != undefined && isAnyCardSelected[0] === false){
-            
-            messages[1].timeInOn = 0;
+        if (isAnyCardSelected[0]){
+
+            messagesContainer.activeMessage(messageAttackPhase2);
         }
         
         // Comprobar si hay enemigo seleccionado
         if (isEnemyCardHovered[0] && !this.mouse.leftClick && this.mouse.previousStateLeft) {
-            
-            messages[1].timeInOn = 0;
 
             // Escoger las posiciones de las cartas en los decks
             const attackerPosition = isAnyCardSelected[1];
@@ -89,6 +71,14 @@ export default class MinionAttackPhase extends Phase {
                         attacker.setWeapon(undefined)
                     }
                 }
+
+                if (enemy.armor != undefined) {
+                    const isDestroyed = enemy.armor.removeIfWornOut(this.enemyActiveEventDeck, this.graveyardDeck)
+                    if (isDestroyed) {
+                        enemy.setArmor(undefined)
+                    }
+                }
+
                 this.removeEnemyIfDead(enemy,enemyPosition)
                 return true;
             } else {
@@ -126,8 +116,8 @@ export default class MinionAttackPhase extends Phase {
         const yDifference = Math.abs(yPosAttacker - yPosEnemy);
 
         // Calcular la distancia en  slots
-        const distanceXSlots = Math.ceil(xDifference / boardSlotXSize);
-        const distanceYSlots = Math.ceil(yDifference / boardSlotYSize);
+        const distanceXSlots = Math.floor(xDifference / boardSlotXSize);
+        const distanceYSlots = Math.floor(yDifference / boardSlotYSize);
 
         console.log("Distancia en slots en el eje X:", distanceXSlots);
         console.log("Distancia en slots en el eje Y:", distanceYSlots);
@@ -137,9 +127,9 @@ export default class MinionAttackPhase extends Phase {
 
 
 
-    execute(messages) {
+    execute(messagesContainer) {
         
-        let aux = this.attack(messages);
+        let aux = this.attack(messagesContainer);
         return aux;
     }
 

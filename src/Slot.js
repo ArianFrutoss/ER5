@@ -68,9 +68,8 @@ export default class Slot{
         // Posicion y tamaño de los Slots
         const slotsXPos = this.xPos;
         const slotsYPos = this.yPos;
-        const slotsXSize = this.xSize - 2;
-        const slotsYSize = this.ySize - 2;
-
+        const slotsXSize = this.xSize;
+        const slotsYSize = this.ySize;
         if (this.isAviable){
             
             ctx.fillStyle = "green";
@@ -87,12 +86,12 @@ export default class Slot{
         }
 
         else{
-            ctx.filter = "opacity(50%)"
+            ctx.globalAlpha = 0.5;
             ctx.fillStyle = "black";
         }
 
         ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
-        ctx.filter = "opacity(100%)"
+        ctx.globalAlpha = 1;
         ctx.fillStyle = "black";
     }
     isSlotSelected(grid){
@@ -184,15 +183,14 @@ export default class Slot{
         const xPosSlot = this.xPos;          // Posicion en x del Slot
         const yPosMinion = minion.yPos;     // Posicion en y del Minion
         const yPosSlot = this.yPos;          // Posicion en y del Slot
-        
+
         // Calcular la diferencia en píxeles en slots
         const xDifference = Math.abs(xPosMinion - xPosSlot);
         const yDifference = Math.abs(yPosMinion - yPosSlot);
         
         // Calcular la distancia en  slots
-        const distanceXSlots = Math.ceil(xDifference / slotXSize);
-        const distanceYSlots = Math.ceil(yDifference / slotYSize);
-
+        const distanceXSlots = Math.floor(xDifference / slotXSize);
+        const distanceYSlots = Math.floor(yDifference / slotYSize);
         return distanceXSlots + distanceYSlots;
     }
 

@@ -5,18 +5,37 @@ export default class EventContainer {
         this.events = []
     }
 
-    createEvent(card){
-        const event = EventFactory.create(card)
+    createCooldownEvent(card){
+        const event = EventFactory.createCooldownEvent(card)
         this.events.push(event)
+    }
+
+    createCommonEvent(card, objectiveMinion){
+        const event = EventFactory.createCommonEvent(card, objectiveMinion)
+        
+        if (event != undefined){
+            
+            this.events.push(event)
+        }
+    }
+
+    createJosephEvents(decks, josephCard, mouse){
+        const destroyMinionEvent = EventFactory.createDestroyAllMinionsEvent(decks)
+        destroyMinionEvent.execute(mouse)
+
+        const ModifyAttributeEvent = EventFactory.createModifyAttributeToAllMinions(decks, josephCard)
+        this.events.push(ModifyAttributeEvent)
     }
 
     executeEvents(){
         for (let i = 0; i < this.events.length; i++) {
             const event = this.events[i];
-            const isOver = event.execute()
-            console.log(isOver);
-            if (isOver) {
-                this.events.splice(i, 1)
+            if (event != undefined){
+                const isOver = event.execute()
+                if (isOver) {
+                    this.events.splice(i, 1)
+                }
+
             }
         }
     }

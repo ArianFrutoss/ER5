@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { MessageState, MessageType } from "./constants.js";
+import { LanguageId, MessageState, MessageType } from "./constants.js";
 
 export default class Messages{
 
@@ -17,19 +17,16 @@ export default class Messages{
         this.fadeCounter    = 0;
         this.appearCounter  = 0;
         this.onCounter      = 0;
-        this.drawMessage    = false;
     }
 
     update(messages){
-
         switch (this.state){
 
             case MessageState.APPEAR:
-                
                 this.appearCounter += globals.deltaTime;
-                this.alpha += 0.2;
+                this.alpha += 0.1;
                 
-                if (this.appearCounter > this.timeInAppear && this.appearCounter >= 1){
+                if (this.appearCounter > this.timeInAppear && this.alpha >= 1){
                     
                     this.appearCounter = 0;
                     this.state = MessageState.ON;
@@ -37,7 +34,6 @@ export default class Messages{
                 break;
 
             case MessageState.ON:
-
                 this.onCounter += globals.deltaTime;
                 
                 if (this.onCounter > this.timeInOn && this.timeInOn != null){
@@ -48,9 +44,8 @@ export default class Messages{
                 break;
     
             case MessageState.FADE:
-                
                 this.fadeCounter += globals.deltaTime;
-                this.alpha -= 0.2;
+                this.alpha -= 0.1;
                 
                 if (this.fadeCounter > this.timeInFade){
                     
@@ -60,14 +55,22 @@ export default class Messages{
                 break;
             
             case MessageState.OFF:
-                
                 this.alpha = 0.0;
-                messages.splice(this, 1);
+
+                if (this.type === MessageType.DAMAGE_MESSAGE){
+
+                    messages.splice(this, 1);
+                }
+
+                else{
+
+                    this.state = MessageState.APPEAR;
+                }
                 break;
         }
     }
 
-    render(ctx){
+    render(ctx, language){
 
         switch (this.type){
 
@@ -76,7 +79,7 @@ export default class Messages{
                 break
 
             case MessageType.HELP_MESSAGE:
-                this.renderHelpMessage(ctx);
+                this.renderHelpMessage(ctx, language);
                 break
 
             default:
@@ -93,12 +96,12 @@ export default class Messages{
         ctx.globalAlpha = 1.0;
     }
 
-    renderHelpMessage(ctx){
-
+    renderHelpMessage(ctx, language){
+        
         ctx.font = "20px LongaIberica-DEMO";
         ctx.fillStyle = "white";
         ctx.globalAlpha = this.alpha;
-        ctx.fillText(this.message, this.xPos, this.yPos);
+        ctx.fillText(this.message[language], this.xPos, this.yPos);
         ctx.globalAlpha = 1.0;
     }
 }

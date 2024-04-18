@@ -20,14 +20,14 @@ export default class CardFactory {
     }
 
 
-    createCards() {
+    createCards(language) {
         let card
 
         for (let i = 0; i < this.cardData.length; i++) {
             const id = this.cardData[i].card_id;
             // const name = [this.cardData[i].name, this.cardData[i].izena];
             // const description = [this.cardData[i].description, this.cardData[i].deskripzioa];
-            const texts  = TextContainer.create(this.cardData[i]);
+            const texts  = TextContainer.create(this.cardData[i], language);
 
             const rarity = this.setRarity(this.cardData[i].rarity)
             const category = this.cardData[i].category
@@ -36,7 +36,8 @@ export default class CardFactory {
             const imageRarity = this.images[ImageTypes.CARD_RARITY][rarity]
             const imageBorders = [this.images[ImageTypes.CARD_BORDER][CardId.BIG_SIZE], this.images[ImageTypes.CARD_BORDER][CardId.SMALL_SIZE]]
             const imageReverse = this.images[ImageTypes.CARD_BORDER][BorderId.REVERSE]
-            const vfx = [[this.images[ImageTypes.CARD_BORDER][BorderId.SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_SELECTED]], [this.images[ImageTypes.CARD_BORDER][BorderId.HOVER], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_HOVER]]]
+            const vfx = [[this.images[ImageTypes.CARD_BORDER][BorderId.SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.EVENT_SELECTED]], 
+                         [this.images[ImageTypes.CARD_BORDER][BorderId.HOVER]   , this.images[ImageTypes.CARD_BORDER][BorderId.MINI_HOVER]   , this.images[ImageTypes.CARD_BORDER][BorderId.EVENT_HOVER]]]
             
             const images = this.images[ImageTypes.EQUIP_RARITY]
             let normalSize = []
@@ -77,7 +78,7 @@ export default class CardFactory {
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.BUFF]
                     for (let i = 0; i < quantity; i++) {
                         // card = this.createBuff(id, texts, image, rarity, TypeId.BUFF, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
-                        card = Buff.create(id, texts, image, rarity, TypeId.BUFF, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
+                        card = Buff.create(id, texts, image, rarity, TypeId.BUFF, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects);
                         this.cards.push(card)
                     }
                     break;
@@ -87,7 +88,7 @@ export default class CardFactory {
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.CURSE]
                     for (let i = 0; i < quantity; i++) {
                         // card = this.createCurse(id, texts, image, rarity, TypeId.CURSE, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
-                        card = Curse.create(id, texts, image, rarity, TypeId.CURSE, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
+                        card = Curse.create(id, texts, image, rarity, TypeId.CURSE, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects);
                         this.cards.push(card)
                     }
                     break;
@@ -96,7 +97,7 @@ export default class CardFactory {
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.JOSEPH]
                     for (let i = 0; i < quantity; i++) {
                         // card = this.createJoseph(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
-                        card = Joseph.create(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
+                        card = Joseph.create(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, attributes);
                         this.cards.push(card)
 
                     }
@@ -106,7 +107,7 @@ export default class CardFactory {
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.HERO]
                     for (let i = 0; i < quantity; i++) {
                         // card = this.createMainCharacter(id, texts, image, rarity, TypeId.HERO, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effects)
-                        card = MainCharacter.create(id, texts, image, rarity, TypeId.HERO, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects);
+                        card = MainCharacter.create(id, texts, image, rarity, TypeId.HERO, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, attributes);
                         card.size = CardId.SMALL_SIZE
                         this.cards.push(card)
                     }
@@ -126,7 +127,7 @@ export default class CardFactory {
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.SPELL]
                     for (let i = 0; i < quantity; i++) {
                         // card = this.createSpell(id, texts, image, rarity, TypeId.SPELL, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
-                        card = Spell.create(id, texts, image, rarity, TypeId.SPELL, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
+                        card = Spell.create(id, texts, image, rarity, TypeId.SPELL, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects);
                         this.cards.push(card)
                     }
                     break;
@@ -176,6 +177,7 @@ export default class CardFactory {
 
 
         attributes = this.setAttributeValues(attributes);
+
         const minion = Minion.create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes);
 
         return minion
@@ -196,18 +198,42 @@ export default class CardFactory {
  
 
     createWeapon(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
-        if (id ===4) {
-            
-            console.log(attributes);
-        }
+
         attributes = this.setAttributeValues(attributes)
-        if (id ===4) {
-            
-            console.log(attributes);
-        }
+
         const weapon = Weapon.create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
         
         return weapon;
+    }
+
+
+    createCurse(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
+
+        attributes = this.setAttributeValues(attributes)
+        console.log(attributes);
+        const curse = Curse.create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
+        
+        return curse;
+    }
+
+
+    createBuff(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
+
+        attributes = this.setAttributeValues(attributes)
+
+        const buff = Buff.create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
+        
+        return buff;
+    }
+
+    
+    createSpell(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
+
+        attributes = this.setAttributeValues(attributes)
+        
+        const spell = Spell.create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx);
+        
+        return spell;
     }
 
 

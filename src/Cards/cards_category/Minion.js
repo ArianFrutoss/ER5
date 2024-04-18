@@ -91,22 +91,32 @@ export default class Minion extends Card {
             this.previousState = this.state
         this.minionLogic()
     }
+
     minionLogic() {
         if (this.state === CardId.DEAD) {
             this.xPos = -500
             this.yPos = -500
+            const index = this.deck.cards.indexOf(this)
+            this.deck.cards.splice(index, 1)
+            this.deck = undefined
         }
     }
+
     setWeapon(weapon){
         this.weapon = weapon
     }
+
+    setArmor(armor){
+        this.armor = armor
+    }
+
     setDeck(deck){
         this.deck = deck
     }
 
     assignMinionToBoardGrid(boardGrid, turn){
 
-        const boardYPos = turn === TurnId.PLAYER_1 ? 4 : 0;
+        const boardYPos = 4;
         let aviablePositions = [];
         
         for (let i = 0; i < boardGrid.slots[boardYPos].length; i++){
@@ -123,12 +133,14 @@ export default class Minion extends Card {
         
         this.xPos = boardGrid.slots[boardYPos][randomXPos].xPos;
         this.yPos = boardGrid.slots[boardYPos][randomXPos].yPos;
-        this.size = BorderId.SMALL_SIZE;console.log(this);
+        this.size = BorderId.SMALL_SIZE;
+        boardGrid.slots[boardYPos][randomXPos].isEmpty = false
     }
 
     restoreMinionsHp(){
         
         this.health = this.previousHealth;
+        this.defense = this.previousDefense;
     }
 
     render(ctx, language){
@@ -140,8 +152,9 @@ export default class Minion extends Card {
             //CARD IMAGE
             let size = this.size
             if (this.state === CardId.SCALED ) {
-                xPos = 800
-                yPos = 300
+                ctx.setTransform(1.6, 0, 0, 1.6, 0, 0);
+                xPos = 475
+                yPos = 140
                 size = CardId.BIG_SIZE
                 
             }else if(this.state === CardId.SELECTED){
@@ -179,15 +192,11 @@ export default class Minion extends Card {
                         //CATEGORY ICON
                         ctx.drawImage(
                             this.imageCategory,
-                            IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
-                    }
-            //RARITY ICON
-            ctx.drawImage(
-                
-                this.imageRarity,
-                IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
-    
-                //ATTRIBUTES ICONS & VALUES
+                            IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos);
+
+                            
+                        }
+                        //ATTRIBUTES ICONS & VALUES
                 ctx.drawImage(
                     this.imageAttributes[0],
                     IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
@@ -208,6 +217,13 @@ export default class Minion extends Card {
                     this.imageAttributes[3],
                     IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
                 ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+            //RARITY ICON
+            ctx.drawImage(
+                
+                this.imageRarity,
+                IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
+    
+        
 
                 //WEAPON RARITY
                 let equipRarityImg
@@ -229,6 +245,8 @@ export default class Minion extends Card {
                 ctx.drawImage(
                     equipRarityImg,
                     IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
+                    
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
 
     static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes){

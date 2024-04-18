@@ -23,22 +23,43 @@ export class AttackEvent extends Event{
             damage = this.attack();
         }
         
-        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.3, 0.5);
-        messagesContainer.messages[0] = doneDamage;
+        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3);
+        messagesContainer.addMessage(doneDamage);
     }
 
     attack(){
-        const damage = this.attackerMinion.attack;
+        const enemyArmor = this.objectiveMinion.armor
+        let defense = this.objectiveMinion.defense
+        if (enemyArmor != undefined) {
+            defense += enemyArmor.defense
+            enemyArmor.durability--
+        }
+
+        let damage = this.attackerMinion.attack - defense;
+        if (damage <0) {
+            damage = 0
+        }
         this.objectiveMinion.health -= damage;
 
         return damage;
     }
     
     attackWithWeapon(){
-        let damage = this.attackerMinion.attack + this.attackerMinion.weapon.attack;
+        const enemyArmor = this.objectiveMinion.armor
+        let defense = this.objectiveMinion.defense
+        if (enemyArmor != undefined) {
+            defense += enemyArmor.defense
+            enemyArmor.durability--
+        }
+
+        let damage = this.attackerMinion.attack + this.attackerMinion.weapon.attack - defense;
+        if (damage <0) {
+            damage = 0
+        }
         this.attackerMinion.weapon.durability--
         this.objectiveMinion.health -= damage;
 
         return damage;
     }
+
 }

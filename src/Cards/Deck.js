@@ -7,9 +7,9 @@ export default class Deck {
         this.deckId = deckId;
         this.cards  = cards
     }
-    static createInitDeck(data, images){
+    static createInitDeck(data, images, language){
         const cardFact = new CardFactory(data, images)
-        cardFact.createCards()
+        cardFact.createCards(language)
 
         return new Deck (DecksId.INITIAL_DECK, cardFact.cards)
     }
@@ -20,7 +20,10 @@ export default class Deck {
             
         } 
     }
-    update(mouse, decks){
+    update(mouse, decks = this){
+        if (this.deckId === DecksId.PLAYER_1_MINION_DECK) {
+            console.log(this.cards);
+        }
         for (let i = 0; i < this.cards.length; i++) {
             const card = this.cards[i];
             card.update(mouse, decks)
@@ -29,22 +32,32 @@ export default class Deck {
     }
 
     
-    isAnyCard(decks,state){
+    isAnyCard(decks, state){
         
         let result = []
         const quantity = decks.length === undefined ? 1 : decks.length
         for (let i = 0; i < quantity; i++) {
-            
             const deck = quantity === 1 ? decks : decks[i];
-            for (let j = 0; j < deck.cards.length; j++) {
-                const card = deck.cards[j];
+            if (deck.cards != undefined){
+                for (let j = 0; j < deck.cards.length; j++) {
+                    const card = deck.cards[j]
+                    result[0] = card.state === state ? true : false
+                    if (result[0] === true) {
+                        result[1] = j
+                        result[2] = card
+                        return result
+                    }
+                }        
+            }
+            else{
+                const card = deck
                 result[0] = card.state === state ? true : false
-                result[1] = j
                 if (result[0] === true) {
+                    result[1] = 0
+                    result[2] = card
                     return result
-                    
                 }
-            }            
+            }          
         }
         return result
     }
@@ -98,10 +111,15 @@ export default class Deck {
     }
 
     renderCards(ctx, language){
-        for (let i = 0; i < this.cards.length; i++) {
-            const card = this.cards[i];
-                card.render(ctx, language)
 
+        for (let i = 0; i < this.cards.length; i++){
+
+            const card = this.cards[i];
+
+            if (card.state != CardId.SCALED){
+                
+                card.render(ctx, language);
+            }   
         }
     }
 

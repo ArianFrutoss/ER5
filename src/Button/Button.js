@@ -1,21 +1,21 @@
-import { ButtonState } from "../constants.js";
+import { ButtonState, LanguageId } from "../constants.js";
 
 export default class Button {
 
-    constructor(ctx, x, y, width, height, text, state, phaseState, color){
+    constructor(ctx, x, y, text, state, phaseState, color){
         
         this.ctx        = ctx;
         this.x          = x;
         this.y          = y;
-        this.width      = width;
-        this.height     = height;
+        this.width      = 150;
+        this.height     = 100;
         this.text       = text;
         this.state      = state;
         this.phaseState = phaseState;
         this.color      = color;
 }
 
-    render(){
+    render(language){
         this.ctx.fillStyle = this.color;
         this.roundRect(this.ctx, this.x, this.y, this.width, this.height, 10); // Llamada a la función para dibujar un rectángulo redondeado
         this.ctx.fill();
@@ -25,7 +25,17 @@ export default class Button {
         this.ctx.font           = '20px Arial';
         this.ctx.textAlign      = 'center';
         this.ctx.textBaseline   = 'middle';
-        this.ctx.fillText(this.text, this.x + this.width / 2, this.y + this.height / 2);
+
+        switch(language){
+            case LanguageId.ENG:
+                this.ctx.fillText(this.text[LanguageId.ENG], this.x + this.width / 2, this.y + this.height / 2);
+                break;
+
+            case LanguageId.EUS:
+                this.ctx.fillText(this.text[LanguageId.EUS], this.x + this.width / 2, this.y + this.height / 2);
+                break;
+        }
+       
     }
     
     // Función para dibujar un rectángulo redondeado

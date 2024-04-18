@@ -1,14 +1,14 @@
 import { BorderId, CardActions, CardId, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 export default class MainCharacter extends Card{
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, durability, cooldown){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, durability=0, cooldown=0){
             super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
     
             // Card attributes     		   	
             this.durability = durability;
             this.cooldown   = cooldown; 
-            this.player= 0
-            	
+            this.player     = 0;
+            this.effect     = effect
         }
         updateScale(mouse, decks){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -94,8 +94,9 @@ export default class MainCharacter extends Card{
                 //CARD IMAGE
                 let size = this.size
                 if (this.state === CardId.SCALED ) {
-                    xPos = 800
-                    yPos = 300
+                    ctx.setTransform(1.6, 0, 0, 1.6, 0, 0);
+                    xPos = 475
+                    yPos = 140
                     size = CardId.BIG_SIZE
                     
                 }else if(this.state === CardId.SELECTED){
@@ -124,7 +125,8 @@ export default class MainCharacter extends Card{
 
                     // NAME
                         ctx.font = "25px LongaIberica-DEMO";
-                        // ctx.fillText(this.name[language],IconsPos.PLAYER_NAME_X[currentTurn], IconsPos.PLAYER_NAME_Y[currentTurn]);
+                    
+                        // ctx.fillText(localStorage.getItem("username"), IconsPos.PLAYER_NAME_X[currentTurn], IconsPos.PLAYER_NAME_Y[currentTurn]);
 
                         if (size === BorderId.NORMAL_SIZE) {
                             // ctx.font = "25px LongaIberica-DEMO";
@@ -143,15 +145,22 @@ export default class MainCharacter extends Card{
                     
                     this.imageRarity,
                     IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
+                    
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
         
         }
 
-        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects) {
+        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes) {
             
-            let durability = effects.durability;
-            let cooldown = effects.cooldown;
-    
-            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, durability, cooldown);
+            let durability;
+            let cooldown;
+            if (attributes != null) {
+                durability = attributes.durability;
+                cooldown = attributes.cooldown;
+
+            }
+
+            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, durability, cooldown);
     
             return mainCharacter;
     

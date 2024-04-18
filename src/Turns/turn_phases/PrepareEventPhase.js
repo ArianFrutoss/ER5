@@ -1,6 +1,5 @@
-import { CardActions, CardId, SlotsState, MessageState, MessageType, HelpMessagesPos, PhaseStates} from "../../constants.js";
+import { CardActions, CardId, SlotsState, PhaseStates, messagePrepareEventPhase1, messagePrepareEventPhase2 } from "../../constants.js";
 import Phase from "./Phase.js";
-import Messages from "../../Messages.js";
 
 export default class PrepareEventPhase extends Phase{
 
@@ -27,30 +26,14 @@ export default class PrepareEventPhase extends Phase{
         const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)
         const isAnySlotSelected = this.activeEventGrid.isAnySlot(SlotsState.SELECTED);
         
-        const messages = messagesContainer.messages;
+        if (isAnyCardSelected[0] === false){
 
-        if (messages[1] === undefined && isAnyCardSelected[0] === false){
-
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any event card to prepare", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = true;
-        }
-        
-        if (messages[1] === undefined && isAnyCardSelected[0]){
-
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any slot of the event grid to start to preparing the event card", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = false;
-        }
-        
-        if (messages[1].drawMessage && messages[1] != undefined && isAnyCardSelected[0]){
-            
-            messages[1].timeInOn = 0;
+            messagesContainer.activeMessage(messagePrepareEventPhase1);
         }
 
-        if (messages[1].drawMessage === false && messages[1] != undefined && isAnyCardSelected[0] === false){
-            
-            messages[1].timeInOn = 0;
+        if (isAnyCardSelected[0]){
+
+            messagesContainer.activeMessage(messagePrepareEventPhase2);
         }
 
         if (isAnyCardSelected[0] && isAnySlotSelected[0]){
@@ -58,9 +41,8 @@ export default class PrepareEventPhase extends Phase{
             const deckLength = this.activeEventDeck.cards.length 
             const position = isAnyCardSelected[1]
 
-            if (deckLength < 5) {
+            if (deckLength < 9) {
 
-                messages[1].timeInOn = 0;
                 const card = this.handDeck.cards[position]
                 this.handDeck.cards.splice(position, 1)
                 this.activeEventDeck.cards.push(card)
@@ -71,9 +53,9 @@ export default class PrepareEventPhase extends Phase{
                 card.xPos =  slot.xPos
                 card.yPos =  slot.yPos
                 card.state = CardId.NOT_SELECTED
-                card.size = CardId.SMALL_SIZE
+                card.size = CardId.EVENT_SIZE
                 card.action = CardActions.COOLDOWN
-                eventContainer.createEvent(card)
+                eventContainer.createCooldownEvent(card)
                 slot.state = SlotsState.NOT_SELECTED
 
                 return true
@@ -94,5 +76,8 @@ export default class PrepareEventPhase extends Phase{
             return false;
         }
 
+    }
+    setEventGrid(grid){
+        this.activeEventGrid = grid
     }
 }

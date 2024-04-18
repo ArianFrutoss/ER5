@@ -1,4 +1,4 @@
-import { DecksId, TypeId } from "../constants.js"
+import { CardImageId, DecksId, TypeId } from "../constants.js"
 import Deck from "./Deck.js"
 
 export default class DeckContainer {
@@ -6,8 +6,8 @@ export default class DeckContainer {
         this.decks = []
     }
 
-    createDecks(data, images) {
-            const initialDeck = this.createInitDeck(data, images)
+    createDecks(data, images, language) {
+            const initialDeck = this.createInitDeck(data, images, language)
             for (let i = 0; i < Object.keys(DecksId).length - 1; i++) {
     
                 const deck = new Deck(i)
@@ -17,8 +17,8 @@ export default class DeckContainer {
             this.assignCardsToDecks(initialDeck.cards)
     }
  
-    createInitDeck(data, images) {
-        return Deck.createInitDeck(data, images)
+    createInitDeck(data, images, language) {
+        return Deck.createInitDeck(data, images, language)
 
     }
 
@@ -51,6 +51,9 @@ export default class DeckContainer {
                 default:
                     this.decks[DecksId.EVENT_DECK].cards.push(card)
                     card.setDeck(this.decks[DecksId.EVENT_DECK])
+                    if (card.id === CardImageId.JOSEPH) {
+                        card.setObjetive([this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK], this.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK]])
+                    }
                     break;
             }
         }

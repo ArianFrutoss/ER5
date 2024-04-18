@@ -1,6 +1,5 @@
-import { CardActions, CardId, SlotsState, TypeId, MessageState, MessageType, HelpMessagesPos , PhaseStates} from "../../constants.js";
+import { CardId, TypeId, PhaseStates, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3 } from "../../constants.js";
 import Phase from "./Phase.js";
-import Messages from "../../Messages.js";
 
 export default class UseEventPhase extends Phase{
 
@@ -13,7 +12,7 @@ export default class UseEventPhase extends Phase{
         this.enemyActiveMinions     = enemyActiveMinions;
         this.mouse                  = mouse
     }
-    execute(mouse, messagesContainer){
+    execute(eventContainer, mouse, messagesContainer){
 
         this.eventGrid.update(mouse, this.eventDeck);
         this.boardGrid.update(mouse, [this.activeMinions, this.enemyActiveMinions]);
@@ -22,71 +21,69 @@ export default class UseEventPhase extends Phase{
             const deck = decks[i];
             deck.update(mouse, decks)
         }
-        const isAnyCardSelected  = this.eventDeck.isAnyCard(this.eventDeck, CardId.SELECTED)
-        const isAnyMinionHovered = this.activeMinions.isAnyCard(this.activeMinions, CardId.HOVER)
         
-        const messages = messagesContainer.messages;
-
-        if (messages[1] === undefined && isAnyCardSelected[0] === false){
-
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any prepared event card to use", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = true;
-        }
+        const isAnyCardSelected  = this.eventDeck.isAnyCard(this.eventDeck, CardId.SELECTED);
         
-        if (messages[1] === undefined && isAnyCardSelected[0]){
-
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, "Select any minion to use the event card", MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[1] = message;
-            messages[1].drawMessage = false;
-        }
-        
-        if (messages[1].drawMessage && messages.length === 1 && isAnyCardSelected[0]){
+        if (isAnyCardSelected.length === 0){
             
-            messages[1].timeInOn = 0;
+            messagesContainer.activeMessage(messageUseEventPhase1);
         }
 
-        if (messages[1].drawMessage === false && messages.length === 1 && isAnyCardSelected[0] === false){
+        else{
+
+            if (isAnyCardSelected[0] === false){
+
+                messagesContainer.activeMessage(messageUseEventPhase2);
+            }
+    
+            if (isAnyCardSelected[0]){
+    
+                messagesContainer.activeMessage(messageUseEventPhase3);
+            }
+        }
+
+        if (isAnyCardSelected[0]) {
             
-            messages[1].timeInOn = 0;
-        }
-
-        if (isAnyCardSelected[0] && isAnyMinionHovered[0]) {
-
             const eventPosition     = isAnyCardSelected[1]
-            const minionPosition    = isAnyMinionHovered[1]
             const eventCard         = this.eventDeck.cards[eventPosition]
-            const minionCard        = this.activeMinions.cards[minionPosition]
+            
+            let minionDeck;
 
-            if (isAnyMinionHovered[0] && !mouse.leftClick   && mouse.previousStateLeft) {
+            switch (eventCard.category){
 
-                messages[1].timeInOn = 0;
-
-                switch (eventCard.category) {
-                    case TypeId.WEAPON:  
-                    case TypeId.ARMOR:
-                        if (eventCard.action === CardActions.READY) {
-                            eventCard.category === TypeId.WEAPON ?  minionCard.weapon = eventCard : minionCard.armor = eventCard
-                            eventCard.state = CardId.NOT_SELECTED
-                            eventCard.action = CardActions.ON_USE
-                            for (let i = 0; i < this.eventGrid.slots.length; i++) {
-                                const rows = this.eventGrid.slots[i];
-                                for (let j = 0; j < rows.length; j++) {
-                                    const slot = rows[j];
-                                    slot.state = SlotsState.NOT_SELECTED
-                                }
-                                
-                            }
-                            return true
-                        }
-                        
-                        break;
-                
-                    default:
-                        break;
-                }
+                case TypeId.BUFF:
+                    minionDeck = this.activeMinions;
+                    break;
+                case TypeId.CURSE:
+                    minionDeck = this.enemyActiveMinions;
+                    break;
+                case TypeId.SPELL:
+                    minionDeck = this.enemyActiveMinions;
+                    break;
+                case TypeId.WEAPON:
+                    minionDeck = this.activeMinions;
+                    break;
+                case TypeId.ARMOR:
+                    minionDeck = this.activeMinions;
+                    break;
+                default:
+                    break;
             }
             
+            const isAnyMinionHovered = this.activeMinions.isAnyCard(minionDeck, CardId.HOVER)
+            
+            if (isAnyMinionHovered[0]){
+
+                const minionPosition    = isAnyMinionHovered[1]
+                const minionCard        = minionDeck.cards[minionPosition]
+
+                if (isAnyMinionHovered[0] && !mouse.leftClick   && mouse.previousStateLeft) {
+
+                    eventContainer.createCommonEvent(eventCard, minionCard)
+
+                    return true;
+                }
+            }
         }
     }
 
@@ -102,6 +99,10 @@ export default class UseEventPhase extends Phase{
             return false;
         }
 
+    }
+
+    setEventGrid(grid){
+        this.activeEventGrid = grid
     }
 
 }

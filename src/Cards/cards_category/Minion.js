@@ -96,6 +96,9 @@ export default class Minion extends Card {
         if (this.state === CardId.DEAD) {
             this.xPos = -500
             this.yPos = -500
+            const index = this.deck.cards.indexOf(this)
+            this.deck.cards.splice(index, 1)
+            this.deck = undefined
         }
     }
 
@@ -113,7 +116,7 @@ export default class Minion extends Card {
 
     assignMinionToBoardGrid(boardGrid, turn){
 
-        const boardYPos = turn === TurnId.PLAYER_1 ? 4 : 0;
+        const boardYPos = 4;
         let aviablePositions = [];
         
         for (let i = 0; i < boardGrid.slots[boardYPos].length; i++){
@@ -131,11 +134,13 @@ export default class Minion extends Card {
         this.xPos = boardGrid.slots[boardYPos][randomXPos].xPos;
         this.yPos = boardGrid.slots[boardYPos][randomXPos].yPos;
         this.size = BorderId.SMALL_SIZE;
+        boardGrid.slots[boardYPos][randomXPos].isEmpty = false
     }
 
     restoreMinionsHp(){
         
         this.health = this.previousHealth;
+        this.defense = this.previousDefense;
     }
 
     render(ctx, language){
@@ -189,29 +194,29 @@ export default class Minion extends Card {
                             this.imageCategory,
                             IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos);
 
-                                //ATTRIBUTES ICONS & VALUES
-                        ctx.drawImage(
-                            this.imageAttributes[0],
-                            IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
+                            
+                        }
+                        //ATTRIBUTES ICONS & VALUES
+                ctx.drawImage(
+                    this.imageAttributes[0],
+                    IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
 
-                        ctx.fillText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                ctx.fillText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
 
-                        ctx.drawImage(
-                            this.imageAttributes[1],
-                            IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                        ctx.fillText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                ctx.drawImage(
+                    this.imageAttributes[1],
+                    IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
+                ctx.fillText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
 
-                        ctx.drawImage(
-                            this.imageAttributes[2],
-                            IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                        ctx.fillText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                ctx.drawImage(
+                    this.imageAttributes[2],
+                    IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
+                ctx.fillText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
 
-                        ctx.drawImage(
-                            this.imageAttributes[3],
-                            IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                        ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-                        
-                    }
+                ctx.drawImage(
+                    this.imageAttributes[3],
+                    IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
+                ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
             //RARITY ICON
             ctx.drawImage(
                 

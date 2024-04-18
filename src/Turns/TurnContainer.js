@@ -1,5 +1,5 @@
 import Turn from "./Turn.js";
-import { DecksId, IconsPos, TurnId } from "../constants.js";
+import { CardId, CardImageId, DecksId, IconsPos, TurnId } from "../constants.js";
 
 export default class TurnContainer {
 
@@ -42,6 +42,7 @@ export default class TurnContainer {
         const player2MinionDeck         = this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK];
         const graveYardDeck             = this.deckContainer.decks[DecksId.GRAVEYARD_DECK];
         const eventDeck                 = this.deckContainer.decks[DecksId.EVENT_DECK];
+        const josephDeck                = this.deckContainer.decks[DecksId.JOSEPH_DECK]
         const player1PreparingEventDeck = this.deckContainer.decks[DecksId.PLAYER_1_PREPARING_EVENT_DECK];
         const player2PreparingEventDeck = this.deckContainer.decks[DecksId.PLAYER_2_PREPARING_EVENT_DECK];
         const player1ActiveMinionDeck   = this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK];
@@ -52,9 +53,9 @@ export default class TurnContainer {
         const player2Name               = document.getElementById("player_list").value;
 
         let turnCounter = 0
-        const turn1 = new Turn(this.gridArray, hero1, hero2, player1HandDeck, player2HandDeck, player1MinionDeck, graveYardDeck, eventDeck, player1PreparingEventDeck, player2PreparingEventDeck, player1ActiveMinionDeck, player2ActiveMinionDeck, buttonContainer, eventContainer, TurnId.PLAYER_1, player1Name);
+        const turn1 = new Turn(this.gridArray, hero1, hero2, player1HandDeck, player2HandDeck, player1MinionDeck, player2MinionDeck, graveYardDeck, eventDeck, player1PreparingEventDeck, player2PreparingEventDeck, player1ActiveMinionDeck, player2ActiveMinionDeck, buttonContainer, eventContainer, TurnId.PLAYER_1, player1Name, josephDeck);
         turn1.createPhases(mouse, this.gridArray.grids, this.deckContainer.decks, turnCounter++);
-        const turn2 = new Turn(this.gridArray, hero2, hero1, player2HandDeck, player1HandDeck, player2MinionDeck, graveYardDeck, eventDeck, player2PreparingEventDeck, player1PreparingEventDeck, player2ActiveMinionDeck, player1ActiveMinionDeck, buttonContainer, eventContainer, TurnId.PLAYER_2, player2Name);
+        const turn2 = new Turn(this.gridArray, hero2, hero1, player2HandDeck, player1HandDeck, player2MinionDeck, player1MinionDeck, graveYardDeck, eventDeck, player2PreparingEventDeck, player1PreparingEventDeck, player2ActiveMinionDeck, player1ActiveMinionDeck, buttonContainer, eventContainer, TurnId.PLAYER_2, player2Name, josephDeck);
         turn2.createPhases(mouse, this.gridArray.grids, this.deckContainer.decks, turnCounter);
 
         this.turnContainer = [turn1, turn2]; //player 1 pos 0, player 2 pos 1;

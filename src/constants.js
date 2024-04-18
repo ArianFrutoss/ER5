@@ -51,7 +51,7 @@ export const CardActions = {
     COOLDOWN:       0,
     READY:          1,
     ON_USE:         2,
-    WORN_OUT:       3
+    WORN_OUT:       3,
 }
 
 export const CardId = {
@@ -107,7 +107,7 @@ export const ImageTypes = {
     BOARD_IMAGE: 7
 }
 export const CardImageId = {
-    DRUM_MASTER:0,
+    JOSEPH: 1,
 }
 export const BorderId = {
     NORMAL_SIZE: 0,
@@ -183,7 +183,8 @@ export const DecksId = {
     PLAYER_2_PREPARING_EVENT_DECK:  7,
     EVENT_DECK:                     8,
     MAIN_CHARACTER_DECK:            9,
-    GRAVEYARD_DECK:                10
+    GRAVEYARD_DECK:                10,
+    JOSEPH_DECK:                   11
 }
 export const LanguageId = {
     ENG : 0,

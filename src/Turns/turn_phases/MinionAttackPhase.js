@@ -206,7 +206,7 @@ export default class MinionAttackPhase extends Phase {
 
         const buttonState = buttonContainer.isAnyButtonSelected();
 
-        if (this.state === AttackState.ATTACK && buttonState === PhaseStates.DEFAULT) {
+        if (this.state === AttackState.DEFAULT && buttonState === PhaseStates.DEFAULT) {
 
             // messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             return true;

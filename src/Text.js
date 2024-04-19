@@ -105,7 +105,7 @@ export default class Text{
             const xPos      = 60;
             const modifier  = 8 * (4 - lines.length); 
             const yPos      = 80 + modifier + this.lineSpace * i;
-            console.log(this.lineSpace);
+            // console.log(this.lineSpace);
             const line      = new Line(xPos, yPos, lineText);
             
             returnLines.push(line);

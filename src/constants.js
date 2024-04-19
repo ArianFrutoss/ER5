@@ -37,6 +37,16 @@ export const PhaseStates = {
     USE_EVENT_CARD:         6,
 }
 
+export const AttackState = {
+    
+    PARRY:                  5,
+    SELECT_PARRY_ATTACK:    1,
+    ATTACK:                 2,
+    DEFAULT:                3,
+    PREPARE_SELECT:         4
+
+}
+
 export const MovePhaseStates = {
     NONE:       0,
     MOVE:       1,
@@ -303,4 +313,9 @@ export const BlockStates = {
     COMPLETE_BLOCK:   0,
     PARCIAL_BLOCK:    1,
     FAILED_BLOCK:     2,
-}   
+}
+
+export const renderState = {
+    GAME:       0,
+    PARRY:      1
+}

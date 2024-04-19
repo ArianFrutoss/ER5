@@ -1,5 +1,5 @@
-import { BlockStates } from "../../constants";
-import Event from "../Event";
+import { BlockStates } from "../../constants.js";
+import Event from "../Event.js";
 
 export default class BlockEvent extends Event{
     
@@ -19,32 +19,31 @@ export default class BlockEvent extends Event{
 
         this.state  = Math.floor(Math.random() * 3);
         const state = this.state;
-
+        const enemyWeapon = this.defenderMinion.weapon;
         switch(state){
 
             case BlockStates.COMPLETE_BLOCK:
+                console.log("completo");
                 this.damage = 0;
                 this.defenderMinion.health -= this.damage;
+                
                 break;
 
             case BlockStates.PARCIAL_BLOCK:
+                console.log("parcial");
                 this.damage = Math.floor(Math.random() * (this.damage / 2));
                 this.defenderMinion.health -= this.damage;
+         
                 break;
 
             case BlockStates.FAILED_BLOCK:
-                this.damage = this.damage;
+                console.log("fallo");
                 this.defenderMinion.health -= this.damage;
+          
                 break; 
         }
 
         // Romper el arma del defensor
-        
+        enemyWeapon.durability = 0;
     }
-
-    // 2 casos Durabilidad > al daño del arma 
-    completeBlock(){
-
-    }
-
 }

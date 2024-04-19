@@ -343,6 +343,15 @@ export default class Game {
 
         enemyTurn.mainCharacter.xPos = xTemp
         enemyTurn.mainCharacter.yPos = yTemp
+
+        if (this.language === 1){
+
+            this.language = 0;
+        }
+        else{
+
+            this.language = 1;
+        }
     }
     setRotationPos(card, position){
         const rows = this.gridsArray.grids[GridId.BOARD_GRID].slots

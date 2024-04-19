@@ -4,21 +4,18 @@ import { LanguageId , IconsPos, messageDefaultPhase, messageDiscardPhase, messag
 
 export default class TextContainer{
 
-    constructor(texts, language){
+    constructor(texts){
 
-        this.texts      = texts;
-        this.language   = language;
+        this.texts = texts;
     }
 
-    static createCardText(cardData, language){
+    static createCardText(cardData){
 
-        const description   = new Text(cardData.description, LanguageId.ENG, IconsPos.DESCRIPTION, 12, 40, 15, 4, 420);
-        const deskripzioa   = new Text(cardData.deskripzioa, LanguageId.EUS, IconsPos.DESCRIPTION, 12, 40, 15, 4, 420);
-        const name          = new Text(cardData.name, LanguageId.ENG, IconsPos.NAME, 15, null, 15, 1, 300);
-        const izena         = new Text(cardData.izena, LanguageId.EUS, IconsPos.NAME, 15, null, 15, 1, 300);
-        const container     = [description, deskripzioa, name, izena];
+        const description   = new Text([cardData.description, cardData.deskripzioa], IconsPos.DESCRIPTION, 12, 40, 15, 4, 420);
+        const name          = new Text([cardData.name, cardData.izena], IconsPos.NAME, 15, null, 15, 1, 260);
+        const container     = [description, name];
 
-        return new TextContainer(container, language);
+        return new TextContainer(container);
     }
 
     static createMessageText(){
@@ -35,37 +32,17 @@ export default class TextContainer{
         const useEventPhase2        = new Text(messageUseEventPhase2, null, null, 14, 40, 15, 4, 320);
         const useEventPhase3        = new Text(messageUseEventPhase3, null, null, 14, 40, 15, 4, 320);
         const container             = [defaultPhase, discardPhase, movimentPhase1, movimentPhase2, attackPhase1, attackPhase2, prepareEventPhase1, prepareEventPhase2, useEventPhase1, useEventPhase2, useEventPhase3];
-        
-        for (let i = 0; i < container.length; i++){
-
-            const textContainer = container[i];
-
-            textContainer.initMessageText();
-        }
 
         return new TextContainer(container);
     }
 
-    render(ctx, xPos, yPos){
+    render(ctx, xPos, yPos, language){
 
         for(let i = 0; i < this.texts.length; i++){
 
             const text = this.texts[i];
-            
-            switch(this.language){
-
-                case LanguageId.ENG:
-                    if(text.language === LanguageId.ENG){
-                        text.render(ctx, xPos, yPos);
-                    }
-                    break;
-
-                case LanguageId.EUS:
-                    if(text.language === LanguageId.EUS){
-                        text.render(ctx, xPos, yPos);
-                    }
-                    break;
-            }
+                
+            text.render(ctx, xPos, yPos, language);
         }
     }
 }

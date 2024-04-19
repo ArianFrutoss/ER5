@@ -3,10 +3,9 @@ import Line from "./Line.js";
 
 export default class Text{
 
-    constructor(text, language, type, size, lettersQuantity, lineSpace, lines, maxWidth){
+    constructor(text, type, size, lettersQuantity, lineSpace, lines, maxWidth){
 
         this.text               = text;
-        this.language           = language;
         this.type               = type;
         this.size               = size;
         this.lettersQuantity    = lettersQuantity;
@@ -15,15 +14,14 @@ export default class Text{
         this.maxWidth           = maxWidth;
     }
 
-
-    render(ctx, xPos, yPos){
-  
+    render(ctx, xPos, yPos, language){
+        
         switch(this.type){
 
             case IconsPos.NAME:
                 ctx.font = this.size + "px LongaIberica-DEMO";
 
-                const names = this.initCardText();
+                const names = this.initText(language);
                 
                 for (let i = 0; i < names.length; i++){
                     
@@ -36,38 +34,43 @@ export default class Text{
             case IconsPos.DESCRIPTION:
                 ctx.font = this.size + "px LongaIberica-DEMO";
 
-                const lines = this.initCardText();
+                const lines = this.initText(language);
 
                 for (let i = 0; i < lines.length; i++){
                     
-                    const sentence = lines[i];
+                    const line = lines[i];
 
-                    ctx.fillText(sentence.text, xPos + IconsPos.DESCRIPTION_X, yPos + sentence.yPos + IconsPos.DESCRIPTION_Y);
+                    ctx.fillText(line.text, xPos + IconsPos.DESCRIPTION_X, yPos + line.yPos + IconsPos.DESCRIPTION_Y);
                 }
                 break;
         }
     }
 
-    initCardText(){
-            
-        const words = this.text.split(" ");
+    initText(language){
+
+        const words = this.text[language].split(" ");
         const lines = [];
         const returnLines = [];
         let line = "";
 
-        for (let j = 0; j < words.length; j++){
+        for (let i = 0; i < words.length; i++){
 
-            const word = words[j];
+            const word = words[i];
             const textWidth = this.lettersQuantity * this.size;
             const maxLettersQuantity = this.calculateLettersQuantity(words);
             
-            if (maxLettersQuantity < this.lettersQuantity * this.lines && textWidth < this.maxWidth){
+            if (this.lettersQuantity === null){
+
+                this.lettersQuantity = maxLettersQuantity;
+            }
+
+            if (maxLettersQuantity <= this.lettersQuantity * this.lines && textWidth <= this.maxWidth){
 
                 if ((line + word ).length < this.lettersQuantity){
                     
                     line += (word + " ");
 
-                    if ((j+1) === words.length) {
+                    if ((i+1) === words.length) {
 
                         lines.push(line);
                         break;
@@ -96,87 +99,18 @@ export default class Text{
             }
         }
     
-        for (let j = 0; j < lines.length; j++){
+        for (let i = 0; i < lines.length; i++){
 
-            const lineText  = lines[j];
+            const lineText  = lines[i];
             const xPos      = 60;
             const modifier  = 8 * (4 - lines.length); 
-            const yPos      = 80 + modifier + 15 * j;
+            const yPos      = 80 + modifier + 15 * i;
             const line      = new Line(xPos, yPos, lineText);
             
             returnLines.push(line);
         }
-
+console.log(returnLines);
         return returnLines;
-    }
-
-    initMessageText(){
-        
-        for (let i = 0; i < this.text.length; i++){
-
-            for (let j = 0; j < this.text[i].length; j++){
-                
-                const text = this.text[i][j];
-                const words = text.split(" ");
-                const lines = [];
-                const returnLines = [];
-                let line = "";
-
-                for (let k = 0; k < words.length; k++){
-
-                    const word = words[k];
-                    const textWidth = this.lettersQuantity * this.size;
-                    const maxLettersQuantity = this.calculateLettersQuantity(words);
-                    
-                    if (maxLettersQuantity < this.lettersQuantity * this.lines && textWidth < this.maxWidth){
-
-                        if ((line + word ).length < this.lettersQuantity){
-                            
-                            line += (word + " ");
-
-                            if ((k+1) === words.length) {
-
-                                lines.push(line);
-                                break;
-                            }
-
-                        } else {
-
-                            lines.push(line);
-                            line = "";
-                            line += word + " ";
-                        }
-                    }
-
-                    else{
-                        
-                        if (textWidth < this.maxWidth){
-
-                            this.lettersQuantity += 5;
-                        }
-                        
-                        else{
-
-                            this.size -= 1;
-                            this.lineSpace -= 10;
-                        }
-                    }
-                }
-            
-                for (let k = 0; k < lines.length; k++){
-
-                    const lineText  = lines[k];
-                    const xPos      = 60;
-                    const modifier  = 8 * (4 - lines.length); 
-                    const yPos      = 80 + modifier + 15 * k;
-                    const line      = new Line(xPos, yPos, lineText);
-                    
-                    returnLines.push(line);
-                }
-
-                text = returnLines;
-            }
-        }
     }
 
     calculateLettersQuantity(words){
@@ -187,7 +121,7 @@ export default class Text{
 
             const word = words[i];
             
-            maxLettersQuantity += word.length;
+            maxLettersQuantity += (" " + word).length;
         }
 
         return maxLettersQuantity;

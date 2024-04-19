@@ -216,7 +216,7 @@ export default class Weapon extends Card{
                     // ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
                     // ctx.font = "25px LongaIberica-DEMO";
                     
-                    this.texts.render(ctx, xPos, yPos);
+                    this.texts.render(ctx, xPos, yPos, language);
 
                             //CATEGORY ICON
                             ctx.drawImage(

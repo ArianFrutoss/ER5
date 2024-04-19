@@ -182,7 +182,7 @@ export default class Buff extends Card {
                     
                 if (size === BorderId.NORMAL_SIZE) {
                     
-                    this.texts.render(ctx, xPos, yPos);
+                    this.texts.render(ctx, xPos, yPos, language);
                     //CATEGORY ICON
                     ctx.drawImage(
                         this.imageCategory,

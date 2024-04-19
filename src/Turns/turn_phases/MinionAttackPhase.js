@@ -83,10 +83,12 @@ export default class MinionAttackPhase extends Phase {
                 return true;
     
             } else {
-    
+                console.log("no puedes atacar");                
+
                 attacker.state = CardId.NOT_SELECTED;
                 enemy.state = CardId.NOT_SELECTED;
-    
+                this.resetEnemyAttackerDistance();
+                
                 return false;
             }
 
@@ -164,6 +166,8 @@ export default class MinionAttackPhase extends Phase {
                     this.state = AttackState.DEFAULT;
                     this.resetEnemyAttackerDistance();
                     this.buttonContainer.setState(renderState.GAME);
+                }else{
+                    this.state = AttackState.DEFAULT;
                 }
                 break;
 

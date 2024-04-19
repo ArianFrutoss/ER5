@@ -140,7 +140,7 @@ export class AttackEvent extends Event{
     calculateCritic(){
         const critic = Math.floor(Math.random() * 20 + 1);
 
-        if(critic >= 2){
+        if(critic >= 19){
 
             return true;
 

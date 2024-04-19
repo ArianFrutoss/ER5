@@ -1,4 +1,4 @@
-import { DecksId, TypeId } from "../constants.js"
+import { CardImageId, DecksId, TypeId } from "../constants.js"
 import Deck from "./Deck.js"
 
 export default class DeckContainer {
@@ -51,6 +51,9 @@ export default class DeckContainer {
                 default:
                     this.decks[DecksId.EVENT_DECK].cards.push(card)
                     card.setDeck(this.decks[DecksId.EVENT_DECK])
+                    if (card.id === CardImageId.JOSEPH) {
+                        card.setObjetive([this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK], this.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK]])
+                    }
                     break;
             }
         }

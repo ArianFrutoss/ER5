@@ -1,8 +1,6 @@
-
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, MessageState, MessageType, HelpMessagesPos, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState } from "../../constants.js";
-import Messages from "../../Messages.js";
+import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState } from "../../constants.js";
 
 export default class MinionAttackPhase extends Phase {
 
@@ -13,7 +11,7 @@ export default class MinionAttackPhase extends Phase {
         this.activeEventDeck = activeEventDeck;
         this.enemyActiveEventDeck = enemyActiveEventDeck;
         this.graveyardDeck = graveyardDeck;
-        this.state = AttackState.ATTACK;
+        this.state = AttackState.DEFAULT;
         this.mouse = mouse;                                     // Objeto Mouse
         this.buttonContainer = buttonContainer;
         this.attacker       = 0;
@@ -25,7 +23,8 @@ export default class MinionAttackPhase extends Phase {
 
     // funcion para realizar el ataque
     attack(messagesContainer, isAttackWithParry) {
-        
+   
+
         const attacker      = this.attacker;
         const enemy         = this.enemy;
         const distance      = this.distance;
@@ -130,8 +129,19 @@ export default class MinionAttackPhase extends Phase {
         // Comprobar si hay alguna carta seleccionada del mazo de minions activos
         let isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
 
+             
+        if (isAnyCardSelected[0] === false){
+
+            messagesContainer.activeMessage(messageAttackPhase1);
+        }
+
+        if (isAnyCardSelected[0]){
+
+            messagesContainer.activeMessage(messageAttackPhase2);
+        }
+
         // update mensajes
-        this.updateMessages(messagesContainer, isAnyCardSelected);
+        //this.updateMessages(messagesContainer, isAnyCardSelected);
 
         // Assign enemy, distance, enemyPosition, attacker
         const messages   = messagesContainer.messages;
@@ -248,7 +258,7 @@ export default class MinionAttackPhase extends Phase {
         // Comprobar si hay enemigo seleccionado
         if (isEnemyCardHovered[0] && !this.mouse.leftClick && this.mouse.previousStateLeft) {
 
-            messages[MessageType.HELP_MESSAGE].timeInOn = 0;
+            // messages[MessageType.HELP_MESSAGE].timeInOn = 0;
 
             // Escoger las posiciones de las cartas en los decks
             const attackerPosition = isAnyCardSelected[1];

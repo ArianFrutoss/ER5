@@ -85,7 +85,7 @@ function register(){
         };
 
     if(user.password === user.password2){
-            fetch(`${BaseURL[BaseURLValue]}/users`, {
+            fetch(`${BaseURL[BaseURLValue]}/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

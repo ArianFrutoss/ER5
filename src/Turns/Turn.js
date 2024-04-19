@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos} from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -11,15 +11,17 @@ import UseEventPhase from "./turn_phases/UseEventPhase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, handDeck, enemyHandDeck, minionDeck, graveyardDeck, eventDeck, preparingEventDeck, enemyPreparingEventDeck, activeMinionDeck, enemyActiveMinionDeck,  buttonContainer, eventContainer, turnId, name){
+    constructor(gridArray, mainCharacter, otherMainCharacter, handDeck, enemyHandDeck, minionDeck,enemyMinionDeck, graveyardDeck, eventDeck, preparingEventDeck, enemyPreparingEventDeck, activeMinionDeck, enemyActiveMinionDeck,  buttonContainer, eventContainer, turnId, name, josephDeck){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
         this.handDeck           = handDeck;                 // Mano del player
         this.enemyHandDeck      = enemyHandDeck
         this.minionDeck         = minionDeck;               // Mazo de minions
+        this.enemyMinionDeck    = enemyMinionDeck
         this.graveyardDeck      = graveyardDeck;            // Mazo cementerio
         this.mainCharacter      = mainCharacter;            // Carta de Character asignada  predefinida desde turnContainer
+        this.otherMainCharacter = otherMainCharacter        // Carta del Character rival
         this.gridArray          = gridArray;                // Array de rejillas
         this.eventContainer     = eventContainer            // Contenedor de eventos
         this.eventDeck          = eventDeck;                // Mazo de eventos
@@ -37,6 +39,7 @@ export default class Turn {
         this.finished = false
         this.turnId             = turnId
         this.name               = name;
+        this.josephDeck             = josephDeck;
     }
 
     createPhases(mouse, grids, decks, turnCounter){
@@ -49,6 +52,7 @@ export default class Turn {
             const enemyMinionDeck           = turnCounter === 0 ? decks[DecksId.PLAYER_2_MINION_DECK]           : decks[DecksId.PLAYER_1_MINION_DECK]
             const eventDeck                 = decks[DecksId.EVENT_DECK]
             const graveYardDeck             = decks[DecksId.GRAVEYARD_DECK]
+            const josephDeck                = decks[DecksId.JOSEPH_DECK]
 
             const boardGrid                 = grids[GridId.BOARD_GRID]
             const activeEventDeck           = turnCounter === 0 ? decks[DecksId.PLAYER_1_PREPARING_EVENT_DECK]  : decks[DecksId.PLAYER_2_PREPARING_EVENT_DECK]
@@ -61,7 +65,7 @@ export default class Turn {
       
             const defaultPhase          = new DefaultPhase(buttons, activeEventDeck, enemyActiveEventDeck , graveYardDeck);
             const discardPhase          = new DiscardPhase(handDeck, graveYardDeck, mouse)
-            const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck)
+            const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck, josephDeck)
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, activeEventDeck, enemyActiveEventDeck, graveYardDeck, mouse, buttons);
             const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, enemyActiveMinionDeck, boardGrid, mouse);
             const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid, mouse);
@@ -90,7 +94,7 @@ export default class Turn {
             case TurnStates.EXECUTION:
                 // console.log("executiio");
                 const isPhasesOver = this.execute(mouse, messagesContainer, timerContainer);
-                if (enemyActiveMinionDeck.cards.length === 0) {
+                if (enemyActiveMinionDeck.cards.length + this.enemyMinionDeck.cards.length === 0) {
                     this.finished = true
                 }else{
                     if (isPhasesOver) {
@@ -115,22 +119,29 @@ export default class Turn {
 
     init(timerContainer){
         this.restoreCardStatesFromActiveDecks()
+        // Spawnear nuevo Minion
+        if (this.minionDeck.cards.length>0) {
+        for (; this.activeMinionDeck.cards.length < 3;) {
+                const newMinion = this.minionDeck.spawnNewMinions(this.activeMinionDeck);
+                
+                // Posicionar nuevo Minion en el Grid
+                if (newMinion != undefined){
+                    
+                    newMinion.assignMinionToBoardGrid(this.gridArray.grids[GridId.BOARD_GRID], this.turnId);
+                } 
+                if (this.minionDeck.cards.length === 0) {
+                    break;
+                }
+            }
+        }
+
         this.eventContainer.executeEvents()
         this.actionsCounter = 0
-        this.phasesArray[PhaseStates.DRAW_CARD].execute()
+        this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer)
 
         // Restablecer el Timer
         timerContainer.restartTimerValue(TimerId.TURN_TIMER);
         
-        // Spawnear nuevo Minion
-        const newMinion = this.minionDeck.spawnNewMinions(this.activeMinionDeck);
-        
-        // Posicionar nuevo Minion en el Grid
-        if (newMinion != undefined){
-            
-            newMinion.assignMinionToBoardGrid(this.gridArray.grids[GridId.BOARD_GRID], this.turnId);
-            console.log(this.activeMinionDeck);
-        }
 
         // indicar turno activo
         this.active = true;
@@ -238,12 +249,11 @@ export default class Turn {
 
                 break;
         }
-
+        this.josephDeck.update(mouse)
         const value = timerContainer.update(TimerId.TURN_TIMER);
         
         if (value <= 0 || this.actionsCounter === this.maxActions){
             
-            messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             this.state = TurnStates.END;
         }
     }
@@ -258,6 +268,7 @@ export default class Turn {
             this.deselect();
             
             this.blockCardStatesFromHandDeck();
+            this.activeMinionDeck.restoreDeckMinionsHp()
             this.enemyActiveMinionDeck.restoreDeckMinionsHp();
             
             // cambio de turno
@@ -306,12 +317,36 @@ export default class Turn {
                 card.cooldown--
         }
     }
+    
     render(ctx,language, currentTurn, xPos, yPos){
-        this.activeMinionDeck.renderCards(ctx, language)
-        this.preparingEventDeck.renderCards(ctx, language)
-        this.mainCharacter.render(ctx, language, currentTurn)
-        ctx.fillText(this.name ,xPos, yPos);
-        this.handDeck.renderCards(ctx, language)
 
+        const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck, this.handDeck, this.enemyHandDeck, this.preparingEventDeck, this.enemyPreparingEventDeck, this.mainCharacter, this.otherMainCharacter];
+        const card = this.activeMinionDeck.isAnyCard(decks, CardId.SCALED);
+        
+        if (card[0] === false){
+            
+            ctx.globalAlpha = 1;
+            ctx.filter = "blur(0px)";
+        }
+
+        this.activeMinionDeck.renderCards(ctx, language);
+        this.preparingEventDeck.renderCards(ctx, language);
+        this.handDeck.renderCards(ctx, language);
+        this.mainCharacter.render(ctx, language, currentTurn);
+        this.otherMainCharacter.render(ctx, language, currentTurn);
+        if (this.josephDeck.cards[0]) {
+            this.josephDeck.cards[0].render(ctx, language, currentTurn)
+        }
+        ctx.fillText(this.name ,xPos, yPos);
+        
+        if (card[2] != undefined){
+
+            ctx.globalAlpha = 0.3;
+            ctx.filter = "blur(0px)";
+            ctx.fillRect(0, 0, ScreenSize.X_SIZE, ScreenSize.Y_SIZE);
+            ctx.globalAlpha = 1;
+            card[2].render(ctx, language);
+            ctx.filter = "blur(3px)";
+        }
     }
 }

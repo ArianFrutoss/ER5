@@ -28,4 +28,10 @@ export class ModifyAttributeEvent extends Event{
         }
         return true;
     }
+    executeAllCardsFromDeck(deck){
+        for (let i = 0; i < deck.cards.length; i++) {
+            const card = deck.cards[i];
+            
+        }
+    }
 }

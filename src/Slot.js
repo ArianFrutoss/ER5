@@ -86,12 +86,12 @@ export default class Slot{
         }
 
         else{
-            ctx.filter = "opacity(50%)"
+            ctx.globalAlpha = 0.5;
             ctx.fillStyle = "black";
         }
 
         ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
-        ctx.filter = "opacity(100%)"
+        ctx.globalAlpha = 1;
         ctx.fillStyle = "black";
     }
     isSlotSelected(grid){

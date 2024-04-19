@@ -17,19 +17,16 @@ export default class Messages{
         this.fadeCounter    = 0;
         this.appearCounter  = 0;
         this.onCounter      = 0;
-        this.drawMessage    = false;
     }
 
     update(messages){
-
         switch (this.state){
 
             case MessageState.APPEAR:
-                
                 this.appearCounter += globals.deltaTime;
-                this.alpha += 0.2;
+                this.alpha += 0.1;
                 
-                if (this.appearCounter > this.timeInAppear && this.appearCounter >= 1){
+                if (this.appearCounter > this.timeInAppear && this.alpha >= 1){
                     
                     this.appearCounter = 0;
                     this.state = MessageState.ON;
@@ -37,7 +34,6 @@ export default class Messages{
                 break;
 
             case MessageState.ON:
-
                 this.onCounter += globals.deltaTime;
                 
                 if (this.onCounter > this.timeInOn && this.timeInOn != null){
@@ -48,9 +44,8 @@ export default class Messages{
                 break;
     
             case MessageState.FADE:
-                
                 this.fadeCounter += globals.deltaTime;
-                this.alpha -= 0.2;
+                this.alpha -= 0.1;
                 
                 if (this.fadeCounter > this.timeInFade){
                     
@@ -60,9 +55,17 @@ export default class Messages{
                 break;
             
             case MessageState.OFF:
-                
                 this.alpha = 0.0;
-                messages.splice(this, 1);
+
+                if (this.type === MessageType.DAMAGE_MESSAGE){
+
+                    messages.splice(this, 1);
+                }
+
+                else{
+
+                    this.state = MessageState.APPEAR;
+                }
                 break;
         }
     }

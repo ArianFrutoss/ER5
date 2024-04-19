@@ -1,6 +1,6 @@
 
 import Text from "./Text.js";
-import { LanguageId , IconsPos} from "./constants.js";
+import { LanguageId , IconsPos } from "./constants.js";
 
 export default class TextContainer{
 
@@ -8,21 +8,21 @@ export default class TextContainer{
 
         this.texts      = texts;
         this.language   = language;
-
     }
 
     static create(cardData, language){
 
-        const description = new Text(cardData.description, LanguageId.ENG, IconsPos.DESCRIPTION);
-        const deskripzioa = new Text(cardData.deskripzioa , LanguageId.EUS, IconsPos.DESCRIPTION);
-        const name  = new Text(cardData.name, LanguageId.ENG, IconsPos.NAME);
-        const izena = new Text(cardData.izena, LanguageId.EUS, IconsPos.NAME);
+        const description = new Text(cardData.description, LanguageId.ENG, IconsPos.DESCRIPTION, 12, 40, 15, 4, 520);
+        const deskripzioa = new Text(cardData.deskripzioa, LanguageId.EUS, IconsPos.DESCRIPTION, 12, 40, 15, 4, 520);
+        const name  = new Text(cardData.name, LanguageId.ENG, IconsPos.NAME, 15, null, 15, 1, 300);
+        const izena = new Text(cardData.izena, LanguageId.EUS, IconsPos.NAME, 15, null, 15, 1, 300);
         const container = [description, deskripzioa, name, izena];
 
         return new TextContainer(container, language);
     }
 
     render(ctx, xPos, yPos){
+
         for(let i = 0; i < this.texts.length; i++){
 
             const text = this.texts[i];

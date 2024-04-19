@@ -45,15 +45,16 @@ export default class Game {
         assets.loadImages(data);
         const cardImgs = assets.images
         const deckContainer = new DeckContainer();
+        const eventContainer = new EventContainer()
         deckContainer.createDecks(data, cardImgs, language);
 
         const buttonContainer = ButtonContainer.create(ctx);
 
-        const eventContainer = new EventContainer()
         const turns = new TurnContainer(board, deckContainer, buttonContainer, eventContainer);
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
         const messages = new MessagesContainer();
+        messages.createHelpMessages();
         
         const firstTurn = Math.floor(Math.random()*2);
         turns.CreateTurns(mouse, eventContainer);
@@ -119,7 +120,8 @@ export default class Game {
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
                 
 
-                if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length === 0){
+                if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length + 
+                   this.turnContainer.turnContainer[this.currentTurn].minionDeck.cards.length === 0){
                     this.gameState = GameState.GAMEOVER
                 }else{
                     if(this.turnContainer.turnContainer[this.currentTurn].finished){
@@ -161,7 +163,7 @@ export default class Game {
 
             case GameState.GAMEOVER:
                 this.ctx.font         = "bold 60px Arial";
-                this.ctx.fillText(this.turnContainer.turnContainer[(this.currentTurn+1)%2].mainCharacter.name[LanguageId.ENG] + "  WON", 1000, 500);
+                // this.ctx.fillText(this.turnContainer.turnContainer[(this.currentTurn+1)%2].mainCharacter.name[LanguageId.ENG] + "  WON", 1000, 500);
                 break;
             default:
                 break;
@@ -173,20 +175,15 @@ export default class Game {
         const images = this.images.images
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.ctx.fillText("FPS:" + 1 / globals.deltaTime, 30, 30);
-
         // Funcion para renderizar Board
-        this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer)
-        this.turnContainer.render(this.ctx, this.language, this.currentTurn)
+        this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer);
         this.turnContainer.buttonContainer.renderButtons(this.language);
+        this.turnContainer.render(this.ctx, this.language, this.currentTurn);
         this.messagesContainer.render(this.ctx, this.language);
-        this.ctx.font         = "bold 30px Arial";
-        this.ctx.fillText(this.mouse.x + "----------" + this.mouse.y, 100, 100);
-
     }
 
     updateGame() {
-        
+        // console.log(this.eventContainer.events);
         // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
         // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards);
         // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards);
@@ -309,29 +306,30 @@ export default class Game {
                 const row = this.gridsArray.grids[GridId.BOARD_GRID].slots[i]
                 for (let k = 0; k < minionCards.length; k++) {
                     const card = minionCards[k];
-                    const enemyCard = enemyMinionCards[k];
-
                     if (card.yPos === row[0].yPos) {
                         positions[k] = i
                     }
-
-                    if (enemyCard.yPos === row[0].yPos) {
-                        enemyPositions[k] = i
-                    }
                 
             }
+                for (let k = 0; k < enemyMinionCards.length; k++) {
+                    const card = enemyMinionCards[k];
+                    if (card.yPos === row[0].yPos) {
+                        enemyPositions[k] = i
+                    }
+                    
+            }    
             
         }
 
         for (let i = 0; i < positions.length; i++) {
             const position = positions[i];
-            const enemyPosition = enemyPositions[i]
             const card = minionCards[i]
-            const enemyCard = enemyMinionCards[i]
             this.setRotationPos(card, position)
+        }
+        for (let i = 0; i < enemyPositions.length; i++) {
+            const enemyPosition = enemyPositions[i]
+            const enemyCard = enemyMinionCards[i]
             this.setRotationPos(enemyCard, enemyPosition)
-
-
         }
     }
 

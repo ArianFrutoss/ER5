@@ -1,6 +1,5 @@
-import { CardActions, CardId, SlotsState, TypeId, MessageState, MessageType, HelpMessagesPos , PhaseStates, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3 } from "../../constants.js";
+import { CardId, TypeId, PhaseStates, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3 } from "../../constants.js";
 import Phase from "./Phase.js";
-import Messages from "../../Messages.js";
 
 export default class UseEventPhase extends Phase{
 
@@ -23,42 +22,23 @@ export default class UseEventPhase extends Phase{
             deck.update(mouse, decks)
         }
         
-        const isAnyCardSelected  = this.eventDeck.isAnyCard(this.eventDeck, CardId.SELECTED)
-        const messages = messagesContainer.messages;
+        const isAnyCardSelected  = this.eventDeck.isAnyCard(this.eventDeck, CardId.SELECTED);
         
         if (isAnyCardSelected.length === 0){
             
-            if (messages[MessageType.HELP_MESSAGE] === undefined){
-            
-                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageUseEventPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-                messages[MessageType.HELP_MESSAGE] = message;
-            }
+            messagesContainer.activeMessage(messageUseEventPhase1);
         }
 
         else{
 
-            if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0] === false){
-            
-                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageUseEventPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-                messages[MessageType.HELP_MESSAGE] = message;
-                messages[MessageType.HELP_MESSAGE].drawMessage = true;
-            }
-            
-            if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0]){
-    
-                const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageUseEventPhase3, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-                messages[MessageType.HELP_MESSAGE] = message;
-                messages[MessageType.HELP_MESSAGE].drawMessage = false;
-            }
-            
-            if (messages[MessageType.HELP_MESSAGE].drawMessage && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0]){
-                
-                messages[MessageType.HELP_MESSAGE].timeInOn = 0;
+            if (isAnyCardSelected[0] === false){
+
+                messagesContainer.activeMessage(messageUseEventPhase2);
             }
     
-            if (messages[MessageType.HELP_MESSAGE].drawMessage === false && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0] === false){
-                
-                messages[MessageType.HELP_MESSAGE].timeInOn = 0;
+            if (isAnyCardSelected[0]){
+    
+                messagesContainer.activeMessage(messageUseEventPhase3);
             }
         }
 
@@ -99,7 +79,6 @@ export default class UseEventPhase extends Phase{
 
                 if (isAnyMinionHovered[0] && !mouse.leftClick   && mouse.previousStateLeft) {
 
-                    messages[MessageType.HELP_MESSAGE].timeInOn = 0;
                     eventContainer.createCommonEvent(eventCard, minionCard)
 
                     return true;
@@ -108,13 +87,12 @@ export default class UseEventPhase extends Phase{
         }
     }
 
-    isEventCancelled(buttonContainer, messagesContainer){
+    isEventCancelled(buttonContainer){
         
         const buttonState = buttonContainer.isAnyButtonSelected();
 
         if(buttonState === PhaseStates.DEFAULT){
 
-            messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             return true;
         }else {
 

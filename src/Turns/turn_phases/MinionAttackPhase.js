@@ -14,10 +14,10 @@ export default class MinionAttackPhase extends Phase {
         this.state = AttackState.DEFAULT;
         this.mouse = mouse;                                     // Objeto Mouse
         this.buttonContainer = buttonContainer;
-        this.attacker       = 0;
-        this.enemy          = 0;
-        this.distance       = 0;
-        this.enemyPosition  = 0;
+        this.attacker       = null;
+        this.enemy          = null;
+        this.distance       = null;
+        this.enemyPosition  = null;
     }
 
 
@@ -29,7 +29,13 @@ export default class MinionAttackPhase extends Phase {
         const enemy         = this.enemy;
         const distance      = this.distance;
         const enemyPosition = this.enemyPosition;
-        if(attacker !== 0 && enemy !== 0 && distance !== 0 && enemyPosition !== 0){
+
+        console.log(enemy);
+        console.log(attacker);
+        console.log(distance);
+        console.log(enemyPosition);
+
+        if(attacker !== null && enemy !== null && distance !== null && enemyPosition !== null){
 
             if (attacker.type === "Melee" && distance[0] <= 1 && distance[1] <= 1) {
 
@@ -154,9 +160,10 @@ export default class MinionAttackPhase extends Phase {
                 aux = this.attack(messagesContainer, false);
                 console.log(aux);
                 if(aux){
+                    this.buttonContainer.deselect();
                     this.state = AttackState.DEFAULT;
-                    this.buttonContainer.setState(renderState.GAME);
                     this.resetEnemyAttackerDistance();
+                    this.buttonContainer.setState(renderState.GAME);
                 }
                 break;
 
@@ -179,9 +186,10 @@ export default class MinionAttackPhase extends Phase {
                 aux = this.attack(messagesContainer, true);
                 console.log(aux);
                 if(aux){
+                    this.buttonContainer.deselect();
                     this.state = AttackState.DEFAULT;
-                    this.buttonContainer.setState(renderState.GAME);
                     this.resetEnemyAttackerDistance();
+                    this.buttonContainer.setState(renderState.GAME);
                 }
                 break;
 
@@ -278,7 +286,7 @@ export default class MinionAttackPhase extends Phase {
     }
 
     checkIfEnemyHasWeapon(){
-        if(this.enemy !== 0){
+        if(this.enemy !== null){
             console.log("enemigo seleccionado");
             this.state = AttackState.ATTACK;
 
@@ -290,10 +298,10 @@ export default class MinionAttackPhase extends Phase {
     }
 
     resetEnemyAttackerDistance(){
-        this.enemy      = 0;
-        this.attacker   = 0;
-        this.distance   = 0;
-        this.enemyPosition = 0;
+        this.enemy      = null;
+        this.attacker   = null;
+        this.distance   = null;
+        this.enemyPosition = null;
     }
     
 }

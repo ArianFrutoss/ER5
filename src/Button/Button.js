@@ -2,7 +2,7 @@ import { ButtonState, LanguageId } from "../constants.js";
 
 export default class Button {
 
-    constructor(ctx, x, y, text, state, phaseState, color){
+    constructor(ctx, x, y, text, state, phaseState, renderState){
         
         this.ctx        = ctx;
         this.x          = x;
@@ -12,7 +12,7 @@ export default class Button {
         this.text       = text;
         this.state      = state;
         this.phaseState = phaseState;
-        this.color      = color;
+        this.color      = "#582900";
 }
 
     render(language){

@@ -1,103 +1,104 @@
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2 } from "../../constants.js";
+import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState } from "../../constants.js";
 
 export default class MinionAttackPhase extends Phase {
 
-    constructor(activeMinionDeck, enemyActiveMinionDeck,activeEventDeck, enemyActiveEventDeck, graveyardDeck, mouse) {
+    constructor(activeMinionDeck, enemyActiveMinionDeck, activeEventDeck, enemyActiveEventDeck, graveyardDeck, mouse, buttonContainer) {
         super();
-        this.activeMinionDeck = activeMinionDeck;         // Deck de minions activos
-        this.enemyActiveMinionDeck = enemyActiveMinionDeck;    // Deck de minions activos del rival
+        this.activeMinionDeck = activeMinionDeck;               // Deck de minions activos
+        this.enemyActiveMinionDeck = enemyActiveMinionDeck;     // Deck de minions activos del rival
         this.activeEventDeck = activeEventDeck;
         this.enemyActiveEventDeck = enemyActiveEventDeck;
-        this.graveyardDeck  = graveyardDeck;
-        this.mouse = mouse;                    // Objeto Mouse
+        this.graveyardDeck = graveyardDeck;
+        this.state = AttackState.DEFAULT;
+        this.mouse = mouse;                                     // Objeto Mouse
+        this.buttonContainer = buttonContainer;
+        this.attacker       = null;
+        this.enemy          = null;
+        this.distance       = null;
+        this.enemyPosition  = null;
     }
 
 
     // funcion para realizar el ataque
-    attack(messagesContainer) {
+    attack(messagesContainer, isAttackWithParry) {
+   
 
-        const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck]
-        for (let i = 0; i < decks.length; i++) {
-            const deck = decks[i];
-            deck.update(this.mouse, decks)
-        }
+        const attacker      = this.attacker;
+        const enemy         = this.enemy;
+        const distance      = this.distance;
+        const enemyPosition = this.enemyPosition;
 
-        // Comprobar si hay alguna carta seleccionada del mazo de minions activos
-        let isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
+        console.log(enemy);
+        console.log(attacker);
+        console.log(distance);
+        console.log(enemyPosition);
 
-        // Comprobar si hay alguna carta en hover del mazo de minions activos del rival
-        let isEnemyCardHovered = this.enemyActiveMinionDeck.isAnyCard(this.enemyActiveMinionDeck, CardId.HOVER);
-        
-        const messages = messagesContainer.messages;
+        if(attacker !== null && enemy !== null && distance !== null && enemyPosition !== null){
 
-        if (isAnyCardSelected[0] === false){
-
-            messagesContainer.activeMessage(messageAttackPhase1);
-        }
-
-        if (isAnyCardSelected[0]){
-
-            messagesContainer.activeMessage(messageAttackPhase2);
-        }
-        
-        // Comprobar si hay enemigo seleccionado
-        if (isEnemyCardHovered[0] && !this.mouse.leftClick && this.mouse.previousStateLeft) {
-
-            // Escoger las posiciones de las cartas en los decks
-            const attackerPosition = isAnyCardSelected[1];
-            const enemyPosition = isEnemyCardHovered[1];
-            
-            // Minion atacante
-            const attacker = this.activeMinionDeck.cards[attackerPosition];
-
-            // Minion rival
-            const enemy = this.enemyActiveMinionDeck.cards[enemyPosition];
-            
-            // Calcular distancia en slots [0] -> distancia en slots x [1] -> distancia en slots y
-            const distance = this.calculateDistance(attacker, enemy);
-            
             if (attacker.type === "Melee" && distance[0] <= 1 && distance[1] <= 1) {
 
-                // Ejecucion del evento de ataque
-                const attackEvent = new AttackEvent(attacker, enemy);
-                attackEvent.execute(messagesContainer);
+                if(isAttackWithParry){  
+    
+                    const blockEvent = new AttackEvent(attacker, enemy);
+                    blockEvent.attackWithParry();
+    
+                }else{
+    
+                    const attackEvent = new AttackEvent(attacker, enemy);
+                    attackEvent.execute(messagesContainer);
+    
+                }
+            
+    
                 attacker.state = CardId.NOT_SELECTED;
                 enemy.state = CardId.NOT_SELECTED;
+    
                 if (attacker.weapon != undefined) {
+                
                     const isDestroyed = attacker.weapon.removeIfWornOut(this.activeEventDeck, this.graveyardDeck)
                     if (isDestroyed) {
                         attacker.setWeapon(undefined)
                     }
+                    
                 }
-
+    
                 if (enemy.armor != undefined) {
                     const isDestroyed = enemy.armor.removeIfWornOut(this.enemyActiveEventDeck, this.graveyardDeck)
                     if (isDestroyed) {
                         enemy.setArmor(undefined)
                     }
                 }
-
-                this.removeEnemyIfDead(enemy,enemyPosition)
+    
+                if (enemy.weapon != undefined) {
+                    const isDestroyed = enemy.weapon.removeIfWornOut(this.enemyActiveEventDeck, this.graveyardDeck)
+                    if (isDestroyed) {
+                        enemy.setArmor(undefined)
+                    }
+                }
+    
+                this.removeEnemyIfDead(enemy, enemyPosition);
+    
                 return true;
+    
             } else {
-
+    
                 attacker.state = CardId.NOT_SELECTED;
                 enemy.state = CardId.NOT_SELECTED;
-
-                console.log("no puedes atacar ");
+    
                 return false;
             }
+
         }
 
-        return false;
+        
     }
 
-    removeEnemyIfDead(enemy, enemyPosition){
+    removeEnemyIfDead(enemy, enemyPosition) {
         if (enemy.health <= 0) {
             this.enemyActiveMinionDeck.cards.splice(enemyPosition, 1)
-            enemy.state =  CardId.DEAD
+            enemy.state = CardId.DEAD
         }
     }
 
@@ -119,31 +120,188 @@ export default class MinionAttackPhase extends Phase {
         const distanceXSlots = Math.floor(xDifference / boardSlotXSize);
         const distanceYSlots = Math.floor(yDifference / boardSlotYSize);
 
-        console.log("Distancia en slots en el eje X:", distanceXSlots);
-        console.log("Distancia en slots en el eje Y:", distanceYSlots);
-        
         return [distanceXSlots, distanceYSlots];
     }
 
 
 
     execute(messagesContainer) {
-        
-        let aux = this.attack(messagesContainer);
+
+        let aux;
+
+        // Update de los decks
+        this.updateDecks(); 
+
+        // Comprobar si hay alguna carta seleccionada del mazo de minions activos
+        let isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
+
+             
+        if (isAnyCardSelected[0] === false){
+
+            messagesContainer.activeMessage(messageAttackPhase1);
+        }
+
+        if (isAnyCardSelected[0]){
+
+            messagesContainer.activeMessage(messageAttackPhase2);
+        }
+
+        // update mensajes
+        //this.updateMessages(messagesContainer, isAnyCardSelected);
+
+        // Assign enemy, distance, enemyPosition, attacker
+        const messages   = messagesContainer.messages;
+        this.checkEnemySelected(messages);
+
+        const state = this.state;
+
+        switch (state) {
+            case AttackState.ATTACK:
+                aux = this.attack(messagesContainer, false);
+                console.log(aux);
+                if(aux){
+                    this.buttonContainer.deselect();
+                    this.state = AttackState.DEFAULT;
+                    this.resetEnemyAttackerDistance();
+                    this.buttonContainer.setState(renderState.GAME);
+                }
+                break;
+
+            case AttackState.SELECT_PARRY_ATTACK:
+              
+                this.buttonContainer.setState(renderState.PARRY);
+                const state = this.buttonContainer.isAnyButtonSelected();
+
+                if(state != PhaseStates.DEFAULT){
+                    this.state = state;
+                }
+                break;
+
+            case AttackState.PREPARE_SELECT:
+                this.buttonContainer.deselect();
+                this.state = AttackState.SELECT_PARRY_ATTACK;
+                break;
+
+            case AttackState.PARRY:
+                aux = this.attack(messagesContainer, true);
+                console.log(aux);
+                if(aux){
+                    this.buttonContainer.deselect();
+                    this.state = AttackState.DEFAULT;
+                    this.resetEnemyAttackerDistance();
+                    this.buttonContainer.setState(renderState.GAME);
+                }
+                break;
+
+            case AttackState.DEFAULT:
+                this.checkIfEnemyHasWeapon();
+                break;
+        }
+
         return aux;
     }
 
-    isPhaseCancelled(buttonContainer){
-        
+    // comprobar si la fase se cancela
+    isPhaseCancelled(buttonContainer, messagesContainer){
+
         const buttonState = buttonContainer.isAnyButtonSelected();
 
-        if(buttonState === PhaseStates.DEFAULT){
+        if (this.state === AttackState.ATTACK && buttonState === PhaseStates.DEFAULT) {
 
+            // messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             return true;
-        }else {
+        } else {
 
             return false;
         }
+    }
+
+    // Update de los decks
+    updateDecks(){
+    
+        const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck]
+        for (let i = 0; i < decks.length; i++) {
+            const deck = decks[i];
+            deck.update(this.mouse, decks)
+        }
+    }
+
+    updateMessages(messagesContainer, isAnyCardSelected){
+
+        const messages = messagesContainer.messages;
+
+        if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0] === false) {
+
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageAttackPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            messages[MessageType.HELP_MESSAGE] = message;
+            messages[MessageType.HELP_MESSAGE].drawMessage = true;
+        }
+
+        if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0]) {
+
+            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageAttackPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
+            messages[MessageType.HELP_MESSAGE] = message;
+            messages[MessageType.HELP_MESSAGE].drawMessage = false;
+        }
+
+        if (messages[MessageType.HELP_MESSAGE].drawMessage && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0]) {
+
+            messages[MessageType.HELP_MESSAGE].timeInOn = 0;
+        }
+
+        if (messages[MessageType.HELP_MESSAGE].drawMessage === false && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0] === false) {
+
+            messages[MessageType.HELP_MESSAGE].timeInOn = 0;
+        }
+    }
+
+    checkEnemySelected(messages){
+
+        // Comprobar si hay alguna carta seleccionada del mazo de minions activos
+        let isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
+
+        // Comprobar si hay alguna carta en hover del mazo de minions activos del rival
+        let isEnemyCardHovered = this.enemyActiveMinionDeck.isAnyCard(this.enemyActiveMinionDeck, CardId.HOVER);
+
+        // Comprobar si hay enemigo seleccionado
+        if (isEnemyCardHovered[0] && !this.mouse.leftClick && this.mouse.previousStateLeft) {
+
+            // messages[MessageType.HELP_MESSAGE].timeInOn = 0;
+
+            // Escoger las posiciones de las cartas en los decks
+            const attackerPosition = isAnyCardSelected[1];
+
+            this.enemyPosition = isEnemyCardHovered[1];
+
+            // Minion atacante
+            this.attacker = this.activeMinionDeck.cards[attackerPosition];
+
+            // Minion rival
+            this.enemy = this.enemyActiveMinionDeck.cards[this.enemyPosition];
+
+            // Calcular distancia en slots [0] -> distancia en slots x [1] -> distancia en slots y
+            this.distance = this.calculateDistance(this.attacker, this.enemy);
+        }
 
     }
+
+    checkIfEnemyHasWeapon(){
+        if(this.enemy !== null){
+            console.log("enemigo seleccionado");
+            this.state = AttackState.ATTACK;
+
+            if(this.enemy.weapon != undefined){
+
+                this.state = AttackState.PREPARE_SELECT;
+            }
+        }
+    }
+
+    resetEnemyAttackerDistance(){
+        this.enemy      = null;
+        this.attacker   = null;
+        this.distance   = null;
+        this.enemyPosition = null;
+    }
+    
 }

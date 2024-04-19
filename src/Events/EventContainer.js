@@ -19,12 +19,19 @@ export default class EventContainer {
         }
     }
 
+    createJosephEvents(decks, josephCard, mouse){
+        const destroyMinionEvent = EventFactory.createDestroyAllMinionsEvent(decks)
+        destroyMinionEvent.execute(mouse)
+
+        const ModifyAttributeEvent = EventFactory.createModifyAttributeToAllMinions(decks, josephCard)
+        this.events.push(ModifyAttributeEvent)
+    }
+
     executeEvents(){
         for (let i = 0; i < this.events.length; i++) {
             const event = this.events[i];
             if (event != undefined){
                 const isOver = event.execute()
-                console.log(isOver);
                 if (isOver) {
                     this.events.splice(i, 1)
                 }

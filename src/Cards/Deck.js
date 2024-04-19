@@ -20,7 +20,10 @@ export default class Deck {
             
         } 
     }
-    update(mouse, decks){
+    update(mouse, decks = this){
+        if (this.deckId === DecksId.PLAYER_1_MINION_DECK) {
+            console.log(this.cards);
+        }
         for (let i = 0; i < this.cards.length; i++) {
             const card = this.cards[i];
             card.update(mouse, decks)

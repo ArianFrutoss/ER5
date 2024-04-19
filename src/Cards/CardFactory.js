@@ -97,7 +97,7 @@ export default class CardFactory {
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.JOSEPH]
                     for (let i = 0; i < quantity; i++) {
                         // card = this.createJoseph(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
-                        card = Joseph.create(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects);
+                        card = Joseph.create(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, attributes);
                         this.cards.push(card)
 
                     }

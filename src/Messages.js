@@ -20,7 +20,6 @@ export default class Messages{
     }
 
     update(messages){
-        
         switch (this.state){
 
             case MessageState.APPEAR:

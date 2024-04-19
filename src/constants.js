@@ -1,5 +1,5 @@
 
-export const FPS =  30;
+export const FPS =  60;
 
 export const GameState = {
     INVALID:       -1,
@@ -37,6 +37,16 @@ export const PhaseStates = {
     USE_EVENT_CARD:         6,
 }
 
+export const AttackState = {
+    
+    PARRY:                  5,
+    SELECT_PARRY_ATTACK:    1,
+    ATTACK:                 2,
+    DEFAULT:                3,
+    PREPARE_SELECT:         4
+
+}
+
 export const MovePhaseStates = {
     NONE:       0,
     MOVE:       1,
@@ -51,7 +61,7 @@ export const CardActions = {
     COOLDOWN:       0,
     READY:          1,
     ON_USE:         2,
-    WORN_OUT:       3
+    WORN_OUT:       3,
 }
 
 export const CardId = {
@@ -107,7 +117,7 @@ export const ImageTypes = {
     BOARD_IMAGE: 7
 }
 export const CardImageId = {
-    DRUM_MASTER:0,
+    JOSEPH: 1,
 }
 export const BorderId = {
     NORMAL_SIZE: 0,
@@ -183,7 +193,8 @@ export const DecksId = {
     PLAYER_2_PREPARING_EVENT_DECK:  7,
     EVENT_DECK:                     8,
     MAIN_CHARACTER_DECK:            9,
-    GRAVEYARD_DECK:                10
+    GRAVEYARD_DECK:                10,
+    JOSEPH_DECK:                   11
 }
 export const LanguageId = {
     ENG : 0,
@@ -297,6 +308,18 @@ export const messagePrepareEventPhase2  = ["Select any slot of the event grid to
 export const messageUseEventPhase1      = ["There are no cards in the event grid, Select other action", "Ez dago txartelik ekitaldien laukian, aukeratu beste ekintza bat"];
 export const messageUseEventPhase2      = ["Select any prepared event card to use", "Aukeratu erabili beharreko ekitaldietarako txartel prestatua"];
 export const messageUseEventPhase3      = ["Select any minion to use the event card", "Aukeratu edozein minioi gertaeraren txartela erabiltzeko"];
+
+export const BlockStates = {
+    INVALID:         -1,
+    COMPLETE_BLOCK:   0,
+    PARCIAL_BLOCK:    1,
+    FAILED_BLOCK:     2,
+}
+
+export const renderState = {
+    GAME:       0,
+    PARRY:      1
+}
 
 export const ScreenSize = {
     X_SIZE: 1920,

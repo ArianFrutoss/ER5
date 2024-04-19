@@ -263,8 +263,8 @@ export const MessageType = {
 }
 
 export const HelpMessagesPos = {
-    X_POS:  1740,
-    Y_POS:   880,
+    X_POS:  1723,
+    Y_POS:   833,
 }
 
 export const TimerId = {

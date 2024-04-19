@@ -11,8 +11,8 @@ export default class TextContainer{
 
     static createCardText(cardData){
 
-        const description   = new Text([cardData.description, cardData.deskripzioa], IconsPos.DESCRIPTION, 12, 40, 15, 4, 420);
-        const name          = new Text([cardData.name, cardData.izena], IconsPos.NAME, 15, null, 15, 1, 260);
+        const description   = new Text([cardData.description, cardData.deskripzioa], IconsPos.DESCRIPTION, 12, 40, 18, 4, 400);
+        const name          = new Text([cardData.name, cardData.izena], IconsPos.NAME, 15, null, null, 1, 260);
         const container     = [description, name];
 
         return new TextContainer(container);
@@ -20,17 +20,17 @@ export default class TextContainer{
 
     static createMessageText(){
         
-        const defaultPhase          = new Text(messageDefaultPhase, null, null, 14, 40, 15, 4, 320);
-        const discardPhase          = new Text(messageDiscardPhase, null, null, 14, 40, 15, 4, 320);
-        const movimentPhase1        = new Text(messageMovimentPhase1, null, null, 14, 40, 15, 4, 320);
-        const movimentPhase2        = new Text(messageMovimentPhase2, null, null, 14, 40, 15, 4, 320);
-        const attackPhase1          = new Text(messageAttackPhase1, null, null, 14, 40, 15, 4, 320);
-        const attackPhase2          = new Text(messageAttackPhase2, null, null, 14, 40, 15, 4, 320);
-        const prepareEventPhase1    = new Text(messagePrepareEventPhase1, null, null, 14, 40, 15, 4, 320);
-        const prepareEventPhase2    = new Text(messagePrepareEventPhase2, null, null, 14, 40, 15, 4, 320);
-        const useEventPhase1        = new Text(messageUseEventPhase1, null, null, 14, 40, 15, 4, 320);
-        const useEventPhase2        = new Text(messageUseEventPhase2, null, null, 14, 40, 15, 4, 320);
-        const useEventPhase3        = new Text(messageUseEventPhase3, null, null, 14, 40, 15, 4, 320);
+        const defaultPhase          = new Text(messageDefaultPhase, null, 20, 40, 25, 7, 600);
+        const discardPhase          = new Text(messageDiscardPhase, null, 20, 40, 25, 7, 600);
+        const movimentPhase1        = new Text(messageMovimentPhase1, null, 20, 40, 25, 7, 600);
+        const movimentPhase2        = new Text(messageMovimentPhase2, null, 20, 40, 25, 7, 600);
+        const attackPhase1          = new Text(messageAttackPhase1, null, 20, 40, 25, 7, 600);
+        const attackPhase2          = new Text(messageAttackPhase2, null, 20, 40, 25, 7, 600);
+        const prepareEventPhase1    = new Text(messagePrepareEventPhase1, null, 20, 40, 25, 7, 600);
+        const prepareEventPhase2    = new Text(messagePrepareEventPhase2, null, 20, 40, 25, 7, 600);
+        const useEventPhase1        = new Text(messageUseEventPhase1, null, 20, 40, 25, 7, 600);
+        const useEventPhase2        = new Text(messageUseEventPhase2, null, 20, 40, 25, 7, 600);
+        const useEventPhase3        = new Text(messageUseEventPhase3, null, 20, 40, 25, 7, 600);
         const container             = [defaultPhase, discardPhase, movimentPhase1, movimentPhase2, attackPhase1, attackPhase2, prepareEventPhase1, prepareEventPhase2, useEventPhase1, useEventPhase2, useEventPhase3];
 
         return new TextContainer(container);

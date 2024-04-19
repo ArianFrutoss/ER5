@@ -94,7 +94,7 @@ export default class Text{
                 else{
 
                     this.size -= 1;
-                    this.lineSpace -= 10;
+                    this.lineSpace -= 1;
                 }
             }
         }
@@ -104,12 +104,13 @@ export default class Text{
             const lineText  = lines[i];
             const xPos      = 60;
             const modifier  = 8 * (4 - lines.length); 
-            const yPos      = 80 + modifier + 15 * i;
+            const yPos      = 80 + modifier + this.lineSpace * i;
+            console.log(this.lineSpace);
             const line      = new Line(xPos, yPos, lineText);
             
             returnLines.push(line);
         }
-console.log(returnLines);
+
         return returnLines;
     }
 

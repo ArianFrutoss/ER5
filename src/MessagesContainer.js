@@ -74,7 +74,7 @@ export default class MessagesContainer{
 
             const messageText = this.helpMessage[i];
             
-            if (message[0] === messageText.message[0]){
+            if (message[0] === messageText.message.text[0]){
 
                 return messageText;
             }

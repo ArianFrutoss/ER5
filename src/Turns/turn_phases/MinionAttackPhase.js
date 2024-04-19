@@ -155,12 +155,13 @@ export default class MinionAttackPhase extends Phase {
         switch (state) {
             case AttackState.ATTACK:
                 aux = this.attack(messagesContainer, false);
-                console.log(aux);
+         
                 if(aux){
                     this.buttonContainer.deselect();
                     this.state = AttackState.DEFAULT;
                     this.resetEnemyAttackerDistance();
                     this.buttonContainer.setState(renderState.GAME);
+                    return aux;
                 }
                 break;
 
@@ -181,12 +182,13 @@ export default class MinionAttackPhase extends Phase {
 
             case AttackState.PARRY:
                 aux = this.attack(messagesContainer, true);
-                console.log(aux);
+           
                 if(aux){
                     this.buttonContainer.deselect();
                     this.state = AttackState.DEFAULT;
                     this.resetEnemyAttackerDistance();
                     this.buttonContainer.setState(renderState.GAME);
+                    return aux;
                 }
                 break;
 
@@ -195,7 +197,7 @@ export default class MinionAttackPhase extends Phase {
                 break;
         }
 
-        return aux;
+      
     }
 
     // comprobar si la fase se cancela

@@ -149,7 +149,6 @@ export default class Turn {
 
     execute(mouse, messagesContainer, timerContainer){
 
-        console.log(this.phaseState);
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
@@ -206,6 +205,7 @@ export default class Turn {
                 const isAttackCancelled = this.phasesArray[PhaseStates.ATTACK].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isAttackFinished){
+                    this.buttonContainer.deselect();
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;

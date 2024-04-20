@@ -17,7 +17,7 @@ export class AttackEvent extends Event{
     execute(messagesContainer) {
         const critic = this.calculateCritic();
         const fail  = this.calculateFail();
-
+        console.log(fail);
         let damage;
 
         if (this.attackerMinion.weapon != undefined) {
@@ -91,6 +91,8 @@ export class AttackEvent extends Event{
         const critic = this.calculateCritic();
         const fail   = this.calculateFail();
 
+        console.log(fail);
+
         if (this.attackerMinion.weapon != undefined) {
             // Ataque con los atributos del minion y del arma
             damage = this.attackWithWeapon();
@@ -115,7 +117,7 @@ export class AttackEvent extends Event{
         } else {
             // Ataque con los atributos del minion
             damage = this.attack();
-
+            console.log(damage);
             if(critic){
                 damage = damage * this.critic;
             }else if(fail){

@@ -30,11 +30,6 @@ export default class MinionAttackPhase extends Phase {
         const distance      = this.distance;
         const enemyPosition = this.enemyPosition;
 
-        console.log(enemy);
-        console.log(attacker);
-        console.log(distance);
-        console.log(enemyPosition);
-
         if(attacker !== null && enemy !== null && distance !== null && enemyPosition !== null){
 
             if (attacker.type === "Melee" && distance[0] <= 1 && distance[1] <= 1) {
@@ -83,10 +78,12 @@ export default class MinionAttackPhase extends Phase {
                 return true;
     
             } else {
-    
+                console.log("no puedes atacar");                
+
                 attacker.state = CardId.NOT_SELECTED;
                 enemy.state = CardId.NOT_SELECTED;
-    
+                this.resetEnemyAttackerDistance();
+                this.state = AttackState.DEFAULT;
                 return false;
             }
 
@@ -158,12 +155,13 @@ export default class MinionAttackPhase extends Phase {
         switch (state) {
             case AttackState.ATTACK:
                 aux = this.attack(messagesContainer, false);
-                console.log(aux);
+         
                 if(aux){
                     this.buttonContainer.deselect();
                     this.state = AttackState.DEFAULT;
                     this.resetEnemyAttackerDistance();
                     this.buttonContainer.setState(renderState.GAME);
+                    return aux;
                 }
                 break;
 
@@ -184,12 +182,13 @@ export default class MinionAttackPhase extends Phase {
 
             case AttackState.PARRY:
                 aux = this.attack(messagesContainer, true);
-                console.log(aux);
+           
                 if(aux){
                     this.buttonContainer.deselect();
                     this.state = AttackState.DEFAULT;
                     this.resetEnemyAttackerDistance();
                     this.buttonContainer.setState(renderState.GAME);
+                    return aux;
                 }
                 break;
 
@@ -198,7 +197,7 @@ export default class MinionAttackPhase extends Phase {
                 break;
         }
 
-        return aux;
+      
     }
 
     // comprobar si la fase se cancela

@@ -30,23 +30,23 @@ export default class ButtonContainer{
 
         const state = this.state;
 
-            switch(state){
-                case renderState.GAME:
-                    for(let i = 0; i < 5; i++){
-                        const btn = this.container[i];
-            
-                        btn.render(language);
-                    }
-                    break;
+        switch(state){
+            case renderState.GAME:
+                for(let i = 0; i < 5; i++){
+                    const btn = this.container[i];
+        
+                    btn.render(language);
+                }
+                break;
 
-                case renderState.PARRY:
-                    for(let i = 5; i < 7; i++){
-                        const btn = this.container[i];
-            
-                        btn.render(language);
-                    }
-                    break;
-            }      
+            case renderState.PARRY:
+                for(let i = 5; i < 7; i++){
+                    const btn = this.container[i];
+        
+                    btn.render(language);
+                }
+                break;
+        }      
     }
 
     deselect(){
@@ -60,20 +60,41 @@ export default class ButtonContainer{
 
     updateButtons(mouse) {
         let selectedCount = 0;
-    
-        for (let i = 0; i < this.container.length; i++) {
-            const button = this.container[i];
-            button.update(mouse);
-    
-            if (button.state === ButtonState.SELECTED) {
-                selectedCount++;
-            }
+        const state = this.state;
+        
+        switch(state){
+            case renderState.GAME:
+                for(let i = 0; i < 5; i++){
+                    const button = this.container[i];
+                    button.update(mouse);
+            
+                    if (button.state === ButtonState.SELECTED) {
+                        selectedCount++;
+                    }
+        
+                    if (selectedCount > 1) {
+        
+                        button.state = ButtonState.NOT_SELECTED;
+                    }
+                }
+                break;
 
-            if (selectedCount > 1) {
-
-                button.state = ButtonState.NOT_SELECTED;
-            }
-        }
+            case renderState.PARRY:
+                for(let i = 5; i < 7; i++){
+                    const button = this.container[i];
+                    button.update(mouse);
+            
+                    if (button.state === ButtonState.SELECTED) {
+                        selectedCount++;
+                    }
+        
+                    if (selectedCount > 1) {
+        
+                        button.state = ButtonState.NOT_SELECTED;
+                    }
+                }
+                break;
+        }      
     }
     
 

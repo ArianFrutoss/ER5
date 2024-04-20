@@ -140,7 +140,6 @@ export default class Slot{
 
         else{
             
-            const deckToCheck = [];
 
             for (let i = 0; i < decks.length; i++){
 
@@ -150,27 +149,21 @@ export default class Slot{
                     
                     const card = deck.cards[j];
 
-                    deckToCheck.push(card);
+                    if (card.xPos === this.xPos && card.yPos === this.yPos){
+                            
+                        this.isEmpty = false;
+                        this.isAviable = false;
+                        this.state = SlotsState.NOT_SELECTED;
+                        break;
+                    }
+    
+                    else{
+    
+                        this.isEmpty = true;
+                    }
                 }
             }
-
-            for (let i = 0; i < deckToCheck.length; i++){
-
-                const card = deckToCheck[i];
-                
-                if (card.xPos === this.xPos && card.yPos === this.yPos){
-                            
-                    this.isEmpty = false;
-                    this.isAviable = false;
-                    this.state = SlotsState.NOT_SELECTED;
-                    break;
-                }
-
-                else{
-
-                    this.isEmpty = true;
-                }
-            }   
+ 
         }
     }
 

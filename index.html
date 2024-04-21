@@ -66,15 +66,23 @@
             <select hidden id="player_list" name="player_list"></select>
         </div>
        
-        <button hidden id="btnPlay" class="btn-lobby" >Start Game</button>
         <button hidden id="Logout"  class="btn-lobby" >Log Out</button>
+        <button hidden id="btnPlay" class="btn-lobby" >Start Game</button>
+        <button hidden id="stats" class="btn-lobby" >Stats</button>
+
     </div>
   
+    <div id="statsDiv">
+        
+        <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
 
+    </div>
 
 
 
 <script type="module" src="./src/gameIndex.js"></script>
 <script type="module" src="./src/changePage.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 </html>

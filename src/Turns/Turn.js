@@ -85,7 +85,7 @@ export default class Turn {
         switch(this.state){
             
             case TurnStates.INITIALIZE:
-                this.init(timerContainer);
+                this.init(timerContainer, mouse);
                 console.log("init");
                 this.state = TurnStates.EXECUTION
                 this.finished = false
@@ -107,7 +107,7 @@ export default class Turn {
 
             case TurnStates.END:
                 console.log("end");
-                const isEndTurn = this.end(messagesContainer);
+                const isEndTurn = this.end(messagesContainer, mouse);
                 if (isEndTurn) {
                     this.finished = true
                     
@@ -117,7 +117,8 @@ export default class Turn {
 
     }
 
-    init(timerContainer){
+    init(timerContainer, mouse){
+        this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
         this.restoreCardStatesFromActiveDecks()
         // Spawnear nuevo Minion
         if (this.minionDeck.cards.length>0) {
@@ -260,7 +261,8 @@ export default class Turn {
         }
     }
 
-    end(messagesContainer){
+    end(messagesContainer, mouse){
+        this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
 
         const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messagesContainer)
 

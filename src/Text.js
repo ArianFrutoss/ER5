@@ -3,14 +3,13 @@ import Line from "./Line.js";
 
 export default class Text{
 
-    constructor(text, type, size, lettersQuantity, lineSpace, lines, maxWidth){
+    constructor(text, type, size, lineSpace, maxHeigth, maxWidth){
 
         this.text               = text;
         this.type               = type;
         this.size               = size;
-        this.lettersQuantity    = lettersQuantity;
         this.lineSpace          = lineSpace;
-        this.lines              = lines;
+        this.maxHeigth          = maxHeigth;
         this.maxWidth           = maxWidth;
     }
 
@@ -56,56 +55,46 @@ export default class Text{
         for (let i = 0; i < words.length; i++){
 
             const word = words[i];
-            const textWidth = this.lettersQuantity * this.size;
-            const maxLettersQuantity = this.calculateLettersQuantity(words);
+            const lettersQuantity = this.calculateLettersQuantity(words);
+            const width = lettersQuantity * this.size;
+            const heigth = this.calculateHeigth(lines);
             
-            if (this.lettersQuantity === null){
-
-                this.lettersQuantity = maxLettersQuantity;
+            if (this.maxHeigth === null && width > this.maxWidth){
+                
+                this.size -= 0.5;
             }
 
-            if (maxLettersQuantity <= this.lettersQuantity * this.lines && textWidth <= this.maxWidth){
+            else if (heigth > this.maxHeigth){
+                
+                this.size -= 0.5;
+                this.lineSpace -= 1;
+            }
 
-                if ((line + word ).length < this.lettersQuantity){
+            if ((line + word).length * this.size < this.maxWidth){
+                
+                line += (word + " ");
+
+                if ((i + 1) === words.length){
                     
-                    line += (word + " ");
-
-                    if ((i+1) === words.length) {
-
-                        lines.push(line);
-                        break;
-                    }
-
-                } else {
-
                     lines.push(line);
-                    line = "";
-                    line += word + " ";
+                    break;
                 }
             }
 
             else{
                 
-                if (textWidth < this.maxWidth){
-
-                    this.lettersQuantity += 5;
-                }
-                
-                else{
-
-                    this.size -= 1;
-                    this.lineSpace -= 1;
-                }
+                lines.push(line);
+                line = "";
+                line += word + " ";
             }
         }
-    
+        
         for (let i = 0; i < lines.length; i++){
 
             const lineText  = lines[i];
             const xPos      = 60;
-            const modifier  = 8 * (4 - lines.length); 
-            const yPos      = 80 + modifier + this.lineSpace * i;
-            // console.log(this.lineSpace);
+            const modifier  = this.size * lines.length;
+            const yPos      = 120 - modifier + this.lineSpace * i;
             const line      = new Line(xPos, yPos, lineText);
             
             returnLines.push(line);
@@ -126,5 +115,10 @@ export default class Text{
         }
 
         return maxLettersQuantity;
+    }
+
+    calculateHeigth(lines){
+
+        return lines.length * this.lineSpace;
     }
 }

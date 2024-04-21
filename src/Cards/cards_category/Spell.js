@@ -203,7 +203,7 @@ export default class Spell extends Card{
                             this.imageAttributes[1],
                             
                             IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                        ctx.fillText(this.durability, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                        ctx.fillText(Math.ceil(this.durability), IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
                     }
 
                     if(size === CardId.EVENT_SIZE){

@@ -128,7 +128,7 @@ export default class Slot{
                     this.isEmpty = false;
                     this.isAviable = false;
                     this.state = SlotsState.NOT_SELECTED;
-                    break;
+                    return;
                 }
 
                 else{
@@ -154,7 +154,7 @@ export default class Slot{
                         this.isEmpty = false;
                         this.isAviable = false;
                         this.state = SlotsState.NOT_SELECTED;
-                        break;
+                        return;
                     }
     
                     else{

@@ -130,6 +130,7 @@ export default class Minion extends Card {
         }
 
         const randomXPos = aviablePositions[Math.floor(Math.random() * aviablePositions.length)];
+        console.log(randomXPos, aviablePositions);
         
         this.xPos = boardGrid.slots[boardYPos][randomXPos].xPos;
         this.yPos = boardGrid.slots[boardYPos][randomXPos].yPos;

@@ -220,7 +220,7 @@ export default class Armor extends Card{
                             this.imageAttributes[1],
                             
                             IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                        ctx.fillText(this.durability, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                        ctx.fillText(Math.ceil(this.durability), IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
 
                         ctx.drawImage(
                             this.imageAttributes[2],
@@ -234,21 +234,36 @@ export default class Armor extends Card{
                     }
 
 
-                    if(size === CardId.EVENT_SIZE){
+                    if (size === CardId.EVENT_SIZE){
                      
-                        if(this.cooldown >= 0.1){
-
-                            ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-                            ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
+                        if(size === CardId.EVENT_SIZE){
+                     
+                            if(this.cooldown >= 0.1){
+                                
+                                ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                                ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
+                                
+    
+                                ctx.fillStyle = "white";
+                                ctx.fillText(Math.ceil(this.cooldown), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                                ctx.drawImage(
+                                    this.imageAttributes[0],
+                                    IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
+                            }
                             
-
-                            ctx.fillStyle = "white";
-                            ctx.fillText(Math.ceil(this.cooldown), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
-                            ctx.drawImage(
-                                this.imageAttributes[0],
-                                IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
+                            else{
+    
+                                ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                                ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
+                                
+    
+                                ctx.fillStyle = "white";
+                                ctx.fillText(Math.ceil(this.durability), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                                ctx.drawImage(
+                                    this.imageAttributes[1],
+                                    IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
+                            }
                         }
-                        
                     }
 
             } else {

@@ -221,6 +221,18 @@ export default class Spell extends Card{
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                         }
                         
+                        else{
+    
+                            ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                            ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
+                            
+
+                            ctx.fillStyle = "white";
+                            ctx.fillText(Math.ceil(this.durability), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            ctx.drawImage(
+                                this.imageAttributes[1],
+                                IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
+                        }
                     }
 
             } else {

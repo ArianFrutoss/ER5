@@ -27,6 +27,7 @@ export default class EventFactory {
     }
 
     static createCommonEvent(card, objectiveMinion){
+
         if (card.action === CardActions.READY){
             
             let length;
@@ -45,22 +46,24 @@ export default class EventFactory {
                 
                 switch (card.category){
                     case TypeId.BUFF:
-                        const buff = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, -card.effect[i].common_effect_value);
-                        // buff.execute();
+                        const buff = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, -card.effect[i].common_effect_value, card);
+                        buff.execute();
                         return buff;
                     case TypeId.CURSE:
-                        const curse = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
-                        // curse.execute();
+                        const curse = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
+                        curse.execute();
                         return curse;
                     case TypeId.SPELL:
-                        const spell = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
+                        const spell = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
                         spell.execute();
                     case TypeId.ARMOR:
                         const armor = new EquipEvent(card, objectiveMinion);
                         armor.execute();
+                        break;
                     case TypeId.WEAPON:
                         const weapon = new EquipEvent(card, objectiveMinion);
                         weapon.execute();
+                        break;
                     default:
                         break;
                 }

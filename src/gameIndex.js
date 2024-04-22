@@ -16,6 +16,7 @@ let caja = document.getElementById("caja");
 let dropDown = document.getElementById("player_list");
 let statsBtn = document.getElementById("stats");
 let statsDiv = document.getElementById("statsDiv");
+let returnBtn = document.getElementById("returnBtn");
 if (localStorage.getItem("username") != null) {
 
     gameScreen.style.display = "none";
@@ -59,11 +60,13 @@ if (localStorage.getItem("username") != null) {
     register.style.display = "none";
 
     caja.style.display = "none";
+
     statsDiv.style.display = "none"
 }
+
 statsBtn.addEventListener("click", showStats);
 dropDown.addEventListener("change", showBtnIfOpponentSelected);
-
+returnBtn.addEventListener("click",showLobby)
 btnPlay.addEventListener("click", init);
 
 function showBtnIfOpponentSelected() {
@@ -71,9 +74,37 @@ function showBtnIfOpponentSelected() {
         btnPlay.style.display = "block"
     }
 }
+
 function showStats() {
+  let games = document.getElementById("games");
+  let gamesDivs = document.getElementsByClassName("left")
+  let win = document.getElementById("win");
+  let hit = document.getElementById("hit");
+  let dmg = document.getElementById("dmg");
+  let imgs = document.getElementsByClassName("img")
+  let vs = document.getElementsByClassName("vs")
+  let title = document.getElementsByClassName("title")
+  let div = document.getElementById("returnDiv");
     caja.style.display = "none"
     statsDiv.style.display = "grid"
+    games.style.display = "inline-block"
+    for(let i=0; i<title.length; i++) { 
+      title[i].style.display = "grid"
+    }
+    for(let i=0; i<gamesDivs.length; i++) { 
+      gamesDivs[i].style.display = "inline-grid"
+    }
+    for(let i=0; i<imgs.length; i++) { 
+      imgs[i].style.display = "grid"
+    }
+    for(let i=0; i<vs.length; i++) { 
+      vs[i].style.display = "grid"
+    }
+    win.style.display = "grid"
+    hit.style.display = "grid"
+    dmg.style.display = "grid"
+    div.style.display = "grid"
+    returnBtn.style.display = "grid"
 
   createWinRateChart()
 
@@ -82,6 +113,24 @@ function showStats() {
   createLineChart()
   
   
+}
+
+function showLobby() {
+  gameScreen.style.display = "none";
+    
+  logout.style.display = "block";
+
+  statsBtn.style.display = "block";
+
+  statsDiv.style.display = "none"
+
+  goToRegister.style.display = "none";
+
+  register.style.display = "none";
+
+  caja.style.display = "block";
+
+  dropDown.style.display = "block";
 }
 function createWinRateChart(){
   const chart = document.getElementById('winRate')

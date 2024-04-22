@@ -52,7 +52,7 @@
         <button id = "enterRegister" class="btn" >Register</button>
     </section>
 
-    <div id="caja">
+    <div hidden id="caja">
         <div id="user-data"></div>
         <div class="idioma">
             <label for="languages">Languages: </label>
@@ -72,22 +72,41 @@
 
     </div>
   
-    <div hidden id="statsDiv">
-        <div id="leftStats">
-            <div>
-                <canvas id="winRate" style="width:100%;max-width:300px;height:100%;max-height:300px"></canvas>
-            </div>
-        </div>
-
-        <div id="rightStats">
-            <div>
-                <canvas id="hitStats" style="width:100%;max-width:300px;height:100%;max-height:300px"></canvas>
+    <div hidden id="statsDiv" class="statsDiv">
+            <div hidden id="win" class="statsDiv">
+                <p hidden class="title"> Win/Loses</p>
+                <canvas hidden id="winRate" ></canvas>
             </div>
 
-            <div>
-                <canvas id="damageStats" style="width:100%;max-width:300px;height:100%;max-height:300px"></canvas>
+            <div hidden id="hit" class="statsDiv">
+                <p hidden class="title"> Hit Types</p>
+                <canvas hidden id="hitStats" ></canvas>
             </div>
-        </div>
+
+            <div hidden id="dmg" class="statsDiv">
+                <p hidden class="title"> Damages</p>
+                <canvas hidden id="damageStats"></canvas>
+            </div>
+
+            <div hidden id ="games"class="statsDiv">
+                <div hidden id ="left" class="gamesDivs">
+                    <img hidden class="img" src="./media/images/cards_img/Angelo_di_Mortis.png" alt="Avatar" style="width:100%;max-width:100px">
+                    <img hidden class="img" src="./media/images/cards_img/Angelo_di_Mortis.png" alt="Avatar" style="width:100%;max-width:100px">
+                </div>
+                <div hidden id="mid" class="gamesDivs">
+                    <p hidden class="vs"> 65 VS. 32</p>
+                    <p hidden class="vs"> 24 VS. 86</p>
+                </div>
+                <div hidden id="right" class="gamesDivs">
+                    <img hidden class="img" src="./media/images/cards_img/Lucretia.png" alt="Avatar" style="width:100%;max-width:100px">
+                    <img hidden class="img" src="./media/images/cards_img/Decrepit_throne.png" alt="Avatar" style="width:100%;max-width:100px">
+
+                </div>
+            </div>
+
+            <div hidden id ="returnDiv" class="statsDiv">
+                <button hidden id = "returnBtn"> Return </button>
+            </div>
     </div>
 
 

@@ -113,11 +113,9 @@ export default class Weapon extends Card{
                     activeEventDeck.cards.splice(i, 1)
                     graveyardDeck.cards.push(card)
                     this.setDeck(graveyardDeck)
-                    return true
                 }
             }  
         }
-        return false
     }
 
 

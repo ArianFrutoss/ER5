@@ -103,6 +103,7 @@ export default class Minion extends Card {
     }
 
     setWeapon(weapon){
+
         this.weapon = weapon
     }
 

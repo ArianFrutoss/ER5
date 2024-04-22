@@ -83,7 +83,14 @@ export default class Armor extends Card{
         this.armorLogic()
     }
     armorLogic(){
+        switch (this.action) {
+            case CardActions.COOLDOWN:
+                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                break;
         
+            default:
+                break;
+        }
     }
     setDeck(deck){
         this.deck = deck
@@ -98,11 +105,9 @@ export default class Armor extends Card{
                     activeEventDeck.cards.splice(i, 1)
                     graveyardDeck.cards.push(card)
                     this.setDeck(graveyardDeck)
-                    return true
                 }
             }  
         }
-        return false
     }
     
     checkDurability(){

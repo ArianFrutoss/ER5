@@ -253,6 +253,11 @@ export default class Turn {
                 break;
         }
         this.josephDeck.update(mouse)
+        this.activeMinionDeck.removeEquipIfdurability0();
+        this.enemyActiveMinionDeck.removeEquipIfdurability0();
+        this.preparingEventDeck.removeIfWornOut(this.graveyardDeck);
+        this.enemyPreparingEventDeck.removeIfWornOut(this.graveyardDeck);
+
         const value = timerContainer.update(TimerId.TURN_TIMER);
         
         if (value <= 0 || this.actionsCounter === this.maxActions){

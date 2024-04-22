@@ -35,7 +35,6 @@ export default class EventContainer {
                 if (isOver) {
                     this.events.splice(i, 1)
                 }
-
             }
         }
     }

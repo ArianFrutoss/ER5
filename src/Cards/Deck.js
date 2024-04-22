@@ -100,13 +100,13 @@ export default class Deck {
         }
     }
 
-    restoreDeckMinionsHp(){
+    restoreDeckMinionsStats(){
         
         for (let i = 0; i < this.cards.length; i++){
 
             const minion = this.cards[i];
 
-            minion.restoreMinionsHp();
+            minion.restoreMinionsStats();
         }
     }
 

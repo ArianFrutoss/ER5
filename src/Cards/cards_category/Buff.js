@@ -258,7 +258,7 @@ export default class Buff extends Card {
                         this.imageAttributes[1],
                         
                         IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                    ctx.fillText(this.durability, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                    ctx.fillText(Math.ceil(this.durability), IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
                 }
 
 
@@ -277,6 +277,18 @@ export default class Buff extends Card {
                             IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                     }
                     
+                    else{
+    
+                        ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                        ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
+                        
+
+                        ctx.fillStyle = "white";
+                        ctx.fillText(Math.ceil(this.durability), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                        ctx.drawImage(
+                            this.imageAttributes[1],
+                            IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
+                    }
                 }
 
             } else {

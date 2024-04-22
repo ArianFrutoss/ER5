@@ -283,8 +283,8 @@ export default class Turn {
             this.deselect();
             
             this.blockCardStatesFromHandDeck();
-            this.activeMinionDeck.restoreDeckMinionsHp()
-            this.enemyActiveMinionDeck.restoreDeckMinionsHp();
+            this.activeMinionDeck.restoreDeckMinionsStats();
+            this.enemyActiveMinionDeck.restoreDeckMinionsStats();
             
             // cambio de turno
             this.active = false;

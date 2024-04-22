@@ -23,21 +23,21 @@ export default class BlockEvent extends Event{
         switch(state){
 
             case BlockStates.COMPLETE_BLOCK:
-                console.log("completo");
+                // console.log("completo");
                 this.damage = 0;
                 this.defenderMinion.health -= this.damage;
                 
                 break;
 
             case BlockStates.PARCIAL_BLOCK:
-                console.log("parcial");
+                // console.log("parcial");
                 this.damage = Math.floor(Math.random() * (this.damage / 2));
                 this.defenderMinion.health -= this.damage;
          
                 break;
 
             case BlockStates.FAILED_BLOCK:
-                console.log("fallo");
+                // console.log("fallo");
                 this.defenderMinion.health -= this.damage;
           
                 break; 

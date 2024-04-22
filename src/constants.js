@@ -62,6 +62,8 @@ export const CardActions = {
     READY:          1,
     ON_USE:         2,
     WORN_OUT:       3,
+    APPLY_EVENT:    4,
+    SET_TURN:       5
 }
 
 export const CardId = {
@@ -329,4 +331,15 @@ export const ScreenSize = {
 export const CardSize = {
     X_SIZE: 197.6,
     Y_SIZE: 303.2,
+}
+
+export const MainCharacterId = {
+    LUCRETIA:           2,
+    ANGELO:             9,
+    DECREPIT_TRHONE:    10,
+    X_G_SCHOLAR:        11
+}
+
+export const BuffId = {
+    HERO_EMPOWERMENT:   53
 }

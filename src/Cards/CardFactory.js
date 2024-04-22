@@ -73,7 +73,7 @@ export default class CardFactory {
                     }
                     break;
 
-                case "Buff_card":
+                case "Empowerment_card":
                     imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.BUFF]
                     for (let i = 0; i < quantity; i++) {

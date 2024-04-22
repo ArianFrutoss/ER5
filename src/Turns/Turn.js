@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize} from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, BuffId} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -76,16 +76,13 @@ export default class Turn {
             this.phasesArray = phasesArray
     }
 
-    // showPlayerData(){
-    //     console.log(this.mainCharacter.name[0]);
-    //     console.log(this.mainCharacter.image);
-    // }
-
     update(mouse, enemyActiveMinionDeck, messagesContainer, timerContainer){
+
         switch(this.state){
             
             case TurnStates.INITIALIZE:
                 this.init(timerContainer, mouse);
+                this.assignTurnToBuffCard();
                 console.log("init");
                 this.state = TurnStates.EXECUTION
                 this.finished = false
@@ -94,6 +91,7 @@ export default class Turn {
             case TurnStates.EXECUTION:
                 // console.log("executiio");
                 const isPhasesOver = this.execute(mouse, messagesContainer, timerContainer);
+                // this.mainCharacter.logic(enemyActiveMinionDeck, this.activeMinionDeck, this); //--> activar pasiva
                 if (enemyActiveMinionDeck.cards.length + this.enemyMinionDeck.cards.length === 0) {
                     this.finished = true
                 }else{
@@ -148,8 +146,21 @@ export default class Turn {
         this.active = true;
     }
 
-    execute(mouse, messagesContainer, timerContainer){
+    assignTurnToBuffCard(){ 
+        console.log(this.preparingEventDeck);
+        for(let i = 0; i < this.preparingEventDeck.cards.length; i++){
+            
+            const card = this.preparingEventDeck.cards[i];
 
+            if(card.id === BuffId.HERO_EMPOWERMENT){
+              
+                card.setTurn(this);
+            }
+        }
+    }
+
+    execute(mouse, messagesContainer, timerContainer){
+        
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
@@ -238,7 +249,7 @@ export default class Turn {
                 break;
             
             case PhaseStates.DEFAULT:
-                console.log("entro en default");
+                // console.log("entro en default");
                 this.phaseState = this.phasesArray[PhaseStates.DEFAULT].execute(messagesContainer);
                 
                 const isChangePhase = this.phasesArray[PhaseStates.DEFAULT].isPhaseCancelled(this.buttonContainer, messagesContainer);

@@ -1,14 +1,18 @@
-import { BorderId, CardActions, CardId, IconsPos, VFXId } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, MainCharacterId, VFXId } from "../../constants.js";
 import Card from "../Card.js";
+import LucretiaEvent from "../../Events/temp_events/LucretiaEvent.js";
+import XGScholarEvent from "../../Events/temp_events/XGScholarEvent.js";
+import DecrepitThroneEvent from "../../Events/temp_events/DecrepitThroneEvent.js";
+import AngeloDiMortisEvent from "../../Events/temp_events/AngeloDiMortisEvent.js";
 export default class MainCharacter extends Card{
     constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, durability=0, cooldown=0){
-            super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
+            super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
     
             // Card attributes     		   	
             this.durability = durability;
             this.cooldown   = cooldown; 
             this.player     = 0;
-            this.effect     = effect
+            this.effect     = effect;
         }
         updateScale(mouse, decks){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -37,7 +41,8 @@ export default class MainCharacter extends Card{
             }
         }
         update(mouse, decks){
-                
+        
+
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
 
@@ -77,11 +82,61 @@ export default class MainCharacter extends Card{
             }
         } 
             this.previousState = this.state
-            this.mainCharacterLogic()
+            // this.mainCharacterLogic()
         }
-        mainCharacterLogic(){
-            
+
+        logic(enemyActiveMinionDeck, activeMinionDeck, turn){
+
+            switch(this.action){
+                case CardActions.READY:
+                    
+                    break;
+
+                case CardActions.APPLY_EVENT:
+                    console.log("apply Event");
+                    this.executeEvents(enemyActiveMinionDeck, activeMinionDeck, turn);
+                    this.action = CardActions.ON_USE;
+                    break;
+
+                case CardActions.ON_USE:
+                  
+                    break;
+
+                case CardActions.NOT_ACTIVE:
+                    // AL usar la carta hero empowerment activar el efecto
+                    this.action = CardActions.APPLY_EVENT;
+                    console.log("no active");
+                    break;
+
+            }
         }
+
+        executeEvents(enemyActiveMinionDeck, activeMinionDeck, turn){
+            const id = this.id;
+
+            switch(id){
+                case MainCharacterId.LUCRETIA:
+                    const lucretiaEvent = new LucretiaEvent(enemyActiveMinionDeck);
+                    lucretiaEvent.execute();
+                    break;
+
+                case MainCharacterId.ANGELO:
+                    const angeloEvent = new AngeloDiMortisEvent(turn);
+                    angeloEvent.execute();
+                    break;
+
+                case MainCharacterId.DECREPIT_TRHONE:
+                    const decrepitEvent = new DecrepitThroneEvent(enemyActiveMinionDeck, activeMinionDeck);
+                    decrepitEvent.execute();
+                    break;
+
+                case MainCharacterId.X_G_SCHOLAR:
+                    const xGScholarEvent = new XGScholarEvent(activeMinionDeck);
+                    xGScholarEvent.execute();
+                    break;
+            }
+        }
+
         setDeck(deck){
             this.deck = deck
         }

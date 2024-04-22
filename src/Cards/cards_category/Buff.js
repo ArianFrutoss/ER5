@@ -1,16 +1,19 @@
-import { BorderId, CardActions, CardId, DecksId, IconsPos, VFXId } from "../../constants.js";
+import { BorderId, BuffId, CardActions, CardId, DecksId, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
+import MainCharacter from "./MainCharacter.js";
 
 export default class Buff extends Card {
 
-    constructor(id ,name, description ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability=0, cooldown=0){
+    constructor(id, texts ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability=0, cooldown=0){
 
         super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
         // Card attributes 		   	
         this.durability = durability;
         this.cooldown   = cooldown; 	
-        this.effect     = effect;	
+        this.effect     = effect;
+        this.turn       = 0;
+
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -79,14 +82,71 @@ export default class Buff extends Card {
             }
         } 
             this.previousState = this.state
-        this.buffLogic()
+        this.logic()
     }
-    buffLogic(){
-        
+
+    logic(){
+        switch (this.action) {
+            case CardActions.COOLDOWN:
+                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                break;
+            case CardActions.READY:
+                this.ready();
+                break;
+
+            case CardActions.ON_USE:
+                   if (this.durability === 0) {
+                    this.action = CardActions.WORN_OUT
+                }
+                break;
+            
+            case CardActions.NOT_ACTIVE:
+
+                break;
+            default:
+                break;
+        }
     }
+
+    removeIfWornOut(activeEventDeck, graveyardDeck){
+
+        this.checkDurability()
+        if (this.action === CardActions.WORN_OUT) {
+            for (let i = 0; i < activeEventDeck.cards.length; i++) {
+                const card = activeEventDeck.cards[i];
+                if (card.action === CardActions.WORN_OUT) {
+                    activeEventDeck.cards.splice(i, 1)
+                    graveyardDeck.cards.push(card)
+                    this.setDeck(graveyardDeck)
+                    return true
+                }
+            }  
+        }
+        return false
+    }
+
+    ready(){
+        const id = this.id; 
+
+        switch(id){
+            case BuffId.HERO_EMPOWERMENT:
+                console.log("entro en el caso de HERO EMPOWERMENT");
+                const mainCharacter         = this.turn.mainCharacter;
+                const activeMinionDeck      = this.turn.activeMinionDeck;
+                const enemyActiveMinionDeck = this.turn.enemyActiveMinionDeck;
+                mainCharacter.logic(enemyActiveMinionDeck, activeMinionDeck, this.turn);
+                break;
+        }
+    }
+
     setDeck(deck){
         this.deck = deck
     }
+
+    setTurn(turn){
+        this.turn = turn;
+    }
+    
     checkDurability(){
         if (this.durability <= 0) {
             this.action = CardActions.WORN_OUT

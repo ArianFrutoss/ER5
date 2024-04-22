@@ -58,7 +58,30 @@ export default class Text{
             const lettersQuantity = this.calculateLettersQuantity(words);
             const width = lettersQuantity * this.size;
             const heigth = this.calculateHeigth(lines);
-            
+
+            if ((line + word).length * this.size < this.maxWidth){
+                
+                line += (word + " ");
+
+                if ((i + 1) === words.length){
+                    
+                    lines.push(line);
+                }
+            }
+
+            else{
+                
+                lines.push(line);
+                line = "";
+                line += word + " ";
+                
+                if (i === words.length - 1){
+
+                    line = (word);
+                    lines.push(line);
+                }
+            }
+
             if (this.maxHeigth === null && width > this.maxWidth){
                 
                 this.size -= 0.5;
@@ -68,24 +91,6 @@ export default class Text{
                 
                 this.size -= 0.5;
                 this.lineSpace -= 1;
-            }
-
-            if ((line + word).length * this.size < this.maxWidth){
-                
-                line += (word + " ");
-
-                if ((i + 1) === words.length){
-                    
-                    lines.push(line);
-                    break;
-                }
-            }
-
-            else{
-                
-                lines.push(line);
-                line = "";
-                line += word + " ";
             }
         }
         

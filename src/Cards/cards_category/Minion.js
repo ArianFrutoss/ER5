@@ -147,6 +147,11 @@ export default class Minion extends Card {
         this.speed = this.previousSpeed;
     }
 
+    deselect(){
+
+        this.state = CardId.NOT_SELECTED;
+    }
+
     render(ctx, language){
         ctx.fillStyle = "black"
         let xPos = this.xPos

@@ -110,10 +110,13 @@ export default class Curse extends Card{
         }
     }
     checkDurability(){
-        console.log(this.durability);
         if (this.durability <= 0) {
             this.action = CardActions.WORN_OUT
         }
+    }
+    deselect(){
+
+        this.state = CardId.NOT_SELECTED;
     }
     render(ctx, language){
 

@@ -115,6 +115,10 @@ export default class Armor extends Card{
             this.action = CardActions.WORN_OUT
         }
     }
+    deselect(){
+
+        this.state = CardId.NOT_SELECTED;
+    }
     render(ctx, language){
         ctx.fillStyle = "black"
         let xPos = this.xPos

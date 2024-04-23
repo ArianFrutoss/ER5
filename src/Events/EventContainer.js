@@ -34,6 +34,7 @@ export default class EventContainer {
                 const isOver = event.execute()
                 if (isOver) {
                     this.events.splice(i, 1)
+                    i -= 1;
                 }
             }
         }

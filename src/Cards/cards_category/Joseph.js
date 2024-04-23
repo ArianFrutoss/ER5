@@ -142,7 +142,10 @@ export default class Joseph extends Card{
         }
         return false
     }
+    deselect(){
 
+        this.state = CardId.NOT_SELECTED;
+    }
     render(ctx, language){
 
         ctx.fillStyle = "black"

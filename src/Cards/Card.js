@@ -38,9 +38,4 @@ export default class Card{
     render(){
         
     }
-    
-    deselect(){
-
-        this.state = CardId.NOT_SELECTED;
-    }
 }

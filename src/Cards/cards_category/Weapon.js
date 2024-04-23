@@ -117,7 +117,10 @@ export default class Weapon extends Card{
             }  
         }
     }
+    deselect(){
 
+        this.state = CardId.NOT_SELECTED;
+    }
 
     render(ctx, language){
         let xPos = this.xPos

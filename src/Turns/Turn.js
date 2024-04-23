@@ -118,6 +118,8 @@ export default class Turn {
     }
 
     init(timerContainer, mouse){
+
+        this.deselect();
         this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
         this.restoreCardStatesFromActiveDecks()
         // Spawnear nuevo Minion
@@ -157,6 +159,7 @@ export default class Turn {
 
                 const isPreparationCancelled = this.phasesArray[PhaseStates.PREPARE_EVENT].isPhaseCancelled(this.buttonContainer, messagesContainer);
                 if (isPreparationFinished) {
+                    this.deselect();
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
@@ -173,6 +176,7 @@ export default class Turn {
                 const isUseEventCancelled   = this.phasesArray[PhaseStates.USE_EVENT_CARD].isEventCancelled(this.buttonContainer, messagesContainer);
 
                 if (isUsageFinished) {
+                    this.deselect();
                     this.buttonContainer.resetStatesButtons();
                      this.phaseState = PhaseStates.DEFAULT;
                      this.actionsCounter++;
@@ -190,6 +194,7 @@ export default class Turn {
                 const isMovementCancelled   = this.phasesArray[PhaseStates.MOVEMENT].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isMovementFinished){
+                    this.deselect();
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
@@ -206,7 +211,7 @@ export default class Turn {
                 const isAttackCancelled = this.phasesArray[PhaseStates.ATTACK].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isAttackFinished){
-                    this.buttonContainer.deselect();
+                    this.deselect();
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
@@ -295,6 +300,7 @@ export default class Turn {
         this.activeMinionDeck.deselect();
         this.enemyActiveMinionDeck.deselect();
         this.preparingEventDeck.deselect();
+        this.enemyPreparingEventDeck.deselect();
         this.handDeck.deselect();
     }
 

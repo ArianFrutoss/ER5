@@ -113,6 +113,10 @@ export default class Spell extends Card{
             this.action = CardActions.WORN_OUT
         }
     }
+    deselect(){
+
+        this.state = CardId.NOT_SELECTED;
+    }
     render(ctx, language){
         ctx.fillStyle = "black"
         ctx.font = "25px LongaIberica-DEMO";

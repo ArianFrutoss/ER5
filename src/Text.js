@@ -3,14 +3,13 @@ import Line from "./Line.js";
 
 export default class Text{
 
-    constructor(text, type, size, lettersQuantity, lineSpace, lines, maxWidth){
+    constructor(text, type, size, lineSpace, maxHeigth, maxWidth){
 
         this.text               = text;
         this.type               = type;
         this.size               = size;
-        this.lettersQuantity    = lettersQuantity;
         this.lineSpace          = lineSpace;
-        this.lines              = lines;
+        this.maxHeigth          = maxHeigth;
         this.maxWidth           = maxWidth;
     }
 
@@ -56,56 +55,51 @@ export default class Text{
         for (let i = 0; i < words.length; i++){
 
             const word = words[i];
-            const textWidth = this.lettersQuantity * this.size;
-            const maxLettersQuantity = this.calculateLettersQuantity(words);
-            
-            if (this.lettersQuantity === null){
+            const lettersQuantity = this.calculateLettersQuantity(words);
+            const width = lettersQuantity * this.size;
+            const heigth = this.calculateHeigth(lines);
 
-                this.lettersQuantity = maxLettersQuantity;
-            }
+            if ((line + word).length * this.size < this.maxWidth){
+                
+                line += (word + " ");
 
-            if (maxLettersQuantity <= this.lettersQuantity * this.lines && textWidth <= this.maxWidth){
-
-                if ((line + word ).length < this.lettersQuantity){
+                if ((i + 1) === words.length){
                     
-                    line += (word + " ");
-
-                    if ((i+1) === words.length) {
-
-                        lines.push(line);
-                        break;
-                    }
-
-                } else {
-
                     lines.push(line);
-                    line = "";
-                    line += word + " ";
                 }
             }
 
             else{
                 
-                if (textWidth < this.maxWidth){
-
-                    this.lettersQuantity += 5;
-                }
+                lines.push(line);
+                line = "";
+                line += word + " ";
                 
-                else{
+                if (i === words.length - 1){
 
-                    this.size -= 1;
-                    this.lineSpace -= 1;
+                    line = (word);
+                    lines.push(line);
                 }
             }
+
+            if (this.maxHeigth === null && width > this.maxWidth){
+                
+                this.size -= 0.5;
+            }
+
+            else if (heigth > this.maxHeigth){
+                
+                this.size -= 0.5;
+                this.lineSpace -= 1;
+            }
         }
-    
+        
         for (let i = 0; i < lines.length; i++){
 
             const lineText  = lines[i];
             const xPos      = 60;
-            const modifier  = 8 * (4 - lines.length); 
-            const yPos      = 80 + modifier + this.lineSpace * i;
-            // console.log(this.lineSpace);
+            const modifier  = this.size * lines.length;
+            const yPos      = 120 - modifier + this.lineSpace * i;
             const line      = new Line(xPos, yPos, lineText);
             
             returnLines.push(line);
@@ -126,5 +120,10 @@ export default class Text{
         }
 
         return maxLettersQuantity;
+    }
+
+    calculateHeigth(lines){
+
+        return lines.length * this.lineSpace;
     }
 }

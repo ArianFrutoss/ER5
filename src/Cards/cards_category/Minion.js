@@ -138,10 +138,12 @@ export default class Minion extends Card {
         boardGrid.slots[boardYPos][randomXPos].isEmpty = false
     }
 
-    restoreMinionsHp(){
+    restoreMinionsStats(){
         
         this.health = this.previousHealth;
         this.defense = this.previousDefense;
+        this.attack = this.previousAttack;
+        this.speed = this.previousSpeed;
     }
 
     render(ctx, language){

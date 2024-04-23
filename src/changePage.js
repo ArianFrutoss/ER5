@@ -41,6 +41,12 @@ function login(){
             let register = document.getElementById("register");
             register.style.display = "none";
 
+            let statsBtn = document.getElementById("stats");
+            statsBtn.style.display = "block";
+            
+            let statsDiv = document.getElementById("statsDiv");
+            statsDiv.style.display = "none";
+
             addUserData();
 
             let caja = document.getElementById("caja");

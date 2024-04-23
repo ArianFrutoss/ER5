@@ -33,8 +33,6 @@ export default class EventFactory {
             case TypeId.BUFF:
             case TypeId.CURSE:
             case TypeId.SPELL:
-            case TypeId.ARMOR:
-            case TypeId.WEAPON:
                 return new ReduceDurabilityEvent(EventsId.DURABILITY, card);
             default:
                 break;

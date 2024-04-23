@@ -30,6 +30,8 @@ export default class DecrepitThroneEvent extends Event{
 
         this.activeMinionDeck.cards.pop();
 
+        this.enemyActiveMinionDeck.cards.pop(this.minion);
+        
         this.enemyActiveMinionDeck.cards.push(this.minion);
     }
 }

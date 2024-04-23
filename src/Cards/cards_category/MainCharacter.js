@@ -106,10 +106,6 @@ export default class MainCharacter extends Card{
                     break;
 
                 case CardActions.ON_USE:
-                    if(turn.state === TurnStates.INITIALIZE && this.id !== MainCharacterId.DECREPIT_TRHONE && this.id !== MainCharacterId.ANGELO){
-
-                        this.action = CardActions.APPLY_EVENT;
-                    }
                     break;
 
                 case CardActions.NOT_ACTIVE:

@@ -63,7 +63,7 @@ export default class Turn {
       
             const buttons                   = this.buttonContainer;
       
-            const defaultPhase          = new DefaultPhase(buttons, activeEventDeck, enemyActiveEventDeck , graveYardDeck, mouse);
+            const defaultPhase          = new DefaultPhase(buttons, activeEventDeck, enemyActiveEventDeck , graveYardDeck, mouse, this.preparingEventDeck, this);
             const discardPhase          = new DiscardPhase(handDeck, graveYardDeck, mouse)
             const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck, josephDeck)
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, activeEventDeck, enemyActiveEventDeck, graveYardDeck, mouse, buttons);
@@ -78,13 +78,13 @@ export default class Turn {
 
     update(mouse, enemyActiveMinionDeck, messagesContainer, timerContainer){
         this.assignTurnToBuffCard();
-        this.updateEventCards(mouse);
+        // this.updateEventCards(mouse);
         
         switch(this.state){
             
             case TurnStates.INITIALIZE:
                 this.init(timerContainer, mouse);
-             
+
                 console.log("init");
                 this.state = TurnStates.EXECUTION
                 this.finished = false
@@ -370,7 +370,9 @@ export default class Turn {
 
             const card = this.preparingEventDeck.cards[i];
 
-            card.update(mouse, this.preparingEventDeck);
+            if(card.id = BuffId.HERO_EMPOWERMENT){
+                card.logic();
+            }
         }
     }
 }

@@ -100,6 +100,7 @@ export default class Weapon extends Card{
     }
     checkDurability(){
         if (this.durability <= 0) {
+            console.log("entra");
             this.action = CardActions.WORN_OUT
         }
     }

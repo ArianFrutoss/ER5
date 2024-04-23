@@ -32,7 +32,11 @@ export default class MinionAttackPhase extends Phase {
 
         if(attacker !== null && enemy !== null && distance !== null && enemyPosition !== null){
 
-            if (attacker.type === "Melee" && distance[0] <= 1 && distance[1] <= 1) {
+            let range = 1;
+            if (attacker.weapon != undefined){
+                range = attacker.weapon.range;
+            }
+            if (distance[0] <= range && distance[1] <= range) {
 
                 if(isAttackWithParry){  
     
@@ -69,7 +73,7 @@ export default class MinionAttackPhase extends Phase {
                 if (enemy.weapon != undefined) {
                     const isDestroyed = enemy.weapon.removeIfWornOut(this.enemyActiveEventDeck, this.graveyardDeck)
                     if (isDestroyed) {
-                        enemy.setArmor(undefined)
+                        enemy.setWeapon(undefined)
                     }
                 }
     

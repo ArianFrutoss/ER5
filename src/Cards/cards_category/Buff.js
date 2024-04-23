@@ -90,7 +90,6 @@ export default class Buff extends Card {
         switch (this.action) {
             case CardActions.COOLDOWN:
                 this.action = this.cooldown === 0 ? CardActions.READY : this.action
-                this.durability = 2;
                 break;
 
             case CardActions.READY:
@@ -107,7 +106,6 @@ export default class Buff extends Card {
                 break;
             
             case CardActions.REMOVE_EVENT:
-                console.log("entro a remove event en buff");
                 this.updateWornOut();
                 this.action = CardActions.WORN_OUT;
                 break;

@@ -12,7 +12,8 @@ export class ModifyAttributeEvent extends Event{
 
     execute(){
 
-        this.card.durability -= 0.5;
+        if(this.card != undefined){
+            this.card.durability -= 0.5;
 
         if (this.card.durability === 0){
 
@@ -40,6 +41,8 @@ export class ModifyAttributeEvent extends Event{
 
             return false;
         }
+        }
+        
     }
 
     executeAllCardsFromDeck(deck){

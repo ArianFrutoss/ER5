@@ -20,6 +20,7 @@ export default class UseEventPhase extends Phase{
         for (let i = 0; i < decks.length; i++) {
             const deck = decks[i];
             deck.update(mouse, decks)
+            
         }
         
         const isAnyCardSelected  = this.eventDeck.isAnyCard(this.eventDeck, CardId.SELECTED);

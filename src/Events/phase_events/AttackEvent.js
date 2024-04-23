@@ -105,7 +105,16 @@ export class AttackEvent extends Event{
 
             if(enemyWeapon.durability > damage * 0.75){
 
-                enemyWeapon.durability -= Math.floor(damage);
+                let defense = Math.floor(damage);
+
+                if (defense < 1){
+
+                    defense = 1;
+                }
+
+                enemyWeapon.durability -= defense;
+
+
 
             }else{
                 const block = new BlockEvent(this.attackerMinion, this.objectiveMinion, damage);
@@ -127,7 +136,14 @@ export class AttackEvent extends Event{
 
             if(enemyWeapon.durability > damage * 0.75){
 
-                enemyWeapon.durability -= Math.floor(damage);
+                let defense = Math.floor(damage);
+
+                if (defense < 1){
+
+                    defense = 1;
+                }
+
+                enemyWeapon.durability -= defense;
                 
             }else{
                 const block = new BlockEvent(this.attackerMinion, this.objectiveMinion, damage);

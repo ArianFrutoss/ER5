@@ -19,6 +19,12 @@ export default class EventContainer {
         }
     }
 
+    createReduceDurabilityEvent(card){
+
+        const event = EventFactory.reduceDurabilityEvent(card);
+        this.events.push(event);
+    }
+
     createJosephEvents(decks, josephCard, mouse){
         const destroyMinionEvent = EventFactory.createDestroyAllMinionsEvent(decks)
         destroyMinionEvent.execute(mouse)

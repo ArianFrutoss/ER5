@@ -4,6 +4,7 @@ import { ModifyAttributeEvent } from "./temp_events/ModifyAttributesEvent.js";
 import { EquipEvent } from "./temp_events/EquipEvent.js";
 import { DestroyAllMinionsEvent } from "./phase_events/DestroyAllMinionsEvent.js";
 import { ModifyAttributeToAllMinions } from "./temp_events/ModifyAttributeToAllMinions.js";
+import ReduceDurabilityEvent from "./temp_events/ReduceDurabilityEvent.js";
 
 export default class EventFactory {
 
@@ -21,6 +22,20 @@ export default class EventFactory {
             case TypeId.WEAPON:
                 return new CooldownEvent (EventsId.COOLDOWN, card, card.cooldown)
         
+            default:
+                break;
+        }
+    }
+
+    static reduceDurabilityEvent(card){
+
+        switch (card.category) {
+            case TypeId.BUFF:
+            case TypeId.CURSE:
+            case TypeId.SPELL:
+            case TypeId.ARMOR:
+            case TypeId.WEAPON:
+                return new ReduceDurabilityEvent(EventsId.DURABILITY, card);
             default:
                 break;
         }

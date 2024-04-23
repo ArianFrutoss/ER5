@@ -63,7 +63,9 @@ export const CardActions = {
     ON_USE:         2,
     WORN_OUT:       3,
     APPLY_EVENT:    4,
-    SET_TURN:       5
+    SET_TURN:       5,
+    RESET_ACTION:   6,
+    REMOVE_EVENT:   7
 }
 
 export const CardId = {
@@ -204,7 +206,8 @@ export const LanguageId = {
 }
 
 export const EventsId = {
-    COOLDOWN:0,
+    COOLDOWN:   0,
+    DURABILITY: 1
 }
 export const BoardId = {
     BOARD:              0,

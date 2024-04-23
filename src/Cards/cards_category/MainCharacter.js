@@ -1,4 +1,4 @@
-import { BorderId, CardActions, CardId, IconsPos, MainCharacterId, VFXId } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, MainCharacterId, TurnStates, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 import LucretiaEvent from "../../Events/temp_events/LucretiaEvent.js";
 import XGScholarEvent from "../../Events/temp_events/XGScholarEvent.js";
@@ -13,6 +13,10 @@ export default class MainCharacter extends Card{
             this.cooldown   = cooldown; 
             this.player     = 0;
             this.effect     = effect;
+            this.lucretiaEvent          = null;
+            this.angeloEvent            = null;
+            this.xGScholarEvent         = null;
+            this.decrepitTrhoneEvent    = null;
         }
         updateScale(mouse, decks){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -86,28 +90,41 @@ export default class MainCharacter extends Card{
         }
 
         logic(enemyActiveMinionDeck, activeMinionDeck, turn){
+            console.log(this.action);
 
             switch(this.action){
                 case CardActions.READY:
-                    
+                    // console.log("ready");
+                    // AL usar la carta hero empowerment activar el efecto
+
                     break;
 
                 case CardActions.APPLY_EVENT:
-                    console.log("apply Event");
+                    console.log("aplicar evento");
                     this.executeEvents(enemyActiveMinionDeck, activeMinionDeck, turn);
                     this.action = CardActions.ON_USE;
                     break;
 
                 case CardActions.ON_USE:
-                  
+                    if(turn.state === TurnStates.INITIALIZE && this.id !== MainCharacterId.DECREPIT_TRHONE && this.id !== MainCharacterId.ANGELO){
+
+                        this.action = CardActions.APPLY_EVENT;
+                    }
                     break;
 
                 case CardActions.NOT_ACTIVE:
-                    // AL usar la carta hero empowerment activar el efecto
                     this.action = CardActions.APPLY_EVENT;
-                    console.log("no active");
+                    // NO HACE NADA
+                    break;
+                
+                case CardActions.WORN_OUT:
+                    console.log("entro aqui");
                     break;
 
+                case CardActions.REMOVE_EVENT:
+                    console.log("entro a remove event");
+                    this.removeEvents();
+                    break;
             }
         }
 
@@ -116,26 +133,54 @@ export default class MainCharacter extends Card{
 
             switch(id){
                 case MainCharacterId.LUCRETIA:
-                    const lucretiaEvent = new LucretiaEvent(enemyActiveMinionDeck);
-                    lucretiaEvent.execute();
+                    this.lucretiaEvent = new LucretiaEvent(enemyActiveMinionDeck);
+                    this.lucretiaEvent.execute();
                     break;
 
                 case MainCharacterId.ANGELO:
-                    const angeloEvent = new AngeloDiMortisEvent(turn);
-                    angeloEvent.execute();
+                    this.angeloEvent = new AngeloDiMortisEvent(turn);
+                    this.angeloEvent.execute();
                     break;
 
                 case MainCharacterId.DECREPIT_TRHONE:
-                    const decrepitEvent = new DecrepitThroneEvent(enemyActiveMinionDeck, activeMinionDeck);
-                    decrepitEvent.execute();
+                    this.decrepitTrhoneEvent = new DecrepitThroneEvent(enemyActiveMinionDeck, activeMinionDeck);
+                    this.decrepitTrhoneEvent.execute();
                     break;
 
                 case MainCharacterId.X_G_SCHOLAR:
-                    const xGScholarEvent = new XGScholarEvent(activeMinionDeck);
-                    xGScholarEvent.execute();
+                    this.xGScholarEvent = new XGScholarEvent(activeMinionDeck);
+                    this.xGScholarEvent.execute();
                     break;
             }
         }
+
+        removeEvents(){
+            const id = this.id;
+
+            switch(id){
+                case MainCharacterId.LUCRETIA:
+             
+                    break;
+
+                case MainCharacterId.ANGELO:
+                    console.log("quito el efecto angelo");
+                    this.angeloEvent.remove();
+                    this.action = CardActions.WORN_OUT;
+                    break
+
+                case MainCharacterId.DECREPIT_TRHONE:
+                    console.log("quito efecto silla");
+                    this.decrepitTrhoneEvent.remove();
+                    this.action = CardActions.WORN_OUT;
+                    break;
+                
+                case MainCharacterId.X_G_SCHOLAR:
+            
+                    break;
+            }
+        }
+
+
 
         setDeck(deck){
             this.deck = deck
@@ -178,17 +223,8 @@ export default class MainCharacter extends Card{
                         this.imageBorders[size],
                         xPos, yPos)
 
-                    // NAME
-                        ctx.font = "25px LongaIberica-DEMO";
-                    
-                        // ctx.fillText(localStorage.getItem("username"), IconsPos.PLAYER_NAME_X[currentTurn], IconsPos.PLAYER_NAME_Y[currentTurn]);
-
                         if (size === BorderId.NORMAL_SIZE) {
-                            // ctx.font = "25px LongaIberica-DEMO";
-                            // ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
-                            // ctx.font = "15px LongaIberica-DEMO";
-                            // ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
-                            // ctx.font = "25px LongaIberica-DEMO";
+                  
                             this.texts.render(ctx, xPos, yPos, language);
                             //CATEGORY ICON
                             ctx.drawImage(

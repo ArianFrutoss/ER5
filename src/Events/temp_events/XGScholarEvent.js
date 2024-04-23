@@ -17,4 +17,14 @@ export default class XGScholarEvent extends Event {
             minion.attack += 2;
         }
     }
+
+    remove(){
+        for(let i = 0; i < this.activeMinionDeck.cards.length; i++){
+
+            const minion = this.activeMinionDeck.cards[i];
+
+            minion.health -= 2;
+            minion.attack -= 2;
+        }
+    }
 }

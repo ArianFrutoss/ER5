@@ -36,7 +36,7 @@ export default class Turn {
         this.phasesArray        = [];                       // Array de fases
         this.actionsCounter     = 0;                        // Contador de acciones maximo 5
         this.maxActions         = 3;                        // maximo de acciones
-        this.finished = false
+        this.finished           = false
         this.turnId             = turnId
         this.name               = name;
         this.josephDeck             = josephDeck;
@@ -63,7 +63,7 @@ export default class Turn {
       
             const buttons                   = this.buttonContainer;
       
-            const defaultPhase          = new DefaultPhase(buttons, activeEventDeck, enemyActiveEventDeck , graveYardDeck);
+            const defaultPhase          = new DefaultPhase(buttons, activeEventDeck, enemyActiveEventDeck , graveYardDeck, mouse);
             const discardPhase          = new DiscardPhase(handDeck, graveYardDeck, mouse)
             const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck, josephDeck)
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, activeEventDeck, enemyActiveEventDeck, graveYardDeck, mouse, buttons);
@@ -77,21 +77,22 @@ export default class Turn {
     }
 
     update(mouse, enemyActiveMinionDeck, messagesContainer, timerContainer){
-
+        this.assignTurnToBuffCard();
+        this.updateEventCards(mouse);
+        
         switch(this.state){
             
             case TurnStates.INITIALIZE:
                 this.init(timerContainer, mouse);
-                this.assignTurnToBuffCard();
+             
                 console.log("init");
                 this.state = TurnStates.EXECUTION
                 this.finished = false
                 break;
             
             case TurnStates.EXECUTION:
-                // console.log("executiio");
                 const isPhasesOver = this.execute(mouse, messagesContainer, timerContainer);
-                // this.mainCharacter.logic(enemyActiveMinionDeck, this.activeMinionDeck, this); //--> activar pasiva
+                
                 if (enemyActiveMinionDeck.cards.length + this.enemyMinionDeck.cards.length === 0) {
                     this.finished = true
                 }else{
@@ -147,7 +148,6 @@ export default class Turn {
     }
 
     assignTurnToBuffCard(){ 
-        console.log(this.preparingEventDeck);
         for(let i = 0; i < this.preparingEventDeck.cards.length; i++){
             
             const card = this.preparingEventDeck.cards[i];
@@ -362,6 +362,15 @@ export default class Turn {
             ctx.globalAlpha = 1;
             card[2].render(ctx, language);
             ctx.filter = "blur(3px)";
+        }
+    }
+
+    updateEventCards(mouse){
+        for(let i = 0; i < this.preparingEventDeck.cards.length; i++){
+
+            const card = this.preparingEventDeck.cards[i];
+
+            card.update(mouse, this.preparingEventDeck);
         }
     }
 }

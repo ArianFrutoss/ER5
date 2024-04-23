@@ -42,7 +42,7 @@ export default class Buff extends Card {
         }
     }
     update(mouse, decks){
-    
+        
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
 
@@ -86,22 +86,30 @@ export default class Buff extends Card {
     }
 
     logic(){
+    
         switch (this.action) {
             case CardActions.COOLDOWN:
                 this.action = this.cooldown === 0 ? CardActions.READY : this.action
-                break;
-            case CardActions.READY:
-                this.ready();
+                this.durability = 2;
                 break;
 
-            case CardActions.ON_USE:
-                   if (this.durability === 0) {
-                    this.action = CardActions.WORN_OUT
-                }
+            case CardActions.READY:
+                this.updateReady(); // Aplica los efectos
+                if (this.durability <= 1) {
+                    this.action = CardActions.REMOVE_EVENT;
+                } 
+                break;
+
+            case CardActions.NOT_ACTIVE:
+                break;
+
+            case CardActions.WORN_OUT:
                 break;
             
-            case CardActions.NOT_ACTIVE:
-
+            case CardActions.REMOVE_EVENT:
+                console.log("entro a remove event en buff");
+                this.updateWornOut();
+                this.action = CardActions.WORN_OUT;
                 break;
             default:
                 break;
@@ -125,19 +133,35 @@ export default class Buff extends Card {
         return false
     }
 
-    ready(){
+    updateReady(){
         const id = this.id; 
 
         switch(id){
             case BuffId.HERO_EMPOWERMENT:
-                console.log("entro en el caso de HERO EMPOWERMENT");
                 const mainCharacter         = this.turn.mainCharacter;
                 const activeMinionDeck      = this.turn.activeMinionDeck;
                 const enemyActiveMinionDeck = this.turn.enemyActiveMinionDeck;
                 mainCharacter.logic(enemyActiveMinionDeck, activeMinionDeck, this.turn);
+            
                 break;
         }
     }
+
+    updateWornOut(){
+        const id = this.id; 
+
+        switch(id){
+            case BuffId.HERO_EMPOWERMENT:
+                const mainCharacter         = this.turn.mainCharacter;
+                const activeMinionDeck      = this.turn.activeMinionDeck;
+                const enemyActiveMinionDeck = this.turn.enemyActiveMinionDeck;
+                mainCharacter.action        = CardActions.REMOVE_EVENT;
+                mainCharacter.logic(enemyActiveMinionDeck, activeMinionDeck, this.turn);
+                break;
+        }
+    }
+
+    
 
     setDeck(deck){
         this.deck = deck

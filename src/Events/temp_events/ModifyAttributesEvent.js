@@ -11,15 +11,10 @@ export class ModifyAttributeEvent extends Event{
     }
 
     execute(){
+        
+        if (this.card != undefined){
 
-        this.card.durability -= 0.5;
-
-        if (this.card.durability === 0){
-
-            return true;
-        }
-
-        else{
+            this.card.durability -= 0.5;
 
             switch (this.attribute){
                 case "Attack":
@@ -38,7 +33,15 @@ export class ModifyAttributeEvent extends Event{
                     break;
             }
 
-            return false;
+            if (this.card.durability === 0){
+
+                return true;
+            }
+
+            else{
+
+                return false;
+            }
         }
     }
 

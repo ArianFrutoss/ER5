@@ -82,15 +82,40 @@ export default class Buff extends Card {
         this.buffLogic()
     }
     buffLogic(){
+        switch (this.action) {
+            case CardActions.COOLDOWN:
+                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                break;
         
+            default:
+                break;
+        }
     }
     setDeck(deck){
         this.deck = deck
+    }
+    removeIfWornOut(activeEventDeck, graveyardDeck){
+
+        this.checkDurability()
+        if (this.action === CardActions.WORN_OUT) {
+            for (let i = 0; i < activeEventDeck.cards.length; i++) {
+                const card = activeEventDeck.cards[i];
+                if (card.action === CardActions.WORN_OUT) {
+                    activeEventDeck.cards.splice(i, 1)
+                    graveyardDeck.cards.push(card)
+                    this.setDeck(graveyardDeck)
+                }
+            }  
+        }
     }
     checkDurability(){
         if (this.durability <= 0) {
             this.action = CardActions.WORN_OUT
         }
+    }
+    deselect(){
+
+        this.state = CardId.NOT_SELECTED;
     }
     render(ctx, language){
         ctx.fillStyle = "black"

@@ -85,6 +85,10 @@ export default class MainCharacter extends Card{
         setDeck(deck){
             this.deck = deck
         }
+        deselect(){
+
+            this.state = CardId.NOT_SELECTED;
+        }
         render(ctx, language, currentTurn){
             ctx.fillStyle = "black"
             let xPos = this.xPos

@@ -3,7 +3,7 @@ import Card from "../Card.js";
 
 export default class Minion extends Card {
 
-    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed) {
+    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed, imageMinionTeam) {
 
         super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
@@ -20,6 +20,7 @@ export default class Minion extends Card {
         this.armor              = undefined;
         this.weaponRarityImage  = weaponRarityImage;
         this.armorRarityImage   = armorRarityImage;
+        this.imageMinionTeam    = imageMinionTeam;
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -275,17 +276,13 @@ export default class Minion extends Card {
                     
                     ctx.setTransform(1, 0, 0, 1, 0, 0);
                 
-                if (minionsTeam === MinionsTeam.ATTACKER && size === BorderId.SMALL_SIZE){
+                if (size === BorderId.SMALL_SIZE){
 
-                    ctx.fillStyle = "green";
+                    ctx.drawImage(
+                        this.imageMinionTeam[minionsTeam],               
+                        IconsPos.TEAM_X + xPos, IconsPos.TEAM_Y + yPos
+                    )
                 }
-
-                else if (minionsTeam === MinionsTeam.DEFENDER && size === BorderId.SMALL_SIZE){
-
-                    ctx.fillStyle = "red";
-                }
-                    
-                ctx.fillRect(IconsPos.TEAM_X[size] + xPos, IconsPos.TEAM_Y[size] + yPos, 20, 20);
     }
 checkIconColor(stat, previousStat) {
     if (stat < previousStat) {
@@ -296,14 +293,14 @@ checkIconColor(stat, previousStat) {
         return "white"
     }
 }
-    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes){
-        
+    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam){
+    
             let hp      = attributes[StatsId.LIFE]
             let defense = attributes[StatsId.DEFENSE]
             let attack  = attributes[StatsId.DAMAGE]
             let speed   = attributes[StatsId.SPEED]
     
-            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed);
+            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed, imageMinionTeam);
     
             return minion
     

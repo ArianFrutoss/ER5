@@ -148,7 +148,7 @@ export default class MainCharacter extends Card{
                 //RARITY ICON
                 ctx.drawImage(
                     
-                    this.imageRarity[0],
+                    this.imageRarity[size],
                     IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
 
                     if (size === BorderId.SMALL_SIZE){

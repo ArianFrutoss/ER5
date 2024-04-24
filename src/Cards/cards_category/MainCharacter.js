@@ -118,8 +118,8 @@ export default class MainCharacter extends Card{
                 }
                 ctx.drawImage(
                     this.image[size],                 //Img File
-                    xPos, yPos                    //X & Y Position Source
-                    )
+                    xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
+                )
                     
                     
                     // BORDER

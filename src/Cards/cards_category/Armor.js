@@ -119,10 +119,10 @@ export default class Armor extends Card{
 
         this.state = CardId.NOT_SELECTED;
     }
-    render(ctx, language){
-        ctx.fillStyle = "black"
+    render(ctx, language, equipped = false, xPosModifier = 0, yPosModifier = 0){
         let xPos = this.xPos
         let yPos = this.yPos
+        ctx.fillStyle = "black"
         ctx.font = "25px LongaIberica-DEMO";
         let cardVFX
         if (this.deck.deckId === DecksId.PLAYER_1_HAND_DECK || this.deck.deckId === DecksId.PLAYER_2_HAND_DECK) {
@@ -138,10 +138,10 @@ export default class Armor extends Card{
         if (this.state != CardId.BLOCKED) {
             //CARD IMAGE
             let size = this.size
-            if (this.state === CardId.SCALED ) {
-                ctx.setTransform(1.6, 0, 0, 1.6, 0, 0);
-                xPos = 475
-                yPos = 140
+            if (this.state === CardId.SCALED || equipped) {
+                ctx.setTransform(1.4, 0, 0, 1.4, 0, 0);
+                xPos = 475 + xPosModifier
+                yPos = 140 + yPosModifier
                 size = CardId.BIG_SIZE
                 
             }else if(this.state === CardId.SELECTED){
@@ -163,7 +163,7 @@ export default class Armor extends Card{
                     IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
                     )
             }
-            if (this.deck.deckId === DecksId.PLAYER_1_PREPARING_EVENT_DECK || this.deck.deckId === DecksId.PLAYER_2_PREPARING_EVENT_DECK) {
+            if (this.deck.deckId === DecksId.PLAYER_1_PREPARING_EVENT_DECK && !equipped|| this.deck.deckId === DecksId.PLAYER_2_PREPARING_EVENT_DECK && !equipped) {
                 let xTemp = xPos
                 let yTemp = yPos
                 if (this.state != CardId.SCALED) {
@@ -182,10 +182,12 @@ export default class Armor extends Card{
                     
                 
             }else{
-                
-            ctx.drawImage(
-                this.image[size],                 //Img File
-                xPos, yPos                    //X & Y Position Source
+                if (equipped) {
+                    size = CardId.BIG_SIZE
+                }
+                ctx.drawImage(
+                    this.image[size],                 //Img File
+                    xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
                 )
             }    
 
@@ -194,10 +196,7 @@ export default class Armor extends Card{
                 ctx.drawImage(
                     this.imageBorders[size],
                     xPos, yPos)
-                    if (this.state === CardId.SCALED) {
-                        console.log(size);
-                        
-                    }
+
                 //RARITY ICON
                 ctx.drawImage(
                     this.imageRarity,

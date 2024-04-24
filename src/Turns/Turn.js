@@ -370,6 +370,14 @@ export default class Turn {
             ctx.fillRect(0, 0, ScreenSize.X_SIZE, ScreenSize.Y_SIZE);
             ctx.globalAlpha = 1;
             card[2].render(ctx, language);
+            if (card[2].armor) {
+                card[2].armor.render(ctx, language, true, 400, 50)
+                
+            }
+            if (card[2].weapon) {
+                card[2].weapon.render(ctx, language, true, -250, 50)
+                
+            }
             ctx.filter = "blur(3px)";
         }
     }

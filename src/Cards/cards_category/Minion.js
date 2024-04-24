@@ -181,7 +181,7 @@ export default class Minion extends Card {
             }
             ctx.drawImage(
                 this.image[size],                 //Img File
-                xPos,yPos                    //X & Y Position Source
+                xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
                 )
                 
                 
@@ -206,27 +206,45 @@ export default class Minion extends Card {
                             
                         }
                         //ATTRIBUTES ICONS & VALUES
+                
+                let color = this.checkIconColor(this.defense, this.previousDefense)
+                ctx.fillStyle = color
+                ctx.font = "28px LongaIberica-DEMO";
                 ctx.drawImage(
                     this.imageAttributes[0],
                     IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
 
                 ctx.fillText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
-
+                ctx.strokeText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                
+                color = this.checkIconColor(this.speed, this.previousSpeed)
+                ctx.fillStyle = color
                 ctx.drawImage(
                     this.imageAttributes[1],
                     IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
                 ctx.fillText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
-
+                ctx.strokeText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                
+                color = this.checkIconColor(this.health, this.previousHealth)
+                ctx.fillStyle = color
                 ctx.drawImage(
                     this.imageAttributes[2],
                     IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
                 ctx.fillText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
-
+                ctx.strokeText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                
+                color = this.checkIconColor(this.attack, this.previousAttack)
+                ctx.fillStyle = color
                 ctx.drawImage(
                     this.imageAttributes[3],
                     IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
                 ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-            //RARITY ICON
+                ctx.strokeText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                ctx.fillStyle = "#black"    
+            
+            
+            
+                //RARITY ICON
             ctx.drawImage(
                 
                 this.imageRarity,
@@ -257,7 +275,15 @@ export default class Minion extends Card {
                     
                     ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
-
+checkIconColor(stat, previousStat) {
+    if (stat < previousStat) {
+        return "red"
+    } else if (stat > previousStat) {
+        return "green"
+    } else {
+        return "white"
+    }
+}
     static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes){
         
             let hp      = attributes[StatsId.LIFE]

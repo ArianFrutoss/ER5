@@ -1,9 +1,9 @@
-import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId } from "../../constants.js";
+import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Minion extends Card {
 
-    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed) {
+    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed, imageMinionTeam) {
 
         super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
@@ -18,8 +18,9 @@ export default class Minion extends Card {
         this.previousSpeed      = speed;
         this.weapon             = undefined;
         this.armor              = undefined;
-        this.weaponRarityImage  = weaponRarityImage
-        this.armorRarityImage   = armorRarityImage
+        this.weaponRarityImage  = weaponRarityImage;
+        this.armorRarityImage   = armorRarityImage;
+        this.imageMinionTeam    = imageMinionTeam;
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -152,7 +153,7 @@ export default class Minion extends Card {
         this.state = CardId.NOT_SELECTED;
     }
 
-    render(ctx, language){
+    render(ctx, language, minionsTeam){
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
@@ -277,8 +278,16 @@ export default class Minion extends Card {
                 ctx.drawImage(
                     equipRarityImg,
                     IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
-                    
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                
+                if (size === BorderId.SMALL_SIZE){
+
+                    ctx.drawImage(
+                        this.imageMinionTeam[minionsTeam],               
+                        IconsPos.TEAM_X + xPos, IconsPos.TEAM_Y + yPos
+                    )
+                }
+
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
 checkIconColor(stat, previousStat) {
     if (this.state === CardId.SCALED) {
@@ -293,14 +302,14 @@ checkIconColor(stat, previousStat) {
         }
     }
 }
-    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes){
-        
+    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam){
+    
             let hp      = attributes[StatsId.LIFE]
             let defense = attributes[StatsId.DEFENSE]
             let attack  = attributes[StatsId.DAMAGE]
             let speed   = attributes[StatsId.SPEED]
     
-            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed);
+            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed, imageMinionTeam);
     
             return minion
     

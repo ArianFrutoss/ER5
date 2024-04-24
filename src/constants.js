@@ -114,7 +114,8 @@ export const ImageTypes = {
     EQUIP_RARITY: 4,
     GAME_RARITY:5,
     CARD_TYPE: 6,
-    BOARD_IMAGE: 7
+    BOARD_IMAGE: 7,
+    TEAM: 8,
 }
 export const CardImageId = {
     JOSEPH: 1,
@@ -262,6 +263,8 @@ export const IconsPos = {
     EVENT_CD_IMAGE_Y: 35,
     ACTIONS_LEFT_X: 1670,
     ACTIONS_LEFT_Y:130,
+    TEAM_X: 53,
+    TEAM_Y: 132,
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 
@@ -330,7 +333,7 @@ export const ScreenSize = {
     Y_SIZE: 1080,
 }
 
-export const CardSize = {
-    X_SIZE: 197.6,
-    Y_SIZE: 303.2,
+export const Team = {
+    ATTACKER: 0,
+    DEFENDER: 1,
 }

@@ -354,9 +354,17 @@ export default class Turn {
             this.josephDeck.cards[0].render(ctx, language, currentTurn)
         }
         ctx.fillText(this.name ,xPos, yPos);
+        if (this.active) {
+            ctx.font = "80px LongaIberica-DEMO"
+            ctx.fillStyle = "#FF8c00"
+            const actionsLeft = this.maxActions-this.actionsCounter
+            ctx.fillText(actionsLeft, IconsPos.ACTIONS_LEFT_X, IconsPos.ACTIONS_LEFT_Y)
+            ctx.strokeText(actionsLeft, IconsPos.ACTIONS_LEFT_X, IconsPos.ACTIONS_LEFT_Y);
+            
+        }
         
         if (card[2] != undefined){
-
+            ctx.fillStyle = "black"
             ctx.globalAlpha = 0.3;
             ctx.filter = "blur(0px)";
             ctx.fillRect(0, 0, ScreenSize.X_SIZE, ScreenSize.Y_SIZE);

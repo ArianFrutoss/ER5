@@ -257,7 +257,9 @@ export const IconsPos = {
     EVENT_CD_X: 30,
     EVENT_CD_Y: 47,
     EVENT_CD_IMAGE_X: 48,
-    EVENT_CD_IMAGE_Y: 35
+    EVENT_CD_IMAGE_Y: 35,
+    ACTIONS_LEFT_X: 1670,
+    ACTIONS_LEFT_Y:130,
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 

@@ -56,7 +56,6 @@ export default class PrepareEventPhase extends Phase{
                 card.size = CardId.EVENT_SIZE
                 card.action = CardActions.COOLDOWN
                 eventContainer.createCooldownEvent(card);
-                eventContainer.createReduceDurabilityEvent(card);
                 slot.state = SlotsState.NOT_SELECTED
 
                 return true

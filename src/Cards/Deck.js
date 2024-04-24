@@ -110,6 +110,34 @@ export default class Deck {
         }
     }
 
+    removeEquipIfdurability0(){
+
+        for (let i = 0; i < this.cards.length; i++){
+
+            const card = this.cards[i];
+            
+            if (card.weapon != undefined && card.weapon.durability <= 0){
+
+                card.setWeapon(undefined);
+            }
+
+            if (card.armor != undefined && card.armor.durability <= 0){
+
+                card.setArmor(undefined);
+            }
+        }
+    }
+
+    removeIfWornOut(graveyardDeck){
+
+        for (let i = 0; i < this.cards.length; i++){
+
+            const card = this.cards[i];
+            
+            card.removeIfWornOut(this, graveyardDeck);
+        }  
+    }
+
     renderCards(ctx, language){
 
         for (let i = 0; i < this.cards.length; i++){

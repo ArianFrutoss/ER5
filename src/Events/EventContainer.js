@@ -19,12 +19,6 @@ export default class EventContainer {
         }
     }
 
-    createReduceDurabilityEvent(card){
-
-        const event = EventFactory.reduceDurabilityEvent(card);
-        this.events.push(event);
-    }
-
     createJosephEvents(decks, josephCard, mouse){
         const destroyMinionEvent = EventFactory.createDestroyAllMinionsEvent(decks)
         destroyMinionEvent.execute(mouse)
@@ -40,9 +34,18 @@ export default class EventContainer {
                 const isOver = event.execute()
                 if (isOver) {
                     this.events.splice(i, 1)
+                    i -= 1;
                 }
-
             }
         }
     }
+
+    createHeroEvents(activeMinionDeck, activeEnemyMinionDeck, hero, card){
+
+        const heroEvents = EventFactory.createHeroEventsToUseInEventContainer(activeMinionDeck, activeEnemyMinionDeck, hero, card);
+
+        this.events.push(heroEvents);
+    }
+
+
 }

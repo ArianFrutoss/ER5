@@ -2,29 +2,26 @@ import Event  from "../Event.js";
 
 export default class XGScholarEvent extends Event {
 
-    constructor(activeMinionDeck){
+    constructor(objectiveMinion, attribute, value){
         super();
-        this.activeMinionDeck   = activeMinionDeck;
-    }
+        this.objectiveMinion    = objectiveMinion;
+        this.attribute          = attribute;
+        this.value              = value;
+    }   
 
     // Stares at an ally, granting them 2 extra health points and 2 attack points permanently.
     execute(){
-        for(let i = 0; i < this.activeMinionDeck.cards.length; i++){
+        console.log("entra al ejecute");
 
-            const minion = this.activeMinionDeck.cards[i];
+        switch (this.attribute){
+            case "Attack":
+                this.objectiveMinion.attack += this.value;
+                break;
 
-            minion.health += 2;
-            minion.attack += 2;
-        }
-    }
+            case "Health":
+                this.objectiveMinion.health += this.value;
+                break;
 
-    remove(){
-        for(let i = 0; i < this.activeMinionDeck.cards.length; i++){
-
-            const minion = this.activeMinionDeck.cards[i];
-
-            minion.health -= 2;
-            minion.attack -= 2;
         }
     }
 }

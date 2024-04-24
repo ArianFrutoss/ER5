@@ -60,10 +60,11 @@ export default class Turn {
             const activeEventGrid           = turnCounter === 0 ? grids[GridId.PLAYER_1_EVENT_GRID]             : grids[GridId.PLAYER_2_EVENT_GRID]
             const handGrid                  = turnCounter === 0 ? grids[GridId.PLAYER_1_HAND_GRID]              : grids[GridId.PLAYER_2_HAND_GRID]
             const enemyHandGrid             = turnCounter === 0 ? grids[GridId.PLAYER_2_HAND_GRID]              : grids[GridId.PLAYER_1_HAND_GRID]
-      
+        
             const buttons                   = this.buttonContainer;
+            const eventContainer            = this.eventContainer;
       
-            const defaultPhase          = new DefaultPhase(buttons, activeEventDeck, enemyActiveEventDeck , graveYardDeck, mouse, this.preparingEventDeck, this);
+            const defaultPhase          = new DefaultPhase(buttons, activeEventDeck, enemyActiveEventDeck , graveYardDeck, eventContainer);
             const discardPhase          = new DiscardPhase(handDeck, graveYardDeck, mouse)
             const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck, josephDeck)
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, activeEventDeck, enemyActiveEventDeck, graveYardDeck, mouse, buttons);
@@ -77,15 +78,13 @@ export default class Turn {
     }
 
     update(mouse, enemyActiveMinionDeck, messagesContainer, timerContainer){
-        this.assignTurnToBuffCard();
-        // this.updateEventCards(mouse);
+     
         
         switch(this.state){
             
             case TurnStates.INITIALIZE:
                 this.init(timerContainer, mouse);
 
-                console.log("init");
                 this.state = TurnStates.EXECUTION
                 this.finished = false
                 break;
@@ -105,18 +104,21 @@ export default class Turn {
                 break;
 
             case TurnStates.END:
-                console.log("end");
+         
                 const isEndTurn = this.end(messagesContainer, mouse);
                 if (isEndTurn) {
                     this.finished = true
                     
                 }
+                this.assignTurnToBuffCard();
                 break;
         }
 
     }
 
     init(timerContainer, mouse){
+
+        this.deselect();
         this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
         this.restoreCardStatesFromActiveDecks()
         // Spawnear nuevo Minion
@@ -137,7 +139,7 @@ export default class Turn {
 
         this.eventContainer.executeEvents()
         this.actionsCounter = 0
-        this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer)
+        this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer);
 
         // Restablecer el Timer
         timerContainer.restartTimerValue(TimerId.TURN_TIMER);
@@ -168,6 +170,7 @@ export default class Turn {
 
                 const isPreparationCancelled = this.phasesArray[PhaseStates.PREPARE_EVENT].isPhaseCancelled(this.buttonContainer, messagesContainer);
                 if (isPreparationFinished) {
+                    this.deselect();
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
@@ -184,6 +187,7 @@ export default class Turn {
                 const isUseEventCancelled   = this.phasesArray[PhaseStates.USE_EVENT_CARD].isEventCancelled(this.buttonContainer, messagesContainer);
 
                 if (isUsageFinished) {
+                    this.deselect();
                     this.buttonContainer.resetStatesButtons();
                      this.phaseState = PhaseStates.DEFAULT;
                      this.actionsCounter++;
@@ -201,6 +205,7 @@ export default class Turn {
                 const isMovementCancelled   = this.phasesArray[PhaseStates.MOVEMENT].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isMovementFinished){
+                    this.deselect();
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
@@ -217,7 +222,7 @@ export default class Turn {
                 const isAttackCancelled = this.phasesArray[PhaseStates.ATTACK].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isAttackFinished){
-                    this.buttonContainer.deselect();
+                    this.deselect();
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     this.actionsCounter++;
@@ -264,6 +269,11 @@ export default class Turn {
                 break;
         }
         this.josephDeck.update(mouse)
+        this.activeMinionDeck.removeEquipIfdurability0();
+        this.enemyActiveMinionDeck.removeEquipIfdurability0();
+        this.preparingEventDeck.removeIfWornOut(this.graveyardDeck);
+        this.enemyPreparingEventDeck.removeIfWornOut(this.graveyardDeck);
+
         const value = timerContainer.update(TimerId.TURN_TIMER);
         
         if (value <= 0 || this.actionsCounter === this.maxActions){
@@ -301,6 +311,7 @@ export default class Turn {
         this.activeMinionDeck.deselect();
         this.enemyActiveMinionDeck.deselect();
         this.preparingEventDeck.deselect();
+        this.enemyPreparingEventDeck.deselect();
         this.handDeck.deselect();
     }
 
@@ -362,17 +373,6 @@ export default class Turn {
             ctx.globalAlpha = 1;
             card[2].render(ctx, language);
             ctx.filter = "blur(3px)";
-        }
-    }
-
-    updateEventCards(mouse){
-        for(let i = 0; i < this.preparingEventDeck.cards.length; i++){
-
-            const card = this.preparingEventDeck.cards[i];
-
-            if(card.id = BuffId.HERO_EMPOWERMENT){
-                card.logic();
-            }
         }
     }
 }

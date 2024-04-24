@@ -2,40 +2,37 @@ import Event from "../Event.js";
 
 export default class LucretiaEvent extends Event {
 
-    constructor(enemyActiveMinionDeck){
+    constructor(objectiveMinion, attribute, value){
         super();
 
-        this.enemyActiveMinionDeck  = enemyActiveMinionDeck; // Mazo de minions enemigos activos
+        this.objectiveMinion    = objectiveMinion;
+        this.attribute          = attribute;
+        this.value              = value;
     
     }
 
     // "When activating the hero's passive ability, -1pts is applied to all statistics of enemy minions."
     execute(){
 
-        for(let i = 0; i < this.enemyActiveMinionDeck.cards.length; i++){
-            const minion = this.enemyActiveMinionDeck.cards[i];
+        switch (this.attribute){
+            case "Attack":
+                this.objectiveMinion.attack -= this.value;
+                break;
 
-            // console.log(minion);
-            // attack, defense, health, speed
-            minion.attack   -= 1;
-            minion.defense  -= 1;
-            minion.health   -= 1;
-            minion.speed    -= 1;
+            case "Defense":
+                this.objectiveMinion.defense -= this.value;
+                break;
+
+            case "Health":
+                this.objectiveMinion.health -= this.value;
+                break;
+
+            case "Speed":
+                this.objectiveMinion.speed -= this.value;
+                break;
+
         }
+
     }
 
-
-    remove(){
-        for(let i = 0; i < this.enemyActiveMinionDeck.cards.length; i++){
-            const minion = this.enemyActiveMinionDeck.cards[i];
-
-            // console.log(minion);
-            // attack, defense, health, speed
-            minion.attack   += 1;
-            minion.defense  += 1;
-            minion.health   += 1;
-            minion.speed    += 1;
-        }
-    }
-    
 }

@@ -1,4 +1,4 @@
-import { CardActions, CardId, CardImageId, MAXIMUN_CARDS_IN_HAND , PhaseStates} from "../../constants.js";
+import { BuffId, CardActions, CardId, CardImageId, MAXIMUN_CARDS_IN_HAND , PhaseStates} from "../../constants.js";
 import Phase from "./Phase.js";
 
 export default class DrawCardPhase extends Phase{
@@ -13,7 +13,7 @@ export default class DrawCardPhase extends Phase{
     }
     execute(eventContainer, quantity = 1){
         for (let i = 0; i < quantity; i++) {
-            if (this.eventDeck.cards.length > 0) {
+            if (this.eventDeck.cards.length > 0) {                
                 if (this.handDeck.cards.length < MAXIMUN_CARDS_IN_HAND) {
                     const card = this.eventDeck.cards[this.eventDeck.cards.length - 1]
                     if (card.id === CardImageId.JOSEPH) {
@@ -31,6 +31,7 @@ export default class DrawCardPhase extends Phase{
                     }
                 }            
                 
+
             } else {
                 this.restoreEventDeck()
                 i--

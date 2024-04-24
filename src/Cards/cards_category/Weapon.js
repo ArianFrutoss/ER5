@@ -114,13 +114,14 @@ export default class Weapon extends Card{
                     activeEventDeck.cards.splice(i, 1)
                     graveyardDeck.cards.push(card)
                     this.setDeck(graveyardDeck)
-                    return true
                 }
             }  
         }
-        return false
     }
+    deselect(){
 
+        this.state = CardId.NOT_SELECTED;
+    }
 
     render(ctx, language){
         let xPos = this.xPos

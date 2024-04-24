@@ -1,10 +1,14 @@
-import { CardActions, DecksId, EventsId, StatsId, TypeId } from "../constants.js";
+import { CardActions, DecksId, EventsId, MainCharacterId, StatsId, TypeId } from "../constants.js";
 import { CooldownEvent } from "./temp_events/CooldownEvent.js";
 import { ModifyAttributeEvent } from "./temp_events/ModifyAttributesEvent.js";
 import { EquipEvent } from "./temp_events/EquipEvent.js";
 import { DestroyAllMinionsEvent } from "./phase_events/DestroyAllMinionsEvent.js";
 import { ModifyAttributeToAllMinions } from "./temp_events/ModifyAttributeToAllMinions.js";
 import ReduceDurabilityEvent from "./temp_events/ReduceDurabilityEvent.js";
+import HeroEventModifyAttributes from "./temp_events/HeroEvents.js";
+import LucretiaEvent from "./temp_events/LucretiaEvent.js";
+import XGScholarEvent from "./temp_events/XGScholarEvent.js";
+import HeroEvents from "./temp_events/HeroEvents.js";
 
 export default class EventFactory {
 
@@ -22,18 +26,6 @@ export default class EventFactory {
             case TypeId.WEAPON:
                 return new CooldownEvent (EventsId.COOLDOWN, card, card.cooldown)
         
-            default:
-                break;
-        }
-    }
-
-    static reduceDurabilityEvent(card){
-
-        switch (card.category) {
-            case TypeId.BUFF:
-            case TypeId.CURSE:
-            case TypeId.SPELL:
-                return new ReduceDurabilityEvent(EventsId.DURABILITY, card);
             default:
                 break;
         }
@@ -91,6 +83,7 @@ export default class EventFactory {
     static createModifyAttributeToAllMinions(decks, card){
         return new ModifyAttributeToAllMinions(decks, card)
     }
+
     static createModifyAttributeEvent(card, objectiveMinion){
         const length = card.effect != undefined ? card.effect.length : 1;
         for (let i = 0; i < length; i++) {
@@ -98,4 +91,29 @@ export default class EventFactory {
             joseph.execute()
         }
     }
+
+    static createHeroEventAndExecute(hero, objectiveMinion){
+        
+        switch(hero.id){
+            case MainCharacterId.LUCRETIA:
+                for(let i = 0; i < hero.effect.length; i++){
+
+                    const heroEvent = new LucretiaEvent(objectiveMinion, hero.effect[i].common_effect_attribute, hero.effect[i].common_effect_value);
+                    heroEvent.execute();
+                }
+                break;
+                
+            case MainCharacterId.X_G_SCHOLAR:
+                for(let i = 0; i < hero.effect.length; i++){
+                    const heroEvent = new XGScholarEvent(objectiveMinion, hero.effect[i].common_effect_attribute, hero.effect[i].common_effect_value);
+                    heroEvent.execute();
+                }
+                break;
+        }
+    }
+
+    static createHeroEventsToUseInEventContainer(activeMinionDeck, enemyActiveMinionDeck, hero, card){
+        return new HeroEvents(activeMinionDeck, enemyActiveMinionDeck, hero, card);
+    }
+
 }

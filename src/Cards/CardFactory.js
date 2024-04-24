@@ -76,7 +76,7 @@ export default class CardFactory {
                 case "Empowerment_card":
                     imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.BUFF]
-                    for (let i = 0; i < quantity; i++) {
+                    for (let i = 0; i < 200; i++) {
                         // card = this.createBuff(id, texts, image, rarity, TypeId.BUFF, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
                         card = Buff.create(id, texts, image, rarity, TypeId.BUFF, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects);
                         this.cards.push(card)

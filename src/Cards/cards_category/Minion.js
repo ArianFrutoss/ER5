@@ -103,6 +103,7 @@ export default class Minion extends Card {
     }
 
     setWeapon(weapon){
+
         this.weapon = weapon
     }
 
@@ -144,6 +145,11 @@ export default class Minion extends Card {
         this.defense = this.previousDefense;
         this.attack = this.previousAttack;
         this.speed = this.previousSpeed;
+    }
+
+    deselect(){
+
+        this.state = CardId.NOT_SELECTED;
     }
 
     render(ctx, language){

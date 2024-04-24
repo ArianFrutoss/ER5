@@ -142,7 +142,10 @@ export default class Joseph extends Card{
         }
         return false
     }
+    deselect(){
 
+        this.state = CardId.NOT_SELECTED;
+    }
     render(ctx, language){
 
         ctx.fillStyle = "black"
@@ -201,11 +204,6 @@ export default class Joseph extends Card{
                     xPos, yPos)
 
                     if (size === BorderId.NORMAL_SIZE) {
-                        // ctx.font = "25px LongaIberica-DEMO";
-                        // ctx.fillText(this.name[language], IconsPos.NAME_X + xPos, IconsPos.NAME_Y + yPos);
-                        // ctx.font = "15px LongaIberica-DEMO";
-                        // ctx.fillText(this.description[language], IconsPos.DESCRIPTION_X + xPos, IconsPos.DESCRIPTION_Y + yPos);
-                        // ctx.font = "25px LongaIberica-DEMO";
                         this.texts.render(ctx, xPos, yPos, language);
                         
                         //CATEGORY ICON

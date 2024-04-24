@@ -1,6 +1,6 @@
 import { BorderId, BuffId, CardActions, CardId, DecksId, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
-import MainCharacter from "./MainCharacter.js";
+import EventContainer from "../../Events/EventContainer.js";
 
 export default class Buff extends Card {
 
@@ -9,10 +9,11 @@ export default class Buff extends Card {
         super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
         // Card attributes 		   	
-        this.durability = durability;
-        this.cooldown   = cooldown; 	
-        this.effect     = effect;
-        this.turn       = 0;
+        this.durability     = durability;
+        this.cooldown       = cooldown; 	
+        this.effect         = effect;
+        this.turn           = null;
+        this.eventContainer = null;
 
     }
     updateScale(mouse, decks){
@@ -93,21 +94,23 @@ export default class Buff extends Card {
                 break;
 
             case CardActions.READY:
-                this.updateReady(); // Aplica los efectos
-                if (this.durability <= 1) {
-                    this.action = CardActions.REMOVE_EVENT;
-                } 
+                this.updateReady(); // Entro aqui
+              
+                this.action = CardActions.ON_USE; 
                 break;
 
             case CardActions.NOT_ACTIVE:
+
                 break;
 
             case CardActions.WORN_OUT:
+
                 break;
             
-            case CardActions.REMOVE_EVENT:
-                this.updateWornOut();
-                this.action = CardActions.WORN_OUT;
+            case CardActions.ON_USE:
+                if (this.durability <= 0) {
+                    this.action = CardActions.WORN_OUT;
+                }
                 break;
             default:
                 break;
@@ -136,33 +139,32 @@ export default class Buff extends Card {
 
         switch(id){
             case BuffId.HERO_EMPOWERMENT:
-                const mainCharacter         = this.turn.mainCharacter;
                 const activeMinionDeck      = this.turn.activeMinionDeck;
+                const hero                  = this.turn.mainCharacter;
+                const heroEmpowernment      = this;
                 const enemyActiveMinionDeck = this.turn.enemyActiveMinionDeck;
-                mainCharacter.logic(enemyActiveMinionDeck, activeMinionDeck, this.turn);
-            
+                this.eventContainer.createHeroEvents(activeMinionDeck, enemyActiveMinionDeck, hero, heroEmpowernment);
                 break;
         }
     }
-
-    updateWornOut(){
-        const id = this.id; 
-
-        switch(id){
-            case BuffId.HERO_EMPOWERMENT:
-                const mainCharacter         = this.turn.mainCharacter;
-                const activeMinionDeck      = this.turn.activeMinionDeck;
-                const enemyActiveMinionDeck = this.turn.enemyActiveMinionDeck;
-                mainCharacter.action        = CardActions.REMOVE_EVENT;
-                mainCharacter.logic(enemyActiveMinionDeck, activeMinionDeck, this.turn);
-                break;
-        }
-    }
-
-    
 
     setDeck(deck){
         this.deck = deck
+    }
+
+    removeIfWornOut(activeEventDeck, graveyardDeck){
+
+        this.checkDurability()
+        if (this.action === CardActions.WORN_OUT) {
+            for (let i = 0; i < activeEventDeck.cards.length; i++) {
+                const card = activeEventDeck.cards[i];
+                if (card.action === CardActions.WORN_OUT) {
+                    activeEventDeck.cards.splice(i, 1)
+                    graveyardDeck.cards.push(card)
+                    this.setDeck(graveyardDeck)
+                }
+            }  
+        }
     }
 
     setTurn(turn){
@@ -173,6 +175,10 @@ export default class Buff extends Card {
         if (this.durability <= 0) {
             this.action = CardActions.WORN_OUT
         }
+    }
+    deselect(){
+
+        this.state = CardId.NOT_SELECTED;
     }
     render(ctx, language){
         ctx.fillStyle = "black"

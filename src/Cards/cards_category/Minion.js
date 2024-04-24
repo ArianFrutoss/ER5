@@ -158,6 +158,11 @@ export default class Minion extends Card {
         let yPos = this.yPos
             ctx.font = "25px LongaIberica-DEMO";
         let cardVFX
+        const healthRender = this.state === CardId.SCALED ? this.previousHealth : this.health
+        const speedRender = this.state === CardId.SCALED ? this.previousSpeed : this.speed
+        const attackRender = this.state === CardId.SCALED ? this.previousAttack : this.attack
+        const defenseRender = this.state === CardId.SCALED ? this.previousDefense : this.defense
+
             //CARD IMAGE
             let size = this.size
             if (this.state === CardId.SCALED ) {
@@ -209,37 +214,37 @@ export default class Minion extends Card {
                 
                 let color = this.checkIconColor(this.defense, this.previousDefense)
                 ctx.fillStyle = color
-                ctx.font = "28px LongaIberica-DEMO";
+                ctx.font = "bold 24px LongaIberica-DEMO";
                 ctx.drawImage(
                     this.imageAttributes[0],
                     IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
 
-                ctx.fillText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
-                ctx.strokeText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                ctx.fillText(defenseRender, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                ctx.strokeText(defenseRender, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
                 
                 color = this.checkIconColor(this.speed, this.previousSpeed)
                 ctx.fillStyle = color
                 ctx.drawImage(
                     this.imageAttributes[1],
                     IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                ctx.fillText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
-                ctx.strokeText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                ctx.fillText(speedRender, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                ctx.strokeText(speedRender, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
                 
                 color = this.checkIconColor(this.health, this.previousHealth)
                 ctx.fillStyle = color
                 ctx.drawImage(
                     this.imageAttributes[2],
                     IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                ctx.fillText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
-                ctx.strokeText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                ctx.fillText(healthRender, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                ctx.strokeText(healthRender, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
                 
                 color = this.checkIconColor(this.attack, this.previousAttack)
                 ctx.fillStyle = color
                 ctx.drawImage(
                     this.imageAttributes[3],
                     IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-                ctx.strokeText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                ctx.fillText(attackRender, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                ctx.strokeText(attackRender, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
                 ctx.fillStyle = "#black"    
             
             
@@ -276,12 +281,16 @@ export default class Minion extends Card {
                     ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
 checkIconColor(stat, previousStat) {
-    if (stat < previousStat) {
-        return "red"
-    } else if (stat > previousStat) {
-        return "green"
-    } else {
+    if (this.state === CardId.SCALED) {
         return "white"
+    }else{
+        if (stat < previousStat) {
+            return "red"
+        } else if (stat > previousStat) {
+            return "green"
+        } else {
+            return "white"
+        }
     }
 }
     static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes){

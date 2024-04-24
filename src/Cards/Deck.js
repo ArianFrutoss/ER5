@@ -100,6 +100,24 @@ export default class Deck {
         }
     }
 
+    aplyWeaponsAndArmorsStatsTheMinion(){
+
+        for (let i = 0; i < this.cards.length; i++){
+
+            const minion = this.cards[i];
+
+            if (minion.weapon != undefined){
+
+                minion.aplyWeapon();
+            }
+
+            if (minion.armor != undefined){
+
+                minion.aplyArmor();
+            }
+        }
+    }
+
     restoreDeckMinionsStats(){
         
         for (let i = 0; i < this.cards.length; i++){

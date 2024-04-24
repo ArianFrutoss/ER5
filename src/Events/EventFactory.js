@@ -4,6 +4,7 @@ import { ModifyAttributeEvent } from "./temp_events/ModifyAttributesEvent.js";
 import { EquipEvent } from "./temp_events/EquipEvent.js";
 import { DestroyAllMinionsEvent } from "./phase_events/DestroyAllMinionsEvent.js";
 import { ModifyAttributeToAllMinions } from "./temp_events/ModifyAttributeToAllMinions.js";
+import { DestroyAllEvents } from "./phase_events/DestroyAllEvents.js";
 
 export default class EventFactory {
 
@@ -74,10 +75,13 @@ export default class EventFactory {
     static createDestroyAllMinionsEvent(decks, card){
         return new DestroyAllMinionsEvent(decks, card)
     }
-
+    static createDestroyAllEvents(decks, card){
+        return new DestroyAllEvents(decks, card)
+    }
     static createModifyAttributeToAllMinions(decks, card){
         return new ModifyAttributeToAllMinions(decks, card)
     }
+
     static createModifyAttributeEvent(card, objectiveMinion){
         const length = card.effect != undefined ? card.effect.length : 1;
         for (let i = 0; i < length; i++) {

@@ -7,11 +7,18 @@ export default class Armor extends Card{
         super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
             this.health     = health;
+            this.previousHealth = health
             this.attack     = attack;
+            this.previousAttack = attack;
             this.defense    = defense;
+            this.previousDefense = defense;
             this.speed      = speed;	
+            this.previousSpeed  = speed
             this.durability = durability;
+            this.previousDurability = durability
             this.cooldown   = cooldown;
+            this.previousCooldown = cooldown;
+
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -119,12 +126,18 @@ export default class Armor extends Card{
 
         this.state = CardId.NOT_SELECTED;
     }
-    render(ctx, language){
-        ctx.fillStyle = "black"
+    render(ctx, language, equipped = false, xPosModifier = 0, yPosModifier = 0){
         let xPos = this.xPos
         let yPos = this.yPos
+        ctx.fillStyle = "black"
         ctx.font = "25px LongaIberica-DEMO";
         let cardVFX
+        const durabilityRender = this.state === CardId.SCALED ? this.previousDurability : this.durability
+        const cooldownRender = this.state === CardId.SCALED ? this.previousCooldown : this.cooldown
+        const attackRender = this.state === CardId.SCALED ? this.previousAttack : this.attack
+        const defenseRender = this.state === CardId.SCALED ? this.previousDefense : this.defense
+        const healthRender = this.state === CardId.SCALED ? this.previousHealth : this.health
+
         if (this.deck.deckId === DecksId.PLAYER_1_HAND_DECK || this.deck.deckId === DecksId.PLAYER_2_HAND_DECK) {
             ctx.setTransform(0.8, 0, 0, 0.8, 0, 0);
             for (let i = 0; i < this.deck.cards.length; i++) {
@@ -138,10 +151,15 @@ export default class Armor extends Card{
         if (this.state != CardId.BLOCKED) {
             //CARD IMAGE
             let size = this.size
-            if (this.state === CardId.SCALED ) {
-                ctx.setTransform(1.6, 0, 0, 1.6, 0, 0);
-                xPos = 475
-                yPos = 140
+            if (this.state === CardId.SCALED || equipped) {
+                if (equipped) {
+                    ctx.setTransform(1.4, 0, 0, 1.4, 0, 0); 
+                }else{
+                    ctx.setTransform(1.6, 0, 0, 1.6, 0, 0); 
+
+                }
+                xPos = 475 + xPosModifier
+                yPos = 140 + yPosModifier
                 size = CardId.BIG_SIZE
                 
             }else if(this.state === CardId.SELECTED){
@@ -163,7 +181,7 @@ export default class Armor extends Card{
                     IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
                     )
             }
-            if (this.deck.deckId === DecksId.PLAYER_1_PREPARING_EVENT_DECK || this.deck.deckId === DecksId.PLAYER_2_PREPARING_EVENT_DECK) {
+            if (this.deck.deckId === DecksId.PLAYER_1_PREPARING_EVENT_DECK && !equipped|| this.deck.deckId === DecksId.PLAYER_2_PREPARING_EVENT_DECK && !equipped) {
                 let xTemp = xPos
                 let yTemp = yPos
                 if (this.state != CardId.SCALED) {
@@ -182,10 +200,12 @@ export default class Armor extends Card{
                     
                 
             }else{
-                
-            ctx.drawImage(
-                this.image[size],                 //Img File
-                xPos, yPos                    //X & Y Position Source
+                if (equipped) {
+                    size = CardId.BIG_SIZE
+                }
+                ctx.drawImage(
+                    this.image[size],                 //Img File
+                    xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
                 )
             }    
 
@@ -194,13 +214,10 @@ export default class Armor extends Card{
                 ctx.drawImage(
                     this.imageBorders[size],
                     xPos, yPos)
-                    if (this.state === CardId.SCALED) {
-                        console.log(size);
-                        
-                    }
+
                 //RARITY ICON
                 ctx.drawImage(
-                    this.imageRarity,
+                    this.imageRarity[size],
                     IconsPos.RARITY_X[size] +      xPos, IconsPos.RARITY_Y[size] + yPos)
                 
             }
@@ -219,27 +236,35 @@ export default class Armor extends Card{
                             IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos);
 
                         //ATTRIBUTES ICONS & VALUES
+                        let color = "white"
+                        ctx.fillStyle = color
+                        ctx.font = "bold 24px LongaIberica-DEMO";
+
                         ctx.drawImage(
                             this.imageAttributes[0],
                             IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
 
-                        ctx.fillText(Math.ceil(this.cooldown), IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                            ctx.fillText(Math.ceil(cooldownRender), IconsPos.FIRST_ICON_NUMBER_X[size] +       xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                            ctx.strokeText(Math.ceil(cooldownRender), IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
         
                         ctx.drawImage(
                             this.imageAttributes[1],
                             
                             IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                        ctx.fillText(Math.ceil(this.durability), IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                        ctx.fillText(Math.ceil(durabilityRender), IconsPos.SECOND_ICON_NUMBER_X[size] +    xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                        ctx.strokeText(Math.ceil(durabilityRender), IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
 
                         ctx.drawImage(
                             this.imageAttributes[2],
                             IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                        ctx.fillText(this.defense, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                        ctx.fillText(defenseRender, IconsPos.THIRD_ICON_NUMBER_X[size] +    xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                        ctx.strokeText(Math.ceil(defenseRender), IconsPos.THIRD_ICON_NUMBER_X[size] +    xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
 
                         ctx.drawImage(
                             this.imageAttributes[3],
                             IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                        ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                            ctx.fillText(attackRender, IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                            ctx.strokeText(Math.ceil(attackRender), IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
                     }
 
 
@@ -253,9 +278,12 @@ export default class Armor extends Card{
                                 ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
                                 
     
-                                ctx.fillStyle = "white";
-                                ctx.fillText(Math.ceil(this.cooldown), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
-                                ctx.drawImage(
+                                let color = "white"
+                                ctx.fillStyle = color
+                                ctx.font = "bold 24px LongaIberica-DEMO";
+                                ctx.fillText(Math.ceil(cooldownRender), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                                ctx.strokeText(Math.ceil(cooldownRender), IconsPos.EVENT_CD_X + xPos, IconsPos.EVENT_CD_Y + yPos);
+                                    ctx.drawImage(
                                     this.imageAttributes[0],
                                     IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                             }
@@ -266,9 +294,12 @@ export default class Armor extends Card{
                                 ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
                                 
     
-                                ctx.fillStyle = "white";
-                                ctx.fillText(Math.ceil(this.durability), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
-                                ctx.drawImage(
+                                let color = "white"
+                                ctx.fillStyle = color
+                                ctx.font = "bold 24px LongaIberica-DEMO";
+                                ctx.fillText(Math.ceil(durabilityRender), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                                ctx.strokeText(Math.ceil(durabilityRender), IconsPos.EVENT_CD_X + xPos, IconsPos.EVENT_CD_Y + yPos);
+                                    ctx.drawImage(
                                     this.imageAttributes[1],
                                     IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                             }
@@ -285,7 +316,15 @@ export default class Armor extends Card{
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
             
     }
-
+    checkIconColor(stat, previousStat) {
+        if (stat < previousStat) {
+            return "red"
+        } else if (stat > previousStat) {
+            return "green"
+        } else {
+            return "white"
+        }
+    }
     static create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx,){
         
     let attack = attributes[StatsId.DAMAGE];

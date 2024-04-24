@@ -1,9 +1,9 @@
-import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId } from "../../constants.js";
+import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Minion extends Card {
 
-    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed) {
+    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed, imageMinionTeam) {
 
         super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
@@ -18,8 +18,10 @@ export default class Minion extends Card {
         this.previousSpeed      = speed;
         this.weapon             = undefined;
         this.armor              = undefined;
-        this.weaponRarityImage  = weaponRarityImage
-        this.armorRarityImage   = armorRarityImage
+        this.weaponRarityImage  = weaponRarityImage;
+        this.armorRarityImage   = armorRarityImage;
+        this.imageMinionTeam    = imageMinionTeam;
+        this.range              = 1;
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -105,10 +107,24 @@ export default class Minion extends Card {
     setWeapon(weapon){
 
         this.weapon = weapon
+        this.attack += weapon.attack
+        this.range += weapon.range
+    }
+
+    aplyWeapon(){
+
+        this.attack += this.weapon.attack
+        this.range += this.weapon.range
     }
 
     setArmor(armor){
         this.armor = armor
+        this.defense += armor.defense
+    }
+
+    aplyArmor(){
+
+        this.defense += this.armor.defense
     }
 
     setDeck(deck){
@@ -152,12 +168,17 @@ export default class Minion extends Card {
         this.state = CardId.NOT_SELECTED;
     }
 
-    render(ctx, language){
+    render(ctx, language, minionsTeam){
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
             ctx.font = "25px LongaIberica-DEMO";
         let cardVFX
+        const healthRender = this.state === CardId.SCALED ? this.previousHealth : this.health
+        const speedRender = this.state === CardId.SCALED ? this.previousSpeed : this.speed
+        const attackRender = this.state === CardId.SCALED ? this.previousAttack : this.attack
+        const defenseRender = this.state === CardId.SCALED ? this.previousDefense : this.defense
+
             //CARD IMAGE
             let size = this.size
             if (this.state === CardId.SCALED ) {
@@ -181,7 +202,7 @@ export default class Minion extends Card {
             }
             ctx.drawImage(
                 this.image[size],                 //Img File
-                xPos,yPos                    //X & Y Position Source
+                xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
                 )
                 
                 
@@ -206,32 +227,50 @@ export default class Minion extends Card {
                             
                         }
                         //ATTRIBUTES ICONS & VALUES
+                
+                let color = this.checkIconColor(this.defense, this.previousDefense)
+                ctx.fillStyle = color
+                ctx.font = "bold 24px LongaIberica-DEMO";
                 ctx.drawImage(
                     this.imageAttributes[0],
                     IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
 
-                ctx.fillText(this.defense, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
-
+                ctx.fillText(defenseRender, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                ctx.strokeText(defenseRender, IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                
+                color = this.checkIconColor(this.speed, this.previousSpeed)
+                ctx.fillStyle = color
                 ctx.drawImage(
                     this.imageAttributes[1],
                     IconsPos.SECOND_ICON_X[size] + xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                ctx.fillText(this.speed, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
-
+                ctx.fillText(speedRender, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                ctx.strokeText(speedRender, IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                
+                color = this.checkIconColor(this.health, this.previousHealth)
+                ctx.fillStyle = color
                 ctx.drawImage(
                     this.imageAttributes[2],
                     IconsPos.THIRD_ICON_X[size] + xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                ctx.fillText(this.health, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
-
+                ctx.fillText(healthRender, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                ctx.strokeText(healthRender, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                
+                color = this.checkIconColor(this.attack, this.previousAttack)
+                ctx.fillStyle = color
                 ctx.drawImage(
                     this.imageAttributes[3],
                     IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-            //RARITY ICON
+                ctx.fillText(attackRender, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                ctx.strokeText(attackRender, IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                ctx.fillStyle = "#black"    
+            
+            
+            
+                //RARITY ICON
             ctx.drawImage(
                 
-                this.imageRarity,
+                this.imageRarity[size],
                 IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
-    
+                
         
 
                 //WEAPON RARITY
@@ -254,18 +293,38 @@ export default class Minion extends Card {
                 ctx.drawImage(
                     equipRarityImg,
                     IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
-                    
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    }
+                
+                if (size === BorderId.SMALL_SIZE){
 
-    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes){
-        
+                    ctx.drawImage(
+                        this.imageMinionTeam[minionsTeam],               
+                        IconsPos.TEAM_X + xPos, IconsPos.TEAM_Y + yPos
+                    )
+                }
+
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+checkIconColor(stat, previousStat) {
+    if (this.state === CardId.SCALED) {
+        return "white"
+    }else{
+        if (stat < previousStat) {
+            return "red"
+        } else if (stat > previousStat) {
+            return "green"
+        } else {
+            return "white"
+        }
+    }
+}
+    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam){
+    
             let hp      = attributes[StatsId.LIFE]
             let defense = attributes[StatsId.DEFENSE]
             let attack  = attributes[StatsId.DAMAGE]
             let speed   = attributes[StatsId.SPEED]
     
-            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed);
+            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed, imageMinionTeam);
     
             return minion
     

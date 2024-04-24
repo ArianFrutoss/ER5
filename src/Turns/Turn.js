@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, BuffId} from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, ButtonState, TurnId, Team, BuffId} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -137,6 +137,8 @@ export default class Turn {
             }
         }
 
+        this.activeMinionDeck.aplyWeaponsAndArmorsStatsTheMinion();
+        this.enemyActiveMinionDeck.aplyWeaponsAndArmorsStatsTheMinion();
         this.eventContainer.executeEvents()
         this.actionsCounter = 0
         this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer);
@@ -246,6 +248,7 @@ export default class Turn {
 
                 if(isDiscardFinished){
                     this.buttonContainer.resetStatesButtons();
+                    this.phaseState = PhaseStates.DEFAULT;
                     return true
                 }else{
                     return false
@@ -295,7 +298,7 @@ export default class Turn {
             this.blockCardStatesFromHandDeck();
             this.activeMinionDeck.restoreDeckMinionsStats();
             this.enemyActiveMinionDeck.restoreDeckMinionsStats();
-            
+            this.TurnStates = TurnStates.INITIALIZE
             // cambio de turno
             this.active = false;
             return true
@@ -355,23 +358,40 @@ export default class Turn {
             ctx.filter = "blur(0px)";
         }
 
-        this.activeMinionDeck.renderCards(ctx, language);
+        this.activeMinionDeck.renderCards(ctx, language, Team.DEFENDER);
+        this.enemyActiveMinionDeck.renderCards(ctx, language, Team.ATTACKER);
         this.preparingEventDeck.renderCards(ctx, language);
         this.handDeck.renderCards(ctx, language);
-        this.mainCharacter.render(ctx, language, currentTurn);
-        this.otherMainCharacter.render(ctx, language, currentTurn);
+        this.mainCharacter.render(ctx, language, Team.DEFENDER);
+        this.otherMainCharacter.render(ctx, language, Team.ATTACKER);
         if (this.josephDeck.cards[0]) {
             this.josephDeck.cards[0].render(ctx, language, currentTurn)
         }
         ctx.fillText(this.name ,xPos, yPos);
+        if (this.active) {
+            ctx.font = "80px LongaIberica-DEMO"
+            ctx.fillStyle = "#FF8c00"
+            const actionsLeft = this.maxActions-this.actionsCounter
+            ctx.fillText(actionsLeft, IconsPos.ACTIONS_LEFT_X, IconsPos.ACTIONS_LEFT_Y)
+            ctx.strokeText(actionsLeft, IconsPos.ACTIONS_LEFT_X, IconsPos.ACTIONS_LEFT_Y);
+            
+        }
         
         if (card[2] != undefined){
-
+            ctx.fillStyle = "black"
             ctx.globalAlpha = 0.3;
             ctx.filter = "blur(0px)";
             ctx.fillRect(0, 0, ScreenSize.X_SIZE, ScreenSize.Y_SIZE);
             ctx.globalAlpha = 1;
             card[2].render(ctx, language);
+            if (card[2].armor) {
+                card[2].armor.render(ctx, language, true, 400, 50)
+                
+            }
+            if (card[2].weapon) {
+                card[2].weapon.render(ctx, language, true, -250, 50)
+                
+            }
             ctx.filter = "blur(3px)";
         }
     }

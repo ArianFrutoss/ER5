@@ -9,7 +9,9 @@ export default class Spell extends Card{
 
         // Card attributes 	
         this.durability = durability;
+        this.previousDurability = durability
         this.cooldown   = cooldown; 	
+        this.previousCooldown = cooldown
         this.effect     = effect;	
     }
     updateScale(mouse, decks){
@@ -141,6 +143,9 @@ export default class Spell extends Card{
         let xPos = this.xPos
         let yPos = this.yPos
         let cardVFX
+        const durabilityRender = this.state === CardId.SCALED ? this.previousDurability : this.durability
+        const cooldownRender = this.state === CardId.SCALED ? this.previousCooldown : this.cooldown
+
         if (this.deck.deckId === DecksId.PLAYER_1_HAND_DECK || this.deck.deckId === DecksId.PLAYER_2_HAND_DECK) {
             ctx.setTransform(0.8, 0, 0, 0.8, 0, 0);
             for (let i = 0; i < this.deck.cards.length; i++) {
@@ -202,7 +207,7 @@ export default class Spell extends Card{
                 
             ctx.drawImage(
                 this.image[size],                 //Img File
-                xPos, yPos                    //X & Y Position Source
+                xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
                 )
             }    
 
@@ -217,7 +222,7 @@ export default class Spell extends Card{
                     }
                 //RARITY ICON
                 ctx.drawImage(
-                    this.imageRarity,
+                    this.imageRarity[size],
                     IconsPos.RARITY_X[size] +      xPos, IconsPos.RARITY_Y[size] + yPos)
                 
             }
@@ -236,17 +241,22 @@ export default class Spell extends Card{
                             this.imageCategory,
                             IconsPos.CATEGORY_X + xPos, IconsPos.CATEGORY_Y + yPos)
 
+                        let color = "white"
+                        ctx.fillStyle = color
+                        ctx.font = "bold 24px LongaIberica-DEMO";
+                        
                         ctx.drawImage(
                             this.imageAttributes[0],
                             IconsPos.FIRST_ICON_X[size] + xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
-        
-                        ctx.fillText(Math.ceil(this.cooldown), IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
-            
+                        ctx.fillText(Math.ceil(cooldownRender), IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                        ctx.strokeText(Math.ceil(cooldownRender), IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+
                         ctx.drawImage(
                             this.imageAttributes[1],
-                            
                             IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                        ctx.fillText(Math.ceil(this.durability), IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                        ctx.fillText(Math.ceil(durabilityRender), IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                        ctx.strokeText(Math.ceil(durabilityRender), IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+
                     }
 
                     if(size === CardId.EVENT_SIZE){
@@ -255,10 +265,14 @@ export default class Spell extends Card{
 
                             ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
                             ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
-                            
 
-                            ctx.fillStyle = "white";
-                            ctx.fillText(Math.ceil(this.cooldown), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            let color = "white"
+                            ctx.fillStyle = color
+                            ctx.font = "bold 24px LongaIberica-DEMO";
+
+                            ctx.fillText(Math.ceil(cooldownRender), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            ctx.strokeText(Math.ceil(cooldownRender), IconsPos.EVENT_CD_X + xPos, IconsPos.EVENT_CD_Y + yPos);
+
                             ctx.drawImage(
                                 this.imageAttributes[0],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
@@ -270,8 +284,12 @@ export default class Spell extends Card{
                             ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
                             
 
-                            ctx.fillStyle = "white";
-                            ctx.fillText(Math.ceil(this.durability), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            let color = "white"
+                            ctx.fillStyle = color
+                            ctx.font = "bold 24px LongaIberica-DEMO";
+                            ctx.fillText(Math.ceil(durabilityRender), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            ctx.strokeText(Math.ceil(durabilityRender), IconsPos.EVENT_CD_X + xPos, IconsPos.EVENT_CD_Y + yPos);
+
                             ctx.drawImage(
                                 this.imageAttributes[1],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
@@ -286,7 +304,15 @@ export default class Spell extends Card{
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
             
     }
-
+    checkIconColor(stat, previousStat) {
+        if (stat < previousStat) {
+            return "red"
+        } else if (stat > previousStat) {
+            return "green"
+        } else {
+            return "white"
+        }
+    }
     static create(id, texts, image, rarity,category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect) {
         
         let durability = attributes[0].attribute_value;

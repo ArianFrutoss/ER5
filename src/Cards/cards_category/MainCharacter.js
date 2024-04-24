@@ -1,13 +1,15 @@
 import { BorderId, CardId, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 export default class MainCharacter extends Card{
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, durability=0, cooldown=0){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, imageHeroTeam, durability=0, cooldown=0){
             super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
     
             // Card attributes     		   	
-            this.durability = durability;
-            this.cooldown   = cooldown; 
-            this.effect     = effect;
+            this.durability     = durability;
+            this.cooldown       = cooldown; 
+            this.player         = 0;
+            this.effect         = effect;
+            this.imageHeroTeam  = imageHeroTeam;
         }
         updateScale(mouse, decks){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -91,7 +93,7 @@ export default class MainCharacter extends Card{
 
             this.state = CardId.NOT_SELECTED;
         }
-        render(ctx, language, currentTurn){
+        render(ctx, language, heroTeams){
             ctx.fillStyle = "black"
             let xPos = this.xPos
             let yPos = this.yPos
@@ -120,8 +122,8 @@ export default class MainCharacter extends Card{
                 }
                 ctx.drawImage(
                     this.image[size],                 //Img File
-                    xPos, yPos                    //X & Y Position Source
-                    )
+                    xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
+                )
                     
                     
                     // BORDER
@@ -140,14 +142,21 @@ export default class MainCharacter extends Card{
                 //RARITY ICON
                 ctx.drawImage(
                     
-                    this.imageRarity,
+                    this.imageRarity[size],
                     IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
+
+                    if (size === BorderId.SMALL_SIZE){
+
+                        ctx.drawImage(
+                            this.imageHeroTeam[heroTeams],               
+                            IconsPos.TEAM_X + xPos, IconsPos.TEAM_Y + yPos
+                        )
+                    }
                     
                     ctx.setTransform(1, 0, 0, 1, 0, 0);
-        
         }
 
-        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes) {
+        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, imageHeroTeam) {
             
             let durability;
             let cooldown;
@@ -157,7 +166,7 @@ export default class MainCharacter extends Card{
 
             }
 
-            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, durability, cooldown);
+            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, imageHeroTeam, durability, cooldown);
     
             return mainCharacter;
     

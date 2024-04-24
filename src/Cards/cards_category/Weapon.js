@@ -10,10 +10,15 @@ export default class Weapon extends Card{
         this.type           = type;
         this.range          = range;
         this.attack         = attack;
+        this.previousAttack = attack;
         this.defense        = defense;
+        this.previousDefense = defense;
         this.speed          = speed;
+        this.previousSpeed  = speed
         this.durability     = durability;
+        this.previousDurability = durability
         this.cooldown       = cooldown;
+        this.previousCooldown = cooldown;
         this.action         = CardActions.NOT_ACTIVE      
     }
     updateScale(mouse, decks){
@@ -123,10 +128,17 @@ export default class Weapon extends Card{
         this.state = CardId.NOT_SELECTED;
     }
 
-    render(ctx, language){
+    render(ctx, language, equipped = false, xPosModifier = 0, yPosModifier = 0){
         let xPos = this.xPos
         let yPos = this.yPos
         let cardVFX
+        ctx.fillStyle = "black"
+        ctx.font = "25px LongaIberica-DEMO";
+        const durabilityRender = this.state === CardId.SCALED ? this.previousDurability : this.durability
+        const cooldownRender = this.state === CardId.SCALED ? this.previousCooldown : this.cooldown
+        const attackRender = this.state === CardId.SCALED ? this.previousAttack : this.attack
+        const defenseRender = this.state === CardId.SCALED ? this.previousDefense : this.defense
+
         if (this.deck.deckId === DecksId.PLAYER_1_HAND_DECK || this.deck.deckId === DecksId.PLAYER_2_HAND_DECK) {
             ctx.setTransform(0.8, 0, 0, 0.8, 0, 0);
 
@@ -144,10 +156,15 @@ export default class Weapon extends Card{
             }
                 //CARD IMAGE
                 let size = this.size
-                if (this.state === CardId.SCALED ) {
-                    ctx.setTransform(1.6, 0, 0, 1.6, 0, 0);
-                    xPos = 475
-                    yPos = 140
+                if (this.state === CardId.SCALED || equipped) {
+                    if (equipped) {
+                        ctx.setTransform(1.4, 0, 0, 1.4, 0, 0); 
+                    }else{
+                        ctx.setTransform(1.6, 0, 0, 1.6, 0, 0); 
+
+                    }
+                    xPos = 475 + xPosModifier
+                    yPos = 140 + yPosModifier
                     size = CardId.BIG_SIZE
                     
                 }else if(this.state === CardId.SELECTED){
@@ -170,7 +187,7 @@ export default class Weapon extends Card{
                         )
                 }
 
-                if (this.deck.deckId === DecksId.PLAYER_1_PREPARING_EVENT_DECK || this.deck.deckId === DecksId.PLAYER_2_PREPARING_EVENT_DECK) {
+                if (this.deck.deckId === DecksId.PLAYER_1_PREPARING_EVENT_DECK && !equipped|| this.deck.deckId === DecksId.PLAYER_2_PREPARING_EVENT_DECK && !equipped) {
                     let xTemp = xPos
                     let yTemp = yPos
                     if (this.state != CardId.SCALED) {
@@ -189,11 +206,13 @@ export default class Weapon extends Card{
                         
                     
                 }else{
-                    
+                    if (equipped) {
+                        size = CardId.BIG_SIZE
+                    }
                 ctx.drawImage(
                     this.image[size],                 //Img File
-                    xPos, yPos                    //X & Y Position Source
-                    )
+                    xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
+                )
                 }    
 
                 if (size != CardId.EVENT_SIZE) {
@@ -207,7 +226,7 @@ export default class Weapon extends Card{
                         }
                     //RARITY ICON
                     ctx.drawImage(
-                        this.imageRarity,
+                        this.imageRarity[size],
                         IconsPos.RARITY_X[size] +      xPos, IconsPos.RARITY_Y[size] + yPos)
                     
                 }
@@ -226,27 +245,35 @@ export default class Weapon extends Card{
                                 IconsPos.CATEGORY_X +      xPos, IconsPos.CATEGORY_Y + yPos);
 
                             //ATTRIBUTES ICONS & VALUES
+                            let color = "white"
+                            ctx.fillStyle = color
+                            ctx.font = "bold 24px LongaIberica-DEMO";
                             ctx.drawImage(
                                 this.imageAttributes[0],
                                 IconsPos.FIRST_ICON_X[size] +      xPos, IconsPos.FIRST_ICON_Y[size] + yPos)
 
-                            ctx.fillText(Math.ceil(this.cooldown), IconsPos.FIRST_ICON_NUMBER_X[size] +       xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                            ctx.fillText(Math.ceil(cooldownRender), IconsPos.FIRST_ICON_NUMBER_X[size] +       xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
+                            ctx.strokeText(Math.ceil(cooldownRender), IconsPos.FIRST_ICON_NUMBER_X[size] + xPos, IconsPos.FIRST_ICON_NUMBER_Y[size] + yPos);
 
                             ctx.drawImage(
                                 this.imageAttributes[1],
                                 IconsPos.SECOND_ICON_X[size] +     xPos, IconsPos.SECOND_ICON_Y[size] + yPos)
-                            ctx.fillText(Math.ceil(this.durability), IconsPos.SECOND_ICON_NUMBER_X[size] +    xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                            ctx.fillText(Math.ceil(durabilityRender), IconsPos.SECOND_ICON_NUMBER_X[size] +    xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
+                            ctx.strokeText(Math.ceil(durabilityRender), IconsPos.SECOND_ICON_NUMBER_X[size] + xPos, IconsPos.SECOND_ICON_NUMBER_Y[size] + yPos);
 
                             ctx.drawImage(
                                 this.imageAttributes[2],
                                 IconsPos.THIRD_ICON_X[size] +      xPos, IconsPos.THIRD_ICON_Y[size] + yPos)
-                            ctx.fillText(this.defense, IconsPos.THIRD_ICON_NUMBER_X[size] +    xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                            ctx.fillText(defenseRender, IconsPos.THIRD_ICON_NUMBER_X[size] +    xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
+                            ctx.strokeText(Math.ceil(defenseRender), IconsPos.THIRD_ICON_NUMBER_X[size] +    xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
 
                             ctx.drawImage(
                                 this.imageAttributes[3],
                                 IconsPos.FOURTH_ICON_X[size] +     xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                            ctx.fillText(this.attack, IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-                    }
+                            ctx.fillText(attackRender, IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                            ctx.strokeText(Math.ceil(attackRender), IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+
+                        }
 
 
                     if(size === CardId.EVENT_SIZE){
@@ -257,8 +284,11 @@ export default class Weapon extends Card{
                             ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
                             
 
-                            ctx.fillStyle = "white";
-                            ctx.fillText(Math.ceil(this.cooldown), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            let color = "white"
+                            ctx.fillStyle = color
+                            ctx.font = "bold 24px LongaIberica-DEMO";
+                            ctx.fillText(Math.ceil(cooldownRender), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            ctx.strokeText(Math.ceil(cooldownRender), IconsPos.EVENT_CD_X + xPos, IconsPos.EVENT_CD_Y + yPos);
                             ctx.drawImage(
                                 this.imageAttributes[0],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
@@ -270,8 +300,11 @@ export default class Weapon extends Card{
                             ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
                             
 
-                            ctx.fillStyle = "white";
-                            ctx.fillText(Math.ceil(this.durability), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            let color = "white"
+                            ctx.fillStyle = color
+                            ctx.font = "bold 24px LongaIberica-DEMO";
+                            ctx.fillText(Math.ceil(durabilityRender), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            ctx.strokeText(Math.ceil(durabilityRender), IconsPos.EVENT_CD_X + xPos, IconsPos.EVENT_CD_Y + yPos);
                             ctx.drawImage(
                                 this.imageAttributes[1],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
@@ -286,7 +319,15 @@ export default class Weapon extends Card{
             ctx.setTransform(1, 0, 0, 1, 0, 0);
         
     }
-
+    checkIconColor(stat, previousStat) {
+        if (stat < previousStat) {
+            return "red"
+        } else if (stat > previousStat) {
+            return "green"
+        } else {
+            return "white"
+        }
+    }
     static create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
 
         

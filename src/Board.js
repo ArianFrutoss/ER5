@@ -152,7 +152,10 @@ export default class Board{
         const gridsLength = this.grids.length;
 
         for (let i = 0; i < gridsLength; i++) {
-            this.grids[i].render(ctx)
+            if (this.grids[i].id != GridId.PLAYER_1_HAND_GRID &&this.grids[i].id != GridId.PLAYER_2_HAND_GRID) {
+                this.grids[i].render(ctx)
+                
+            }
         }
     }
 }

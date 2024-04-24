@@ -194,8 +194,8 @@ export default class Joseph extends Card{
             }
             ctx.drawImage(
                 this.image[size],                 //Img File
-                xPos,yPos                    //X & Y Position Source
-                )
+                xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
+            )
                 
                 
                 // BORDER
@@ -214,7 +214,7 @@ export default class Joseph extends Card{
             //RARITY ICON
             ctx.drawImage(
                 
-                this.imageRarity,
+                this.imageRarity[size],
                 IconsPos.RARITY_X[size] + xPos, IconsPos.RARITY_Y[size] + yPos)
             } else {
                 ctx.drawImage(

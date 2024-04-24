@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize} from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, MinionsTeam} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -344,7 +344,8 @@ export default class Turn {
             ctx.filter = "blur(0px)";
         }
 
-        this.activeMinionDeck.renderCards(ctx, language);
+        this.activeMinionDeck.renderCards(ctx, language, MinionsTeam.DEFENDER);
+        this.enemyActiveMinionDeck.renderCards(ctx, language, MinionsTeam.ATTACKER);
         this.preparingEventDeck.renderCards(ctx, language);
         this.handDeck.renderCards(ctx, language);
         this.mainCharacter.render(ctx, language, currentTurn);

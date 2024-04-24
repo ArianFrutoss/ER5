@@ -1,4 +1,4 @@
-import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId } from "../../constants.js";
+import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId, MinionsTeam } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Minion extends Card {
@@ -18,8 +18,8 @@ export default class Minion extends Card {
         this.previousSpeed      = speed;
         this.weapon             = undefined;
         this.armor              = undefined;
-        this.weaponRarityImage  = weaponRarityImage
-        this.armorRarityImage   = armorRarityImage
+        this.weaponRarityImage  = weaponRarityImage;
+        this.armorRarityImage   = armorRarityImage;
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -152,7 +152,7 @@ export default class Minion extends Card {
         this.state = CardId.NOT_SELECTED;
     }
 
-    render(ctx, language){
+    render(ctx, language, minionsTeam){
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
@@ -256,6 +256,18 @@ export default class Minion extends Card {
                     IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
                     
                     ctx.setTransform(1, 0, 0, 1, 0, 0);
+                
+                if (minionsTeam === MinionsTeam.ATTACKER && size === BorderId.SMALL_SIZE){
+
+                    ctx.fillStyle = "green";
+                }
+
+                else if (minionsTeam === MinionsTeam.DEFENDER && size === BorderId.SMALL_SIZE){
+
+                    ctx.fillStyle = "red";
+                }
+                    
+                ctx.fillRect(IconsPos.TEAM_X[size] + xPos, IconsPos.TEAM_Y[size] + yPos, 20, 20);
     }
 
     static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes){

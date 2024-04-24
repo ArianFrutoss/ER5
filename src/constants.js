@@ -257,7 +257,9 @@ export const IconsPos = {
     EVENT_CD_X: 30,
     EVENT_CD_Y: 47,
     EVENT_CD_IMAGE_X: 48,
-    EVENT_CD_IMAGE_Y: 35
+    EVENT_CD_IMAGE_Y: 35,
+    TEAM_X: [10,58],
+    TEAM_Y: [10,130],
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 
@@ -326,7 +328,7 @@ export const ScreenSize = {
     Y_SIZE: 1080,
 }
 
-export const CardSize = {
-    X_SIZE: 197.6,
-    Y_SIZE: 303.2,
+export const MinionsTeam = {
+    ATTACKER: 0,
+    DEFENDER: 1,
 }

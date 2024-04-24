@@ -1,4 +1,4 @@
-import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId, MinionsTeam } from "../../constants.js";
+import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Minion extends Card {
@@ -273,8 +273,6 @@ export default class Minion extends Card {
                 ctx.drawImage(
                     equipRarityImg,
                     IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
-                    
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
                 
                 if (size === BorderId.SMALL_SIZE){
 
@@ -283,6 +281,8 @@ export default class Minion extends Card {
                         IconsPos.TEAM_X + xPos, IconsPos.TEAM_Y + yPos
                     )
                 }
+
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
 checkIconColor(stat, previousStat) {
     if (stat < previousStat) {

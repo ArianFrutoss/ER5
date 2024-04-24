@@ -115,7 +115,7 @@ export const ImageTypes = {
     GAME_RARITY:5,
     CARD_TYPE: 6,
     BOARD_IMAGE: 7,
-    MINION_TEAM: 8,
+    TEAM: 8,
 }
 export const CardImageId = {
     JOSEPH: 1,
@@ -333,7 +333,7 @@ export const ScreenSize = {
     Y_SIZE: 1080,
 }
 
-export const MinionsTeam = {
+export const Team = {
     ATTACKER: 0,
     DEFENDER: 1,
 }

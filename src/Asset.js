@@ -26,7 +26,7 @@ export default class Asset {
         this.loadGameRarity();
         this.loadCardType();
         this.loadBackground();
-        this.loadMinionTeam();
+        this.loadTeamIcons();
     }
 
     loadCardImages(data) {
@@ -94,9 +94,9 @@ export default class Asset {
         this.createImage(Images.cardTypeImages, "icons");
     }
 
-    loadMinionTeam(){
+    loadTeamIcons(){
 
-        this.createImage(Images.minionTeamImages, "icons");
+        this.createImage(Images.TeamImages, "icons");
     }
 
     loadHandler() {

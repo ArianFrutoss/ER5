@@ -138,7 +138,7 @@ export default class Deck {
         }  
     }
 
-    renderCards(ctx, language, minionsTeam){
+    renderCards(ctx, language, team){
 
         for (let i = 0; i < this.cards.length; i++){
 
@@ -146,7 +146,7 @@ export default class Deck {
 
             if (card.state != CardId.SCALED){
 
-                card.render(ctx, language, minionsTeam);
+                card.render(ctx, language, team);
             }   
         }
     }

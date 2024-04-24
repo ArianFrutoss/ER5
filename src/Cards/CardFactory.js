@@ -33,7 +33,7 @@ export default class CardFactory {
             const category = this.cardData[i].category
             const type = this.cardData[i].type;
             const image = [this.images[ImageTypes.CARD_IMAGE][CardId.BIG_SIZE][id-1], this.images[ImageTypes.CARD_IMAGE][CardId.SMALL_SIZE][id-1] ]
-            const imageRarity = this.images[ImageTypes.CARD_RARITY][rarity]
+            const imageRarity = [this.images[ImageTypes.CARD_RARITY][rarity], this.images[ImageTypes.CARD_RARITY][rarity + this.images[ImageTypes.CARD_RARITY].length / 2]]
             const imageBorders = [this.images[ImageTypes.CARD_BORDER][CardId.BIG_SIZE], this.images[ImageTypes.CARD_BORDER][CardId.SMALL_SIZE]]
             const imageReverse = this.images[ImageTypes.CARD_BORDER][BorderId.REVERSE]
             const vfx = [[this.images[ImageTypes.CARD_BORDER][BorderId.SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.EVENT_SELECTED]], 

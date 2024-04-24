@@ -204,7 +204,7 @@ export default class Spell extends Card{
                     }
                 //RARITY ICON
                 ctx.drawImage(
-                    this.imageRarity,
+                    this.imageRarity[size],
                     IconsPos.RARITY_X[size] +      xPos, IconsPos.RARITY_Y[size] + yPos)
                 
             }

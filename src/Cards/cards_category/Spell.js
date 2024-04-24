@@ -184,7 +184,7 @@ export default class Spell extends Card{
                 
             ctx.drawImage(
                 this.image[size],                 //Img File
-                xPos, yPos                    //X & Y Position Source
+                xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
                 )
             }    
 

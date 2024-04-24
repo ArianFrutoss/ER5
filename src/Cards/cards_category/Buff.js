@@ -182,9 +182,9 @@ export default class Buff extends Card {
                 
             }else{
                 
-            ctx.drawImage(
-                this.image[size],                 //Img File
-                xPos, yPos                    //X & Y Position Source
+                ctx.drawImage(
+                    this.image[size],                 //Img File
+                    xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
                 )
             }    
 

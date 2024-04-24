@@ -122,10 +122,12 @@ export default class Weapon extends Card{
         this.state = CardId.NOT_SELECTED;
     }
 
-    render(ctx, language){
+    render(ctx, language, equipped = false, xPosModifier = 0, yPosModifier = 0){
         let xPos = this.xPos
         let yPos = this.yPos
         let cardVFX
+        ctx.fillStyle = "black"
+        ctx.font = "25px LongaIberica-DEMO";
         if (this.deck.deckId === DecksId.PLAYER_1_HAND_DECK || this.deck.deckId === DecksId.PLAYER_2_HAND_DECK) {
             ctx.setTransform(0.8, 0, 0, 0.8, 0, 0);
 
@@ -143,10 +145,10 @@ export default class Weapon extends Card{
             }
                 //CARD IMAGE
                 let size = this.size
-                if (this.state === CardId.SCALED ) {
-                    ctx.setTransform(1.6, 0, 0, 1.6, 0, 0);
-                    xPos = 475
-                    yPos = 140
+                if (this.state === CardId.SCALED || equipped) {
+                    ctx.setTransform(1.4, 0, 0, 1.4, 0, 0);
+                    xPos = 475 + xPosModifier
+                    yPos = 140 + yPosModifier
                     size = CardId.BIG_SIZE
                     
                 }else if(this.state === CardId.SELECTED){
@@ -169,7 +171,7 @@ export default class Weapon extends Card{
                         )
                 }
 
-                if (this.deck.deckId === DecksId.PLAYER_1_PREPARING_EVENT_DECK || this.deck.deckId === DecksId.PLAYER_2_PREPARING_EVENT_DECK) {
+                if (this.deck.deckId === DecksId.PLAYER_1_PREPARING_EVENT_DECK && !equipped|| this.deck.deckId === DecksId.PLAYER_2_PREPARING_EVENT_DECK && !equipped) {
                     let xTemp = xPos
                     let yTemp = yPos
                     if (this.state != CardId.SCALED) {
@@ -188,11 +190,13 @@ export default class Weapon extends Card{
                         
                     
                 }else{
-                    
+                    if (equipped) {
+                        size = CardId.BIG_SIZE
+                    }
                 ctx.drawImage(
                     this.image[size],                 //Img File
-                    xPos, yPos                    //X & Y Position Source
-                    )
+                    xPos + IconsPos.IMAGE_X[size],yPos + IconsPos.IMAGE_Y[size]                 //X & Y Position Source
+                )
                 }    
 
                 if (size != CardId.EVENT_SIZE) {

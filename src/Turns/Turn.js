@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize} from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, ButtonState, TurnId} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -235,6 +235,7 @@ export default class Turn {
 
                 if(isDiscardFinished){
                     this.buttonContainer.resetStatesButtons();
+                    this.phaseState = PhaseStates.DEFAULT;
                     return true
                 }else{
                     return false
@@ -284,7 +285,7 @@ export default class Turn {
             this.blockCardStatesFromHandDeck();
             this.activeMinionDeck.restoreDeckMinionsStats();
             this.enemyActiveMinionDeck.restoreDeckMinionsStats();
-            
+            this.TurnStates = TurnStates.INITIALIZE
             // cambio de turno
             this.active = false;
             return true

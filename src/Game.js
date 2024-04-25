@@ -157,7 +157,6 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.renderGame();
-
                 break;
 
 

@@ -337,7 +337,7 @@ export default class Turn {
     
     render(ctx,language, currentTurn, xPos, yPos){
 
-        const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck, this.handDeck, this.enemyHandDeck, this.preparingEventDeck, this.enemyPreparingEventDeck, this.mainCharacter, this.otherMainCharacter];
+        const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck, this.handDeck, this.enemyHandDeck, this.preparingEventDeck, this.enemyPreparingEventDeck, this.mainCharacter, this.otherMainCharacter, this.josephDeck];
         const card = this.activeMinionDeck.isAnyCard(decks, CardId.SCALED);
         
         if (card[0] === false){

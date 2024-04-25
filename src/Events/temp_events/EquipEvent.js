@@ -15,10 +15,10 @@ export class EquipEvent extends Event{
 
         switch (this.equipment.category){
             case TypeId.WEAPON:
-                this.minionObjective.setWeapon(this.equipment);
+                this.minionObjective.weapon = this.equipment;
                 break;
             case TypeId.ARMOR:
-                this.minionObjective.setArmor(this.equipment);
+                this.minionObjective.armor = this.equipment;
                 break;
         }
 

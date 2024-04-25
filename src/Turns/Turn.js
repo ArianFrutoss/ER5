@@ -138,8 +138,6 @@ export default class Turn {
             }
         }
 
-        this.activeMinionDeck.aplyWeaponsAndArmorsStatsTheMinion();
-        this.enemyActiveMinionDeck.aplyWeaponsAndArmorsStatsTheMinion();
         this.eventContainer.executeEvents()
         this.actionsCounter = 0
         this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer)

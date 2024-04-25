@@ -21,7 +21,6 @@ export default class Minion extends Card {
         this.weaponRarityImage  = weaponRarityImage;
         this.armorRarityImage   = armorRarityImage;
         this.imageMinionTeam    = imageMinionTeam;
-        this.range              = 1;
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -107,24 +106,10 @@ export default class Minion extends Card {
     setWeapon(weapon){
 
         this.weapon = weapon
-        this.attack += weapon.attack
-        this.range += weapon.range
-    }
-
-    aplyWeapon(){
-
-        this.attack += this.weapon.attack
-        this.range += this.weapon.range
     }
 
     setArmor(armor){
         this.armor = armor
-        this.defense += armor.defense
-    }
-
-    aplyArmor(){
-
-        this.defense += this.armor.defense
     }
 
     setDeck(deck){

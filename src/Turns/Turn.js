@@ -121,6 +121,7 @@ export default class Turn {
 
         this.deselect();
         this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
+
         this.restoreCardStatesFromActiveDecks()
         // Spawnear nuevo Minion
         if (this.minionDeck.cards.length>0) {
@@ -246,7 +247,6 @@ export default class Turn {
             case PhaseStates.DEFAULT:
                 console.log("entro en default");
                 this.phaseState = this.phasesArray[PhaseStates.DEFAULT].execute(messagesContainer);
-                
                 const isChangePhase = this.phasesArray[PhaseStates.DEFAULT].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isChangePhase != false){
@@ -258,10 +258,11 @@ export default class Turn {
 
                 break;
         }
+
         this.josephDeck.update(mouse)
         this.activeMinionDeck.removeEquipIfdurability0();
         this.enemyActiveMinionDeck.removeEquipIfdurability0();
-        this.preparingEventDeck.removeIfWornOut(this.graveyardDeck);
+        this.preparingEventDeck.removeIfWornOut(this.graveyardDeck,);
         this.enemyPreparingEventDeck.removeIfWornOut(this.graveyardDeck);
 
         const value = timerContainer.update(TimerId.TURN_TIMER);

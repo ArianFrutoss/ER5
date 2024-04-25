@@ -158,7 +158,6 @@ export default class Slot{
                     }
     
                     else{
-    
                         this.isEmpty = true;
                     }
                 }

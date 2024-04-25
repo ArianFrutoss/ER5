@@ -372,11 +372,11 @@ export default class Turn {
             ctx.globalAlpha = 1;
             card[2].render(ctx, language);
             if (card[2].armor) {
-                card[2].armor.render(ctx, language, true, 400, 50)
+                card[2].armor.render(ctx, language, true, IconsPos.SCALED_ARMOR_X, IconsPos.SCALED_ARMOR_Y)
                 
             }
             if (card[2].weapon) {
-                card[2].weapon.render(ctx, language, true, -250, 50)
+                card[2].weapon.render(ctx, language, true, IconsPos.SCALED_WEAPON_X, IconsPos.SCALED_WEAPON_Y)
                 
             }
             ctx.filter = "blur(3px)";

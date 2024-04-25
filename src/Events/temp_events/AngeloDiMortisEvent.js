@@ -14,7 +14,7 @@ export default class AngeloDiMortisEvent extends Event{
         this.turn.maxActions += 2;
     }
 
-    remove(){
-        this.turn.maxActions -= 2;
+    static remove(turn){
+        turn.maxActions -= 2;
     }
 }

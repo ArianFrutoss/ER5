@@ -2,36 +2,43 @@ import Event from "../Event.js";
 
 export default class DecrepitThroneEvent extends Event{
 
-    constructor(enemyActiveMinionDeck, activeMinionDeck){
+    constructor(minion, enemyActiveMinionDeck, activeMinionDeck){
         super();
 
         this.enemyActiveMinionDeck  = enemyActiveMinionDeck;
         this.activeMinionDeck       = activeMinionDeck;
-        this.minion                 = null;
+        this.minion                 = minion;
     }
 
     // Possesses an enemy minion, turning it into an ally until the end of the turn and granting it +3 attack and +1 speed until the end of the turn.
     execute(){
+        // Search card index
+        const index = this.enemyActiveMinionDeck.cards.indexOf(this.minion);
 
-        const randomMinion = Math.floor(Math.random() * 3);
-        
-        this.minion = this.enemyActiveMinionDeck.cards[randomMinion];
-        this.activeMinionDeck.cards.push(this.minion);
-        this.enemyActiveMinionDeck.cards.splice(randomMinion, 1);
+        // Splice the card from enemyActiveDeck
+        this.enemyActiveMinionDeck.cards.splice(index, 1);
 
         // Apply the effect
         this.minion.attack += 3;
         this.minion.speed  += 1;
+        
+        // Push the card to activeMinionDeck
+        this.activeMinionDeck.cards.push(this.minion);
+
     }
 
-    remove(){
-        this.minion.attack -= 3;
-        this.minion.speed  -= 1;
+    static remove(minion, activeMinionDeck, enemyActiveMinionDeck){
+        const index = activeMinionDeck.cards.indexOf(minion);
+        console.log(index);
+        if(index !== -1){
+            activeMinionDeck.cards.splice(index, 1);
+            console.log(activeMinionDeck.cards);
 
-        this.activeMinionDeck.cards.pop();
-
-        this.enemyActiveMinionDeck.cards.pop(this.minion);
-        
-        this.enemyActiveMinionDeck.cards.push(this.minion);
+            minion.attack -= 3;
+            minion.speed  -= 1;
+    
+            enemyActiveMinionDeck.cards.push(minion);
+            enemyActiveMinionDeck.cards.pop();
+        }
     }
 }

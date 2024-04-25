@@ -1,4 +1,4 @@
-import { BorderId, BuffId, CardActions, CardId, DecksId, IconsPos, VFXId } from "../../constants.js";
+import { BorderId, BuffId, CardActions, CardId, DecksId, IconsPos, MainCharacterId, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 import EventContainer from "../../Events/EventContainer.js";
 
@@ -145,7 +145,8 @@ export default class Buff extends Card {
                 const hero                  = this.turn.mainCharacter;
                 const heroEmpowernment      = this;
                 const enemyActiveMinionDeck = this.turn.enemyActiveMinionDeck;
-                this.eventContainer.createHeroEvents(activeMinionDeck, enemyActiveMinionDeck, hero, heroEmpowernment);
+                const turn                  = this.turn;
+                this.eventContainer.createHeroEvents(activeMinionDeck, enemyActiveMinionDeck, hero, heroEmpowernment, turn);
                 break;
         }
     }

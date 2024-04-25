@@ -4,11 +4,11 @@ import { ModifyAttributeEvent } from "./temp_events/ModifyAttributesEvent.js";
 import { EquipEvent } from "./temp_events/EquipEvent.js";
 import { DestroyAllMinionsEvent } from "./phase_events/DestroyAllMinionsEvent.js";
 import { ModifyAttributeToAllMinions } from "./temp_events/ModifyAttributeToAllMinions.js";
-import ReduceDurabilityEvent from "./temp_events/ReduceDurabilityEvent.js";
-import HeroEventModifyAttributes from "./temp_events/HeroEvents.js";
 import LucretiaEvent from "./temp_events/LucretiaEvent.js";
 import XGScholarEvent from "./temp_events/XGScholarEvent.js";
 import HeroEvents from "./temp_events/HeroEvents.js";
+import DecrepitTrhoneEvent from "./temp_events/DecrepitThroneEvent.js";
+import AngeloDiMortisEvent from "./temp_events/AngeloDiMortisEvent.js";
 
 export default class EventFactory {
 
@@ -92,8 +92,7 @@ export default class EventFactory {
         }
     }
 
-    static createHeroEventAndExecute(hero, objectiveMinion){
-        
+    static createHeroEventAndExecute(hero, objectiveMinion, enemyActiveMinionDeck, activeMinionDeck, turn, minion){
         switch(hero.id){
             case MainCharacterId.LUCRETIA:
                 for(let i = 0; i < hero.effect.length; i++){
@@ -109,11 +108,23 @@ export default class EventFactory {
                     heroEvent.execute();
                 }
                 break;
+
+            case MainCharacterId.DECREPIT_TRHONE:
+
+                const decrepitEvent = new DecrepitTrhoneEvent(minion, enemyActiveMinionDeck, activeMinionDeck);
+                decrepitEvent.execute();
+                break;
+            
+            case MainCharacterId.ANGELO:
+            
+                const angeloEvent = new AngeloDiMortisEvent(turn);
+                angeloEvent.execute();
+                break;
         }
     }
 
-    static createHeroEventsToUseInEventContainer(activeMinionDeck, enemyActiveMinionDeck, hero, card){
-        return new HeroEvents(activeMinionDeck, enemyActiveMinionDeck, hero, card);
+    static createHeroEventsToUseInEventContainer(activeMinionDeck, enemyActiveMinionDeck, hero, card, turn){
+        return new HeroEvents(activeMinionDeck, enemyActiveMinionDeck, hero, card, turn);
     }
 
 }

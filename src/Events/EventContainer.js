@@ -40,12 +40,12 @@ export default class EventContainer {
         }
     }
 
-    createHeroEvents(activeMinionDeck, activeEnemyMinionDeck, hero, card){
-
-        const heroEvents = EventFactory.createHeroEventsToUseInEventContainer(activeMinionDeck, activeEnemyMinionDeck, hero, card);
-
+    createHeroEvents(activeMinionDeck, activeEnemyMinionDeck, hero, card, turn){
+        
+        const heroEvents = EventFactory.createHeroEventsToUseInEventContainer(activeMinionDeck, activeEnemyMinionDeck, hero, card, turn);
+        
         this.events.push(heroEvents);
     }
 
-
+    
 }

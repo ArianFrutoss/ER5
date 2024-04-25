@@ -45,7 +45,7 @@ export default class MinionMovementPhase extends Phase {
             minionSelected    = this.activeMinionDeck.cards[minionPosition];
             slotHovered       = this.boardGrid.slots[slotPositionHoveredI][slotPositionHoveredJ];
 
-            this.boardGrid.aviableMoveSlots(minionSelected);
+            this.boardGrid.aviableSlots(minionSelected);
 
             distance = slotHovered.calculateDistance(minionSelected);
         }
@@ -59,7 +59,7 @@ export default class MinionMovementPhase extends Phase {
             minionSelected    = this.activeMinionDeck.cards[minionPosition];
             slotSelected      = this.boardGrid.slots[slotPositionSelectedI][slotPositionSelectedJ];
 
-            this.boardGrid.aviableMoveSlots(minionSelected);
+            this.boardGrid.aviableSlots(minionSelected);
 
             distance = slotSelected.calculateDistance(minionSelected);
         }

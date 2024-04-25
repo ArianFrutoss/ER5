@@ -4,6 +4,7 @@ import { ModifyAttributeEvent } from "./temp_events/ModifyAttributesEvent.js";
 import { EquipEvent } from "./temp_events/EquipEvent.js";
 import { DestroyAllMinionsEvent } from "./phase_events/DestroyAllMinionsEvent.js";
 import { ModifyAttributeToAllMinions } from "./temp_events/ModifyAttributeToAllMinions.js";
+import { DestroyAllEvents } from "./phase_events/DestroyAllEvents.js";
 import LucretiaEvent from "./temp_events/LucretiaEvent.js";
 import XGScholarEvent from "./temp_events/XGScholarEvent.js";
 import HeroEvents from "./temp_events/HeroEvents.js";
@@ -79,7 +80,9 @@ export default class EventFactory {
     static createDestroyAllMinionsEvent(decks, card){
         return new DestroyAllMinionsEvent(decks, card)
     }
-
+    static createDestroyAllEvents(decks, card){
+        return new DestroyAllEvents(decks, card)
+    }
     static createModifyAttributeToAllMinions(decks, card){
         return new ModifyAttributeToAllMinions(decks, card)
     }

@@ -21,7 +21,6 @@ export default class Minion extends Card {
         this.weaponRarityImage  = weaponRarityImage;
         this.armorRarityImage   = armorRarityImage;
         this.imageMinionTeam    = imageMinionTeam;
-        this.range              = 1;
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -107,24 +106,10 @@ export default class Minion extends Card {
     setWeapon(weapon){
 
         this.weapon = weapon
-        this.attack += weapon.attack
-        this.range += weapon.range
-    }
-
-    aplyWeapon(){
-
-        this.attack += this.weapon.attack
-        this.range += this.weapon.range
     }
 
     setArmor(armor){
         this.armor = armor
-        this.defense += armor.defense
-    }
-
-    aplyArmor(){
-
-        this.defense += this.armor.defense
     }
 
     setDeck(deck){
@@ -174,10 +159,32 @@ export default class Minion extends Card {
         let yPos = this.yPos
             ctx.font = "25px LongaIberica-DEMO";
         let cardVFX
+
+        let attackRender
+        let defenseRender
+
+        if (this.weapon != undefined){
+
+            attackRender = this.state === CardId.SCALED ? this.previousAttack : this.attack + this.weapon.attack
+        }
+
+        else{
+
+            attackRender = this.state === CardId.SCALED ? this.previousAttack : this.attack
+        }
+
+        if (this.armor != undefined){
+
+            defenseRender = this.state === CardId.SCALED ? this.previousDefense : this.defense + this.armor.defense
+        }
+
+        else{
+
+            defenseRender = this.state === CardId.SCALED ? this.previousDefense : this.defense
+        }
+
         const healthRender = this.state === CardId.SCALED ? this.previousHealth : this.health
         const speedRender = this.state === CardId.SCALED ? this.previousSpeed : this.speed
-        const attackRender = this.state === CardId.SCALED ? this.previousAttack : this.attack
-        const defenseRender = this.state === CardId.SCALED ? this.previousDefense : this.defense
 
             //CARD IMAGE
             let size = this.size
@@ -228,7 +235,7 @@ export default class Minion extends Card {
                         }
                         //ATTRIBUTES ICONS & VALUES
                 
-                let color = this.checkIconColor(this.defense, this.previousDefense)
+                let color = this.checkIconColor(defenseRender, this.previousDefense)
                 ctx.fillStyle = color
                 ctx.font = "bold 24px LongaIberica-DEMO";
                 ctx.drawImage(
@@ -254,7 +261,7 @@ export default class Minion extends Card {
                 ctx.fillText(healthRender, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
                 ctx.strokeText(healthRender, IconsPos.THIRD_ICON_NUMBER_X[size] + xPos, IconsPos.THIRD_ICON_NUMBER_Y[size] + yPos);
                 
-                color = this.checkIconColor(this.attack, this.previousAttack)
+                color = this.checkIconColor(attackRender, this.previousAttack)
                 ctx.fillStyle = color
                 ctx.drawImage(
                     this.imageAttributes[3],

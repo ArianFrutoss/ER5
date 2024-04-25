@@ -120,6 +120,7 @@ export default class Turn {
 
         this.deselect();
         this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
+
         this.restoreCardStatesFromActiveDecks()
         // Spawnear nuevo Minion
         if (this.minionDeck.cards.length>0) {
@@ -137,8 +138,6 @@ export default class Turn {
             }
         }
 
-        this.activeMinionDeck.aplyWeaponsAndArmorsStatsTheMinion();
-        this.enemyActiveMinionDeck.aplyWeaponsAndArmorsStatsTheMinion();
         this.eventContainer.executeEvents()
         this.actionsCounter = 0
         this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer);
@@ -259,7 +258,6 @@ export default class Turn {
             case PhaseStates.DEFAULT:
                 // console.log("entro en default");
                 this.phaseState = this.phasesArray[PhaseStates.DEFAULT].execute(messagesContainer);
-                
                 const isChangePhase = this.phasesArray[PhaseStates.DEFAULT].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isChangePhase != false){
@@ -271,10 +269,11 @@ export default class Turn {
 
                 break;
         }
+
         this.josephDeck.update(mouse)
         this.activeMinionDeck.removeEquipIfdurability0();
         this.enemyActiveMinionDeck.removeEquipIfdurability0();
-        this.preparingEventDeck.removeIfWornOut(this.graveyardDeck);
+        this.preparingEventDeck.removeIfWornOut(this.graveyardDeck,);
         this.enemyPreparingEventDeck.removeIfWornOut(this.graveyardDeck);
 
         const value = timerContainer.update(TimerId.TURN_TIMER);
@@ -347,7 +346,7 @@ export default class Turn {
         }
     }
     
-    render(ctx,language, currentTurn, xPos, yPos){
+    render(ctx,language, currentTurn, xPos, yPos, team){
 
         const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck, this.handDeck, this.enemyHandDeck, this.preparingEventDeck, this.enemyPreparingEventDeck, this.mainCharacter, this.otherMainCharacter];
         const card = this.activeMinionDeck.isAnyCard(decks, CardId.SCALED);
@@ -358,12 +357,13 @@ export default class Turn {
             ctx.filter = "blur(0px)";
         }
 
-        this.activeMinionDeck.renderCards(ctx, language, Team.DEFENDER);
-        this.enemyActiveMinionDeck.renderCards(ctx, language, Team.ATTACKER);
+        const teamColor = team === this.turnId ? Team.ATTACKER : Team.DEFENDER
+
+        this.activeMinionDeck.renderCards(ctx, language, teamColor);
         this.preparingEventDeck.renderCards(ctx, language);
         this.handDeck.renderCards(ctx, language);
-        this.mainCharacter.render(ctx, language, Team.DEFENDER);
-        this.otherMainCharacter.render(ctx, language, Team.ATTACKER);
+        this.mainCharacter.render(ctx, language, teamColor);
+
         if (this.josephDeck.cards[0]) {
             this.josephDeck.cards[0].render(ctx, language, currentTurn)
         }
@@ -385,11 +385,11 @@ export default class Turn {
             ctx.globalAlpha = 1;
             card[2].render(ctx, language);
             if (card[2].armor) {
-                card[2].armor.render(ctx, language, true, 400, 50)
+                card[2].armor.render(ctx, language, true, IconsPos.SCALED_ARMOR_X, IconsPos.SCALED_ARMOR_Y)
                 
             }
             if (card[2].weapon) {
-                card[2].weapon.render(ctx, language, true, -250, 50)
+                card[2].weapon.render(ctx, language, true, IconsPos.SCALED_WEAPON_X, IconsPos.SCALED_WEAPON_Y)
                 
             }
             ctx.filter = "blur(3px)";

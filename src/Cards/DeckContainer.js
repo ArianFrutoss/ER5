@@ -52,7 +52,8 @@ export default class DeckContainer {
                     this.decks[DecksId.EVENT_DECK].cards.push(card)
                     card.setDeck(this.decks[DecksId.EVENT_DECK])
                     if (card.id === CardImageId.JOSEPH) {
-                        card.setObjetive([this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK], this.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK]])
+                        const deckObjetives = [this.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK], this.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK], this.decks[DecksId.PLAYER_1_PREPARING_EVENT_DECK], this.decks[DecksId.PLAYER_2_PREPARING_EVENT_DECK]]
+                        card.setObjetive(deckObjetives)
                     }
                     break;
             }

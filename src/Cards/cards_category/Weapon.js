@@ -109,7 +109,7 @@ export default class Weapon extends Card{
             this.action = CardActions.WORN_OUT
         }
     }
-    removeIfWornOut(activeEventDeck, graveyardDeck){
+    removeIfWornOut(activeEventDeck, graveyardDeck, grid){
 
         this.checkDurability()
         if (this.action === CardActions.WORN_OUT) {
@@ -119,6 +119,8 @@ export default class Weapon extends Card{
                     activeEventDeck.cards.splice(i, 1)
                     graveyardDeck.cards.push(card)
                     this.setDeck(graveyardDeck)
+                    this.xPos = -400
+                    this.yPos = -400
                 }
             }  
         }

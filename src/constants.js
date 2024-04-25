@@ -270,6 +270,10 @@ export const IconsPos = {
     ACTIONS_LEFT_Y:130,
     TEAM_X: 53,
     TEAM_Y: 132,
+    SCALED_WEAPON_X: -228,
+    SCALED_WEAPON_Y: 50,
+    SCALED_ARMOR_X: 400,
+    SCALED_ARMOR_Y: 50,
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 

@@ -70,7 +70,7 @@ export default class TurnContainer {
         const turn = this.turnContainer[currentTurn]
         const pos = (currentTurn+1)%2
         const enemyTurn = this.turnContainer[pos]
-        turn.render(ctx, language, currentTurn, xPos, yPos)
-        enemyTurn.render(ctx, language, pos, enemyXpos, enemyYpos)
+        turn.render(ctx, language, currentTurn, xPos, yPos, currentTurn)
+        enemyTurn.render(ctx, language, pos, enemyXpos, enemyYpos, currentTurn)
     }
 }

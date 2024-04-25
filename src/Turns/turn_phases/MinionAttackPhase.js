@@ -32,10 +32,15 @@ export default class MinionAttackPhase extends Phase {
 
         if(attacker !== null && enemy !== null && distance !== null && enemyPosition !== null){
 
-            // aviableAttackSlots(attacker);
+            let range = 1;
+
+            if (attacker.weapon != undefined){
+
+                range = attacker.weapon.range;
+            }
             
-            if (distance[0] <= this.attacker.range && distance[1] <= this.attacker.range) {
-                
+            if (distance[0] <= range && distance[1] <= range) {
+
                 if(isAttackWithParry){  
     
                     const blockEvent = new AttackEvent(attacker, enemy);

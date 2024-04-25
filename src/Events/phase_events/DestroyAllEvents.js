@@ -14,7 +14,7 @@ export class DestroyAllEvents extends Event{
             for (let j = 0; j < deck.cards.length; j++) {
                 const card = deck.cards[j];
                 if (card) {
-                    card.action = CardActions.WORN_OUT
+                    card.durability = 0
                     card.update(mouse, deck)
                     
                 }

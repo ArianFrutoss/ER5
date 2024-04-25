@@ -335,7 +335,7 @@ export default class Turn {
         }
     }
     
-    render(ctx,language, currentTurn, xPos, yPos){
+    render(ctx,language, currentTurn, xPos, yPos, team){
 
         const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck, this.handDeck, this.enemyHandDeck, this.preparingEventDeck, this.enemyPreparingEventDeck, this.mainCharacter, this.otherMainCharacter];
         const card = this.activeMinionDeck.isAnyCard(decks, CardId.SCALED);
@@ -346,12 +346,13 @@ export default class Turn {
             ctx.filter = "blur(0px)";
         }
 
-        this.activeMinionDeck.renderCards(ctx, language, Team.DEFENDER);
-        this.enemyActiveMinionDeck.renderCards(ctx, language, Team.ATTACKER);
+        const teamColor = team === this.turnId ? Team.ATTACKER : Team.DEFENDER
+
+        this.activeMinionDeck.renderCards(ctx, language, teamColor);
         this.preparingEventDeck.renderCards(ctx, language);
         this.handDeck.renderCards(ctx, language);
-        this.mainCharacter.render(ctx, language, Team.DEFENDER);
-        this.otherMainCharacter.render(ctx, language, Team.ATTACKER);
+        this.mainCharacter.render(ctx, language, teamColor);
+
         if (this.josephDeck.cards[0]) {
             this.josephDeck.cards[0].render(ctx, language, currentTurn)
         }

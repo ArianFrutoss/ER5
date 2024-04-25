@@ -4,13 +4,14 @@ import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackSt
 
 export default class MinionAttackPhase extends Phase {
 
-    constructor(activeMinionDeck, enemyActiveMinionDeck, activeEventDeck, enemyActiveEventDeck, graveyardDeck, mouse, buttonContainer) {
+    constructor(activeMinionDeck, enemyActiveMinionDeck, activeEventDeck, enemyActiveEventDeck, graveyardDeck, boardGrid, mouse, buttonContainer) {
         super();
         this.activeMinionDeck = activeMinionDeck;               // Deck de minions activos
         this.enemyActiveMinionDeck = enemyActiveMinionDeck;     // Deck de minions activos del rival
         this.activeEventDeck = activeEventDeck;
         this.enemyActiveEventDeck = enemyActiveEventDeck;
         this.graveyardDeck = graveyardDeck;
+        this.boardGrid = boardGrid;
         this.state = AttackState.DEFAULT;
         this.mouse = mouse;                                     // Objeto Mouse
         this.buttonContainer = buttonContainer;
@@ -110,12 +111,17 @@ export default class MinionAttackPhase extends Phase {
 
         let aux;
 
+        this.boardGrid.cancelAviableSlots();
+
+        this.boardGrid.update(this.mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck]);
+
         // Update de los decks
         this.updateDecks(); 
 
         // Comprobar si hay alguna carta seleccionada del mazo de minions activos
         let isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
 
+        const minionSelected = isAnyCardSelected[2];
              
         if (isAnyCardSelected[0] === false){
 
@@ -123,12 +129,10 @@ export default class MinionAttackPhase extends Phase {
         }
 
         if (isAnyCardSelected[0]){
-
+            
+            this.boardGrid.aviableAttackSlots(minionSelected);
             messagesContainer.activeMessage(messageAttackPhase2);
         }
-
-        // update mensajes
-        //this.updateMessages(messagesContainer, isAnyCardSelected);
 
         // Assign enemy, distance, enemyPosition, attacker
         const messages   = messagesContainer.messages;

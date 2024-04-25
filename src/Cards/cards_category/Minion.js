@@ -16,6 +16,7 @@ export default class Minion extends Card {
         this.previousHealth     = health;
         this.speed              = speed;
         this.previousSpeed      = speed;
+        this.range              = 1;
         this.weapon             = undefined;
         this.armor              = undefined;
         this.weaponRarityImage  = weaponRarityImage;

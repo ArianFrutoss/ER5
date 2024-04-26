@@ -135,7 +135,7 @@ export default class Slot{
                     this.isEmpty = false;
                     this.isAviable = false;
                     this.state = SlotsState.NOT_SELECTED;
-                    return;
+                    return true;
                 }
 
                 else{
@@ -147,7 +147,6 @@ export default class Slot{
 
         else{
             
-
             for (let i = 0; i < decks.length; i++){
 
                 const deck = decks[i];
@@ -161,7 +160,7 @@ export default class Slot{
                         this.isEmpty = false;
                         this.isAviable = false;
                         this.state = SlotsState.NOT_SELECTED;
-                        return;
+                        return true;;
                     }
     
                     else{
@@ -171,6 +170,8 @@ export default class Slot{
             }
  
         }
+
+        return false;
     }
 
     calculateDistance(minion){

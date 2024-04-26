@@ -40,7 +40,6 @@ export default class MinionMovementPhase extends Phase {
 
         if (isAnyCardSelected[0] && isAnySlotHovered[0]){
 
-            const minionPosition            = isAnyCardSelected[1];
             const slotPositionHoveredI      = isAnySlotHovered[1];
             const slotPositionHoveredJ      = isAnySlotHovered[2];
 
@@ -51,7 +50,6 @@ export default class MinionMovementPhase extends Phase {
 
         if (isAnyCardSelected[0] && isAnySlotSelected[0]){
 
-            const minionPosition            = isAnyCardSelected[1];
             const slotPositionSelectedI     = isAnySlotSelected[1];
             const slotPositionSelectedJ     = isAnySlotSelected[2];
 

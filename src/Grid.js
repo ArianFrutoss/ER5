@@ -99,7 +99,7 @@ export default class Grid{
         }
     }
 
-    aviableAttackSlots(minionSelected){
+    aviableAttackSlots(minionSelected, deck){
 
         for (let i = 0; i < this.slots.length; i++){
 
@@ -107,6 +107,7 @@ export default class Grid{
 
                 const slot = this.slots[i][j];
                 const distance = slot.calculateDistance(minionSelected);
+                const isSlotUsed = slot.isSlotUsed(deck);
 
                 let range;
 
@@ -118,7 +119,7 @@ export default class Grid{
                     range = minionSelected.range;
                 }
 
-                if (range >= distance){
+                if (range >= distance && isSlotUsed === false){
                     slot.isAttackAviable = true;
                 }
             }

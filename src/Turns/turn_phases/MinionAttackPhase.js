@@ -24,8 +24,7 @@ export default class MinionAttackPhase extends Phase {
 
     // funcion para realizar el ataque
     attack(messagesContainer, isAttackWithParry) {
-   
-
+        
         const attacker      = this.attacker;
         const enemy         = this.enemy;
         const distance      = this.distance;
@@ -40,7 +39,7 @@ export default class MinionAttackPhase extends Phase {
                 range = attacker.weapon.range;
             }
             
-            if (distance[0] <= range && distance[1] <= range) {
+            if (distance <= range) {
 
                 if(isAttackWithParry){  
     
@@ -102,7 +101,7 @@ export default class MinionAttackPhase extends Phase {
         const distanceXSlots = Math.floor(xDifference / boardSlotXSize);
         const distanceYSlots = Math.floor(yDifference / boardSlotYSize);
 
-        return [distanceXSlots, distanceYSlots];
+        return distanceXSlots + distanceYSlots;
     }
 
 
@@ -130,7 +129,7 @@ export default class MinionAttackPhase extends Phase {
 
         if (isAnyCardSelected[0]){
             
-            this.boardGrid.aviableAttackSlots(minionSelected);
+            this.boardGrid.aviableAttackSlots(minionSelected, this.activeMinionDeck);
             messagesContainer.activeMessage(messageAttackPhase2);
         }
 
@@ -210,35 +209,6 @@ export default class MinionAttackPhase extends Phase {
         for (let i = 0; i < decks.length; i++) {
             const deck = decks[i];
             deck.update(this.mouse, decks)
-        }
-    }
-
-    updateMessages(messagesContainer, isAnyCardSelected){
-
-        const messages = messagesContainer.messages;
-
-        if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0] === false) {
-
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageAttackPhase1, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[MessageType.HELP_MESSAGE] = message;
-            messages[MessageType.HELP_MESSAGE].drawMessage = true;
-        }
-
-        if (messages[MessageType.HELP_MESSAGE] === undefined && isAnyCardSelected[0]) {
-
-            const message = new Messages(HelpMessagesPos.X_POS, HelpMessagesPos.Y_POS, messageAttackPhase2, MessageType.HELP_MESSAGE, MessageState.APPEAR, 0.2, 0.3, null);
-            messages[MessageType.HELP_MESSAGE] = message;
-            messages[MessageType.HELP_MESSAGE].drawMessage = false;
-        }
-
-        if (messages[MessageType.HELP_MESSAGE].drawMessage && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0]) {
-
-            messages[MessageType.HELP_MESSAGE].timeInOn = 0;
-        }
-
-        if (messages[MessageType.HELP_MESSAGE].drawMessage === false && messages[MessageType.HELP_MESSAGE] != undefined && isAnyCardSelected[0] === false) {
-
-            messages[MessageType.HELP_MESSAGE].timeInOn = 0;
         }
     }
 

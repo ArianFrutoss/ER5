@@ -49,7 +49,7 @@ export default class Asset {
 
             image = new Image();
             image.addEventListener("load", this.loadHandler.bind(this), false);
-            image.src = `../media/images/cards_img/mini_${img}`;
+            image.src = `../media/images/mini_cards_img/mini_${img}`;
             smallSize.push(image);
             this.assetsToLoad.push(image);
         }
@@ -71,32 +71,32 @@ export default class Asset {
 
     loadCardIcons(){
 
-        this.createImage(Images.cardIconsImages, "icons");
+        this.createImage(Images.cardIconsImages, "icons/card_icons");
     }
 
     loadCardRarity(){
 
-        this.createImage(Images.cardRarityImages, "icons");
+        this.createImage(Images.cardRarityImages, "icons/card_rarity_icons");
     }
 
     loadEquipmentRarity(){
 
-        this.createImage(Images.equipmentRarityImages, "icons");
+        this.createImage(Images.equipmentRarityImages, "icons/equip_rarity_icons");
     }
 
     loadGameRarity(){
 
-        this.createImage(Images.gameRarityImages, "icons");
+        this.createImage(Images.gameRarityImages, "icons/game_rarity_icons");
     }
 
     loadCardType(){
 
-        this.createImage(Images.cardTypeImages, "icons");
+        this.createImage(Images.cardTypeImages, "icons/card_type_icons");
     }
 
     loadTeamIcons(){
 
-        this.createImage(Images.TeamImages, "icons");
+        this.createImage(Images.TeamImages, "icons/card_team_icons");
     }
 
     loadHandler() {

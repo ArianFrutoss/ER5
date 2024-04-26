@@ -1,3 +1,4 @@
+import { IconsPos } from "./constants.js";
 import globals from "./globals.js";
 
 export default class Timer{
@@ -36,5 +37,13 @@ export default class Timer{
 
         // Reseteamos el Timer
         this.value = this.previousValue;
+    }
+    render(ctx){
+        ctx.font = "40px LongaIberica-DEMO"
+        ctx.fillStyle = "#FF8c00"
+        const valueRender = this.value <= 0 ? 0 : this.value
+        ctx.fillText(valueRender, IconsPos.TURN_TIMER_X, IconsPos.TURN_TIMER_Y)
+        ctx.strokeText(valueRender, IconsPos.TURN_TIMER_X, IconsPos.TURN_TIMER_Y)
+        ctx.fillStyle = "black"
     }
 }

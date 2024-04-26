@@ -1,4 +1,5 @@
-import { BlockStates } from "../../constants.js";
+import Messages from "../../Messages.js";
+import { BlockStates, MessageState, MessageType } from "../../constants.js";
 import Event from "../Event.js";
 
 export default class BlockEvent extends Event{
@@ -15,11 +16,12 @@ export default class BlockEvent extends Event{
     }
 
     // caso 2 durabilidad < al daño
-    execute(){
+    execute(messagesContainer){
 
         this.state  = Math.floor(Math.random() * 3);
         const state = this.state;
         const enemyWeapon = this.defenderMinion.weapon;
+        const initialDmg = this.damage
         switch(state){
 
             case BlockStates.COMPLETE_BLOCK:
@@ -45,5 +47,9 @@ export default class BlockEvent extends Event{
 
         // Romper el arma del defensor
         enemyWeapon.durability = 0;
+        const damageRender = "-" + this.damage + "(" + (initialDmg - this.damage) + ")"
+        const doneDamage = new Messages(this.defenderMinion.xPos, this.defenderMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3);
+        messagesContainer.addMessage(doneDamage);
     }
+    
 }

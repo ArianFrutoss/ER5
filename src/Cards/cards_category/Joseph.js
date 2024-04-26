@@ -147,7 +147,6 @@ export default class Joseph extends Card{
         this.state = CardId.NOT_SELECTED;
     }
     render(ctx, language){
-
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
@@ -221,7 +220,23 @@ export default class Joseph extends Card{
                     this.imageReverse,
                      xPos, yPos)
             }
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
+            if (this.action === CardActions.READY ||this.action === CardActions.ON_USE) {
+                ctx.globalAlpha = 0.5;
+                ctx.beginPath();
+                ctx.ellipse(this.xPos + IconsPos.JOSEPH_X, this.yPos + IconsPos.JOSEPH_Y, 62, 75, 0, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.fillStyle = "black"
+                ctx.fill();
+                ctx.globalAlpha = 1;
+
+                ctx.font = "bold 40px LongaIberica-DEMO";
+                ctx.fillStyle = "white"
+                ctx.fillText(Math.ceil(this.durability),   xPos + IconsPos.JOSEPH_X , yPos + IconsPos.JOSEPH_Y);
+                ctx.strokeText(Math.ceil(this.durability), xPos + IconsPos.JOSEPH_X , yPos + IconsPos.JOSEPH_Y);
+                ctx.font = "25px LongaIberica-DEMO";
+                ctx.fillStyle = "black"
+            }
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
             
     }
 

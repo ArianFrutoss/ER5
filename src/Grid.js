@@ -83,7 +83,7 @@ export default class Grid{
                         }
                     }
     }
-    aviableSlots(minionSelected){
+    aviableMoveSlots(minionSelected){
 
         for (let i = 0; i < this.slots.length; i++){
 
@@ -93,7 +93,34 @@ export default class Grid{
                 const distance = slot.calculateDistance(minionSelected);
 
                 if (minionSelected.speed >= distance && slot.isEmpty){
-                    slot.isAviable = true;
+                    slot.isMoveAviable = true;
+                }
+            }
+        }
+    }
+
+    aviableAttackSlots(minionSelected, deck){
+
+        for (let i = 0; i < this.slots.length; i++){
+
+            for (let j = 0; j < this.slots[0].length; j++){
+
+                const slot = this.slots[i][j];
+                const distance = slot.calculateDistance(minionSelected);
+                const isSlotUsed = slot.isSlotUsed(deck);
+
+                let range;
+
+                if (minionSelected.weapon != undefined){
+                    range = minionSelected.weapon.range;
+                }
+
+                else{
+                    range = minionSelected.range;
+                }
+
+                if (range >= distance && isSlotUsed === false){
+                    slot.isAttackAviable = true;
                 }
             }
         }
@@ -106,7 +133,8 @@ export default class Grid{
             for (let j = 0; j < this.slots[0].length; j++){
 
                 const slot = this.slots[i][j];
-                slot.isAviable = false;
+                slot.isMoveAviable = false;
+                slot.isAttackAviable = false;
             }
         }
     }

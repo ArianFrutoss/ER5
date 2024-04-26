@@ -21,8 +21,9 @@ export default class MinionMovementPhase extends Phase {
         const isAnySlotHovered  = this.boardGrid.isAnySlot(SlotsState.HOVER);
         const isAnySlotSelected  = this.boardGrid.isAnySlot(SlotsState.SELECTED);
 
+        const minionSelected = isAnyCardSelected[2];
+
         let distance;
-        let minionSelected;
         let slotHovered;
         let slotSelected;
 
@@ -33,33 +34,26 @@ export default class MinionMovementPhase extends Phase {
 
         if (isAnyCardSelected[0]){
 
+            this.boardGrid.aviableMoveSlots(minionSelected);
             messagesContainer.activeMessage(messageMovimentPhase2);
         }
 
         if (isAnyCardSelected[0] && isAnySlotHovered[0]){
 
-            const minionPosition            = isAnyCardSelected[1];
             const slotPositionHoveredI      = isAnySlotHovered[1];
             const slotPositionHoveredJ      = isAnySlotHovered[2];
 
-            minionSelected    = this.activeMinionDeck.cards[minionPosition];
             slotHovered       = this.boardGrid.slots[slotPositionHoveredI][slotPositionHoveredJ];
-
-            this.boardGrid.aviableSlots(minionSelected);
 
             distance = slotHovered.calculateDistance(minionSelected);
         }
 
         if (isAnyCardSelected[0] && isAnySlotSelected[0]){
 
-            const minionPosition            = isAnyCardSelected[1];
             const slotPositionSelectedI     = isAnySlotSelected[1];
             const slotPositionSelectedJ     = isAnySlotSelected[2];
 
-            minionSelected    = this.activeMinionDeck.cards[minionPosition];
             slotSelected      = this.boardGrid.slots[slotPositionSelectedI][slotPositionSelectedJ];
-
-            this.boardGrid.aviableSlots(minionSelected);
 
             distance = slotSelected.calculateDistance(minionSelected);
         }

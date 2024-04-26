@@ -56,14 +56,17 @@
         <div id="user-data"></div>
         <div class="idioma">
             <label for="languages">Languages: </label>
-            <select name="languages" id="languages">
+            <select name="languages" id="languages" required>
+                <option value="" selected="selected">Select your Language</option>
                 <option value="0">ENGLISH</option>
                 <option value="1">EUSKERA</option>
             </select>
         </div>
         <div class="player_list">
             <label for="player_list">Players:</label>
-            <select hidden id="player_list" name="player_list"></select>
+            <select hidden id="player_list" name="player_list" required>
+                <option  value="" selected="selected">Select your Opponent</option>
+            </select>
         </div>
        
         <button hidden id="Logout"  class="btn-lobby" >Log Out</button>

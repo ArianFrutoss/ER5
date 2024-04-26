@@ -13,6 +13,7 @@ let logout = document.getElementById("Logout");
 let goToRegister = document.getElementById("goToRegister");
 let register = document.getElementById("register");
 let caja = document.getElementById("caja");
+let languages = document.getElementById("languages");
 let dropDown = document.getElementById("player_list");
 let statsBtn = document.getElementById("stats");
 let statsDiv = document.getElementById("statsDiv");
@@ -38,9 +39,10 @@ if (localStorage.getItem("username") != null) {
  
 
     dropDown.style.display = "block";
-    
+    dropDown[0].disabled = true
+    languages.selectedIndex = 0
+    languages[0].disabled = true
     let opponents = JSON.parse(localStorage.getItem("opponents"))
-
     for (let i = 0; i < opponents.length; i++) {
         const opponent = opponents[i].username;
         const option = document.createElement("option")

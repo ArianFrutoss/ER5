@@ -10,7 +10,8 @@ export default class Slot{
         this.ySize              = ySize;
         this.state              = SlotsState.NOT_SELECTED;
         this.isEmpty            = true;
-        this.isAviable          = false;
+        this.isMoveAviable      = false;
+        this.isAttackAviable    = false;
         this.card;
         this.grid;
     }
@@ -70,9 +71,15 @@ export default class Slot{
         const slotsYPos = this.yPos;
         const slotsXSize = this.xSize;
         const slotsYSize = this.ySize;
-        if (this.isAviable){
+
+        if (this.isMoveAviable){
             
             ctx.fillStyle = "green";
+        }
+
+        else if (this.isAttackAviable){
+            
+            ctx.fillStyle = "red";
         }
 
         else if (this.state === SlotsState.SELECTED){
@@ -189,6 +196,7 @@ export default class Slot{
     deselect(){
 
         this.state = SlotsState.NOT_SELECTED;
-        this.isAviable = false;
+        this.isMoveAviable = false;
+        this.isAttackAviable = false;
     }
 }

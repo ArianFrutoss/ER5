@@ -93,7 +93,7 @@ export default class Grid{
                 const distance = slot.calculateDistance(minionSelected);
 
                 if (minionSelected.speed >= distance && slot.isEmpty){
-                    slot.isAviable = true;
+                    slot.isMoveAviable = true;
                 }
             }
         }
@@ -119,7 +119,7 @@ export default class Grid{
                 }
 
                 if (range >= distance){
-                    slot.isAviable = true;
+                    slot.isAttackAviable = true;
                 }
             }
         }
@@ -132,7 +132,8 @@ export default class Grid{
             for (let j = 0; j < this.slots[0].length; j++){
 
                 const slot = this.slots[i][j];
-                slot.isAviable = false;
+                slot.isMoveAviable = false;
+                slot.isAttackAviable = false;
             }
         }
     }

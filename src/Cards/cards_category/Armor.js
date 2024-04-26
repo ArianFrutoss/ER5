@@ -1,4 +1,4 @@
-import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId} from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId, DurabilityColors} from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Armor extends Card{
@@ -269,9 +269,9 @@ export default class Armor extends Card{
 
 
                     if (size === CardId.EVENT_SIZE){
-                     
+                        
                         if(size === CardId.EVENT_SIZE){
-                     
+                            
                             if(this.cooldown >= 0.1){
                                 
                                 ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
@@ -293,7 +293,27 @@ export default class Armor extends Card{
                                 ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
                                 ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
                                 
-    
+                                // Dibujar los bordes del cuadrado
+                                const borderWidth = 5; // Grosor de los bordes
+                                ctx.strokeStyle = DurabilityColors.ARMOR; // Color de los bordes
+                                ctx.lineWidth = borderWidth; // Grosor de la línea
+
+                                // Dibujar los bordes izquierdo y superior
+                                ctx.beginPath();
+                                ctx.moveTo(xPos, yPos);
+                                ctx.lineTo(xPos, yPos + IconsPos.EVENT_FADE_HEIGTH);
+                                ctx.lineTo(xPos + IconsPos.EVENT_FADE_WIDTH, yPos + IconsPos.EVENT_FADE_HEIGTH);
+                                ctx.stroke();
+
+                                ctx.beginPath();
+                                ctx.moveTo(xPos, yPos);
+                                ctx.lineTo(xPos + IconsPos.EVENT_FADE_WIDTH, yPos);
+                                ctx.lineTo(xPos + IconsPos.EVENT_FADE_WIDTH, yPos + IconsPos.EVENT_FADE_HEIGTH);
+                                ctx.stroke();
+
+                                ctx.lineWidth = 1;
+                                ctx.strokeStyle = "black";
+                                
                                 let color = "white"
                                 ctx.fillStyle = color
                                 ctx.font = "bold 24px LongaIberica-DEMO";
@@ -302,6 +322,7 @@ export default class Armor extends Card{
                                     ctx.drawImage(
                                     this.imageAttributes[1],
                                     IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
+                                    
                             }
                         }
                     }
@@ -310,7 +331,7 @@ export default class Armor extends Card{
                 
                 ctx.drawImage(
                     this.imageReverse,
-                     xPos, yPos)
+                    xPos, yPos)
             }
             
                 ctx.setTransform(1, 0, 0, 1, 0, 0);

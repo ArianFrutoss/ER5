@@ -260,8 +260,8 @@ export const IconsPos = {
     PLAYER_NAME_Y: [787,295],
     VFX_X:[-25,-13,-10],
     VFX_Y:[-40,-15,-10],
-    EVENT_FADE_WIDTH: 100,
-    EVENT_FADE_HEIGTH: 100,
+    EVENT_FADE_WIDTH: 91,
+    EVENT_FADE_HEIGTH: 93,
     EVENT_CD_X: 30,
     EVENT_CD_Y: 47,
     EVENT_CD_IMAGE_X: 48,
@@ -356,4 +356,12 @@ export const MainCharacterId = {
 
 export const BuffId = {
     HERO_EMPOWERMENT:   53
+}
+
+export const DurabilityColors = {
+    ARMOR:  "#A9A9A9",
+    WEAPON: "#800000",
+    SPELL:  "#800080",
+    CURSE:  "#000000",
+    BUFF:   "#FFD700"
 }

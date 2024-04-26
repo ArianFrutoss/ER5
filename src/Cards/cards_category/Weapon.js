@@ -1,4 +1,4 @@
-import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId, DurabilityColors } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Weapon extends Card{
@@ -300,6 +300,26 @@ export default class Weapon extends Card{
     
                             ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
                             ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
+
+                            const borderWidth = 5; // Grosor de los bordes
+                            ctx.strokeStyle = DurabilityColors.WEAPON; // Color de los bordes
+                            ctx.lineWidth = borderWidth; // Grosor de la línea
+    
+                            // Dibujar los bordes izquierdo y superior
+                            ctx.beginPath();
+                            ctx.moveTo(xPos, yPos);
+                            ctx.lineTo(xPos, yPos + IconsPos.EVENT_FADE_HEIGTH);
+                            ctx.lineTo(xPos + IconsPos.EVENT_FADE_WIDTH, yPos + IconsPos.EVENT_FADE_HEIGTH);
+                            ctx.stroke();
+    
+                            ctx.beginPath();
+                            ctx.moveTo(xPos, yPos);
+                            ctx.lineTo(xPos + IconsPos.EVENT_FADE_WIDTH, yPos);
+                            ctx.lineTo(xPos + IconsPos.EVENT_FADE_WIDTH, yPos + IconsPos.EVENT_FADE_HEIGTH);
+                            ctx.stroke();
+    
+                            ctx.lineWidth = 1;
+                            ctx.strokeStyle = "black";
                             
 
                             let color = "white"

@@ -1,4 +1,4 @@
-import { BorderId, BuffId, CardActions, CardId, DecksId, IconsPos, MainCharacterId, VFXId } from "../../constants.js";
+import { BorderId, BuffId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, MainCharacterId, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 import EventContainer from "../../Events/EventContainer.js";
 
@@ -326,6 +326,27 @@ export default class Buff extends Card {
                         ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
                         ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
                         
+
+                        // Dibujar los bordes del cuadrado
+                        const borderWidth = 5; // Grosor de los bordes
+                        ctx.strokeStyle = DurabilityColors.BUFF; // Color de los bordes
+                        ctx.lineWidth = borderWidth; // Grosor de la línea
+
+                        // Dibujar los bordes izquierdo y superior
+                        ctx.beginPath();
+                        ctx.moveTo(xPos, yPos);
+                        ctx.lineTo(xPos, yPos + IconsPos.EVENT_FADE_HEIGTH);
+                        ctx.lineTo(xPos + IconsPos.EVENT_FADE_WIDTH, yPos + IconsPos.EVENT_FADE_HEIGTH);
+                        ctx.stroke();
+
+                        ctx.beginPath();
+                        ctx.moveTo(xPos, yPos);
+                        ctx.lineTo(xPos + IconsPos.EVENT_FADE_WIDTH, yPos);
+                        ctx.lineTo(xPos + IconsPos.EVENT_FADE_WIDTH, yPos + IconsPos.EVENT_FADE_HEIGTH);
+                        ctx.stroke();
+
+                        ctx.lineWidth = 1;
+                        ctx.strokeStyle = "black";
 
                         let color = "white"
                         ctx.fillStyle = color

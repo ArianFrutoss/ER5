@@ -44,5 +44,6 @@ export default class Timer{
         const valueRender = this.value <= 0 ? 0 : this.value
         ctx.fillText(valueRender, IconsPos.TURN_TIMER_X, IconsPos.TURN_TIMER_Y)
         ctx.strokeText(valueRender, IconsPos.TURN_TIMER_X, IconsPos.TURN_TIMER_Y)
+        ctx.fillStyle = "black"
     }
 }

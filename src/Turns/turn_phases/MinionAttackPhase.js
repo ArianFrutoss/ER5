@@ -44,7 +44,7 @@ export default class MinionAttackPhase extends Phase {
                 if(isAttackWithParry){  
     
                     const blockEvent = new AttackEvent(attacker, enemy);
-                    blockEvent.attackWithParry();
+                    blockEvent.attackWithParry(messagesContainer);
     
                 }else{
     

@@ -85,7 +85,7 @@ export class AttackEvent extends Event{
         return damage;
     }
 
-    attackWithParry(){
+    attackWithParry(messagesContainer){
         const enemyWeapon = this.objectiveMinion.weapon;
         let damage;
         const critic = this.calculateCritic();
@@ -114,12 +114,15 @@ export class AttackEvent extends Event{
 
                 enemyWeapon.durability -= defense;
 
+                const damageRender = "BLOCKED"
+                const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3);
+                messagesContainer.addMessage(doneDamage);
 
 
             }else{
                 const block = new BlockEvent(this.attackerMinion, this.objectiveMinion, damage);
 
-                block.execute();
+                block.execute(messagesContainer);
             }
      
 
@@ -144,11 +147,14 @@ export class AttackEvent extends Event{
                 }
 
                 enemyWeapon.durability -= defense;
+                const damageRender = "BLOCKED"
+                const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3);
+                messagesContainer.addMessage(doneDamage);
                 
             }else{
                 const block = new BlockEvent(this.attackerMinion, this.objectiveMinion, damage);
 
-                block.execute();
+                block.execute(messagesContainer);
             }
 
         }

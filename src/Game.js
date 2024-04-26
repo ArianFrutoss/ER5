@@ -202,15 +202,18 @@ export default class Game {
 
     // Funcion que roba las Cards del EventDeck y las asigna al HandDeck              
     assignCardsToHand(eventDeck, handDeck) {
-        
         for (let i = handDeck.cards.length; i < 5; i++) {
-            const card = eventDeck.cards[eventDeck.cards.length - 1]
-            handDeck.cards.push(card);
-            card.deck = handDeck
-            eventDeck.cards.pop();
+            const card = eventDeck.cards[eventDeck.cards.length - 1 ]
+            if (card.id === CardImageId.JOSEPH) {
+                i--
+                eventDeck.shuffle()
+            }else{
+                handDeck.cards.push(card);
+                card.deck = handDeck
+                eventDeck.cards.pop();
+            }
             
         }
-
     }
     
     assignMinionsToActiveMinionsDeck(minionDeck, activeMinionDeck) {

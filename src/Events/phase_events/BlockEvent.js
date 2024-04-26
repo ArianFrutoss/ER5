@@ -16,7 +16,7 @@ export default class BlockEvent extends Event{
     }
 
     // caso 2 durabilidad < al daño
-    execute(messagesContainer){
+    execute(messagesContainer, size, color){
 
         this.state  = Math.floor(Math.random() * 3);
         const state = this.state;
@@ -47,8 +47,13 @@ export default class BlockEvent extends Event{
 
         // Romper el arma del defensor
         enemyWeapon.durability = 0;
-        const damageRender = "-" + this.damage + "(" + (initialDmg - this.damage) + ")"
-        const doneDamage = new Messages(this.defenderMinion.xPos, this.defenderMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3);
+        let damageRender
+        if (this.damage === 0) {
+            damageRender = "BLOCKED"
+        }else{
+            damageRender = "-" + this.damage + "(" + (initialDmg - this.damage) + ")"
+        }
+        const doneDamage = new Messages(this.defenderMinion.xPos, this.defenderMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, size, color);
         messagesContainer.addMessage(doneDamage);
     }
     

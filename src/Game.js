@@ -179,6 +179,7 @@ export default class Game {
         this.turnContainer.buttonContainer.renderButtons(this.language);
         this.turnContainer.render(this.ctx, this.language, this.currentTurn);
         this.messagesContainer.render(this.ctx, this.language);
+        this.timerContainer.render(this.ctx)
     }
 
     updateGame() {

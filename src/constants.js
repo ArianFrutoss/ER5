@@ -274,6 +274,10 @@ export const IconsPos = {
     SCALED_WEAPON_Y: 50,
     SCALED_ARMOR_X: 400,
     SCALED_ARMOR_Y: 50,
+    JOSEPH_X: 67,
+    JOSEPH_Y: 77,
+    TURN_TIMER_X: 1560,
+    TURN_TIMER_Y: 640,
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 

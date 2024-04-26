@@ -41,4 +41,7 @@ export default class TimerContainer{
             }
         }
     }
+    render(ctx){
+        this.timer[TimerId.TURN_TIMER].render(ctx)
+    }
 }

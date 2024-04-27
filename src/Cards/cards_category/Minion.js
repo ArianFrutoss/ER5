@@ -101,6 +101,12 @@ export default class Minion extends Card {
             const index = this.deck.cards.indexOf(this)
             this.deck.cards.splice(index, 1)
             this.deck = undefined
+            if (enemy.weapon) {
+                enemy.weapon.action = CardActions.READY
+            }
+            if (enemy.armor) {
+                enemy.armor.action = CardActions.READY
+            }
         }
     }
 

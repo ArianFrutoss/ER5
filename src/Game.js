@@ -48,7 +48,7 @@ export default class Game {
         const eventContainer = new EventContainer()
         deckContainer.createDecks(data, cardImgs, language);
 
-        const buttonContainer = ButtonContainer.create(ctx);
+        const buttonContainer = ButtonContainer.create(ctx, assets.images[ImageTypes.BUTTON][0]);
 
         const turns = new TurnContainer(board, deckContainer, buttonContainer, eventContainer);
         const mouse = new Mouse(canvas);

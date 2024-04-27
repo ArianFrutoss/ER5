@@ -27,6 +27,7 @@ export default class Asset {
         this.loadCardType();
         this.loadBackground();
         this.loadTeamIcons();
+        this.loadButtonImages();
     }
 
     loadCardImages(data) {
@@ -97,6 +98,11 @@ export default class Asset {
     loadTeamIcons(){
 
         this.createImage(Images.TeamImages, "icons/card_team_icons");
+    }
+
+    loadButtonImages(){
+
+        this.createImage(Images.buttonImages, "others");
     }
 
     loadHandler() {

@@ -7,15 +7,15 @@ export default class ButtonContainer{
         this.state     = renderState.GAME;
     }
 
-    static create(ctx){
+    static create(ctx, assets){
         // Button(context, x, y, width, height, "texto", estado button, estado fase que devuelve)
-        const btnMove           = new Button(ctx, 330, 200, ["move", "mugitu"], ButtonState.NOT_SELECTED, PhaseStates.MOVEMENT, renderState.GAME);
-        const btnPrepareEvent   = new Button(ctx, 330, 350, ["prepare event", "prestatu"], ButtonState.NOT_SELECTED, PhaseStates.PREPARE_EVENT, renderState.GAME);
-        const btnUseEvent       = new Button(ctx, 330, 500, ["use event", "erabili"], ButtonState.NOT_SELECTED, PhaseStates.USE_EVENT_CARD, renderState.GAME);
-        const btnAttack         = new Button(ctx, 330, 650, ["attack", " eraso"], ButtonState.NOT_SELECTED, PhaseStates.ATTACK, renderState.GAME);
-        const btnEndTurn        = new Button(ctx, 1450, 450,["end turn", "txanda amaitu"], ButtonState.NOT_SELECTED, PhaseStates.DISCARD_CARD, renderState.GAME);
-        const btnParry          = new Button(ctx, 330, 300, ["Parry", "Blokeatu"], ButtonState.NOT_SELECTED, AttackState.PARRY, renderState.PARRY);
-        const btnNoParry        = new Button(ctx, 330, 600, ["No Parry", "Ez Blokeatu"], ButtonState.NOT_SELECTED, AttackState.ATTACK, renderState.PARRY);
+        const btnMove           = new Button(ctx, 340, 260, 119, 75, ["MOVE", "MUGITU"], ButtonState.NOT_SELECTED, PhaseStates.MOVEMENT, renderState.GAME, assets);
+        const btnPrepareEvent   = new Button(ctx, 340, 410, 119, 75, ["PREPARE", "PRESTATU"], ButtonState.NOT_SELECTED, PhaseStates.PREPARE_EVENT, renderState.GAME, assets);
+        const btnUseEvent       = new Button(ctx, 340, 560, 119, 75, ["USE", "ERABILI"], ButtonState.NOT_SELECTED, PhaseStates.USE_EVENT_CARD, renderState.GAME, assets);
+        const btnAttack         = new Button(ctx, 340, 710, 119, 75, ["ATTACK", "ERASO"], ButtonState.NOT_SELECTED, PhaseStates.ATTACK, renderState.GAME, assets);
+        const btnEndTurn        = new Button(ctx, 1493, 500, 117, 55, ["END\nTURN", "TXANDA\nAMAITU"], ButtonState.NOT_SELECTED, PhaseStates.DISCARD_CARD, renderState.GAME, assets);
+        const btnParry          = new Button(ctx, 340, 360, 119, 75, ["PARRY", "BLOKEATU"], ButtonState.NOT_SELECTED, AttackState.PARRY, renderState.PARRY, assets);
+        const btnNoParry        = new Button(ctx, 340, 660, 119, 75, ["NO\nPARRY", "EZ\nBLOKEATU"], ButtonState.NOT_SELECTED, AttackState.ATTACK, renderState.PARRY, assets);
 
 
 

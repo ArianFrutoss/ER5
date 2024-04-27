@@ -100,15 +100,18 @@ export default class Board{
                 ctx.drawImage(image, xPos, yPos) 
             }
 
-        deckLength = currentTurn === TurnId.PLAYER_1 ? deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards.length : 
-                                                       deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards.length
+         const deck = currentTurn === TurnId.PLAYER_1 ? deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards : 
+                                                       deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards
 
-        if ( deckLength > 13) {
+        const activeDeck = currentTurn === TurnId.PLAYER_1 ? deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards : 
+                                                             deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards                                               
+
+        if ( deck.length > 13) {
                 image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_FULL];  
-            } else if (deckLength >1) {
+            } else if (deck.length >1) {
                 image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_HALF];  
 
-            } else if(deckLength === 1){
+            } else if(deck.length === 1){
                 image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_EMPTY];  
             } else {
                 image = undefined
@@ -119,14 +122,18 @@ export default class Board{
                 ctx.drawImage(image, xPos, yPos)
             }
 
-            const enemyDeckLength = currentTurn === TurnId.PLAYER_1 ? deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards.length : 
-                                                                 deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards.length
-            if ( enemyDeckLength > 13) {
+            const enemyDeck = currentTurn === TurnId.PLAYER_1 ? deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards : 
+                                                                 deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards
+
+            const enemyActiveDeck = currentTurn === TurnId.PLAYER_1 ? deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards : 
+                                                                      deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards  
+
+            if ( enemyDeck.length > 13) {
                 image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_FULL];  
-            } else if (enemyDeckLength >1) {
+            } else if (enemyDeck.length >1) {
                 image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_HALF];  
 
-            } else if(enemyDeckLength === 1){
+            } else if(enemyDeck.length === 1){
                 image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_EMPTY];  
             } else {
                 image = undefined
@@ -142,11 +149,19 @@ export default class Board{
         yPos = 55;
 
         ctx.drawImage(
-
             image, xPos, yPos
         )
 
-        ctx.fillText(deckLength, image.width / 2 + xPos, image.height / 2 + yPos);
+        let hp = 0
+        let decks =[deck, activeDeck]
+        for (let j = 0; j < decks.length; j++) {
+            const deck = decks[j];
+            for (let i = 0; i < deck.length; i++) {
+                const card = deck[i];
+                hp += card.health
+            }
+        }
+        ctx.fillText(hp, image.width / 2 + xPos, image.height / 2 + yPos);
 
         image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
         xPos = 295;
@@ -156,8 +171,16 @@ export default class Board{
 
             image, xPos, yPos
         )
-
-        ctx.fillText(enemyDeckLength, image.width / 2 + xPos, image.height / 2 + yPos);
+        hp=0
+        let enemyDecks =[enemyDeck, enemyActiveDeck]
+        for (let j = 0; j < enemyDecks.length; j++) {
+            const deck = enemyDecks[j];
+            for (let i = 0; i < deck.length; i++) {
+                const card = deck[i];
+                hp += card.health
+            }
+        }
+        ctx.fillText(hp, image.width / 2 + xPos, image.height / 2 + yPos);
 
         image = images[ImageTypes.GAME_RARITY][RarityId.COMMON];
         xPos = 1595;

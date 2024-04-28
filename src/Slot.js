@@ -1,4 +1,4 @@
-import { SlotsState } from "./constants.js";
+import { GridId, SlotsState } from "./constants.js";
 
 export default class Slot{
 
@@ -13,7 +13,7 @@ export default class Slot{
         this.isMoveAviable      = false;
         this.isAttackAviable    = false;
         this.card;
-        this.grid;
+        this.gridId;
     }
 
     update(mouse, grid, deck){
@@ -97,7 +97,18 @@ export default class Slot{
             ctx.fillStyle = "black";
         }
 
-        ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
+        if (this.gridId === GridId.PLAYER_1_EVENT_GRID || 
+            this.gridId === GridId.PLAYER_2_EVENT_GRID) {
+                console.log("entro");
+            if (this.state != SlotsState.NOT_SELECTED) {
+                ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
+                
+            }
+            
+        } else {
+            ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
+
+        }
         ctx.globalAlpha = 1;
         ctx.fillStyle = "black";
     }

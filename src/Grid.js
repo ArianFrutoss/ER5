@@ -47,6 +47,7 @@ export default class Grid{
 
                 // Crear Slots
                 const slots = new Slot(slotsXPos, slotsYPos, slotsXsize, slotsYsize);
+                slots.gridId = gridId
 
                 slotsArray[i][j] = slots;
             }

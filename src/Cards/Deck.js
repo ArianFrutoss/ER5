@@ -140,6 +140,8 @@ export default class Deck {
 
     renderCards(ctx, language, mouse, team){
         let toolTip
+        let isCollidingWithWeapon
+
         for (let i = 0; i < this.cards.length; i++){
 
             const card = this.cards[i];
@@ -152,12 +154,31 @@ export default class Deck {
                 }
             }   
         }
+        
+        for (let i = 0; i < this.cards.length; i++){
+
+            const card = this.cards[i];
+            
+            if (card.category === TypeId.WEAPON){
+                
+                isCollidingWithWeapon = mouse.isCollidingWithCard(card);
+
+                if (isCollidingWithWeapon){
+
+                    break;
+                }
+            }
+        }
+        
         if (this.deckId != DecksId.PLAYER_1_HAND_DECK && this.deckId != DecksId.PLAYER_2_HAND_DECK) {
             if (toolTip) {
                 let yPosModifier = 0
                 let xPosModifier = 0
-                if (mouse.y >600) {
-                    yPosModifier = 100
+                if (mouse.y >600 && isCollidingWithWeapon) {
+                    yPosModifier = 83
+                }
+                else if (mouse.y >600){
+                    yPosModifier = 63
                 }
                 if (mouse.x >1750) {
                     xPosModifier = 178

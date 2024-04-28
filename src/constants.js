@@ -175,6 +175,8 @@ export const TypeId = {
     WEAPON:6,
     SPELL: 7,
 }
+export const TypeNames = ["Minion", "Buff", "Curse", "Hero", "Joseph", "Armor", "Weapon", "Spell"]
+
 export const RarityId = {
     COMMON:         0,
     RARE:           1,

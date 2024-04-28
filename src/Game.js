@@ -171,13 +171,14 @@ export default class Game {
     }
 
     renderGame() {
+        
         const images = this.images.images
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer, this.currentTurn);
         this.turnContainer.buttonContainer.renderButtons(this.language);
-        this.turnContainer.render(this.ctx, this.language, this.currentTurn);
+        this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
         this.messagesContainer.render(this.ctx, this.language);
         this.timerContainer.render(this.ctx)
     }

@@ -237,7 +237,21 @@ export default class Joseph extends Card{
                 ctx.fillStyle = "black"
             }
             ctx.setTransform(1, 0, 0, 1, 0, 0);
+            if (this.state === CardId.HOVER) {
+                return true
+            } else {
+                return false
+            }
             
+    }
+    renderToolTip(xPos, yPos, language, ctx){
+        ctx.fillStyle = '#d59d00'
+        ctx.fillRect(xPos, yPos, 178, 103 ) 
+
+        ctx.fillStyle = '#362315'
+        ctx.fillRect(xPos + 3, yPos + 3, 172, 97 ) 
+        ctx.fillStyle = 'white'
+        this.texts.texts[1].render(ctx, xPos, yPos-200, language) 
     }
 
     static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes){

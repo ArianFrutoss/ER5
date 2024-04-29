@@ -2,38 +2,52 @@ import { ButtonState, LanguageId } from "../constants.js";
 
 export default class Button {
 
-    constructor(ctx, x, y, text, state, phaseState, renderState){
+    constructor(ctx, x, y, width, height,  text, state, phaseState, renderState, img){
         
         this.ctx        = ctx;
         this.x          = x;
         this.y          = y;
-        this.width      = 150;
-        this.height     = 100;
+        this.width      = width;
+        this.height     = height;
         this.text       = text;
         this.state      = state;
         this.phaseState = phaseState;
         this.color      = "#582900";
+        this.img        = img;
 }
 
     render(language){
-        this.ctx.fillStyle = this.color;
-        this.roundRect(this.ctx, this.x, this.y, this.width, this.height, 10); // Llamada a la función para dibujar un rectángulo redondeado
-        this.ctx.fill();
-    
+        if (this.height>70) {
+            this.ctx.drawImage(this.img, this.x, this.y)
+            
+        }
+
+        if (this.state === ButtonState.SELECTED) {
+            this.ctx.fillStyle = "#C36F29";
+            this.ctx.fillRect(this.x+8, this.y+9, this.width, this.height); // Llamada a la función para dibujar un rectángulo redondeado
+            this.ctx.fillStyle = 'rgb(22, 22, 2)';
+        }else{
+            this.ctx.fillStyle = 'rgb(242, 211, 6)';
+        }
+        
         // Texto del botón
-        this.ctx.fillStyle      = '#ffffff';
-        this.ctx.font           = '20px Arial';
+        
+        this.ctx.font           = '20px Trajan Color';
         this.ctx.textAlign      = 'center';
         this.ctx.textBaseline   = 'middle';
 
-        switch(language){
-            case LanguageId.ENG:
-                this.ctx.fillText(this.text[LanguageId.ENG], this.x + this.width / 2, this.y + this.height / 2);
-                break;
+        const text = this.text[language].split("\n")
+        for (let i = 0; i < text.length; i++) {
+            const line = text[i];
+            let modifier = 0
+            if (text.length >1) {
+                modifier = 13
+            }
+            const xPos = (this.x + this.width / 2) + 8
+            const yPos = (this.y + this.height / 2) + 8 + i*25-modifier
+            this.ctx.fillText(line, xPos , yPos);
 
-            case LanguageId.EUS:
-                this.ctx.fillText(this.text[LanguageId.EUS], this.x + this.width / 2, this.y + this.height / 2);
-                break;
+            
         }
        
     }

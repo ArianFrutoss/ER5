@@ -1,4 +1,4 @@
-import { BorderId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, VFXId } from "../../constants.js";
+import { BorderId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, TypeNames, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Spell extends Card{
@@ -322,7 +322,28 @@ export default class Spell extends Card{
                      xPos, yPos)
             }
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
+                if (this.state === CardId.HOVER) {
+                    return true
+                } else {
+                    return false
+                }
             
+    }
+    renderToolTip(xPos, yPos, language, ctx){
+        ctx.fillStyle = '#d59d00'
+        ctx.fillRect(xPos, yPos, 178, 63 ) 
+
+        ctx.fillStyle = '#362315'
+        ctx.fillRect(xPos + 3, yPos + 3, 172, 57 ) 
+        ctx.fillStyle = 'white'
+
+        ctx.font ="15px LongaIberica-DEMO"
+        ctx.fillText('Name: ', xPos+35, yPos+20)
+        this.texts.texts[1].render(ctx, xPos-5, yPos-217, language) 
+
+        ctx.fillText('Type:', xPos+36, yPos+40)
+        ctx.fillText(TypeNames[this.category], xPos+115, yPos+40)
+        
     }
     checkIconColor(stat, previousStat) {
         if (stat < previousStat) {

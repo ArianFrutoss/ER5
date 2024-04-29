@@ -15,38 +15,36 @@ export class AttackEvent extends Event{
     }
 
     execute(messagesContainer) {
-        const critic = this.calculateCritic();
+        const critic = this.calculateCritic()
         const fail  = this.calculateFail();
         console.log(fail);
         let damage;
+        let size = 80
+        let color = "red"
 
         if (this.attackerMinion.weapon != undefined) {
             // Ataque con los atributos del minion y del arma
             damage = this.attackWithWeapon();
-      
-            if(critic){
-           
-                this.objectiveMinion.health -= Math.floor(damage * this.critic);
-            }else if(fail){
-                this.objectiveMinion.health -= 0;
-            }else{
-                this.objectiveMinion.health -= damage;
-            }
-
         } else {
             // Ataque con los atributos del minion
             damage = this.attack();
-            if(critic){
-                this.objectiveMinion.health -= Math.floor(damage * this.critic);
-            }else if(fail){
-                this.objectiveMinion.health -= 0;
-            }else{
-                this.objectiveMinion.health -= damage;
-            }
+        }
 
+        if(critic){
+            damage = Math.floor(damage * this.critic);
+            this.objectiveMinion.health -= damage
+            size = 100
+            color= "orange"
+        }else if(fail){
+            damage = 0
+            this.objectiveMinion.health -= damage;
+            size = 100
+            color= "white"
+        }else{
+            this.objectiveMinion.health -= damage;
         }
         
-        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3);
+        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, size, color);
         messagesContainer.addMessage(doneDamage);
     }
 
@@ -98,9 +96,13 @@ export class AttackEvent extends Event{
             damage = this.attackWithWeapon();
 
             if(critic){
-                damage = damage * this.critic;
+                damage = Math.floor(damage * this.critic);
+                size = 100
+                color= "orange"
             }else if(fail){
                 damage = 0;
+                size = 100
+                color= "white"
             }
 
             if(enemyWeapon.durability > damage * 0.75){
@@ -122,18 +124,21 @@ export class AttackEvent extends Event{
             }else{
                 const block = new BlockEvent(this.attackerMinion, this.objectiveMinion, damage);
 
-                block.execute(messagesContainer);
+                block.execute(messagesContainer, size, color);
             }
      
 
         } else {
             // Ataque con los atributos del minion
             damage = this.attack();
-            console.log(damage);
             if(critic){
-                damage = damage * this.critic;
+                damage = Math.floor(damage * this.critic);
+                size = 100
+                color= "orange"
             }else if(fail){
                 damage = 0;
+                size = 100
+                color= "white"
             }
 
 
@@ -154,7 +159,7 @@ export class AttackEvent extends Event{
             }else{
                 const block = new BlockEvent(this.attackerMinion, this.objectiveMinion, damage);
 
-                block.execute(messagesContainer);
+                block.execute(messagesContainer,size, color);
             }
 
         }

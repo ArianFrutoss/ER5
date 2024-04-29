@@ -1,4 +1,4 @@
-import { BoardId, DecksId, GridId, ImageTypes, RarityId } from "./constants.js";
+import { BoardId, DecksId, GridId, ImageTypes, RarityId, TurnId } from "./constants.js";
 import globals from "./globals.js";
 import Grid from "./Grid.js";
 
@@ -71,7 +71,7 @@ export default class Board{
         }
     }
 
-    render(images, ctx, canvas, deckContainer) {
+    render(images, ctx, canvas, deckContainer, currentTurn) {
 
         ctx.font = "30px LongaIberica-DEMO";
         
@@ -83,44 +83,85 @@ export default class Board{
 
             image, xPos, yPos
         )
+        let deckLength = deckContainer.decks[DecksId.EVENT_DECK].cards.length
+            if ( deckLength > 40) {
+                image = images[ImageTypes.BOARD_IMAGE][BoardId.EVENT_DECK_FULL];  
+            } else if (deckLength >1) {
+                image = images[ImageTypes.BOARD_IMAGE][BoardId.EVENT_DECK_HALF];  
 
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.EVENT_DECK_FULL];
-        xPos = 25;
-        yPos = canvas.height / 2 - image.height / 2;
+            } else if(deckLength === 1){
+                image = images[ImageTypes.BOARD_IMAGE][BoardId.EVENT_DECK_EMPTY];  
+            } else {
+                image = undefined
+            }
+            if (image!= undefined) {
+                xPos = 25;
+                yPos = canvas.height / 2 - image.height / 2;
+                ctx.drawImage(image, xPos, yPos) 
+            }
 
-        ctx.drawImage(
+         const deck = currentTurn === TurnId.PLAYER_1 ? deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards : 
+                                                       deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards
 
-            image, xPos, yPos
-        )
+        const activeDeck = currentTurn === TurnId.PLAYER_1 ? deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards : 
+                                                             deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards                                               
 
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_FULL];
-        xPos = 75;
-        yPos = 12;
+        if ( deck.length > 13) {
+                image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_FULL];  
+            } else if (deck.length >1) {
+                image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_HALF];  
 
-        ctx.drawImage(
+            } else if(deck.length === 1){
+                image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_EMPTY];  
+            } else {
+                image = undefined
+            }
+            if (image!= undefined) {
+                xPos = 75;
+                yPos = 12;
+                ctx.drawImage(image, xPos, yPos)
+            }
 
-            image, xPos, yPos
-        )
+            const enemyDeck = currentTurn === TurnId.PLAYER_1 ? deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards : 
+                                                                 deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards
 
-        image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_HALF];
-        xPos = 75;
-        yPos = 872;
+            const enemyActiveDeck = currentTurn === TurnId.PLAYER_1 ? deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards : 
+                                                                      deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards  
 
-        ctx.drawImage(
+            if ( enemyDeck.length > 13) {
+                image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_FULL];  
+            } else if (enemyDeck.length >1) {
+                image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_HALF];  
 
-            image, xPos, yPos
-        )
+            } else if(enemyDeck.length === 1){
+                image = images[ImageTypes.BOARD_IMAGE][BoardId.MINION_DECK_EMPTY];  
+            } else {
+                image = undefined
+            }
+            if (image!= undefined) {
+                xPos = 75;
+                yPos = 872;
+                ctx.drawImage(image, xPos, yPos)
+            }
 
         image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
         xPos = 295;
         yPos = 55;
 
         ctx.drawImage(
-
             image, xPos, yPos
         )
 
-        ctx.fillText(deckContainer.decks[DecksId.PLAYER_1_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
+        let hp = 0
+        let decks =[deck, activeDeck]
+        for (let j = 0; j < decks.length; j++) {
+            const deck = decks[j];
+            for (let i = 0; i < deck.length; i++) {
+                const card = deck[i];
+                hp += card.health
+            }
+        }
+        ctx.fillText(hp, image.width / 2 + xPos, image.height / 2 + yPos);
 
         image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
         xPos = 295;
@@ -130,8 +171,16 @@ export default class Board{
 
             image, xPos, yPos
         )
-
-        ctx.fillText(deckContainer.decks[DecksId.PLAYER_2_MINION_DECK].cards.length, image.width / 2 + xPos, image.height / 2 + yPos);
+        hp=0
+        let enemyDecks =[enemyDeck, enemyActiveDeck]
+        for (let j = 0; j < enemyDecks.length; j++) {
+            const deck = enemyDecks[j];
+            for (let i = 0; i < deck.length; i++) {
+                const card = deck[i];
+                hp += card.health
+            }
+        }
+        ctx.fillText(hp, image.width / 2 + xPos, image.height / 2 + yPos);
 
         image = images[ImageTypes.GAME_RARITY][RarityId.COMMON];
         xPos = 1595;
@@ -145,7 +194,7 @@ export default class Board{
             this.renderGrids(ctx)
 
     }
-    
+
     renderGrids(ctx) {
 
         // Cantidad de Grids que se van a renderizar

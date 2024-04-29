@@ -1,6 +1,6 @@
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState } from "../../constants.js";
+import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState, CardActions } from "../../constants.js";
 
 export default class MinionAttackPhase extends Phase {
 
@@ -80,6 +80,12 @@ export default class MinionAttackPhase extends Phase {
         if (enemy.health <= 0) {
             this.enemyActiveMinionDeck.cards.splice(enemyPosition, 1)
             enemy.state = CardId.DEAD
+            if (enemy.weapon) {
+                enemy.weapon.action = CardActions.READY
+            }
+            if (enemy.armor) {
+                enemy.armor.action = CardActions.READY
+            }
         }
     }
 

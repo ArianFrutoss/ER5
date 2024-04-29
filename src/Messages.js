@@ -3,7 +3,7 @@ import { MessageState, MessageType } from "./constants.js";
 
 export default class Messages{
 
-    constructor(xPos, yPos, message, type, state, timeInFade, timeInAppear, timeInOn){
+    constructor(xPos, yPos, message, type, state, timeInFade, timeInAppear, timeInOn, size = 80, color = "red"){
 
         this.xPos           = xPos;
         this.yPos           = yPos;
@@ -17,6 +17,8 @@ export default class Messages{
         this.fadeCounter    = 0;
         this.appearCounter  = 0;
         this.onCounter      = 0;
+        this.size           = size;
+        this.color          = color;
     }
 
     update(messages){
@@ -98,8 +100,8 @@ export default class Messages{
 
     renderDamageMessage(ctx){
 
-        ctx.font = "80px LongaIberica-DEMO";
-        ctx.fillStyle = "red";
+        ctx.font = this.size + "px LongaIberica-DEMO";
+        ctx.fillStyle = this.color;
         ctx.globalAlpha = this.alpha;
         ctx.fillText(this.message, this.xPos, this.yPos);
         ctx.globalAlpha = 1.0;

@@ -4,7 +4,8 @@ const cardIconsImages        = ["hp", "defense", "damage", "speed", "durability"
 const cardRarityImages       = ["common_card", "rare_card", "epic_card", "legendary_card", "mini_common_card", "mini_rare_card", "mini_epic_card", "mini_legendary_card"];
 const equipmentRarityImages  = ["common_equip", "rare_equip", "epic_equip", "legendary_equip", "void_equip", "mini_common_equip", "mini_rare_equip", "mini_epic_equip", "mini_legendary_equip", "mini_void_equip"];
 const gameRarityImages       = ["common_rarity", "rare_rarity", "epic_rarity", "legendary_rarity"];
-const cardTypeImages         = ["minion", "curse", "buff", "hero", "joseph", "armor", "weapon", "spell"];
+const cardTypeImages         = ["minion", "buff", "curse", "hero", "joseph", "armor", "weapon", "spell"];
 const TeamImages       = ["attacker", "defender"];
+const buttonImages           = ["button"]
 
-export const Images = {backgroundImages, cardBordersImages, cardIconsImages, cardRarityImages, equipmentRarityImages, gameRarityImages, cardTypeImages, TeamImages};                                   
+export const Images = {backgroundImages, cardBordersImages, cardIconsImages, cardRarityImages, equipmentRarityImages, gameRarityImages, cardTypeImages, TeamImages, buttonImages};                                   

@@ -35,8 +35,11 @@ export default class EventFactory {
     static createCommonEvent(card, objectiveMinion){
 
         if (card.action === CardActions.READY){
-            
+
+            const result = [];
             let length;
+
+            this.createDurabilityEvent(card);
 
             if (card.effect === undefined){
                 
@@ -54,14 +57,17 @@ export default class EventFactory {
                     case TypeId.BUFF:
                         const buff = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, -card.effect[i].common_effect_value, card);
                         buff.execute();
-                        return buff;
+                        result.push(buff);
+                        break;
                     case TypeId.CURSE:
                         const curse = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
                         curse.execute();
-                        return curse;
+                        result.push(curse);
+                        break;
                     case TypeId.SPELL:
                         const spell = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
-                        spell.execute();
+                        result.push(spell);
+                        break;
                     case TypeId.ARMOR:
                         const armor = new EquipEvent(card, objectiveMinion);
                         armor.execute();
@@ -74,6 +80,21 @@ export default class EventFactory {
                         break;
                 }
             }
+
+            return result;
+        }
+    }
+
+    createDurabilityEvent(card){
+        
+        switch (card.category) {
+            case TypeId.BUFF:
+            case TypeId.CURSE:
+            case TypeId.SPELL:
+                return new DurabilityEvent (EventsId.DURABILITY, card, card.durability)
+        
+            default:
+                break;
         }
     }
 

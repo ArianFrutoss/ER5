@@ -1,7 +1,7 @@
 import { CardActions } from "../../constants.js";
 import Event from "../Event.js";
 
-export default class ReduceDurabilityEvent extends Event{
+export default class DurabilityEvent extends Event{
 
     constructor(id, card){
         super()

@@ -1,17 +1,14 @@
-import { CardActions } from "../../constants.js";
 import Event from "../Event.js";
 
-export default class DurabilityEvent extends Event{
+export class DurabilityEvent extends Event{
 
-    constructor(id, card){
+    constructor(card){
         super()
-        this.id         = id
         this.card       = card;
     }
     execute(){
         this.card.durability -= 0.5
         if (this.card.durability === 0) {
-            this.card.action =  CardActions.WORN_OUT
             return true
         } else{
             return false

@@ -1,5 +1,6 @@
 import { CardActions, DecksId, EventsId, MainCharacterId, StatsId, TypeId } from "../constants.js";
 import { CooldownEvent } from "./temp_events/CooldownEvent.js";
+import { DurabilityEvent } from "./temp_events/DurabilityEvent.js";
 import { ModifyAttributeEvent } from "./temp_events/ModifyAttributesEvent.js";
 import { EquipEvent } from "./temp_events/EquipEvent.js";
 import { DestroyAllMinionsEvent } from "./phase_events/DestroyAllMinionsEvent.js";
@@ -32,14 +33,25 @@ export default class EventFactory {
         }
     }
 
+    static createDurabilityEvent(card){
+        
+        switch (card.category) {
+            case TypeId.BUFF:
+            case TypeId.CURSE:
+            case TypeId.SPELL:
+                return new DurabilityEvent (card);
+        
+            default:
+                break;
+        }
+    }
+
     static createCommonEvent(card, objectiveMinion){
 
         if (card.action === CardActions.READY){
 
             const result = [];
             let length;
-
-            this.createDurabilityEvent(card);
 
             if (card.effect === undefined){
                 
@@ -82,19 +94,6 @@ export default class EventFactory {
             }
 
             return result;
-        }
-    }
-
-    createDurabilityEvent(card){
-        
-        switch (card.category) {
-            case TypeId.BUFF:
-            case TypeId.CURSE:
-            case TypeId.SPELL:
-                return new DurabilityEvent (EventsId.DURABILITY, card, card.durability)
-        
-            default:
-                break;
         }
     }
 

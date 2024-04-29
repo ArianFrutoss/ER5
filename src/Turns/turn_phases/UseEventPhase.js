@@ -80,6 +80,7 @@ export default class UseEventPhase extends Phase{
 
                 if (isAnyMinionHovered[0] && !mouse.leftClick   && mouse.previousStateLeft) {
 
+                    eventContainer.createDurabilityEvent(eventCard)
                     eventContainer.createCommonEvent(eventCard, minionCard)
 
                     return true;

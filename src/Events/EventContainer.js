@@ -10,6 +10,11 @@ export default class EventContainer {
         this.events.push(event)
     }
 
+    createDurabilityEvent(card){
+        const event = EventFactory.createDurabilityEvent(card)
+        this.events.push(event)
+    }
+
     createCommonEvent(card, objectiveMinion){
         const event = EventFactory.createCommonEvent(card, objectiveMinion)
         

@@ -28,7 +28,6 @@ function login(){
             
             localStorage.setItem("opponents", JSON.stringify(res.opponents))
             
-            
             let gameScreen = document.getElementById("login");
             gameScreen.style.display = "none";
 

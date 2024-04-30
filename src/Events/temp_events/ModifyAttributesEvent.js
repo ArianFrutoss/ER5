@@ -50,6 +50,10 @@ export class ModifyAttributeEvent extends Event{
                         this.value = this.objetive.speed;
                     }
                     this.objetive.speed -= this.value;
+                    if (this.objetive.speed < 0){
+
+                        this.objetive.speed = 0;
+                    }
                     break;
                 default:
                     break;

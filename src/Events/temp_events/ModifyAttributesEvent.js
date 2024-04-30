@@ -43,6 +43,10 @@ export class ModifyAttributeEvent extends Event{
                         this.value = this.objetive.health;
                     }
                     this.objetive.health -= this.value;
+                    if (this.objetive.health < 1){
+
+                        this.objetive.health = 1;
+                    }
                     break;
                 case "Speed":
                     if (this.value === 0){

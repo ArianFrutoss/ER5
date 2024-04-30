@@ -10,7 +10,7 @@ export class ModifyAttributeToAllMinions extends Event{
     }
 
     execute(){
-        this.card.durability -= 0.5
+        
         if (this.card.durability === 0) {
             return true
         } else{

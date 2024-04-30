@@ -11,37 +11,48 @@ export class ModifyAttributeEvent extends Event{
     }
 
     execute(){
-            if(this.card != undefined){
-            this.card.durability -= 0.5;
-            
+        if(this.card != undefined){
+
+            if (this.card.durability <= 0){
+
+                return true;
+            }
+
             switch (this.attribute){
                 case "Attack":
+                    if (this.value === 0){
+
+                        this.value = this.objetive.attack;
+                    }
                     this.objetive.attack -= this.value;
                     break;
                 case "Defense":
+                    if (this.value === 0){
+                        
+                        this.value = this.objetive.defense;
+                    }
                     this.objetive.defense -= this.value;
                     break;
                 case "Health":
+                    if (this.value === 0){
+                        
+                        this.value = this.objetive.health;
+                    }
                     this.objetive.health -= this.value;
                     break;
                 case "Speed":
+                    if (this.value === 0){
+                        
+                        this.value = this.objetive.speed;
+                    }
                     this.objetive.speed -= this.value;
                     break;
                 default:
                     break;
             }
 
-            if (this.card.durability === 0){
-
-                return true;
-            }
-
-            else{
-
-                return false;
-            }
+            return false;
         }
-        
     }
 
     executeAllCardsFromDeck(deck){

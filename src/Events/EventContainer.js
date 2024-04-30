@@ -10,12 +10,17 @@ export default class EventContainer {
         this.events.push(event)
     }
 
+    createDurabilityEvent(card){
+        const event = EventFactory.createDurabilityEvent(card)
+        this.events.push(event)
+    }
+
     createCommonEvent(card, objectiveMinion){
         const event = EventFactory.createCommonEvent(card, objectiveMinion)
         
-        if (event != undefined){
-            
-            this.events.push(event)
+        for (let i = 0; i < event.length; i++){
+
+            this.events.push(event[i])
         }
     }
 
@@ -28,7 +33,7 @@ export default class EventContainer {
         const destroyEvents = EventFactory.createDestroyAllEvents(eventDecks)
         destroyEvents.execute(mouse)
 
-        const ModifyAttributeEvent = EventFactory.createModifyAttributeToAllMinions(decks, josephCard)
+        const ModifyAttributeEvent = EventFactory.createModifyAttributeToAllMinions(minionDecks, josephCard)
         this.events.push(ModifyAttributeEvent)
     }
 

@@ -39,6 +39,7 @@ export default class EventFactory {
             case TypeId.BUFF:
             case TypeId.CURSE:
             case TypeId.SPELL:
+            case TypeId.JOSEPH:
                 return new DurabilityEvent (card);
         
             default:
@@ -110,7 +111,8 @@ export default class EventFactory {
     static createModifyAttributeEvent(card, objectiveMinion){
         const length = card.effect != undefined ? card.effect.length : 1;
         for (let i = 0; i < length; i++) {
-            const joseph = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
+
+            const joseph = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
             joseph.execute()
         }
     }

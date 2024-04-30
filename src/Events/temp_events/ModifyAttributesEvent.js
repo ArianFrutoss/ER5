@@ -25,6 +25,10 @@ export class ModifyAttributeEvent extends Event{
                         this.value = this.objetive.attack;
                     }
                     this.objetive.attack -= this.value;
+                    if (this.objetive.attack < 0){
+
+                        this.objetive.attack = 0;
+                    }
                     break;
                 case "Defense":
                     if (this.value === 0){

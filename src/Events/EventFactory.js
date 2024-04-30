@@ -79,7 +79,7 @@ export default class EventFactory {
                         break;
                     case TypeId.SPELL:
                         const spell = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
-                        result.push(spell);
+                        spell.execute();
                         break;
                     case TypeId.ARMOR:
                         const armor = new EquipEvent(card, objectiveMinion);

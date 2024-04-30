@@ -25,7 +25,7 @@ function login(){
             localStorage.setItem("username", res.username);
             localStorage.setItem("email", res.email);
             localStorage.setItem("opponents", JSON.stringify(res.opponents))
-            
+            localStorage.setItem("mongo_id", res.mongo_id);
             let gameScreen = document.getElementById("login");
             gameScreen.style.display = "none";
 

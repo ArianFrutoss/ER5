@@ -13,7 +13,7 @@ export class ModifyAttributeEvent extends Event{
     execute(){
         if(this.card != undefined){
 
-            if (this.card.durability <= 0){
+            if (this.card.durability <= 0 && this.card.durability != null){
 
                 return true;
             }

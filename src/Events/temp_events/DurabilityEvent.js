@@ -7,11 +7,15 @@ export class DurabilityEvent extends Event{
         this.card       = card;
     }
     execute(){
-        this.card.durability -= 0.5
-        if (this.card.durability === 0) {
-            return true
-        } else{
-            return false
+
+        if (this.card.durability != null){
+
+            this.card.durability -= 0.5
+            if (this.card.durability === 0) {
+                return true
+            } else{
+                return false
+            }
         }
     }
 }

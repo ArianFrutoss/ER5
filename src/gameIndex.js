@@ -171,7 +171,6 @@ function createVsWinRateChart(opponents){
 for (let i = 0; i < opponents.length; i++) {
   const opponent = opponents[i];
   addElement(opponent)
-  addElement(opponent)
 }
 
 }

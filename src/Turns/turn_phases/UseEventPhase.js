@@ -78,12 +78,14 @@ export default class UseEventPhase extends Phase{
                 const minionPosition    = isAnyMinionHovered[1]
                 const minionCard        = minionDeck.cards[minionPosition]
 
-                if (isAnyMinionHovered[0] && !mouse.leftClick   && mouse.previousStateLeft) {
+                if (isAnyMinionHovered[0] && !mouse.leftClick && mouse.previousStateLeft) {
 
-                    eventContainer.createDurabilityEvent(eventCard)
-                    eventContainer.createCommonEvent(eventCard, minionCard)
+                    let result;
 
-                    return true;
+                    result = eventContainer.createDurabilityEvent(eventCard);
+                    result = eventContainer.createCommonEvent(eventCard, minionCard);
+
+                    return result;
                 }
             }
         }

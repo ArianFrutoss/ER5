@@ -34,22 +34,25 @@ export default class EventFactory {
     }
 
     static createDurabilityEvent(card){
-        
-        switch (card.category) {
-            case TypeId.BUFF:
-            case TypeId.CURSE:
-            case TypeId.SPELL:
-            case TypeId.JOSEPH:
-                return new DurabilityEvent (card);
-        
-            default:
-                break;
+
+        if (card.action != CardActions.ON_USE){
+
+            switch (card.category) {
+                case TypeId.BUFF:
+                case TypeId.CURSE:
+                case TypeId.SPELL:
+                case TypeId.JOSEPH:
+                    return new DurabilityEvent (card);
+            
+                default:
+                    break;
+            }
         }
     }
 
     static createCommonEvent(card, objectiveMinion){
 
-        if (card.action === CardActions.READY){
+        if (card.action === CardActions.READY && card.action != CardActions.ON_USE){
 
             const result = [];
             let length;

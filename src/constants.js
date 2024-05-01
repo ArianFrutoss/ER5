@@ -57,7 +57,6 @@ export const MovePhaseStates = {
 }
 
 export const CardActions = {
-    NOT_ACTIVE:    -1,
     COOLDOWN:       0,
     READY:          1,
     ON_USE:         2,

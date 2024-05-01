@@ -1,3 +1,4 @@
+import { CardActions, CardId } from "../../constants.js";
 import Event from "../Event.js";
 
 export class ModifyAttributeEvent extends Event{
@@ -11,7 +12,10 @@ export class ModifyAttributeEvent extends Event{
     }
 
     execute(){
-        if(this.card != undefined){
+
+        if(this.card != undefined && this.objetive.state != CardId.DEAD){
+
+            this.card.action = CardActions.ON_USE;
 
             if (this.card.durability <= 0 && this.card.durability != null){
 
@@ -64,6 +68,12 @@ export class ModifyAttributeEvent extends Event{
             }
 
             return false;
+        }
+
+        else{
+
+            this.card.action = CardActions.WORN_OUT;
+            return true;
         }
     }
 

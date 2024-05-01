@@ -62,7 +62,6 @@ export default class EventContainer {
                 }
             }
         }
-        console.log(this.events);
     }
 
     createHeroEvents(activeMinionDeck, activeEnemyMinionDeck, hero, card, turn){

@@ -96,9 +96,7 @@ export default class Buff extends Card {
                 break;
 
             case CardActions.READY:
-                this.updateReady(); // Entro aqui
-              
-                this.action = CardActions.ON_USE; 
+                this.updateReady(); // Entro aqui 
                 break;
 
             case CardActions.NOT_ACTIVE:
@@ -141,6 +139,7 @@ export default class Buff extends Card {
 
         switch(id){
             case BuffId.HERO_EMPOWERMENT:
+                this.action = CardActions.ON_USE;
                 const activeMinionDeck      = this.turn.activeMinionDeck;
                 const hero                  = this.turn.mainCharacter;
                 const heroEmpowernment      = this;

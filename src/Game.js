@@ -36,6 +36,7 @@ export default class Game {
         this.currentTurn = firstTurn;
         this.messagesContainer = messagesContainer;
         this.timerContainer = timerContainer;
+        this.finished = false;
     }
 
     static init(data, canvas, ctx, language) {
@@ -122,7 +123,7 @@ export default class Game {
 
                 if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length + 
                    this.turnContainer.turnContainer[this.currentTurn].minionDeck.cards.length === 0){
-                    this.gameState = GameState.GAMEOVER
+                    this.gameState = GameState.SEND_DATA;
                 }else{
                     if(this.turnContainer.turnContainer[this.currentTurn].finished){
                         this.turnContainer.turnContainer[this.currentTurn].finished = false
@@ -139,10 +140,16 @@ export default class Game {
                 break;
 
             case GameState.GAMEOVER:
-                this.sendStatsData();
                 console.log("gameover");
+                if(this.finished){
+                    window.location.reload();
+                }
                 break;
-
+            
+            case GameState.SEND_DATA:
+                
+                this.sendStatsData();
+                this.gameState = GameState.GAMEOVER;
             default:
 
                 break;
@@ -419,29 +426,31 @@ export default class Game {
         const loser  = player1hp === 0 ? p1MongoId : p2MongoId;
         
 
-        const game = [{
-            "players": [
+        const game = {
+            players: [
                 {
-                  "player_id": p1MongoId,
-                  "meleeHits": p1MeleHits,
-                  "rangedHits": p1RangeHits,
-                  "damageDone": p1DoneDamage,
-                  "damageReceived": p2DoneDamage
+                    player_id: p1MongoId,
+                    meleeHits: p1MeleHits,
+                    rangedHits: p1RangeHits,
+                    damageDone: p1DoneDamage,
+                    damageReceived: p2DoneDamage
                 },
                 {
-                    "player_id": p2MongoId,
-                    "meleeHits": p2MeleHits,
-                    "rangedHits": p2RangeHits,
-                    "damageDone": p2DoneDamage,
-                    "damageReceived": p1DoneDamage
+                    player_id: p2MongoId,
+                    meleeHits: p2MeleHits,
+                    rangedHits: p2RangeHits,
+                    damageDone: p2DoneDamage,
+                    damageReceived: p1DoneDamage
                 },
             
             ],
             winner: winner,
             loser: loser
-        }]
+        }
+
+        console.log(JSON.stringify(game));
         
-        fetch(`${BaseURL[BaseURLValue]}/newGame`, {
+        fetch(`http://localhost:4000/newGame`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -449,11 +458,8 @@ export default class Game {
             body: JSON.stringify(game)
             
         })
-        .then((res) => res.json())
         .then((res) => {
-            console.log(res);
-            
-            window.location.reload();
+            this.finished = true;
         })
     }
 

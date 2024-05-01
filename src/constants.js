@@ -11,7 +11,8 @@ export const GameState = {
     GAMEOVER:       5,
     LOAD_CONTROLS:  6,
     CONTROLS:       7,
-    INVALID:        8
+    INVALID:        8,
+    SEND_DATA:      9
 }
 
 export const TurnId = {

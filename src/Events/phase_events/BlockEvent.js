@@ -55,6 +55,8 @@ export default class BlockEvent extends Event{
         }
         const doneDamage = new Messages(this.defenderMinion.xPos, this.defenderMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, size, color);
         messagesContainer.addMessage(doneDamage);
+
+        return this.damage;
     }
     
 }

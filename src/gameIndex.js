@@ -74,6 +74,7 @@ btnPlay.addEventListener("click", init);
 function showBtnIfOpponentSelected() {
         if (dropDown.value != "") {
         btnPlay.style.display = "block"
+        localStorage.setItem("index", dropDown.selectedIndex - 1);
     }
 }
 
@@ -170,7 +171,6 @@ function getOpponent(list, id){
 function createVsWinRateChart(opponents){
 for (let i = 0; i < opponents.length; i++) {
   const opponent = opponents[i];
-  addElement(opponent)
   addElement(opponent)
 }
 

@@ -73,4 +73,6 @@ export default class TurnContainer {
         turn.render(ctx, language, currentTurn, xPos, yPos, mouse, currentTurn)
         enemyTurn.render(ctx, language, pos, enemyXpos, enemyYpos, mouse, currentTurn)
     }
+
+    
 }

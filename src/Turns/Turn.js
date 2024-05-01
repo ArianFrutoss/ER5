@@ -39,7 +39,12 @@ export default class Turn {
         this.finished           = false
         this.turnId             = turnId
         this.name               = name;
-        this.josephDeck             = josephDeck;
+        this.josephDeck         = josephDeck;
+        this.player             = null;
+        this.damageDone         = 0;
+        this.meleHits           = 0;
+        this.rangeHits          = 0;
+        this.hp                 = 0;
     }
 
     createPhases(mouse, grids, decks, turnCounter){
@@ -79,7 +84,7 @@ export default class Turn {
 
     update(mouse, enemyActiveMinionDeck, messagesContainer, timerContainer){
      
-        
+        this.updateStatsToSendDatabase();
         switch(this.state){
             
             case TurnStates.INITIALIZE:
@@ -164,6 +169,8 @@ export default class Turn {
 
     execute(mouse, messagesContainer, timerContainer){
         
+
+
         // Esto es el turnLoop
         switch (this.phaseState) {
             case PhaseStates.PREPARE_EVENT:
@@ -394,5 +401,20 @@ export default class Turn {
             }
             ctx.filter = "blur(3px)";
         }
+    }
+
+    updateStatsToSendDatabase(){
+        
+        const damageDone = this.phasesArray[PhaseStates.ATTACK].damageDone + this.phasesArray[PhaseStates.USE_EVENT_CARD].damageDone;
+        const meleHits   = this.phasesArray[PhaseStates.ATTACK].meleHits;
+        const rangeHits  = this.phasesArray[PhaseStates.ATTACK].rangeHits;
+
+        this.damageDone = damageDone;
+        this.meleHits   = meleHits;
+        this.rangeHits  = rangeHits;
+        // console.log(" Daño total:" + this.phasesArray[PhaseStates.ATTACK].damageDone);
+        // console.log("Mele hits" + this.phasesArray[PhaseStates.ATTACK].meleHits);
+        // console.log(" Range hits" + this.phasesArray[PhaseStates.ATTACK].rangeHits);
+        // console.log("Daño total eventos: " + this.phasesArray[PhaseStates.USE_EVENT_CARD].damageDone);
     }
 }

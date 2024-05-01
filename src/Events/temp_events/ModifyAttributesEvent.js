@@ -1,3 +1,4 @@
+import { CardActions, CardId } from "../../constants.js";
 import Event from "../Event.js";
 
 export class ModifyAttributeEvent extends Event{
@@ -11,37 +12,69 @@ export class ModifyAttributeEvent extends Event{
     }
 
     execute(){
-            if(this.card != undefined){
-            this.card.durability -= 0.5;
-            
+
+        if(this.card != undefined && this.objetive.state != CardId.DEAD){
+
+            this.card.action = CardActions.ON_USE;
+
+            if (this.card.durability <= 0 && this.card.durability != null){
+
+                return true;
+            }
+
             switch (this.attribute){
                 case "Attack":
+                    if (this.value === 0){
+
+                        this.value = this.objetive.attack;
+                    }
                     this.objetive.attack -= this.value;
+                    if (this.objetive.attack < 0){
+
+                        this.objetive.attack = 0;
+                    }
                     break;
                 case "Defense":
+                    if (this.value === 0){
+                        
+                        this.value = this.objetive.defense;
+                    }
                     this.objetive.defense -= this.value;
                     break;
                 case "Health":
+                    if (this.value === 0){
+                        
+                        this.value = this.objetive.health;
+                    }
                     this.objetive.health -= this.value;
+                    if (this.objetive.health < 1){
+
+                        this.objetive.health = 1;
+                    }
                     break;
                 case "Speed":
+                    if (this.value === 0){
+                        
+                        this.value = this.objetive.speed;
+                    }
                     this.objetive.speed -= this.value;
+                    if (this.objetive.speed < 0){
+
+                        this.objetive.speed = 0;
+                    }
                     break;
                 default:
                     break;
             }
 
-            if (this.card.durability === 0){
-
-                return true;
-            }
-
-            else{
-
-                return false;
-            }
+            return false;
         }
-        
+
+        else{
+
+            this.card.action = CardActions.WORN_OUT;
+            return true;
+        }
     }
 
     executeAllCardsFromDeck(deck){

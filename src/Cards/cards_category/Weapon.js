@@ -18,8 +18,7 @@ export default class Weapon extends Card{
         this.durability     = durability;
         this.previousDurability = durability
         this.cooldown       = cooldown;
-        this.previousCooldown = cooldown;
-        this.action         = CardActions.NOT_ACTIVE      
+        this.previousCooldown = cooldown;     
     }
     updateScale(mouse, decks){
 

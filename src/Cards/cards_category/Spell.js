@@ -111,7 +111,7 @@ export default class Spell extends Card{
         }
     }
     checkDurability(){
-        if (this.durability <= 0) {
+        if (this.durability <= 0 && this.durability != null) {
             this.action = CardActions.WORN_OUT
         }
     }
@@ -254,9 +254,17 @@ export default class Spell extends Card{
                         ctx.drawImage(
                             this.imageAttributes[1],
                             IconsPos.FOURTH_ICON_X[size] + xPos, IconsPos.FOURTH_ICON_Y[size] + yPos)
-                        ctx.fillText(Math.ceil(durabilityRender), IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
-                        ctx.strokeText(Math.ceil(durabilityRender), IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
 
+                            if (this.durability != null){
+
+                                ctx.fillText(Math.ceil(durabilityRender), IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                                ctx.strokeText(Math.ceil(durabilityRender), IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                            }
+                            
+                            else{
+
+                                ctx.fillText("∞", IconsPos.FOURTH_ICON_NUMBER_X[size] + xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
+                            }
                     }
 
                     if(size === CardId.EVENT_SIZE){
@@ -307,8 +315,17 @@ export default class Spell extends Card{
                             let color = "white"
                             ctx.fillStyle = color
                             ctx.font = "bold 24px LongaIberica-DEMO";
-                            ctx.fillText(Math.ceil(durabilityRender), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
-                            ctx.strokeText(Math.ceil(durabilityRender), IconsPos.EVENT_CD_X + xPos, IconsPos.EVENT_CD_Y + yPos);
+
+                            if (this.durability != null){
+
+                                ctx.fillText(Math.ceil(durabilityRender), xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                                ctx.strokeText(Math.ceil(durabilityRender), IconsPos.EVENT_CD_X + xPos, IconsPos.EVENT_CD_Y + yPos);
+                            }
+                            
+                            else{
+
+                                ctx.fillText("∞", xPos + IconsPos.EVENT_CD_X, yPos + IconsPos.EVENT_CD_Y);
+                            }
 
                             ctx.drawImage(
                                 this.imageAttributes[1],

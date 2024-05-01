@@ -1,5 +1,6 @@
 import { CardActions, DecksId, EventsId, MainCharacterId, StatsId, TypeId } from "../constants.js";
 import { CooldownEvent } from "./temp_events/CooldownEvent.js";
+import { DurabilityEvent } from "./temp_events/DurabilityEvent.js";
 import { ModifyAttributeEvent } from "./temp_events/ModifyAttributesEvent.js";
 import { EquipEvent } from "./temp_events/EquipEvent.js";
 import { DestroyAllMinionsEvent } from "./phase_events/DestroyAllMinionsEvent.js";
@@ -32,10 +33,28 @@ export default class EventFactory {
         }
     }
 
+    static createDurabilityEvent(card){
+
+        if (card.action != CardActions.ON_USE){
+
+            switch (card.category) {
+                case TypeId.BUFF:
+                case TypeId.CURSE:
+                case TypeId.SPELL:
+                case TypeId.JOSEPH:
+                    return new DurabilityEvent (card);
+            
+                default:
+                    break;
+            }
+        }
+    }
+
     static createCommonEvent(card, objectiveMinion){
 
-        if (card.action === CardActions.READY){
-            
+        if (card.action === CardActions.READY && card.action != CardActions.ON_USE){
+
+            const result = [];
             let length;
 
             if (card.effect === undefined){
@@ -54,14 +73,17 @@ export default class EventFactory {
                     case TypeId.BUFF:
                         const buff = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, -card.effect[i].common_effect_value, card);
                         buff.execute();
-                        return buff;
+                        result.push(buff);
+                        break;
                     case TypeId.CURSE:
                         const curse = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
                         curse.execute();
-                        return curse;
+                        result.push(curse);
+                        break;
                     case TypeId.SPELL:
                         const spell = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
                         spell.execute();
+                        break;
                     case TypeId.ARMOR:
                         const armor = new EquipEvent(card, objectiveMinion);
                         armor.execute();
@@ -74,6 +96,8 @@ export default class EventFactory {
                         break;
                 }
             }
+
+            return result;
         }
     }
 
@@ -90,7 +114,8 @@ export default class EventFactory {
     static createModifyAttributeEvent(card, objectiveMinion){
         const length = card.effect != undefined ? card.effect.length : 1;
         for (let i = 0; i < length; i++) {
-            const joseph = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value);
+
+            const joseph = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
             joseph.execute()
         }
     }

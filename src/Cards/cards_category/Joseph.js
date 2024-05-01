@@ -90,6 +90,7 @@ export default class Joseph extends Card{
                 this.xPos = 1750
                 this.yPos = 50
                 this.size = CardId.SMALL_SIZE
+                this.eventContainer.createDurabilityEvent(this)
                 this.eventContainer.createJosephEvents(this.deckObjetives, this, mouse)
                 this.action = CardActions.ON_USE
                 break;

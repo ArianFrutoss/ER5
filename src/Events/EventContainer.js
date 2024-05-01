@@ -10,13 +10,32 @@ export default class EventContainer {
         this.events.push(event)
     }
 
+    createDurabilityEvent(card){
+        const event = EventFactory.createDurabilityEvent(card)
+
+        if (event != undefined){
+
+            this.events.push(event)
+            return true;
+        }
+
+        return false;
+    }
+
     createCommonEvent(card, objectiveMinion){
         const event = EventFactory.createCommonEvent(card, objectiveMinion)
         
         if (event != undefined){
-            
-            this.events.push(event)
+
+            for (let i = 0; i < event.length; i++){
+
+                this.events.push(event[i]);
+            }
+
+            return true;
         }
+
+        return false;
     }
 
     createJosephEvents(decks, josephCard, mouse){
@@ -28,7 +47,7 @@ export default class EventContainer {
         const destroyEvents = EventFactory.createDestroyAllEvents(eventDecks)
         destroyEvents.execute(mouse)
 
-        const ModifyAttributeEvent = EventFactory.createModifyAttributeToAllMinions(decks, josephCard)
+        const ModifyAttributeEvent = EventFactory.createModifyAttributeToAllMinions(minionDecks, josephCard)
         this.events.push(ModifyAttributeEvent)
     }
 
@@ -43,6 +62,7 @@ export default class EventContainer {
                 }
             }
         }
+        console.log(this.events);
     }
 
     createHeroEvents(activeMinionDeck, activeEnemyMinionDeck, hero, card, turn){

@@ -23,7 +23,7 @@ export default class CardFactory {
     createCards(language) {
         let card
 
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < 11; i++) {
             const id = this.cardData[i].card_id;
             // const name = [this.cardData[i].name, this.cardData[i].izena];
             // const description = [this.cardData[i].description, this.cardData[i].deskripzioa];
@@ -94,7 +94,7 @@ export default class CardFactory {
                     }
                     break;
 
-                case "Joseph_card":
+                case "Joseph_car":
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.JOSEPH]
                     for (let i = 0; i < quantity; i++) {
                         // card = this.createJoseph(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);

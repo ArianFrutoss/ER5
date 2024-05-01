@@ -10,7 +10,8 @@ export default class UseEventPhase extends Phase{
         this.boardGrid              = boardGrid;
         this.activeMinions          = activeMinions;
         this.enemyActiveMinions     = enemyActiveMinions;
-        this.mouse                  = mouse
+        this.mouse                  = mouse;
+        this.damageDone             = 0;
     }
     execute(eventContainer, mouse, messagesContainer){
 
@@ -81,6 +82,7 @@ export default class UseEventPhase extends Phase{
                 if (isAnyMinionHovered[0] && !mouse.leftClick   && mouse.previousStateLeft) {
 
                     eventContainer.createCommonEvent(eventCard, minionCard)
+                    this.calculateDamageDone(eventCard);
 
                     return true;
                 }
@@ -104,6 +106,15 @@ export default class UseEventPhase extends Phase{
 
     setEventGrid(grid){
         this.activeEventGrid = grid
+    }
+
+    calculateDamageDone(eventCard){
+        if(eventCard.effect != undefined){
+            for(let i = 0; i < eventCard.effect.length; i++){
+                this.damageDone += eventCard.effect[i].common_effect_value;          
+            }
+        }
+
     }
 
 }

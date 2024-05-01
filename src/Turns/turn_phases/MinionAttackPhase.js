@@ -19,17 +19,26 @@ export default class MinionAttackPhase extends Phase {
         this.enemy          = null;
         this.distance       = null;
         this.enemyPosition  = null;
+        this.damageDone     = 0;
+        this.meleHits       = 0;
+        this.rangeHits      = 0;
+
     }
 
 
     // funcion para realizar el ataque
     attack(messagesContainer, isAttackWithParry) {
-        
+
         const attacker      = this.attacker;
         const enemy         = this.enemy;
         const distance      = this.distance;
         const enemyPosition = this.enemyPosition;
-
+        
+        if(distance === 1){
+            this.meleHits += 1;
+        }else{
+            this.rangeHits += 1;
+        }
         if(attacker !== null && enemy !== null && distance !== null && enemyPosition !== null){
 
             let range = 1;
@@ -45,11 +54,13 @@ export default class MinionAttackPhase extends Phase {
     
                     const blockEvent = new AttackEvent(attacker, enemy);
                     blockEvent.attackWithParry(messagesContainer);
-    
+                    this.damageDone += blockEvent.damageDone;
                 }else{
     
                     const attackEvent = new AttackEvent(attacker, enemy);
                     attackEvent.execute(messagesContainer);
+                    this.damageDone += attackEvent.damageDone;
+
     
                 }
             
@@ -62,7 +73,7 @@ export default class MinionAttackPhase extends Phase {
                 return true;
     
             } else {
-                console.log("no puedes atacar");                
+                // console.log("no puedes atacar");                
 
                 attacker.state = CardId.NOT_SELECTED;
                 enemy.state = CardId.NOT_SELECTED;
@@ -250,7 +261,7 @@ export default class MinionAttackPhase extends Phase {
 
     checkIfEnemyHasWeapon(){
         if(this.enemy !== null){
-            console.log("enemigo seleccionado");
+            // console.log("enemigo seleccionado");
             this.state = AttackState.ATTACK;
 
             if(this.enemy.weapon != undefined){

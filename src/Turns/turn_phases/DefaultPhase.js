@@ -53,7 +53,6 @@ export default class messagesContainerDefaultPhase extends Phase {
 
             if(card.id === BuffId.HERO_EMPOWERMENT){
                 card.eventContainer = this.eventContainer;
-                console.log("actualiza la carta de hero empowerment");
                 card.logic();
             }
             

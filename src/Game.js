@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -135,9 +135,11 @@ export default class Game {
                     }
                     this.messagesContainer.update();
                 }
+            
                 break;
 
             case GameState.GAMEOVER:
+                this.sendStatsData();
                 console.log("gameover");
                 break;
 
@@ -395,5 +397,66 @@ export default class Game {
 
         }
     }
+
+    sendStatsData(){
+        const player1 = this.turnContainer.turnContainer[0];
+        const player2 = this.turnContainer.turnContainer[1];
+
+        const p1DoneDamage = player1.damageDone;
+        const p2DoneDamage = player2.damageDone;
+        const p1MeleHits   = player1.meleHits;
+        const p1RangeHits  = player1.rangeHits;
+        const p2MeleHits   = player2.meleHits;
+        const p2RangeHits  = player2.rangeHits;
+
+        const p1MongoId    = localStorage.getItem("mongo_id");
+        const enemies      = JSON.parse(localStorage.getItem("opponents"));
+        const p2MongoId    = enemies[localStorage.index].mongo_id;
+
+        const player1hp    = player1.minionDeck.cards.length + player1.activeMinionDeck.cards.length;
+    
+        const winner = player1hp > 0 ? p1MongoId : p2MongoId;
+        const loser  = player1hp === 0 ? p1MongoId : p2MongoId;
+        
+
+        const game = [{
+            "players": [
+                {
+                  "player_id": p1MongoId,
+                  "meleeHits": p1MeleHits,
+                  "rangedHits": p1RangeHits,
+                  "damageDone": p1DoneDamage,
+                  "damageReceived": p2DoneDamage
+                },
+                {
+                    "player_id": p2MongoId,
+                    "meleeHits": p2MeleHits,
+                    "rangedHits": p2RangeHits,
+                    "damageDone": p2DoneDamage,
+                    "damageReceived": p1DoneDamage
+                },
+            
+            ],
+            winner: winner,
+            loser: loser
+        }]
+        
+        fetch(`${BaseURL[BaseURLValue]}/newGame`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(game)
+            
+        })
+        .then((res) => res.json())
+        .then((res) => {
+            console.log(res);
+            
+            window.location.reload();
+        })
+    }
+
+    
 }
 

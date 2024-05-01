@@ -12,12 +12,13 @@ export class AttackEvent extends Event{
         this.objectiveMinion    = objectiveMinion;      // Minion objetivo
         this.critic             = 1.75;
         this.fail               = 0;
+        this.damageDone         = 0;
     }
 
     execute(messagesContainer) {
         const critic = this.calculateCritic()
         const fail  = this.calculateFail();
-        console.log(fail);
+     
         let damage;
         let size = 80
         let color = "red"
@@ -46,6 +47,7 @@ export class AttackEvent extends Event{
         
         const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, size, color);
         messagesContainer.addMessage(doneDamage);
+        this.damageDone += damage;
     }
 
     attack(){
@@ -61,7 +63,6 @@ export class AttackEvent extends Event{
             damage = 0
         }
        
-
         return damage;
     }
     
@@ -79,7 +80,6 @@ export class AttackEvent extends Event{
         }
         this.attackerMinion.weapon.durability--
       
-
         return damage;
     }
 
@@ -89,7 +89,6 @@ export class AttackEvent extends Event{
         const critic = this.calculateCritic();
         const fail   = this.calculateFail();
 
-        console.log(fail);
 
         if (this.attackerMinion.weapon != undefined) {
             // Ataque con los atributos del minion y del arma
@@ -119,12 +118,13 @@ export class AttackEvent extends Event{
                 const damageRender = "BLOCKED"
                 const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3);
                 messagesContainer.addMessage(doneDamage);
-
+                this.damageDone += damage;
 
             }else{
                 const block = new BlockEvent(this.attackerMinion, this.objectiveMinion, damage);
 
-                block.execute(messagesContainer, size, color);
+                let damage = block.execute(messagesContainer, size, color);
+                this.damageDone += damage;
             }
      
 
@@ -155,11 +155,13 @@ export class AttackEvent extends Event{
                 const damageRender = "BLOCKED"
                 const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3);
                 messagesContainer.addMessage(doneDamage);
+                this.damageDone += damage;
                 
             }else{
                 const block = new BlockEvent(this.attackerMinion, this.objectiveMinion, damage);
 
-                block.execute(messagesContainer,size, color);
+                let damage = block.execute(messagesContainer,size, color);
+                this.damageDone += damage;
             }
 
         }

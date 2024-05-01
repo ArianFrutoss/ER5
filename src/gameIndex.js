@@ -74,6 +74,7 @@ btnPlay.addEventListener("click", init);
 function showBtnIfOpponentSelected() {
         if (dropDown.value != "") {
         btnPlay.style.display = "block"
+        localStorage.setItem("index", dropDown.selectedIndex - 1);
     }
 }
 

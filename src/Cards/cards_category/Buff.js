@@ -135,17 +135,21 @@ export default class Buff extends Card {
     }
 
     updateReady(){
-        const id = this.id; 
-
+        const id   = this.id; 
         switch(id){
             case BuffId.HERO_EMPOWERMENT:
                 this.action = CardActions.ON_USE;
                 const activeMinionDeck      = this.turn.activeMinionDeck;
                 const hero                  = this.turn.mainCharacter;
                 const heroEmpowernment      = this;
-                const enemyActiveMinionDeck = this.turn.enemyActiveMinionDeck;
                 const turn                  = this.turn;
+                const enemyActiveMinionDeck = this.turn.enemyActiveMinionDeck;
                 this.eventContainer.createHeroEvents(activeMinionDeck, enemyActiveMinionDeck, hero, heroEmpowernment, turn);
+                break;
+            case BuffId.TOAST:
+                this.turn.eventContainer.createDurabilityEvent(this)
+                this.turn.eventContainer.createIncreaseActionsEvent(this.turn, this, this.effect[0].common_effect_value)
+                this.action = CardActions.ON_USE;
                 break;
         }
     }

@@ -11,6 +11,7 @@ import XGScholarEvent from "./temp_events/XGScholarEvent.js";
 import HeroEvents from "./temp_events/HeroEvents.js";
 import DecrepitTrhoneEvent from "./temp_events/DecrepitThroneEvent.js";
 import AngeloDiMortisEvent from "./temp_events/AngeloDiMortisEvent.js";
+import IncreaseActionEvent from "./temp_events/IncreaseActionEvent.js";
 
 export default class EventFactory {
 
@@ -111,6 +112,10 @@ export default class EventFactory {
         return new ModifyAttributeToAllMinions(decks, card)
     }
 
+    static createIncreaseActionEvent(turn, card, value){
+        const action = new IncreaseActionEvent(turn, card, value)
+        return action
+    }
     static createModifyAttributeEvent(card, objectiveMinion){
         const length = card.effect != undefined ? card.effect.length : 1;
         for (let i = 0; i < length; i++) {

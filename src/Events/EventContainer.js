@@ -71,5 +71,10 @@ export default class EventContainer {
         this.events.push(heroEvents);
     }
 
+    createIncreaseActionsEvent(turn, card, value){
+        const actionEvent = EventFactory.createIncreaseActionEvent(turn, card, value);
+        this.events.push(actionEvent);
+
+    }
     
 }

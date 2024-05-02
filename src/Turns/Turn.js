@@ -143,8 +143,8 @@ export default class Turn {
             }
         }
 
-        this.eventContainer.executeEvents()
         this.actionsCounter = 0
+        this.eventContainer.executeEvents()
         this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer);
 
         // Restablecer el Timer
@@ -160,7 +160,7 @@ export default class Turn {
             
             const card = this.preparingEventDeck.cards[i];
 
-            if(card.id === BuffId.HERO_EMPOWERMENT){
+            if(card.id === BuffId.HERO_EMPOWERMENT || card.id === BuffId.TOAST ){
               
                 card.setTurn(this);
             }
@@ -168,8 +168,6 @@ export default class Turn {
     }
 
     execute(mouse, messagesContainer, timerContainer){
-        
-
 
         // Esto es el turnLoop
         switch (this.phaseState) {

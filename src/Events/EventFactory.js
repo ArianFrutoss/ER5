@@ -71,17 +71,17 @@ export default class EventFactory {
                 
                 switch (card.category){
                     case TypeId.BUFF:
-                        const buff = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, -card.effect[i].common_effect_value, card);
+                        const buff = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card.effect[i].modifier, card);
                         buff.execute();
                         result.push(buff);
                         break;
                     case TypeId.CURSE:
-                        const curse = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
+                        const curse = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card.effect[i].modifier, card);
                         curse.execute();
                         result.push(curse);
                         break;
                     case TypeId.SPELL:
-                        const spell = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
+                        const spell = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card.effect[i].modifier, card);
                         spell.execute();
                         break;
                     case TypeId.ARMOR:
@@ -115,7 +115,7 @@ export default class EventFactory {
         const length = card.effect != undefined ? card.effect.length : 1;
         for (let i = 0; i < length; i++) {
 
-            const joseph = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
+            const joseph = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card.effect[i].modifier, card);
             joseph.execute()
         }
     }

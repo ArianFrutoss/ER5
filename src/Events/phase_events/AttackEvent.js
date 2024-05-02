@@ -190,7 +190,7 @@ export class AttackEvent extends Event{
 
     calculateFail(fail){
 
-        if(fail / this.attackerMinion.failModifier <= 1){
+        if(fail * this.attackerMinion.failModifier <= 1){
 
             return true;
         }else {

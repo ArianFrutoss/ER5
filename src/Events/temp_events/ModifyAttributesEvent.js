@@ -29,7 +29,7 @@ export class ModifyAttributeEvent extends Event{
 
                         this.value = this.objetive.attack;
                     }
-                    this.objetive.attack = this.modifyTheStat(this.objetive.attack, this.value);
+                    this.objetive.attack = Math.ceil(this.modifyTheStat(this.objetive.attack, this.value));
                     if (this.objetive.attack < 0){
 
                         this.objetive.attack = 0;
@@ -40,14 +40,14 @@ export class ModifyAttributeEvent extends Event{
                         
                         this.value = this.objetive.defense;
                     }
-                    this.objetive.defense = this.modifyTheStat(this.objetive.defense, this.value);
+                    this.objetive.defense = Math.ceil(this.modifyTheStat(this.objetive.defense, this.value));
                     break;
                 case "Health":
                     if (this.value === 0){
                         
                         this.value = this.objetive.health;
                     }
-                    this.objetive.health = this.modifyTheStat(this.objetive.health, this.value);
+                    this.objetive.health = Math.ceil(this.modifyTheStat(this.objetive.health, this.value));
                     if (this.objetive.health < 1){
 
                         this.objetive.health = 1;
@@ -58,11 +58,16 @@ export class ModifyAttributeEvent extends Event{
                         
                         this.value = this.objetive.speed;
                     }
-                    this.objetive.speed = this.modifyTheStat(this.objetive.speed, this.value);
+                    this.objetive.speed = Math.ceil(this.modifyTheStat(this.objetive.speed, this.value));
                     if (this.objetive.speed < 0){
 
                         this.objetive.speed = 0;
                     }
+                case "Critic_modifier":
+                    this.objetive.criticModifier = this.modifyTheStat(this.objetive.criticModifier, this.value);
+                    break;
+                case "Fail_modifier":
+                    this.objetive.failModifier = this.modifyTheStat(this.objetive.failModifier, this.value);
                     break;
                 default:
                     break;
@@ -91,10 +96,10 @@ export class ModifyAttributeEvent extends Event{
                 result = stat - value;
                 return result;
             case "*":
-                result = Math.ceil(stat * value);
+                result = stat * value;
                 return result;
             case "/":
-                result = Math.ceil(stat / value);
+                result = stat / value;
                 return result;
             default:
                 break;

@@ -76,5 +76,22 @@ export default class EventContainer {
         this.events.push(actionEvent);
 
     }
-    
+
+    createTeleportEvent(turn, card, objectiveMinion){
+        const actionEvent = EventFactory.createIncreaseActionEvent(turn, card, 1);
+        actionEvent.execute()
+
+        const modifyEvent = EventFactory.createCommonEvent(card, objectiveMinion)
+        if (modifyEvent != undefined){
+
+            for (let i = 0; i < modifyEvent.length; i++){
+
+                this.events.push(modifyEvent[i]);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }

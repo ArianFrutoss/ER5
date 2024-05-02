@@ -362,6 +362,7 @@ export const MainCharacterId = {
 }
 
 export const BuffId = {
+    TELEPORT: 46,
     TOAST: 47,
     HERO_EMPOWERMENT:   53
 }

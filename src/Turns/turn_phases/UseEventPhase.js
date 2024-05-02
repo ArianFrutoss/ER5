@@ -1,9 +1,9 @@
-import { CardId, TypeId, PhaseStates, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3 } from "../../constants.js";
+import { CardId, TypeId, PhaseStates, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3, CardActions, BuffId } from "../../constants.js";
 import Phase from "./Phase.js";
 
 export default class UseEventPhase extends Phase{
 
-    constructor(eventGrid, eventDeck, boardGrid, activeMinions, enemyActiveMinions, mouse){
+    constructor(eventGrid, eventDeck, boardGrid, activeMinions, enemyActiveMinions, mouse, turn){
         super();
         this.eventGrid              = eventGrid;
         this.eventDeck              = eventDeck;
@@ -12,6 +12,7 @@ export default class UseEventPhase extends Phase{
         this.enemyActiveMinions     = enemyActiveMinions;
         this.mouse                  = mouse;
         this.damageDone             = 0;
+        this.turn                   = turn
     }
     execute(eventContainer, mouse, messagesContainer){
 
@@ -60,7 +61,7 @@ export default class UseEventPhase extends Phase{
                     minionDeck = this.enemyActiveMinions;
                     break;
                 case TypeId.SPELL:
-                    minionDeck = this.enemyActiveMinions;
+                        minionDeck = this.enemyActiveMinions
                     break;
                 case TypeId.WEAPON:
                     minionDeck = this.activeMinions;
@@ -82,10 +83,18 @@ export default class UseEventPhase extends Phase{
                 if (isAnyMinionHovered[0] && !mouse.leftClick && mouse.previousStateLeft) {
 
                     let result;
-
-                    result = eventContainer.createDurabilityEvent(eventCard);
-                    result = eventContainer.createCommonEvent(eventCard, minionCard);
-                    this.calculateDamageDone(eventCard);
+                    if (eventCard.id != BuffId.TELEPORT) {
+                        result = eventContainer.createDurabilityEvent(eventCard);
+                        result = eventContainer.createCommonEvent(eventCard, minionCard);
+                        this.calculateDamageDone(eventCard);
+                        
+                    }else{
+                        if (eventCard.action != CardActions.ON_USE) {
+                            result = eventContainer.createDurabilityEvent(eventCard);
+                            eventContainer.createTeleportEvent(this.turn, eventCard, minionCard)
+                            
+                        }
+                    }
 
                     return result;
                 }

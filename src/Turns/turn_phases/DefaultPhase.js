@@ -15,7 +15,6 @@ export default class messagesContainerDefaultPhase extends Phase {
     }
 
     execute(messagesContainer){
-        
         messagesContainer.activeMessage(messageDefaultPhase);
      
         let returnState = this.buttonContainer.isAnyButtonSelected();
@@ -51,7 +50,7 @@ export default class messagesContainerDefaultPhase extends Phase {
         for(let i = 0; i < this.activeEventDeck.cards.length; i++){
             const card = this.activeEventDeck.cards[i];
 
-            if(card.id === BuffId.HERO_EMPOWERMENT){
+            if(card.id === BuffId.HERO_EMPOWERMENT ||card.id === BuffId.TOAST){
                 card.eventContainer = this.eventContainer;
                 card.logic();
             }

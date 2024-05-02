@@ -16,8 +16,9 @@ export class AttackEvent extends Event{
     }
 
     execute(messagesContainer) {
-        const critic = this.calculateCritic()
-        const fail  = this.calculateFail();
+        const dice = this.throwDice();
+        const critic = this.calculateCritic(dice);
+        const fail   = this.calculateFail(dice);
      
         let damage;
         let size = 80
@@ -86,8 +87,10 @@ export class AttackEvent extends Event{
     attackWithParry(messagesContainer){
         const enemyWeapon = this.objectiveMinion.weapon;
         let damage;
-        const critic = this.calculateCritic();
-        const fail   = this.calculateFail();
+
+        const dice = this.throwDice();
+        const critic = this.calculateCritic(dice);
+        const fail   = this.calculateFail(dice);
 
 
         if (this.attackerMinion.weapon != undefined) {
@@ -168,10 +171,14 @@ export class AttackEvent extends Event{
         
     }
 
-    calculateCritic(){
-        const critic = Math.floor(Math.random() * 20 + 1);
+    throwDice(){
 
-        if(critic >= 19){
+        return Math.floor(Math.random() * 20 + 1);
+    }
+
+    calculateCritic(critic){
+
+        if(critic * this.attackerMinion.criticModifier >= 20){
 
             return true;
 
@@ -179,14 +186,11 @@ export class AttackEvent extends Event{
 
             return false;
         }
-
     }
 
-    calculateFail(){
+    calculateFail(fail){
 
-        const fail = Math.floor(Math.random() * 20 + 1);
-
-        if(fail <= 1){
+        if(fail / this.attackerMinion.failModifier <= 1){
 
             return true;
         }else {
@@ -194,5 +198,4 @@ export class AttackEvent extends Event{
             return false;
         }
     }
-    
 }

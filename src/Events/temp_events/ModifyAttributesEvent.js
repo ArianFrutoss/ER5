@@ -20,47 +20,49 @@ export class ModifyAttributeEvent extends Event{
 
             if (this.card.durability <= 0 && this.card.durability != null){
 
+                this.objetive.action = CardActions.DEFAULT;
                 return true;
             }
 
             switch (this.attribute){
                 case "Attack":
                     if (this.value === 0){
-
-                        this.value = this.objetive.attack;
+                        this.objetive.attack = this.value;
                     }
-                    this.objetive.attack = Math.ceil(this.modifyTheStat(this.objetive.attack, this.value));
+                    else{
+                        this.objetive.attack = Math.ceil(this.modifyTheStat(this.objetive.attack, this.value));
+                    }
                     if (this.objetive.attack < 0){
-
                         this.objetive.attack = 0;
                     }
                     break;
                 case "Defense":
                     if (this.value === 0){
-                        
-                        this.value = this.objetive.defense;
+                        this.objetive.defense = this.value;
                     }
-                    this.objetive.defense = Math.ceil(this.modifyTheStat(this.objetive.defense, this.value));
+                    else{
+                        this.objetive.defense = Math.ceil(this.modifyTheStat(this.objetive.defense, this.value));
+                    }
                     break;
                 case "Health":
                     if (this.value === 0){
-                        
-                        this.value = this.objetive.health;
+                        this.objetive.health = this.value;
                     }
-                    this.objetive.health = Math.ceil(this.modifyTheStat(this.objetive.health, this.value));
+                    else{
+                        this.objetive.health = Math.ceil(this.modifyTheStat(this.objetive.health, this.value));
+                    }
                     if (this.objetive.health < 1){
-
                         this.objetive.health = 1;
                     }
                     break;
                 case "Speed":
                     if (this.value === 0){
-                        
-                        this.value = this.objetive.speed;
+                        this.objetive.speed = this.value;
                     }
-                    this.objetive.speed = Math.ceil(this.modifyTheStat(this.objetive.speed, this.value));
+                    else{
+                        this.objetive.speed = Math.ceil(this.modifyTheStat(this.objetive.speed, this.value));
+                    }
                     if (this.objetive.speed < 0){
-
                         this.objetive.speed = 0;
                     }
                 case "Critic_modifier":
@@ -69,6 +71,8 @@ export class ModifyAttributeEvent extends Event{
                 case "Fail_modifier":
                     this.objetive.failModifier = this.modifyTheStat(this.objetive.failModifier, this.value);
                     break;
+                case "Card_state":
+                    this.objetive.action = this.value;
                 default:
                     break;
             }

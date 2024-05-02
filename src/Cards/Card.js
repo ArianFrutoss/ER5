@@ -25,7 +25,7 @@ export default class Card{
         this.state          = CardId.NOT_SELECTED;
         this.deck           
         this.previousState  = CardId.NOT_SELECTED
-        this.action         = CardActions.NOT_ACTIVE
+        this.action         = CardActions.DEFAULT
         // this.objective      = objective;
   	
     }

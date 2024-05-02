@@ -59,7 +59,7 @@ export default class Minion extends Card {
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
 
-        if (!isAnyCardScaled[0]) {
+        if (!isAnyCardScaled[0] && this.action != CardActions.STUNNED) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
     
             switch (this.state) {
@@ -207,13 +207,13 @@ export default class Minion extends Card {
                 yPos = 140
                 size = CardId.BIG_SIZE
                 
-            }else if(this.state === CardId.SELECTED){
+            }else if(this.state === CardId.SELECTED && this.action != CardActions.STUNNED){
                 cardVFX = this.imageVFX[VFXId.SELECTED][size]
                 ctx.drawImage(
                     cardVFX,                 //Img File
                     IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
                     )
-            }else if(this.state === CardId.HOVER){
+            }else if(this.state === CardId.HOVER && this.action != CardActions.STUNNED){
                 cardVFX = this.imageVFX[VFXId.HOVER][size]
                 ctx.drawImage(
                     cardVFX,                 //Img File

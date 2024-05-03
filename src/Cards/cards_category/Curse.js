@@ -1,4 +1,4 @@
-import { BorderId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, TypeNames, VFXId } from "../../constants.js";
+import { BorderId, CardActions, CardId, CurseId, DecksId, DurabilityColors, IconsPos, TypeNames, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Curse extends Card{
@@ -13,6 +13,7 @@ export default class Curse extends Card{
         this.cooldown   = cooldown; 	
         this.previousCooldown = cooldown 	
         this.effect     = effect;		
+        this.turn       = null;
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -89,11 +90,43 @@ export default class Curse extends Card{
             case CardActions.COOLDOWN:
                 this.action = this.cooldown === 0 ? CardActions.READY : this.action
                 break;
-        
+            
+            case CardActions.READY:
+                this.updateReady();
+
+                this.action = CardActions.ON_USE;
+                break;
+
+            case CardActions.ON_USE:
+                if(this.durability <= 0){
+                    this.action = CardActions.WORN_OUT;
+                }
+                break;
             default:
                 break;
         }
     }
+
+    updateReady(){
+        const id = this.id;
+
+        switch(id){
+            case CurseId.MOLOTOV_COCKTAIL:
+                console.log("entra a ready");
+                const turn = this.turn;
+                const eventContainer = turn.eventContainer;
+                const enemyHandDeck  = turn.enemyHandDeck;
+                const card           = this;
+                eventContainer.createHandDeckSpecialEventAndPush(card, enemyHandDeck);
+                break;
+        }
+
+    }
+
+    setTurn(turn){
+        this.turn = turn;
+    }
+
     setDeck(deck){
         this.deck = deck
     }

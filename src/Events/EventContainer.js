@@ -72,5 +72,10 @@ export default class EventContainer {
         this.events.push(heroEvents);
     }
 
-    
+    createHandDeckSpecialEventAndPush(card, enemyHandeck, handDeck){
+        
+        const handDeckEvent = EventFactory.createHandDeckSpecialEvents(card, enemyHandeck, handDeck);
+
+        this.events.push(handDeckEvent);
+    }
 }

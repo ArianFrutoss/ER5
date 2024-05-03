@@ -137,8 +137,11 @@ export default class Buff extends Card {
     }
 
     updateReady(){
-        const id = this.id; 
-
+        const id = this.id;
+        
+        const card = this;
+        const enemyHandDeck = this.turn.enemyHandDeck;
+        const handDeck      = this.turn.handDeck;
         switch(id){
             case BuffId.HERO_EMPOWERMENT:
                 const activeMinionDeck      = this.turn.activeMinionDeck;
@@ -147,6 +150,10 @@ export default class Buff extends Card {
                 const enemyActiveMinionDeck = this.turn.enemyActiveMinionDeck;
                 const turn                  = this.turn;
                 this.eventContainer.createHeroEvents(activeMinionDeck, enemyActiveMinionDeck, hero, heroEmpowernment, turn);
+                break;
+
+            case BuffId.DECEPTION:
+                this.eventContainer.createHandDeckSpecialEventAndPush(card, enemyHandDeck, handDeck);
                 break;
         }
     }

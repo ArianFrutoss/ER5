@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, ButtonState, TurnId, Team, BuffId} from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, ButtonState, TurnId, Team, BuffId, CurseId} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -83,11 +83,13 @@ export default class Turn {
     }
 
     update(mouse, enemyActiveMinionDeck, messagesContainer, timerContainer){
-     
+    
         this.updateStatsToSendDatabase();
         switch(this.state){
             
             case TurnStates.INITIALIZE:
+                console.log(this.handDeck.cards);
+                console.log(this.enemyHandDeck.cards);
                 this.init(timerContainer, mouse);
 
                 this.state = TurnStates.EXECUTION
@@ -161,8 +163,14 @@ export default class Turn {
             const card = this.preparingEventDeck.cards[i];
 
             if(card.id === BuffId.HERO_EMPOWERMENT){
-              
                 card.setTurn(this);
+            }
+
+            switch(card.id){
+                case CurseId.MOLOTOV_COCKTAIL:
+                case BuffId.DECEPTION:
+                    card.setTurn(this);
+                    break;
             }
         }
     }

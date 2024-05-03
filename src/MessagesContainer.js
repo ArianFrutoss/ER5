@@ -9,6 +9,7 @@ export default class MessagesContainer{
 
         this.damageMessage      = [];
         this.helpMessage        = [];
+        this.changeTurnMessage = [];
         this.activeHelpMessage;
         this.previousHelpMessage;
     }
@@ -29,6 +30,10 @@ export default class MessagesContainer{
 
             this.activeHelpMessage.update(this.helpMessage);
         }
+
+        if (this.changeTurnMessage[0] != undefined) {
+            this.changeTurnMessage[0].update(this.changeTurnMessage)
+        }
     }
 
     createHelpMessages(){
@@ -45,7 +50,6 @@ export default class MessagesContainer{
 
         this.helpMessage = messages;
     }
-
     addMessage(message){
         
         this.damageMessage.push(message);
@@ -97,6 +101,12 @@ export default class MessagesContainer{
         if (this.activeHelpMessage != undefined){
             
             this.activeHelpMessage.render(ctx, language);
+            ctx.fillStyle = "black";
+        }
+
+        if (this.changeTurnMessage[0] != undefined){
+            
+            this.changeTurnMessage[0].render(ctx);
             ctx.fillStyle = "black";
         }
     }

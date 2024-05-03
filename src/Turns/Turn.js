@@ -381,6 +381,7 @@ export default class Turn {
         if (this.josephDeck.cards[0]) {
             this.josephDeck.cards[0].render(ctx, language, currentTurn)
         }
+        ctx.fillStyle = "rgb(242, 211, 6)"
         ctx.fillText(this.name ,xPos, yPos);
         if (this.active) {
             ctx.font = "80px LongaIberica-DEMO"

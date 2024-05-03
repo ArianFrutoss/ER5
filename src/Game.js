@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -13,6 +13,7 @@ import ButtonContainer from "./Button/ButtonContainer.js";
 import MessagesContainer from "./MessagesContainer.js";
 import EventContainer from "./Events/EventContainer.js";
 import TimerContainer from "./TimerContainer.js";
+import Messages from "./Messages.js";
 
 export default class Game {
 
@@ -128,8 +129,12 @@ export default class Game {
                     if(this.turnContainer.turnContainer[this.currentTurn].finished){
                         this.turnContainer.turnContainer[this.currentTurn].finished = false
                         this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
+
                         
                         this.currentTurn = (this.currentTurn + 1) % 2;
+                        const name = this.turnContainer.turnContainer[this.currentTurn].name.toUpperCase()
+                        const message = new Messages(1000, 490, name+"'S TURN", MessageType.CHANGE_TURN_MESSAGE, MessageState.APPEAR, 0.1, 0.2, 1, 100);
+                        this.messagesContainer.changeTurnMessage.push(message)
                         this.setTurnDecksPositions()
                         this.turnCounter++;
     

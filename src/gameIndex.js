@@ -68,11 +68,13 @@ if (localStorage.getItem("username") != null) {
 
 statsBtn.addEventListener("click", showStats);
 dropDown.addEventListener("change", showBtnIfOpponentSelected);
+languages.addEventListener("change", showBtnIfOpponentSelected);
 returnBtn.addEventListener("click",showLobby)
 btnPlay.addEventListener("click", init);
 
 function showBtnIfOpponentSelected() {
-        if (dropDown.value != "") {
+
+        if (dropDown.value != "" && languages.value != "") {
         btnPlay.style.display = "block"
         localStorage.setItem("index", dropDown.selectedIndex - 1);
     }

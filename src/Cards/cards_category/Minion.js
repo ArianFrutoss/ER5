@@ -320,6 +320,14 @@ export default class Minion extends Card {
                         this.imageMinionTeam[minionsTeam],               
                         IconsPos.TEAM_X + xPos, IconsPos.TEAM_Y + yPos
                     )
+                }else if (size === BorderId.NORMAL_SIZE) {
+                    ctx.drawImage(
+                        this.imageAttributes[4],
+                        IconsPos.WEAPON_X[size] + xPos, IconsPos.WEAPON_Y[size] + yPos)
+                        
+                        ctx.drawImage(
+                            this.imageAttributes[5],
+                            IconsPos.ARMOR_X[size] + xPos, IconsPos.ARMOR_Y[size] + yPos)
                 }
 
                 ctx.setTransform(1, 0, 0, 1, 0, 0);

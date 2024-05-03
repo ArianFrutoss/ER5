@@ -365,7 +365,12 @@ export const MainCharacterId = {
 export const BuffId = {
     TELEPORT: 46,
     TOAST: 47,
-    HERO_EMPOWERMENT:   53
+    HERO_EMPOWERMENT:   53,
+    DECEPTION:          49
+}
+
+export const CurseId = {
+    MOLOTOV_COCKTAIL:   39,
 }
 
 export const DurabilityColors = {

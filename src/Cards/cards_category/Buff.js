@@ -135,7 +135,10 @@ export default class Buff extends Card {
     }
 
     updateReady(){
-        const id   = this.id; 
+        const id   = this.id;
+                const card = this;
+        const enemyHandDeck = this.turn.enemyHandDeck;
+        const handDeck      = this.turn.handDeck;
         switch(id){
             case BuffId.HERO_EMPOWERMENT:
                 this.action = CardActions.ON_USE;
@@ -149,6 +152,11 @@ export default class Buff extends Card {
             case BuffId.TOAST:
                 this.turn.eventContainer.createDurabilityEvent(this)
                 this.turn.eventContainer.createIncreaseActionsEvent(this.turn, this, this.effect[0].common_effect_value)
+                this.action = CardActions.ON_USE;
+                break;
+
+            case BuffId.DECEPTION:
+                this.eventContainer.createHandDeckSpecialEventAndPush(card, enemyHandDeck, handDeck);
                 this.action = CardActions.ON_USE;
                 break;
         }

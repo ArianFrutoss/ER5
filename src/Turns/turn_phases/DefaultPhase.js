@@ -1,4 +1,4 @@
-import { BuffId, CardActions, PhaseStates, messageDefaultPhase } from "../../constants.js";
+import { BuffId, CardActions, CurseId, PhaseStates, messageDefaultPhase } from "../../constants.js";
 import Phase from "./Phase.js";
 
 export default class messagesContainerDefaultPhase extends Phase {
@@ -53,6 +53,16 @@ export default class messagesContainerDefaultPhase extends Phase {
             if(card.id === BuffId.HERO_EMPOWERMENT ||card.id === BuffId.TOAST){
                 card.eventContainer = this.eventContainer;
                 card.logic();
+            }
+
+            switch(card.id){
+                case CurseId.MOLOTOV_COCKTAIL:
+                    card.curseLogic();
+                    break;
+                case BuffId.DECEPTION:
+                    card.eventContainer = this.eventContainer;
+                    card.logic();
+                    break;
             }
             
         }

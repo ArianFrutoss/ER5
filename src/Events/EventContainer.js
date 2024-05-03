@@ -94,4 +94,10 @@ export default class EventContainer {
 
         return false;
     }
+    createHandDeckSpecialEventAndPush(card, enemyHandeck, handDeck){
+        
+        const handDeckEvent = EventFactory.createHandDeckSpecialEvents(card, enemyHandeck, handDeck);
+
+        this.events.push(handDeckEvent);
+    }
 }

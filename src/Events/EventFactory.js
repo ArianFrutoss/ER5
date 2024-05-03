@@ -1,4 +1,4 @@
-import { CardActions, DecksId, EventsId, MainCharacterId, StatsId, TypeId } from "../constants.js";
+import { BuffId, CardActions, CurseId, DecksId, EventsId, MainCharacterId, StatsId, TypeId } from "../constants.js";
 import { CooldownEvent } from "./temp_events/CooldownEvent.js";
 import { DurabilityEvent } from "./temp_events/DurabilityEvent.js";
 import { ModifyAttributeEvent } from "./temp_events/ModifyAttributesEvent.js";
@@ -12,6 +12,8 @@ import HeroEvents from "./temp_events/HeroEvents.js";
 import DecrepitTrhoneEvent from "./temp_events/DecrepitThroneEvent.js";
 import AngeloDiMortisEvent from "./temp_events/AngeloDiMortisEvent.js";
 import IncreaseActionEvent from "./temp_events/IncreaseActionEvent.js";
+import MolotovCokctailEvent from "./temp_events/MolotovCocktailEvent.js";
+import DeceptionEvent from "./temp_events/DeceptionEvent.js";
 
 export default class EventFactory {
 
@@ -160,4 +162,18 @@ export default class EventFactory {
         return new HeroEvents(activeMinionDeck, enemyActiveMinionDeck, hero, card, turn);
     }
 
+    static createHandDeckSpecialEvents(card, enemyHandeck, handDeck){
+        const id = card.id;
+
+        switch(id){
+
+            case CurseId.MOLOTOV_COCKTAIL:
+                return new MolotovCokctailEvent(card, enemyHandeck);
+                break;
+
+            case BuffId.DECEPTION:
+                return new DeceptionEvent(card, handDeck, enemyHandeck);
+                break;
+        }
+    }
 }

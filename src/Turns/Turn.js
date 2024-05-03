@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, ButtonState, TurnId, Team, BuffId} from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, ButtonState, TurnId, Team, BuffId, CurseId} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -83,7 +83,7 @@ export default class Turn {
     }
 
     update(mouse, enemyActiveMinionDeck, messagesContainer, timerContainer){
-     
+    
         this.updateStatsToSendDatabase();
         switch(this.state){
             
@@ -164,6 +164,13 @@ export default class Turn {
             if(card.id === BuffId.HERO_EMPOWERMENT || card.id === BuffId.TOAST ){
               
                 card.setTurn(this);
+            }
+
+            switch(card.id){
+                case CurseId.MOLOTOV_COCKTAIL:
+                case BuffId.DECEPTION:
+                    card.setTurn(this);
+                    break;
             }
         }
     }
@@ -412,9 +419,5 @@ export default class Turn {
         this.damageDone = damageDone;
         this.meleHits   = meleHits;
         this.rangeHits  = rangeHits;
-        // console.log(" Daño total:" + this.phasesArray[PhaseStates.ATTACK].damageDone);
-        // console.log("Mele hits" + this.phasesArray[PhaseStates.ATTACK].meleHits);
-        // console.log(" Range hits" + this.phasesArray[PhaseStates.ATTACK].rangeHits);
-        // console.log("Daño total eventos: " + this.phasesArray[PhaseStates.USE_EVENT_CARD].damageDone);
     }
 }

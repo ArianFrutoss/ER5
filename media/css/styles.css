@@ -124,7 +124,7 @@ body{
 }
 
 #caja{
-    width: 480px;
+    width: 500px;
     background-color: rgba(0, 0, 0, .8);
     border: 2px solid rgba(255, 255, 255, .2);
     color: #fff;
@@ -138,22 +138,59 @@ body{
     padding: 10px;
     font-size: 20px;
     color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Poppins';
+    font-weight: 500;
+
+}
+
+#caja .logout{
+  font-size: 14.5px;
+  text-align: right;
+  padding-left: 5px;
+  margin-top: 20px;
+}
+
+#caja .buttons .btn-lobby{
+  margin: auto;
+  margin-top: 50px;
+
+}
+
+
+.logout a{
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+}
+
+.logout a:hover{
+  text-decoration: underline;
 }
 
 .idioma select{
-    margin-left: 10px;
+    margin-left: 40px;
+    font-family: 'Poppins';
+    padding: 5px;
 }
 
-.player_list{
+#caja .player_list{
+    margin-top: 40px;
     width: 100%;
     padding: 10px;
-    margin-top: 40px;
     font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Poppins';
+    font-weight: 500;
 }
 
 .player_list select{
-    margin-left: 90px;
-    margin-top: -20px;
+    font-family: 'Poppins';
+    padding: 5px;
 }
 
 .btn-lobby {
@@ -172,11 +209,17 @@ body{
 }
 
 #user-data{
-    width: 90%;
+    width: 40%;
     height: auto;
     margin: 0 auto;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 10px;
+    font-size: 26px;
+    font-family: 'Poppins';
+    left: 0;
+    margin-bottom: 50px;
 }
 
 #statsDiv {
@@ -307,12 +350,34 @@ body{
   height: 100%;
   max-height: 50px;
   font-size: 33px;
+  background-color: #795649; /* A dark wood-like brown */
+  color: #f4e5c3; /* A parchment-like off-white */
+  border: 2px solid #c0a080; /* A lighter brown border */
+  font-family: 'Goudy Bookletter 1911', serif; /* A font with an old-style feel */
+  text-shadow: 1px 1px 0px #a67c52; /* Gives a bit of depth to the text */
+  box-shadow: 2px 2px 0px #a67c52; /* Simulates an inset look */
+  border-radius: 4px; /* Slightly rounded corners */
+  cursor: pointer;
+  transition: all 0.3s ease;
   }
+  
+  #returnBtn:hover {
+    background-color: #8a6e2f; /* A lighter, worn wood color for hover */
+    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.3); /* A more pronounced shadow for hover */
+  }
+  
+  #returnBtn:active {
+    box-shadow: inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5); /* An inset shadow for a pressed effect */
+    transform: translateY(2px); /* Moves the button down to simulate a press */
+  }
+
+
+
   .title {
     display: flex;
     justify-content: center;
     font-size: 33px;
-    color: whitesmoke;
+    color: #f4e5c3; /* A parchment-like off-white */
     margin-bottom: 20px;
   }
 

@@ -377,7 +377,7 @@ body{
     display: flex;
     justify-content: center;
     font-size: 33px;
-    color: whitesmoke;
+    color: #f4e5c3; /* A parchment-like off-white */
     margin-bottom: 20px;
   }
 

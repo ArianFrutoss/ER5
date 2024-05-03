@@ -93,12 +93,10 @@ export default class Curse extends Card{
             
             case CardActions.READY:
                 this.updateReady();
-
-                this.action = CardActions.ON_USE;
                 break;
 
             case CardActions.ON_USE:
-                if(this.durability <= 0){
+                if(this.durability <= 0 &&this.durability != null){
                     this.action = CardActions.WORN_OUT;
                 }
                 break;
@@ -117,6 +115,7 @@ export default class Curse extends Card{
                 const enemyHandDeck  = turn.enemyHandDeck;
                 const card           = this;
                 eventContainer.createHandDeckSpecialEventAndPush(card, enemyHandDeck);
+                this.action = CardActions.ON_USE;
                 break;
         }
 

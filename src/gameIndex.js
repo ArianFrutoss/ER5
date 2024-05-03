@@ -191,13 +191,16 @@ function addElement(opponent) {
   const div = document.createElement("div")
   const games = document.getElementById('games')
   const divWidth = games.clientWidth
-  console.log(games.clientWidth);
+  const barMaxWidth = divWidth/2
+  const barGreenWidth =(barMaxWidth * (opponent.losesVsPlayer/(opponent.losesVsPlayer+opponent.winsVsPlayer)))
+  const barRedWidth =(barMaxWidth * (opponent.winsVsPlayer/(opponent.losesVsPlayer+opponent.winsVsPlayer)))
+
   div.setAttribute('class', 'user')
   user.appendChild(div)
   const barGreen = document.createElement("div")
   barGreen.setAttribute('class', 'bar green')
-  barGreen.style.width = opponent.losesVsPlayer * 10 + "px"
-  barGreen.style.left  = divWidth/2 - (opponent.losesVsPlayer * 10)/2 + "px"
+  barGreen.style.width = barGreenWidth + "px"
+  barGreen.style.left  = divWidth/2 - (barGreenWidth)/2 + "px"
   div.appendChild(barGreen)
   const img = document.createElement("img")
   img.setAttribute('src', './media/images/cards_img/Angelo_di_Mortis.png');
@@ -224,8 +227,8 @@ function addElement(opponent) {
 
   const barRed = document.createElement("div")
   barRed.setAttribute('class', 'bar red')
-  barRed.style.width = opponent.winsVsPlayer * 10 + "px"
-  barRed.style.left  = divWidth/2 + (opponent.winsVsPlayer * 10)/2 + "px"
+  barRed.style.width = barRedWidth + "px"
+  barRed.style.left  = divWidth/2 + (barRedWidth)/2 + "px"
   div.appendChild(barRed)
 }
 function createWinRateChart(wins, loses){

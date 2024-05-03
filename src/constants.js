@@ -266,7 +266,7 @@ export const IconsPos = {
     VFX_Y:[-40,-15,-10],
     EVENT_FADE_WIDTH: 91,
     EVENT_FADE_HEIGTH: 93,
-    EVENT_CD_X: 30,
+    EVENT_CD_X: 29,
     EVENT_CD_Y: 47,
     EVENT_CD_IMAGE_X: 48,
     EVENT_CD_IMAGE_Y: 35,

@@ -121,6 +121,17 @@ export default class Curse extends Card{
         this.state = CardId.NOT_SELECTED;
     }
 
+    restoreValues(){
+
+        this.xPos = -400;
+        this.yPos = -400;
+        this.cooldown = this.previousCooldown;
+        this.durability = this.previousDurability;
+        this.action = this.previousAction;
+        this.state = this.previousState;
+        this.size = this.previousSize;
+    }
+
     removeIfWornOut(activeEventDeck, graveyardDeck){
 
         this.checkDurability()

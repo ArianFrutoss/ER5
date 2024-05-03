@@ -22,10 +22,12 @@ export default class Card{
         this.xPos           = xPos;
         this.yPos           = yPos;
         this.size           = CardId.BIG_SIZE;
+        this.previousSize   = CardId.BIG_SIZE;
         this.state          = CardId.NOT_SELECTED;
-        this.deck           
-        this.previousState  = CardId.NOT_SELECTED
-        this.action         = CardActions.DEFAULT
+        this.previousState  = CardId.NOT_SELECTED;
+        this.action         = CardActions.DEFAULT;
+        this.previousAction = CardActions.DEFAULT;
+        this.deck
         // this.objective      = objective;
   	
     }

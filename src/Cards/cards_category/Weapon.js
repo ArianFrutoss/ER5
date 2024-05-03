@@ -129,6 +129,21 @@ export default class Weapon extends Card{
         this.state = CardId.NOT_SELECTED;
     }
 
+    restoreValues(){
+
+        this.xPos = -400;
+        this.yPos = -400;
+        this.health = this.previousHealth;
+        this.defense = this.previousDefense;
+        this.attack = this.previousAttack;
+        this.speed = this.previousSpeed;
+        this.cooldown = this.previousCooldown;
+        this.durability = this.previousDurability;
+        this.action = this.previousAction;
+        this.state = this.previousState;
+        this.size = this.previousSize;
+    }
+
     render(ctx, language, equipped = false, xPosModifier = 0, yPosModifier = 0){
         let xPos = this.xPos
         let yPos = this.yPos

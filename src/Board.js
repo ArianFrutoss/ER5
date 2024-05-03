@@ -84,6 +84,7 @@ export default class Board{
             image, xPos, yPos
         )
         let deckLength = deckContainer.decks[DecksId.EVENT_DECK].cards.length
+        console.log(deckLength);
             if ( deckLength > 40) {
                 image = images[ImageTypes.BOARD_IMAGE][BoardId.EVENT_DECK_FULL];  
             } else if (deckLength >1) {

@@ -186,6 +186,18 @@ export default class Buff extends Card {
 
         this.state = CardId.NOT_SELECTED;
     }
+
+    restoreValues(){
+
+        this.xPos = -400;
+        this.yPos = -400;
+        this.cooldown = this.previousCooldown;
+        this.durability = this.previousDurability;
+        this.action = this.previousAction;
+        this.state = this.previousState;
+        this.size = this.previousSize;
+    }
+
     render(ctx, language){
         ctx.fillStyle = "black"
         let xPos = this.xPos

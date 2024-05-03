@@ -411,12 +411,11 @@ function gameLoop(timeStamp, canvas){
 function addUserData() {
     
     let userData   = document.getElementById("user-data");
-    let user   = document.createTextNode("user : " + localStorage.getItem("username"));
-    let email  = document.createTextNode("email : " + localStorage.getItem("email"));
-    let br     = document.createElement("br");
-    userData.appendChild(user);
-    userData.appendChild(br);
-    userData.appendChild(email);
+    let p      = document.createElement("p");
+    p.textContent = localStorage.getItem("username");
+  
+    userData.appendChild(p);
+
     let caja = document.getElementById("caja");
 
     let btnPlay = document.getElementById("btnPlay");

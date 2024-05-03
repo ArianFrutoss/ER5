@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./media/css/styles.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     <title>ER5</title>
     
 </head>
@@ -54,7 +55,9 @@
     </section>
 
     <div hidden id="caja">
-        <div id="user-data"></div>
+        <div id="user-data">
+            <i class='bx bxs-user-circle'></i>
+        </div>
         <div class="idioma">
             <label for="languages">Languages: </label>
             <select name="languages" id="languages" required>
@@ -70,10 +73,14 @@
             </select>
         </div>
        
-        <button hidden id="Logout"  class="btn-lobby" >Log Out</button>
-        <button hidden id="btnPlay" class="btn-lobby" >Start Game</button>
-        <button hidden id="stats" class="btn-lobby" >Stats</button>
-
+        <!-- <button hidden id="Logout"  class="btn-lobby" >Log Out</button> -->
+        <div class="buttons">
+            <button hidden id="btnPlay" class="btn-lobby" >Start Game</button>
+            <button hidden id="stats" class="btn-lobby" >Stats</button>
+        </div>
+        <div class="logout">
+            <a id="Logout">Log Out</a>
+        </div>
     </div>
   
     <div hidden id="statsDiv" class="statsDiv">

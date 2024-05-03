@@ -149,6 +149,15 @@ export default class Turn {
         // Restablecer el Timer
         timerContainer.restartTimerValue(TimerId.TURN_TIMER);
         
+        // Spawnear nuevo Minion
+        const newMinion = this.minionDeck.spawnNewMinions(this.activeMinionDeck);
+        
+        // Posicionar nuevo Minion en el Grid
+        if (newMinion != undefined){
+            
+            newMinion.assignMinionToBoardGrid(this.gridArray[GridId.BOARD_GRID], this.turnId);
+            console.log(this.activeMinionDeck);
+        }
 
         // indicar turno activo
         this.active = true;
@@ -304,9 +313,6 @@ export default class Turn {
         const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messagesContainer)
 
         if (isCardDiscarded) {
-
-            // Deseleccionar elementos
-            this.deselect();
             
             this.blockCardStatesFromHandDeck();
             this.activeMinionDeck.restoreDeckMinionsStats();

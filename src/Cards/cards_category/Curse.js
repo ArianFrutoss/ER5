@@ -112,7 +112,6 @@ export default class Curse extends Card{
 
         switch(id){
             case CurseId.MOLOTOV_COCKTAIL:
-                console.log("entra a ready");
                 const turn = this.turn;
                 const eventContainer = turn.eventContainer;
                 const enemyHandDeck  = turn.enemyHandDeck;

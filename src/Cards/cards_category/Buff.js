@@ -157,6 +157,7 @@ export default class Buff extends Card {
 
             case BuffId.DECEPTION:
                 this.eventContainer.createHandDeckSpecialEventAndPush(card, enemyHandDeck, handDeck);
+                this.action = CardActions.ON_USE;
                 break;
         }
     }

@@ -11,13 +11,13 @@ export default class DeceptionEvent extends Event{
     }
 
     execute(){
-        this.card.durability -= 0.5;
-
         if(this.card.durability === 0){
             return true;
         }
-        
+        this.card.durability -= 0.5;
+
         if(this.active){
+            
             const finalHandeck      = this.enemyHandeck.cards;
             const finalEnemyHandeck = this.handDeck.cards;
             const mainYPos = this.handDeck.cards[0].yPos

@@ -88,8 +88,6 @@ export default class Turn {
         switch(this.state){
             
             case TurnStates.INITIALIZE:
-                console.log(this.handDeck.cards);
-                console.log(this.enemyHandDeck.cards);
                 this.init(timerContainer, mouse);
 
                 this.state = TurnStates.EXECUTION
@@ -419,9 +417,5 @@ export default class Turn {
         this.damageDone = damageDone;
         this.meleHits   = meleHits;
         this.rangeHits  = rangeHits;
-        // console.log(" Daño total:" + this.phasesArray[PhaseStates.ATTACK].damageDone);
-        // console.log("Mele hits" + this.phasesArray[PhaseStates.ATTACK].meleHits);
-        // console.log(" Range hits" + this.phasesArray[PhaseStates.ATTACK].rangeHits);
-        // console.log("Daño total eventos: " + this.phasesArray[PhaseStates.USE_EVENT_CARD].damageDone);
     }
 }

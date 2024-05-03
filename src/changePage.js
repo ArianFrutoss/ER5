@@ -63,6 +63,10 @@ function login(){
                 dropDown.add(option)
                 
             }
+            dropDown.selectedIndex = 0
+            dropDown[0].disabled = true
+            languages.selectedIndex = 0
+            languages[0].disabled = true
 
         }
     })

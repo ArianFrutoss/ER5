@@ -233,6 +233,7 @@ function addElement(opponent) {
 }
 function createWinRateChart(wins, loses){
   const chart = document.getElementById('winRate')
+  Chart.defaults.color = "#f4e5c3"
   new Chart("winRate", {
     type: "pie",
     data: {
@@ -258,7 +259,6 @@ function createWinRateChart(wins, loses){
 
 function createRightSideCharts(id, games){
   const chart = document.getElementById('hitStats')
-  chart.style.backgroundColor = 'lightgray'
   const labels = [ "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December" ];
   let melee       = []
@@ -294,8 +294,8 @@ function createRightSideCharts(id, games){
   createLineChart(dmgDone, dmgReceived, labels)
 }
 function createHitStatsChart(melee, ranged, months) {
+
   const chart = document.getElementById('damageStats')
-  chart.style.backgroundColor = 'lightgray'
   const data = {
     labels: months,
     datasets: [{
@@ -316,6 +316,7 @@ function createHitStatsChart(melee, ranged, months) {
       categoryPercentage: 0.45
     }]
   };
+  Chart.defaults.color = "#f4e5c3"
     new Chart("hitStats", {
       type: 'bar',
       data: data,
@@ -333,7 +334,6 @@ function createHitStatsChart(melee, ranged, months) {
 }
 function createLineChart(dmgDone, dmgReceived, months) {
   const chart = document.getElementById('damageStats')
-  chart.style.backgroundColor = 'lightgray'
   const labels = months
   const data = {
     
@@ -357,6 +357,8 @@ const config = {
   type: 'line',
   data: data,
 };
+Chart.defaults.color = "#f4e5c3"
+Chart.defaults.backgroundColor = "black"
   new Chart('damageStats', config)
 }
 function getDateMonth(dateString) {

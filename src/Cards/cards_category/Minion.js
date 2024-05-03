@@ -8,20 +8,24 @@ export default class Minion extends Card {
         super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
         // Card attributes   
-        this.attack             = attack;
-        this.previousAttack     = attack;
-        this.defense            = defense;
-        this.previousDefense    = defense;
-        this.health             = health;
-        this.previousHealth     = health;
-        this.speed              = speed;
-        this.previousSpeed      = speed;
-        this.range              = 1;
-        this.weapon             = undefined;
-        this.armor              = undefined;
-        this.weaponRarityImage  = weaponRarityImage;
-        this.armorRarityImage   = armorRarityImage;
-        this.imageMinionTeam    = imageMinionTeam;
+        this.attack                 = attack;
+        this.previousAttack         = attack;
+        this.defense                = defense;
+        this.previousDefense        = defense;
+        this.health                 = health;
+        this.previousHealth         = health;
+        this.speed                  = speed;
+        this.previousSpeed          = speed;
+        this.range                  = 1;
+        this.criticModifier         = 1;
+        this.previousCriticModifier = 1;
+        this.failModifier           = 1;
+        this.previousFailModifier   = 1;
+        this.weapon                 = undefined;
+        this.armor                  = undefined;
+        this.weaponRarityImage      = weaponRarityImage;
+        this.armorRarityImage       = armorRarityImage;
+        this.imageMinionTeam        = imageMinionTeam;
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -55,7 +59,7 @@ export default class Minion extends Card {
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
 
-        if (!isAnyCardScaled[0]) {
+        if (!isAnyCardScaled[0] && this.action != CardActions.STUNNED) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
     
             switch (this.state) {
@@ -153,6 +157,8 @@ export default class Minion extends Card {
         this.defense = this.previousDefense;
         this.attack = this.previousAttack;
         this.speed = this.previousSpeed;
+        this.criticModifier = this.previousCriticModifier;
+        this.failModifier = this.previousFailModifier;
     }
 
     deselect(){
@@ -201,13 +207,13 @@ export default class Minion extends Card {
                 yPos = 140
                 size = CardId.BIG_SIZE
                 
-            }else if(this.state === CardId.SELECTED){
+            }else if(this.state === CardId.SELECTED && this.action != CardActions.STUNNED){
                 cardVFX = this.imageVFX[VFXId.SELECTED][size]
                 ctx.drawImage(
                     cardVFX,                 //Img File
                     IconsPos.VFX_X[size] + xPos,IconsPos.VFX_Y[size] + yPos                    //X & Y Position Source
                     )
-            }else if(this.state === CardId.HOVER){
+            }else if(this.state === CardId.HOVER && this.action != CardActions.STUNNED){
                 cardVFX = this.imageVFX[VFXId.HOVER][size]
                 ctx.drawImage(
                     cardVFX,                 //Img File

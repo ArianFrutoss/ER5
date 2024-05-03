@@ -62,7 +62,6 @@ export default class EventContainer {
                 }
             }
         }
-        console.log(this.events);
     }
 
     createHeroEvents(activeMinionDeck, activeEnemyMinionDeck, hero, card, turn){
@@ -72,6 +71,29 @@ export default class EventContainer {
         this.events.push(heroEvents);
     }
 
+    createIncreaseActionsEvent(turn, card, value){
+        const actionEvent = EventFactory.createIncreaseActionEvent(turn, card, value);
+        this.events.push(actionEvent);
+
+    }
+
+    createTeleportEvent(turn, card, objectiveMinion){
+        const actionEvent = EventFactory.createIncreaseActionEvent(turn, card, 1);
+        actionEvent.execute()
+
+        const modifyEvent = EventFactory.createCommonEvent(card, objectiveMinion)
+        if (modifyEvent != undefined){
+
+            for (let i = 0; i < modifyEvent.length; i++){
+
+                this.events.push(modifyEvent[i]);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
     createHandDeckSpecialEventAndPush(card, enemyHandeck, handDeck){
         
         const handDeckEvent = EventFactory.createHandDeckSpecialEvents(card, enemyHandeck, handDeck);

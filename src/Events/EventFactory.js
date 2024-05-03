@@ -11,6 +11,7 @@ import XGScholarEvent from "./temp_events/XGScholarEvent.js";
 import HeroEvents from "./temp_events/HeroEvents.js";
 import DecrepitTrhoneEvent from "./temp_events/DecrepitThroneEvent.js";
 import AngeloDiMortisEvent from "./temp_events/AngeloDiMortisEvent.js";
+import IncreaseActionEvent from "./temp_events/IncreaseActionEvent.js";
 import MolotovCokctailEvent from "./temp_events/MolotovCocktailEvent.js";
 import DeceptionEvent from "./temp_events/DeceptionEvent.js";
 
@@ -73,17 +74,17 @@ export default class EventFactory {
                 
                 switch (card.category){
                     case TypeId.BUFF:
-                        const buff = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, -card.effect[i].common_effect_value, card);
+                        const buff = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card.effect[i].modifier, card);
                         buff.execute();
                         result.push(buff);
                         break;
                     case TypeId.CURSE:
-                        const curse = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
+                        const curse = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card.effect[i].modifier, card);
                         curse.execute();
                         result.push(curse);
                         break;
                     case TypeId.SPELL:
-                        const spell = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
+                        const spell = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card.effect[i].modifier, card);
                         spell.execute();
                         break;
                     case TypeId.ARMOR:
@@ -113,11 +114,15 @@ export default class EventFactory {
         return new ModifyAttributeToAllMinions(decks, card)
     }
 
+    static createIncreaseActionEvent(turn, card, value){
+        const action = new IncreaseActionEvent(turn, card, value)
+        return action
+    }
     static createModifyAttributeEvent(card, objectiveMinion){
         const length = card.effect != undefined ? card.effect.length : 1;
         for (let i = 0; i < length; i++) {
 
-            const joseph = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card);
+            const joseph = new ModifyAttributeEvent(objectiveMinion, card.effect[i].common_effect_attribute, card.effect[i].common_effect_value, card.effect[i].modifier, card);
             joseph.execute()
         }
     }

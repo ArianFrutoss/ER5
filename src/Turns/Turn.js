@@ -75,7 +75,7 @@ export default class Turn {
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, activeEventDeck, enemyActiveEventDeck, graveYardDeck, boardGrid, mouse, buttons);
             const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, enemyActiveMinionDeck, boardGrid, mouse);
             const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid, mouse);
-            const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck, mouse)
+            const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck, mouse, this)
     
             const phasesArray = [defaultPhase, discardPhase, drawCardPhase, minionMovementPhase, minionAttackPhase, prepareEventPhase, useEventPhase];
     
@@ -145,8 +145,8 @@ export default class Turn {
             }
         }
 
-        this.eventContainer.executeEvents()
         this.actionsCounter = 0
+        this.eventContainer.executeEvents()
         this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer);
 
         // Restablecer el Timer
@@ -162,7 +162,8 @@ export default class Turn {
             
             const card = this.preparingEventDeck.cards[i];
 
-            if(card.id === BuffId.HERO_EMPOWERMENT){
+            if(card.id === BuffId.HERO_EMPOWERMENT || card.id === BuffId.TOAST ){
+              
                 card.setTurn(this);
             }
 
@@ -176,8 +177,6 @@ export default class Turn {
     }
 
     execute(mouse, messagesContainer, timerContainer){
-        
-
 
         // Esto es el turnLoop
         switch (this.phaseState) {

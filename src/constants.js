@@ -65,7 +65,9 @@ export const CardActions = {
     APPLY_EVENT:    4,
     SET_TURN:       5,
     RESET_ACTION:   6,
-    REMOVE_EVENT:   7
+    REMOVE_EVENT:   7,
+    STUNNED:        8,
+    DEFAULT:        9,
 }
 
 export const CardId = {
@@ -79,7 +81,6 @@ export const CardId = {
     NOT_ACTIVE:     7,
     ALIVE:          8,
     DEAD:           9,
-    STUNNED:        0,
     ATTACK:         11,
     BLOCKED:        12,
 }
@@ -362,6 +363,8 @@ export const MainCharacterId = {
 }
 
 export const BuffId = {
+    TELEPORT: 46,
+    TOAST: 47,
     HERO_EMPOWERMENT:   53,
     DECEPTION:          49
 }

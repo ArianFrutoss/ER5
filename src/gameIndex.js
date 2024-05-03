@@ -83,7 +83,12 @@ function showStats() {
   fetch(`http://localhost:4000/getStatsData/${id}`)
     .then((response) => response.json())
     .then((data) => {  
-          
+          document.body.style.background = 'url(/media/images/background/noticeBoard.png) no-repeat center';
+          document.body.style.backgroundSize = '1920px 1120px'
+
+          const overlay = document.getElementById('overlay');
+          overlay.style.display = 'block';
+
       let games = document.getElementById("games");
       let gamesDivs = document.getElementsByClassName("user")
       let win = document.getElementById("win");
@@ -113,6 +118,10 @@ function showStats() {
 }
 
 function showLobby() {
+  document.body.style.background = 'url(/media/images/background/background_login.jpg) no-repeat center';
+  const overlay = document.getElementById('overlay');
+  overlay.style.display = 'none';
+
   gameScreen.style.display = "none";
     
   logout.style.display = "block";
@@ -178,13 +187,15 @@ for (let i = 0; i < opponents.length; i++) {
 function addElement(opponent) {
   const user = document.getElementById('content')
   const div = document.createElement("div")
+  const games = document.getElementById('games')
+  const divWidth = games.clientWidth
+  console.log(games.clientWidth);
   div.setAttribute('class', 'user')
   user.appendChild(div)
-
   const barGreen = document.createElement("div")
   barGreen.setAttribute('class', 'bar green')
   barGreen.style.width = opponent.losesVsPlayer * 10 + "px"
-  barGreen.style.left  = 250 - (opponent.losesVsPlayer * 10)/2 + "px"
+  barGreen.style.left  = divWidth/2 - (opponent.losesVsPlayer * 10)/2 + "px"
   div.appendChild(barGreen)
   const img = document.createElement("img")
   img.setAttribute('src', './media/images/cards_img/Angelo_di_Mortis.png');
@@ -212,12 +223,11 @@ function addElement(opponent) {
   const barRed = document.createElement("div")
   barRed.setAttribute('class', 'bar red')
   barRed.style.width = opponent.winsVsPlayer * 10 + "px"
-  barRed.style.left  = 250 + (opponent.winsVsPlayer * 10)/2 + "px"
+  barRed.style.left  = divWidth/2 + (opponent.winsVsPlayer * 10)/2 + "px"
   div.appendChild(barRed)
 }
 function createWinRateChart(wins, loses){
   const chart = document.getElementById('winRate')
-  chart.style.backgroundColor = 'lightgray'
   new Chart("winRate", {
     type: "pie",
     data: {

@@ -116,7 +116,7 @@ export default class CardFactory {
                     break;
 
                 case "Minion_card":
-                    imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.SPEED], this.images[ImageTypes.CARD_ICONS][IconsId.LIFE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
+                    imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.SPEED], this.images[ImageTypes.CARD_ICONS][IconsId.LIFE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE], this.images[ImageTypes.CARD_ICONS][IconsId.WEAPON], this.images[ImageTypes.CARD_ICONS][IconsId.ARMOR]]
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.MINION]
                     imageTeam = this.images[ImageTypes.TEAM]
                     for (let i = 0; i < quantity; i++) {

@@ -59,7 +59,7 @@ export default class Messages{
             case MessageState.OFF:
                 this.alpha = 0.0;
 
-                if (this.type === MessageType.DAMAGE_MESSAGE){
+                if (this.type === MessageType.DAMAGE_MESSAGE || this.type === MessageType.CHANGE_TURN_MESSAGE){
 
                     messages.splice(this, 1);
                 }
@@ -78,7 +78,11 @@ export default class Messages{
 
             case MessageType.DAMAGE_MESSAGE:
                 this.renderDamageMessage(ctx);
-                break
+                break 
+
+            case MessageType.CHANGE_TURN_MESSAGE:
+                this.renderChangeTurnMessage(ctx);
+                break;
 
             case MessageType.HELP_MESSAGE:
                 ctx.font = this.message.size + "px LongaIberica-DEMO";
@@ -113,5 +117,18 @@ export default class Messages{
         ctx.globalAlpha = this.alpha;
         ctx.fillText(text.text, this.xPos, this.yPos + text.yPos);
         ctx.globalAlpha = 1.0;
+    }
+    
+    renderChangeTurnMessage(ctx){
+        
+        ctx.fillStyle = 'rgb(0, 0, 0, 0.5)'
+        ctx.fillRect(0, 0, 1920, 1080)
+        
+        ctx.fillStyle = "rgb(242, 211, 6)";
+        ctx.font = this.size+"px LongaIberica-DEMO"
+        ctx.globalAlpha = this.alpha;
+        ctx.fillText(this.message, this.xPos, this.yPos);
+        ctx.globalAlpha = 1.0;
+        ctx.fillStyle = "white";
     }
 }

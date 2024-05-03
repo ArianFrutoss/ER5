@@ -295,6 +295,7 @@ export const MessageState = {
 export const MessageType = {
     DAMAGE_MESSAGE:     0,
     HELP_MESSAGE:       1,
+    CHANGE_TURN_MESSAGE: 2
 }
 
 export const HelpMessagesPos = {

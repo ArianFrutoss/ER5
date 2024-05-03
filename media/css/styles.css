@@ -124,7 +124,7 @@ body{
 }
 
 #caja{
-    width: 480px;
+    width: 500px;
     background-color: rgba(0, 0, 0, .8);
     border: 2px solid rgba(255, 255, 255, .2);
     color: #fff;
@@ -138,22 +138,59 @@ body{
     padding: 10px;
     font-size: 20px;
     color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Poppins';
+    font-weight: 500;
+
+}
+
+#caja .logout{
+  font-size: 14.5px;
+  text-align: right;
+  padding-left: 5px;
+  margin-top: 20px;
+}
+
+#caja .buttons .btn-lobby{
+  margin: auto;
+  margin-top: 50px;
+
+}
+
+
+.logout a{
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+}
+
+.logout a:hover{
+  text-decoration: underline;
 }
 
 .idioma select{
-    margin-left: 10px;
+    margin-left: 40px;
+    font-family: 'Poppins';
+    padding: 5px;
 }
 
-.player_list{
+#caja .player_list{
+    margin-top: 40px;
     width: 100%;
     padding: 10px;
-    margin-top: 40px;
     font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Poppins';
+    font-weight: 500;
 }
 
 .player_list select{
-    margin-left: 90px;
-    margin-top: -20px;
+    font-family: 'Poppins';
+    padding: 5px;
 }
 
 .btn-lobby {
@@ -172,11 +209,17 @@ body{
 }
 
 #user-data{
-    width: 90%;
+    width: 40%;
     height: auto;
     margin: 0 auto;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 10px;
+    font-size: 26px;
+    font-family: 'Poppins';
+    left: 0;
+    margin-bottom: 50px;
 }
 
 #statsDiv {

@@ -186,10 +186,10 @@ export default class Game {
 
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer, this.currentTurn);
+        this.timerContainer.render(this.ctx)
         this.turnContainer.buttonContainer.renderButtons(this.language);
         this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
         this.messagesContainer.render(this.ctx, this.language);
-        this.timerContainer.render(this.ctx)
     }
 
     updateGame() {

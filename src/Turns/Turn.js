@@ -74,7 +74,7 @@ export default class Turn {
             const drawCardPhase         = new DrawCardPhase(handDeck, handGrid, eventDeck, graveYardDeck, josephDeck)
             const minionAttackPhase     = new MinionAttackPhase(activeMinionDeck, enemyActiveMinionDeck, activeEventDeck, enemyActiveEventDeck, graveYardDeck, boardGrid, mouse, buttons);
             const minionMovementPhase   = new MinionMovementPhase(activeMinionDeck, enemyActiveMinionDeck, boardGrid, mouse);
-            const prepareEventPhase     = new PrepareEventPhase( handDeck, activeEventDeck, handGrid, activeEventGrid, mouse);
+            const prepareEventPhase     = new PrepareEventPhase(handDeck, activeEventDeck, handGrid, activeEventGrid, mouse);
             const useEventPhase         = new UseEventPhase(activeEventGrid, activeEventDeck,boardGrid, activeMinionDeck, enemyActiveMinionDeck, mouse, this)
     
             const phasesArray = [defaultPhase, discardPhase, drawCardPhase, minionMovementPhase, minionAttackPhase, prepareEventPhase, useEventPhase];
@@ -123,7 +123,6 @@ export default class Turn {
 
     init(timerContainer, mouse){
 
-        this.deselect();
         this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
 
         this.restoreCardStatesFromActiveDecks()
@@ -153,6 +152,8 @@ export default class Turn {
 
         // indicar turno activo
         this.active = true;
+
+        this.deselect();
     }
 
     assignTurnToBuffCard(){ 
@@ -251,6 +252,7 @@ export default class Turn {
                 }
 
                 if(isDiscardFinished){
+                    this.deselect();
                     this.buttonContainer.resetStatesButtons();
                     this.phaseState = PhaseStates.DEFAULT;
                     return true

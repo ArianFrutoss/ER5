@@ -3,15 +3,14 @@ import Slot from "./Slot.js";
 
 export default class Grid{
 
-    constructor(xPos, yPos, id, rows, columns, slotsArray){
+    constructor(xPos, yPos, id, rows, columns, slots){
 
         this.xPos               = xPos;
         this.yPos               = yPos;
         this.id                 = id;
         this.rows               = rows;
         this.columns            = columns;
-        this.slots              = slotsArray;
-        this.activeSlotsArray   = [];
+        this.slots              = slots;
     }
 
     // Funcion crea un Grid y sus Slots
@@ -198,7 +197,7 @@ export default class Grid{
             for (let j = 0; j < this.slots[0].length; j++){
             
                 const slot = this.slots[i][j];
-                slot.deselect();
+                slot.deselect(this.deck);
             }
         }
     }

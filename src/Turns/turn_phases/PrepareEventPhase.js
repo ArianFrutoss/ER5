@@ -3,7 +3,7 @@ import Phase from "./Phase.js";
 
 export default class PrepareEventPhase extends Phase{
 
-    constructor(handDeck, eventDeck, handGrid,eventGrid, mouse){
+    constructor(handDeck, eventDeck, handGrid,eventGrid){
         super();
         this.handDeck   = handDeck;
         this.handGrid   = handGrid;

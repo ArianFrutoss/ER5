@@ -1,4 +1,4 @@
-import { ButtonState, ButttonsId, LanguageId } from "../constants.js";
+import { ButtonState, ButttonsId, LanguageId, PhaseStates, TurnStates } from "../constants.js";
 import ButtonContainer from "./ButtonContainer.js";
 
 export default class Button {
@@ -81,41 +81,44 @@ export default class Button {
         ctx.closePath();
     }
 
-    update(mouse, buttonContainer){
+    update(mouse, buttonContainer, turn){
 
         const state = this.state;
         const isCollidingWithMouse = mouse.isCollidingWithButton(this);
         const isAnyButtonSelected = buttonContainer.isAnyButtonSelected();
 
-        // MAQUINA DE ESTADOS
-        switch(state){
-            case ButtonState.NOT_SELECTED:
+        if (turn.actionsCounter != turn.maxActions || this.id === ButttonsId.BTN_CHANGE_LANGUAGE){
             
-                this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
-                this.color = "#582900";
-                break;
-
-            case ButtonState.HOVER:
-
-                this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
-
-                if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE){
-
-                    this.state = !mouse.leftClick && !isAnyButtonSelected && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
-                }
-
-                else{
-
-                    this.state = !mouse.leftClick && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
-                }
+            // MAQUINA DE ESTADOS
+            switch(state){
+                case ButtonState.NOT_SELECTED:
                 
-                break;
+                    this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
+                    this.color = "#582900";
+                    break;
 
-            case ButtonState.SELECTED:
-                
-                this.state = !mouse.leftClick && mouse.previousStateLeft && isCollidingWithMouse ? ButtonState.NOT_SELECTED : this.state;
-                this.color = "red";
-                break;
+                case ButtonState.HOVER:
+
+                    this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
+
+                    if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE){
+
+                        this.state = !mouse.leftClick && !isAnyButtonSelected && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
+                    }
+
+                    else{
+
+                        this.state = !mouse.leftClick && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
+                    }
+                    
+                    break;
+
+                case ButtonState.SELECTED:
+                    
+                    this.state = !mouse.leftClick && mouse.previousStateLeft && isCollidingWithMouse ? ButtonState.NOT_SELECTED : this.state;
+                    this.color = "red";
+                    break;
+            }
         }
     }
 

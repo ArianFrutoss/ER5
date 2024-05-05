@@ -57,12 +57,12 @@ export default class ButtonContainer{
         }
     }
 
-    updateButtons(mouse) {
+    updateButtons(mouse, turn) {
         
         for (let i = 0; i < this.container.length; i++){
 
             const button = this.container[i];
-            button.update(mouse, this);
+            button.update(mouse, this, turn);
         }
     }
     

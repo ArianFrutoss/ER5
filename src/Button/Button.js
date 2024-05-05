@@ -98,7 +98,17 @@ export default class Button {
             case ButtonState.HOVER:
 
                 this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
-                this.state = !mouse.leftClick && !isAnyButtonSelected && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
+
+                if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE){
+
+                    this.state = !mouse.leftClick && !isAnyButtonSelected && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
+                }
+
+                else{
+
+                    this.state = !mouse.leftClick && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
+                }
+                
                 break;
 
             case ButtonState.SELECTED:

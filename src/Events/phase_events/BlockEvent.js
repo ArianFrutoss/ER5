@@ -52,13 +52,16 @@ export default class BlockEvent extends Event{
         
         if (this.damage === 0) {
             damageRender = "BLOCKED"
+        }else if(this.defenderMinion.health <= 0){
+            damageRender = "DEAD"
+
         }else{
             damageRender = "-" + this.damage + "(" + (initialDmg - this.damage) + ")"
             if (BlockStates.FAILED_BLOCK) {
                 damageRender = "BLOCK BLUNT "+ damageRender
             }
-            console.log(damageRender);
         }
+        
         const doneDamage = new Messages(this.defenderMinion.xPos, this.defenderMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, size, color);
         messagesContainer.addMessage(doneDamage);
 

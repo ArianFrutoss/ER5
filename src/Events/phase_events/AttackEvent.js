@@ -50,6 +50,9 @@ export class AttackEvent extends Event{
         }
         this.damageDone += damage;
         damageRender = -damage + damageRender
+        if(this.objectiveMinion.health <= 0){
+            damageRender = "DEAD"
+        }
         const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, size, color);
         messagesContainer.addMessage(doneDamage);
     }

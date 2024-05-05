@@ -1,5 +1,5 @@
 import Timer from "./Timer.js";
-import { TimerId } from "./constants.js";
+import { PhaseStates, TimerId } from "./constants.js";
 
 export default class TimerContainer{
 
@@ -11,8 +11,15 @@ export default class TimerContainer{
     create(){
 
         // Crear Timer
-        const timer = new Timer(120, 1, TimerId.TURN_TIMER);
-        this.timer.push(timer);
+        const turnTimer = new Timer(120, 1, TimerId.TURN_TIMER);
+        const discardTimer = new Timer(30, 1, TimerId.DISCARD_TIMER);
+
+        const timers = [turnTimer, discardTimer];
+
+        for (let i = 0; i < timers.length; i++){
+
+            this.timer.push(timers[i]);
+        }
     }
 
     update(timerId){
@@ -41,7 +48,25 @@ export default class TimerContainer{
             }
         }
     }
-    render(ctx){
-        this.timer[TimerId.TURN_TIMER].render(ctx)
+    render(ctx, phase){
+
+        switch (phase){
+
+            case PhaseStates.DEFAULT:
+            case PhaseStates.ATTACK:
+            case PhaseStates.MOVEMENT:
+            case PhaseStates.PREPARE_EVENT:
+            case PhaseStates.USE_EVENT_CARD:
+            case PhaseStates.DRAW_CARD:
+                this.timer[TimerId.TURN_TIMER].render(ctx);
+                break;
+
+            case PhaseStates.DISCARD_CARD:
+                this.timer[TimerId.DISCARD_TIMER].render(ctx);
+                break;
+
+            default:
+                break;
+        }
     }
 }

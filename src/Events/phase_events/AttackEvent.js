@@ -21,6 +21,7 @@ export class AttackEvent extends Event{
         const fail   = this.calculateFail(dice);
      
         let damage;
+        let damageRender = ""
         let size = 80
         let color = "red"
 
@@ -37,18 +38,20 @@ export class AttackEvent extends Event{
             this.objectiveMinion.health -= damage
             size = 100
             color= "orange"
+            damageRender = "!! CRITICAL"
         }else if(fail){
             damage = 0
             this.objectiveMinion.health -= damage;
             size = 100
             color= "white"
+            damageRender = "BLUNT"
         }else{
             this.objectiveMinion.health -= damage;
         }
-        
-        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, -damage, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, size, color);
-        messagesContainer.addMessage(doneDamage);
         this.damageDone += damage;
+        damageRender = -damage + damageRender
+        const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, size, color);
+        messagesContainer.addMessage(doneDamage);
     }
 
     attack(){
@@ -86,8 +89,9 @@ export class AttackEvent extends Event{
 
     attackWithParry(messagesContainer){
         const enemyWeapon = this.objectiveMinion.weapon;
-        let damage;
-
+        let damage = 0;
+        let size = 0
+        let color= "red"
         const dice = this.throwDice();
         const critic = this.calculateCritic(dice);
         const fail   = this.calculateFail(dice);
@@ -144,7 +148,6 @@ export class AttackEvent extends Event{
                 color= "white"
             }
 
-
             if(enemyWeapon.durability > damage * 0.75){
 
                 let defense = Math.floor(damage);
@@ -161,9 +164,10 @@ export class AttackEvent extends Event{
                 this.damageDone += damage;
                 
             }else{
+                
                 const block = new BlockEvent(this.attackerMinion, this.objectiveMinion, damage);
 
-                let damage = block.execute(messagesContainer,size, color);
+                damage = block.execute(messagesContainer,size, color);
                 this.damageDone += damage;
             }
 

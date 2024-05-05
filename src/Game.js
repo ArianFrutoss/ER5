@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -114,14 +114,11 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.updateGame();
-                this.deckContainer.updateScale(this.mouse)
-                // this.deckContainer.updateDecks(this.mouse)
-                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer);
-                
-                this.mouse.update();
+                this.deckContainer.updateScale(this.mouse);
                 this.turnContainer.buttonContainer.updateButtons(this.mouse);
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer);
+                this.mouse.update();
                 
-
                 if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length + 
                    this.turnContainer.turnContainer[this.currentTurn].minionDeck.cards.length === 0){
                     this.gameState = GameState.SEND_DATA;
@@ -141,7 +138,7 @@ export default class Game {
                     }
                     this.messagesContainer.update();
                 }
-            
+                
                 break;
 
             case GameState.GAMEOVER:
@@ -198,10 +195,9 @@ export default class Game {
     }
 
     updateGame() {
-        // console.log(this.eventContainer.events);
-        // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
-        // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards);
-        // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards);
+        
+        // Funcion para cambio de idioma
+        this.changeLanguage();
         
         // Funcion que posiciona las Cards en la posicion de los Slots
         const turn = this.turnContainer.turnContainer[this.currentTurn];
@@ -213,6 +209,17 @@ export default class Game {
 
 
         //this.updateTurns(); ---> test de cambio de turnos
+    }
+
+    changeLanguage(){
+
+        const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_CHANGE_LANGUAGE];
+
+        if (button.state === ButtonState.SELECTED){
+    
+            this.language = this.language === LanguageId.ENG ? LanguageId.EUS : LanguageId.ENG;
+            button.state = ButtonState.NOT_SELECTED;
+        }
     }
 
     // Funcion que roba las Cards del EventDeck y las asigna al HandDeck              

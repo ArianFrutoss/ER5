@@ -1,9 +1,11 @@
 import { ButtonState, LanguageId } from "../constants.js";
+import ButtonContainer from "./ButtonContainer.js";
 
 export default class Button {
 
-    constructor(ctx, x, y, width, height,  text, state, phaseState, renderState, img){
+    constructor(id, ctx, x, y, width, height,  text, state, phaseState, renderState, img){
         
+        this.id         = id;
         this.ctx        = ctx;
         this.x          = x;
         this.y          = y;
@@ -67,34 +69,32 @@ export default class Button {
         ctx.closePath();
     }
 
-    update(mouse){
+    update(mouse, buttonContainer){
+
         const state = this.state;
-   
-    
         const isCollidingWithMouse = mouse.isCollidingWithButton(this);
-        
+        const isAnyButtonSelected = buttonContainer.isAnyButtonSelected();
+
         // MAQUINA DE ESTADOS
         switch(state){
             case ButtonState.NOT_SELECTED:
             
-                this.state = isCollidingWithMouse ? ButtonState.HOVER : ButtonState.NOT_SELECTED;
+                this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
                 this.color = "#582900";
-
-                break;
-
-            case ButtonState.SELECTED:
-                this.color = "red";
-                this.state = isCollidingWithMouse && mouse.rightClick ? ButtonState.NOT_SELECTED : ButtonState.SELECTED;
                 break;
 
             case ButtonState.HOVER:
-    
-                this.state = isCollidingWithMouse ?  ButtonState.HOVER : ButtonState.NOT_SELECTED;
-                this.state = mouse.leftClick ? ButtonState.SELECTED: ButtonState.NOT_SELECTED;
+
+                this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
+                this.state = !mouse.leftClick && !isAnyButtonSelected && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
+                break;
+
+            case ButtonState.SELECTED:
+                
+                this.state = !mouse.leftClick && mouse.previousStateLeft && isCollidingWithMouse ? ButtonState.NOT_SELECTED : this.state;
+                this.color = "red";
                 break;
         }
-
-
     }
 
     deselect(){

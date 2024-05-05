@@ -99,6 +99,17 @@ export const SlotsState = {
     HOVER:          2
 }
 
+export const ButttonsId = { 
+    BTN_MOVE:               0,
+    BTN_PREPARE_EVENT:      1,
+    BTN_USE_EVENT:          2,
+    BTN_ATTACK:             3,
+    BTN_END_TURN:           4,
+    BTN_CHANGE_LANGUAGE:    5,
+    BTN_PARRY:              6,
+    BTN_NO_PARRY:           7,
+}
+
 export const ButtonState = {
     NOT_SELECTED:   0,
     SELECTED:       1,

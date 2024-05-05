@@ -374,6 +374,9 @@ export default class Curse extends Card{
                                 this.imageAttributes[1],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                         }
+                        ctx.font = "bold 12px LongaIberica-DEMO";
+                        const eventState = this.checkState()
+                        ctx.fillText(eventState[language], xPos + IconsPos.EVENT_STATE_X, yPos + IconsPos.EVENT_STATE_Y);
                     }
 
             } else {
@@ -389,6 +392,16 @@ export default class Curse extends Card{
                 }
             
     }
+    checkState(){
+        if (this.cooldown > 0) {
+            return ["NOT READY","PREST EZ"]  
+        }else if(this.cooldown <= 0){
+            return ["READY", "PREST"]
+        }else{
+            return ["APPLIED", "ERABILITA"]
+        }
+}
+
     renderToolTip(xPos, yPos, language, ctx){
         ctx.fillStyle = '#d59d00'
         ctx.fillRect(xPos, yPos, 178, 63 ) 

@@ -283,9 +283,6 @@ export default class Armor extends Card{
                             ctx.fillText(attackRender, IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
                             ctx.strokeText(Math.ceil(attackRender), IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
                     }
-
-
-                    if (size === CardId.EVENT_SIZE){
                         
                         if(size === CardId.EVENT_SIZE){
                             
@@ -341,8 +338,13 @@ export default class Armor extends Card{
                                     IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                                     
                             }
+
+                            ctx.font = "bold 12px LongaIberica-DEMO";
+                            const eventState = this.checkState()
+                            ctx.fillText(eventState[language], xPos + IconsPos.EVENT_STATE_X, yPos + IconsPos.EVENT_STATE_Y);
+
                         }
-                    }
+                    
 
             } else {
                 
@@ -359,6 +361,15 @@ export default class Armor extends Card{
                 }
             
     }
+    checkState(){
+        if (this.cooldown > 0) {
+            return ["NOT READY","PREST EZ"]  
+        }else if(this.cooldown <= 0){
+            return ["READY", "PREST"]
+        }else{
+            return ["EQUIPPED", "EKIPATUA"]
+        }
+}
     renderToolTip(xPos, yPos, language, ctx){
         ctx.fillStyle = '#d59d00'
         ctx.fillRect(xPos, yPos, 178, 63 ) 

@@ -353,7 +353,6 @@ export default class Buff extends Card {
                             this.imageAttributes[0],
                             IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                     }
-                    
                     else{
     
                         ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
@@ -400,6 +399,10 @@ export default class Buff extends Card {
                                 this.imageAttributes[1],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                     }
+                    ctx.font = "bold 12px LongaIberica-DEMO";
+                    const eventState = this.checkState()
+                    ctx.fillText(eventState[language], xPos + IconsPos.EVENT_STATE_X, yPos + IconsPos.EVENT_STATE_Y);
+
                 }
 
             } else {
@@ -415,6 +418,15 @@ export default class Buff extends Card {
                 }
             
     }
+    checkState(){
+        if (this.cooldown > 0) {
+            return ["NOT READY","PREST EZ"]  
+        }else if(this.cooldown <= 0){
+            return ["READY", "PREST"]
+        }else{
+            return ["APPLIED", "ERABILITA"]
+        }
+}
     renderToolTip(xPos, yPos, language, ctx){
         ctx.fillStyle = '#d59d00'
         ctx.fillRect(xPos, yPos, 178, 63 ) 

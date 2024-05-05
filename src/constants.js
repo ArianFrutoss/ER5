@@ -282,6 +282,8 @@ export const IconsPos = {
     JOSEPH_Y: 77,
     TURN_TIMER_X: 1560,
     TURN_TIMER_Y: 640,
+    EVENT_STATE_X: 44,
+    EVENT_STATE_Y: 77,
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 

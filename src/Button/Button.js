@@ -1,4 +1,4 @@
-import { ButtonState, LanguageId } from "../constants.js";
+import { ButtonState, ButttonsId, LanguageId } from "../constants.js";
 import ButtonContainer from "./ButtonContainer.js";
 
 export default class Button {
@@ -26,7 +26,19 @@ export default class Button {
 
         if (this.state === ButtonState.SELECTED) {
             this.ctx.fillStyle = "#C36F29";
-            this.ctx.fillRect(this.x+8, this.y+9, this.width, this.height); // Llamada a la función para dibujar un rectángulo redondeado
+
+            if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE){
+
+                this.ctx.fillRect(this.x+8, this.y+9, this.width, this.height); // Llamada a la función para dibujar un rectángulo redondeado
+            }
+
+            else{
+                this.ctx.beginPath();
+                this.ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
+                this.ctx.fill();
+                this.ctx.closePath();
+            }
+            
             this.ctx.fillStyle = 'rgb(22, 22, 2)';
         }else{
             this.ctx.fillStyle = 'rgb(242, 211, 6)';

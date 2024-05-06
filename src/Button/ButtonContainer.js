@@ -26,26 +26,17 @@ export default class ButtonContainer{
 
     renderButtons(language){
         
-
         const state = this.state;
 
-        switch(state){
-            case renderState.GAME:
-                for(let i = 0; i < 6; i++){
-                    const btn = this.container[i];
-        
-                    btn.render(language);
-                }
-                break;
+        for (let i = 0; i < this.container.length; i++){
 
-            case renderState.PARRY:
-                for(let i = 5; i < 7; i++){
-                    const btn = this.container[i];
-        
-                    btn.render(language);
-                }
-                break;
-        }      
+            const btn = this.container[i];
+
+            if (btn.renderState === state || btn.renderState === undefined){
+
+                btn.render(language);
+            }
+        }
     }
 
     deselect(){
@@ -59,15 +50,19 @@ export default class ButtonContainer{
 
     updateButtons(mouse, turn) {
         
+        const state = this.state;
+
         for (let i = 0; i < this.container.length; i++){
 
-            const button = this.container[i];
-            button.update(mouse, this, turn);
+            const btn = this.container[i];
+
+            if (btn.renderState === state || btn.renderState === undefined){
+
+                btn.update(mouse, this, turn);
+            }
         }
     }
     
-
-
     isAnyButtonSelected(){
         for(let i = 0; i < this.container.length; i++){
             const button = this.container[i];

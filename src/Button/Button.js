@@ -5,17 +5,18 @@ export default class Button {
 
     constructor(id, ctx, x, y, width, height,  text, state, phaseState, renderState, img){
         
-        this.id         = id;
-        this.ctx        = ctx;
-        this.x          = x;
-        this.y          = y;
-        this.width      = width;
-        this.height     = height;
-        this.text       = text;
-        this.state      = state;
-        this.phaseState = phaseState;
-        this.color      = "#582900";
-        this.img        = img;
+        this.id             = id;
+        this.ctx            = ctx;
+        this.x              = x;
+        this.y              = y;
+        this.width          = width;
+        this.height         = height;
+        this.text           = text;
+        this.state          = state;
+        this.phaseState     = phaseState;
+        this.renderState    = renderState;
+        this.color          = "#582900";
+        this.img            = img;
 }
 
     render(language){

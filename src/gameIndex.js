@@ -82,7 +82,7 @@ function showBtnIfOpponentSelected() {
 
 function showStats() {
   const id = localStorage.mongo_id
-  fetch(`http://localhost:4000/getStatsData/${id}`)
+  fetch(`${BaseURL[BaseURLValue]}/getStatsData/${id}`)
     .then((response) => response.json())
     .then((data) => {  
           document.body.style.background = 'url(/media/images/background/noticeBoard.png) no-repeat center';

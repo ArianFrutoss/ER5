@@ -44,6 +44,8 @@ export default class DrawCardPhase extends Phase{
             const card = this.graveyardDeck.cards[i];
             this.eventDeck.cards.push(card)
             card.setDeck(this.eventDeck)
+            card.restoreValues()
+            card.deck = this.eventDeck
             this.graveyardDeck.cards.pop()
         }
         this.eventDeck.shuffle()

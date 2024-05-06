@@ -123,9 +123,9 @@ export default class Slot{
     }
     
     isSlotUsed(decks){
-        
-        if (decks.length === undefined){
-                
+
+        if (decks.length === undefined && decks.cards.length != undefined){
+
             for (let j = 0; j < decks.cards.length; j++){
 
                 const card = decks.cards[j];
@@ -136,11 +136,6 @@ export default class Slot{
                     this.isAviable = false;
                     this.state = SlotsState.NOT_SELECTED;
                     return true;
-                }
-
-                else{
-                    
-                    this.isEmpty = true;
                 }
             }
         }
@@ -162,15 +157,12 @@ export default class Slot{
                         this.state = SlotsState.NOT_SELECTED;
                         return true;;
                     }
-    
-                    else{
-                        this.isEmpty = true;
-                    }
                 }
             }
  
         }
 
+        this.isEmpty = true;
         return false;
     }
 

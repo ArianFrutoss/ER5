@@ -10,12 +10,17 @@ export default class DiscardPhase extends Phase{
         this.graveyardDeck  = graveyardDeck;
         this.mouse          = mouse
     }
-    execute(messagesContainer){
+    execute(messagesContainer, value){
         this.handDeck.update(this.mouse, this.handDeck)
         
         messagesContainer.activeMessage(messageDiscardPhase);
         
         if (this.handDeck.cards.length > 4) {
+
+            if (value <= 0){
+                
+                this.handDeck.autoSelectAnyCard();
+            }
 
             const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)
             if (isAnyCardSelected[0]) {

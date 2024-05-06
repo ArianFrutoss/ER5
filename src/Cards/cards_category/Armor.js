@@ -46,6 +46,7 @@ export default class Armor extends Card{
         } else if (this.state === CardId.SCALED) {
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
+        this.armorLogic()
     }
     update(mouse, decks){
     
@@ -93,9 +94,22 @@ export default class Armor extends Card{
     armorLogic(){
         switch (this.action) {
             case CardActions.COOLDOWN:
-                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                this.action = this.cooldown <= 0 ? CardActions.READY : this.action
                 break;
-        
+
+            case CardActions.READY:
+
+                break;
+
+            case CardActions.WORN_OUT:
+
+                break;
+            
+            case CardActions.ON_USE:
+                if (this.durability <= 0) {
+                    this.action = CardActions.WORN_OUT;
+                }
+                break;
             default:
                 break;
         }
@@ -127,6 +141,22 @@ export default class Armor extends Card{
 
         this.state = CardId.NOT_SELECTED;
     }
+
+    restoreValues(){
+
+        this.xPos = -400;
+        this.yPos = -400;
+        this.health = this.previousHealth;
+        this.defense = this.previousDefense;
+        this.attack = this.previousAttack;
+        this.speed = this.previousSpeed;
+        this.cooldown = this.previousCooldown;
+        this.durability = this.previousDurability;
+        this.action = this.previousAction;
+        this.state = this.previousState;
+        this.size = this.previousSize;
+    }
+
     render(ctx, language, equipped = false, xPosModifier = 0, yPosModifier = 0){
         let xPos = this.xPos
         let yPos = this.yPos
@@ -267,9 +297,6 @@ export default class Armor extends Card{
                             ctx.fillText(attackRender, IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
                             ctx.strokeText(Math.ceil(attackRender), IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
                     }
-
-
-                    if (size === CardId.EVENT_SIZE){
                         
                         if(size === CardId.EVENT_SIZE){
                             
@@ -325,8 +352,13 @@ export default class Armor extends Card{
                                     IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                                     
                             }
+
+                            ctx.font = "bold 12px LongaIberica-DEMO";
+                            const eventState = this.checkState()
+                            ctx.fillText(eventState[language], xPos + IconsPos.EVENT_STATE_X, yPos + IconsPos.EVENT_STATE_Y);
+
                         }
-                    }
+                    
 
             } else {
                 
@@ -342,6 +374,23 @@ export default class Armor extends Card{
                     return false
                 }
             
+    }
+    checkState(){
+
+        switch (this.action){
+
+            case CardActions.COOLDOWN:
+                return ["NOT READY","PREST EZ"];
+            
+            case CardActions.READY:
+                return ["READY", "PREST"];
+
+            case CardActions.ON_USE:
+                return ["APPLIED", "ERABILITA"];
+
+            default:
+                break;
+        }
     }
     renderToolTip(xPos, yPos, language, ctx){
         ctx.fillStyle = '#d59d00'

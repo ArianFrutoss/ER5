@@ -39,6 +39,7 @@ export default class Spell extends Card{
         } else if (this.state === CardId.SCALED) {
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
+        this.spellLogic()
     }
     update(mouse, decks){
     
@@ -86,7 +87,7 @@ export default class Spell extends Card{
     spellLogic(){
         switch (this.action) {
             case CardActions.COOLDOWN:
-                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                this.action = this.cooldown <= 0 ? CardActions.READY : this.action
                 break;
         
             default:
@@ -118,6 +119,17 @@ export default class Spell extends Card{
     deselect(){
 
         this.state = CardId.NOT_SELECTED;
+    }
+
+    restoreValues(){
+
+        this.xPos = -400;
+        this.yPos = -400;
+        this.cooldown = this.previousCooldown;
+        this.durability = this.previousDurability;
+        this.action = this.previousAction;
+        this.state = this.previousState;
+        this.size = this.previousSize;
     }
 
     removeIfWornOut(activeEventDeck, graveyardDeck){
@@ -284,9 +296,7 @@ export default class Spell extends Card{
                             ctx.drawImage(
                                 this.imageAttributes[0],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
-                        }
-                        
-                        else{
+                        } else{
     
                             ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
                             ctx.fillRect(xPos, yPos, IconsPos.EVENT_FADE_WIDTH, IconsPos.EVENT_FADE_HEIGTH);
@@ -331,6 +341,9 @@ export default class Spell extends Card{
                                 this.imageAttributes[1],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                         }
+                        ctx.font = "bold 12px LongaIberica-DEMO";
+                        const eventState = this.checkState()
+                        ctx.fillText(eventState[language], xPos + IconsPos.EVENT_STATE_X, yPos + IconsPos.EVENT_STATE_Y);
                     }
 
             } else {
@@ -345,6 +358,23 @@ export default class Spell extends Card{
                     return false
                 }
             
+    }
+    checkState(){
+
+        switch (this.action){
+
+            case CardActions.COOLDOWN:
+                return ["NOT READY","PREST EZ"];
+            
+            case CardActions.READY:
+                return ["READY", "PREST"];
+
+            case CardActions.ON_USE:
+                return ["APPLIED", "ERABILITA"];
+
+            default:
+                break;
+        }
     }
     renderToolTip(xPos, yPos, language, ctx){
         ctx.fillStyle = '#d59d00'

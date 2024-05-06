@@ -46,6 +46,7 @@ export default class Weapon extends Card{
         } else if (this.state === CardId.SCALED) {
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
+        this.weaponLogic()
     }
     update(mouse, decks){
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -92,7 +93,7 @@ export default class Weapon extends Card{
     weaponLogic(){
         switch (this.action) {
             case CardActions.COOLDOWN:
-                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                this.action = this.cooldown <= 0 ? CardActions.READY : this.action
                 break;
         
             default:
@@ -127,6 +128,21 @@ export default class Weapon extends Card{
     deselect(){
 
         this.state = CardId.NOT_SELECTED;
+    }
+
+    restoreValues(){
+
+        this.xPos = -400;
+        this.yPos = -400;
+        this.health = this.previousHealth;
+        this.defense = this.previousDefense;
+        this.attack = this.previousAttack;
+        this.speed = this.previousSpeed;
+        this.cooldown = this.previousCooldown;
+        this.durability = this.previousDurability;
+        this.action = this.previousAction;
+        this.state = this.previousState;
+        this.size = this.previousSize;
     }
 
     render(ctx, language, equipped = false, xPosModifier = 0, yPosModifier = 0){
@@ -330,6 +346,9 @@ export default class Weapon extends Card{
                                 this.imageAttributes[1],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                         }
+                        ctx.font = "bold 12px LongaIberica-DEMO";
+                        const eventState = this.checkState()
+                        ctx.fillText(eventState[language], xPos + IconsPos.EVENT_STATE_X, yPos + IconsPos.EVENT_STATE_Y);
                     }
 
         } else {
@@ -344,6 +363,23 @@ export default class Weapon extends Card{
                 return false
             }
         
+    }
+    checkState(){
+
+        switch (this.action){
+
+            case CardActions.COOLDOWN:
+                return ["NOT READY","PREST EZ"];
+            
+            case CardActions.READY:
+                return ["READY", "PREST"];
+
+            case CardActions.ON_USE:
+                return ["APPLIED", "ERABILITA"];
+
+            default:
+                break;
+        }
     }
     renderToolTip(xPos, yPos, language, ctx){
         ctx.fillStyle = '#d59d00'

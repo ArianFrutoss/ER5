@@ -22,7 +22,6 @@ export default class messagesContainerDefaultPhase extends Phase {
         this.updateEventDeck();
         if(returnState !== undefined){
             
-            // console.log(returnState);
             return returnState;
 
         }else{

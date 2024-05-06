@@ -43,6 +43,7 @@ export default class Buff extends Card {
         } else if (this.state === CardId.SCALED) {
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
+        this.logic()
     }
     update(mouse, decks){
         
@@ -92,15 +93,11 @@ export default class Buff extends Card {
     
         switch (this.action) {
             case CardActions.COOLDOWN:
-                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                this.action = this.cooldown <= 0 ? CardActions.READY : this.action
                 break;
 
             case CardActions.READY:
                 this.updateReady(); // Entro aqui 
-                break;
-
-            case CardActions.NOT_ACTIVE:
-
                 break;
 
             case CardActions.WORN_OUT:
@@ -136,9 +133,7 @@ export default class Buff extends Card {
 
     updateReady(){
         const id   = this.id;
-                const card = this;
-        const enemyHandDeck = this.turn.enemyHandDeck;
-        const handDeck      = this.turn.handDeck;
+                
         switch(id){
             case BuffId.HERO_EMPOWERMENT:
                 this.action = CardActions.ON_USE;
@@ -156,6 +151,9 @@ export default class Buff extends Card {
                 break;
 
             case BuffId.DECEPTION:
+                const card = this;
+                const enemyHandDeck = this.turn.enemyHandDeck;
+                const handDeck      = this.turn.handDeck;
                 this.eventContainer.createHandDeckSpecialEventAndPush(card, enemyHandDeck, handDeck);
                 this.action = CardActions.ON_USE;
                 break;
@@ -194,6 +192,18 @@ export default class Buff extends Card {
 
         this.state = CardId.NOT_SELECTED;
     }
+
+    restoreValues(){
+
+        this.xPos = -400;
+        this.yPos = -400;
+        this.cooldown = this.previousCooldown;
+        this.durability = this.previousDurability;
+        this.action = this.previousAction;
+        this.state = this.previousState;
+        this.size = this.previousSize;
+    }
+
     render(ctx, language){
         ctx.fillStyle = "black"
         let xPos = this.xPos
@@ -340,7 +350,6 @@ export default class Buff extends Card {
                             this.imageAttributes[0],
                             IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                     }
-                    
                     else{
     
                         ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
@@ -387,6 +396,10 @@ export default class Buff extends Card {
                                 this.imageAttributes[1],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                     }
+                    ctx.font = "bold 12px LongaIberica-DEMO";
+                    const eventState = this.checkState()
+                    ctx.fillText(eventState[language], xPos + IconsPos.EVENT_STATE_X, yPos + IconsPos.EVENT_STATE_Y);
+
                 }
 
             } else {
@@ -401,6 +414,23 @@ export default class Buff extends Card {
                     return false
                 }
             
+    }
+    checkState(){
+
+        switch (this.action){
+
+            case CardActions.COOLDOWN:
+                return ["NOT READY","PREST EZ"];
+            
+            case CardActions.READY:
+                return ["READY", "PREST"];
+
+            case CardActions.ON_USE:
+                return ["APPLIED", "ERABILITA"];
+
+            default:
+                break;
+        }
     }
     renderToolTip(xPos, yPos, language, ctx){
         ctx.fillStyle = '#d59d00'

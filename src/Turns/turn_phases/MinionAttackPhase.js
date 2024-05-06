@@ -205,13 +205,12 @@ export default class MinionAttackPhase extends Phase {
     }
 
     // comprobar si la fase se cancela
-    isPhaseCancelled(buttonContainer, messagesContainer){
-
+    isPhaseCancelled(buttonContainer){
+        
         const buttonState = buttonContainer.isAnyButtonSelected();
 
         if (this.state === AttackState.DEFAULT && buttonState === PhaseStates.DEFAULT) {
 
-            // messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             return true;
         } else {
 
@@ -257,6 +256,15 @@ export default class MinionAttackPhase extends Phase {
             this.distance = this.calculateDistance(this.attacker, this.enemy);
         }
 
+    }
+
+    restoreValues(){
+
+        this.enemyPosition = null;
+        this.attacker = null;
+        this.enemy = null;
+        this.distance = null;
+        this.state = AttackState.DEFAULT;
     }
 
     checkIfEnemyHasWeapon(){

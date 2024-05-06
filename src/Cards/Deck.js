@@ -138,6 +138,13 @@ export default class Deck {
         }  
     }
 
+    autoSelectAnyCard(){
+
+        const card = Math.floor(Math.random() * this.cards.length);
+        
+        this.cards[card].state = CardId.SELECTED;
+    }
+
     renderCards(ctx, language, mouse, team){
         let toolTip
         let isCollidingWithWeapon

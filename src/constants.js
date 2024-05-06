@@ -99,6 +99,17 @@ export const SlotsState = {
     HOVER:          2
 }
 
+export const ButttonsId = { 
+    BTN_MOVE:               0,
+    BTN_PREPARE_EVENT:      1,
+    BTN_USE_EVENT:          2,
+    BTN_ATTACK:             3,
+    BTN_END_TURN:           4,
+    BTN_CHANGE_LANGUAGE:    5,
+    BTN_PARRY:              6,
+    BTN_NO_PARRY:           7,
+}
+
 export const ButtonState = {
     NOT_SELECTED:   0,
     SELECTED:       1,
@@ -266,7 +277,7 @@ export const IconsPos = {
     VFX_Y:[-40,-15,-10],
     EVENT_FADE_WIDTH: 91,
     EVENT_FADE_HEIGTH: 93,
-    EVENT_CD_X: 30,
+    EVENT_CD_X: 29,
     EVENT_CD_Y: 47,
     EVENT_CD_IMAGE_X: 48,
     EVENT_CD_IMAGE_Y: 35,
@@ -282,6 +293,8 @@ export const IconsPos = {
     JOSEPH_Y: 77,
     TURN_TIMER_X: 1560,
     TURN_TIMER_Y: 640,
+    EVENT_STATE_X: 44,
+    EVENT_STATE_Y: 77,
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 
@@ -295,6 +308,7 @@ export const MessageState = {
 export const MessageType = {
     DAMAGE_MESSAGE:     0,
     HELP_MESSAGE:       1,
+    CHANGE_TURN_MESSAGE: 2
 }
 
 export const HelpMessagesPos = {
@@ -304,6 +318,7 @@ export const HelpMessagesPos = {
 
 export const TimerId = {
     TURN_TIMER:     0,
+    DISCARD_TIMER:  1,
 }
 
 export const BaseURL= [

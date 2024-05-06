@@ -87,14 +87,12 @@ export default class Curse extends Card{
         this.curseLogic()
     }
     curseLogic(){
-        console.log(1);
         switch (this.action) {
             case CardActions.COOLDOWN:
                 this.action = this.cooldown <= 0 ? CardActions.READY : this.action
                 break;
             
             case CardActions.READY:
-                console.log(1);
                 this.updateReady();
                 break;
 

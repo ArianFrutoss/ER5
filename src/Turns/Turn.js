@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, ButtonState, TurnId, Team, BuffId, CurseId} from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, ButtonState, TurnId, Team, BuffId, CurseId, renderState, AttackState} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -295,6 +295,9 @@ export default class Turn {
     }
 
     end(messagesContainer, mouse, timerContainer){
+
+        this.phasesArray[PhaseStates.ATTACK].restoreValues();
+        this.buttonContainer.setState(renderState.GAME);
         this.phaseState = PhaseStates.DISCARD_CARD
         this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
         const value = timerContainer.update(TimerId.DISCARD_TIMER);

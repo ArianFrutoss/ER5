@@ -295,6 +295,7 @@ export default class Turn {
     }
 
     end(messagesContainer, mouse, timerContainer){
+        this.phaseState = PhaseStates.DISCARD_CARD
         this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
         const value = timerContainer.update(TimerId.DISCARD_TIMER);
         const isCardDiscarded = this.phasesArray[PhaseStates.DISCARD_CARD].execute(messagesContainer, value);

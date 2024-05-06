@@ -358,4 +358,60 @@ body{
     color: whitesmoke;
     margin-bottom: 20px;
   }
+  #error-message{
+    display: none;
+  }
+
+  .error{
+    margin: auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-radius: 40px;
+    background-color: #ff5a5a;
+    font-family: 'Poppins';
+  }
+
+  .error i {
+    color: red;
+    font-size: 26px;
+    margin-left: 60px;
+  }
+
+  .error p{
+    font-size: 14px;
+    margin-right: 50px;
+  }
+
+  #error-message-register{
+    display: none;
+    margin-bottom: 10px;
+  }
+
+  .error-register{
+    margin: auto;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-radius: 40px;
+    background-color: #ff5a5a;
+    font-family: 'Poppins';
+  }
+
+  .error-register i {
+    color: red;
+    font-size: 14px;
+    margin-left: 60px;
+  }
+
+  .error-register p{
+    font-size: 14px;
+    margin-right: 50px;
+    margin-left: 5px;
+  }
+
 

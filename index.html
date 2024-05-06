@@ -25,7 +25,11 @@
             <input id="password" type="password" name="password" value="" placeholder="Password">
             <i class='bx bxs-lock-alt' ></i>
         </div>
-
+        <div id="error-message">
+            <div class="error" id="error">
+                <i class='bx bx-error'></i>
+            </div>
+        </div>
         <button id = "enterLogin" class="btn">Login</button>
         <!-- <button id = "goToRegister" class="btn" onclick="goToRegister()">If you don't have acount go to register</button> -->
         <div class="register-link">
@@ -48,8 +52,13 @@
             <i class='bx bxs-lock-alt' ></i>
         </div>
         <div class="input-box">
-            <input id = "password_confirm" type="password" name="password2" placeholder="confirm password">
+            <input id = "password_confirm" type="password" name="password2" placeholder="Confirm password">
             <i class='bx bxs-lock-alt' ></i>
+        </div>
+        <div id="error-message-register">
+            <div class="error" id="error-register">
+               
+            </div>
         </div>
         <button id = "enterRegister" class="btn" >Register</button>
     </section>

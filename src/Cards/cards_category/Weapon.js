@@ -46,6 +46,7 @@ export default class Weapon extends Card{
         } else if (this.state === CardId.SCALED) {
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
+        this.weaponLogic()
     }
     update(mouse, decks){
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -92,7 +93,7 @@ export default class Weapon extends Card{
     weaponLogic(){
         switch (this.action) {
             case CardActions.COOLDOWN:
-                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                this.action = this.cooldown <= 0 ? CardActions.READY : this.action
                 break;
         
             default:
@@ -364,13 +365,21 @@ export default class Weapon extends Card{
         
     }
     checkState(){
-            if (this.cooldown > 0) {
-                return ["NOT READY","PREST EZ"]  
-            }else if(this.cooldown <= 0){
-                return ["READY", "PREST"]
-            }else{
-                return ["EQUIPPED", "EKIPATUA"]
-            }
+
+        switch (this.action){
+
+            case CardActions.COOLDOWN:
+                return ["NOT READY","PREST EZ"];
+            
+            case CardActions.READY:
+                return ["READY", "PREST"];
+
+            case CardActions.ON_USE:
+                return ["APPLIED", "ERABILITA"];
+
+            default:
+                break;
+        }
     }
     renderToolTip(xPos, yPos, language, ctx){
         ctx.fillStyle = '#d59d00'

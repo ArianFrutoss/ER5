@@ -40,6 +40,7 @@ export default class Curse extends Card{
         } else if (this.state === CardId.SCALED) {
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
+        this.curseLogic()
     }
     
     update(mouse, decks){
@@ -86,12 +87,14 @@ export default class Curse extends Card{
         this.curseLogic()
     }
     curseLogic(){
+        console.log(1);
         switch (this.action) {
             case CardActions.COOLDOWN:
-                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                this.action = this.cooldown <= 0 ? CardActions.READY : this.action
                 break;
             
             case CardActions.READY:
+                console.log(1);
                 this.updateReady();
                 break;
 
@@ -393,15 +396,22 @@ export default class Curse extends Card{
             
     }
     checkState(){
-        if (this.cooldown > 0) {
-            return ["NOT READY","PREST EZ"]  
-        }else if(this.cooldown <= 0){
-            return ["READY", "PREST"]
-        }else{
-            return ["APPLIED", "ERABILITA"]
-        }
-}
 
+        switch (this.action){
+
+            case CardActions.COOLDOWN:
+                return ["NOT READY","PREST EZ"];
+            
+            case CardActions.READY:
+                return ["READY", "PREST"];
+
+            case CardActions.ON_USE:
+                return ["APPLIED", "ERABILITA"];
+
+            default:
+                break;
+        }
+    }
     renderToolTip(xPos, yPos, language, ctx){
         ctx.fillStyle = '#d59d00'
         ctx.fillRect(xPos, yPos, 178, 63 ) 

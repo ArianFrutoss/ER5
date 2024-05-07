@@ -37,7 +37,9 @@ export default class Messages{
 
             case MessageState.ON:
                 this.onCounter += globals.deltaTime;
-                
+                if (this.type === MessageType.DAMAGE_MESSAGE) {
+                    this.yPos -=1
+                }
                 if (this.onCounter > this.timeInOn && this.timeInOn != null){
                     
                     this.onCounter = 0;
@@ -48,7 +50,9 @@ export default class Messages{
             case MessageState.FADE:
                 this.fadeCounter += globals.deltaTime;
                 this.alpha -= 0.1;
-                
+                if (this.type === MessageType.DAMAGE_MESSAGE) {
+                    this.yPos -=7
+                }
                 if (this.fadeCounter > this.timeInFade){
                     
                     this.fadeCounter = 0;

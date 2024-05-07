@@ -132,7 +132,8 @@ export const ImageTypes = {
     CARD_TYPE: 6,
     BOARD_IMAGE: 7,
     TEAM: 8,
-    BUTTON: 9
+    BUTTON: 9,
+    CHAT_BUBBLE: 10
 }
 export const CardImageId = {
     JOSEPH: 1,

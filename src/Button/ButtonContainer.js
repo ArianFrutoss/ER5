@@ -48,7 +48,7 @@ export default class ButtonContainer{
         }
     }
 
-    updateButtons(mouse, turn) {
+    updateButtons(mouse, turn, timer) {
         
         const state = this.state;
 
@@ -58,7 +58,7 @@ export default class ButtonContainer{
 
             if (btn.renderState === state || btn.renderState === undefined){
 
-                btn.update(mouse, this, turn);
+                btn.update(mouse, this, turn, timer);
             }
         }
     }

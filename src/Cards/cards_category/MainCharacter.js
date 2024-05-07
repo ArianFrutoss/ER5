@@ -1,7 +1,7 @@
 import { BorderId, CardId, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 export default class MainCharacter extends Card{
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, imageHeroTeam, durability=0, cooldown=0){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, imageHeroTeam, chatBubble, durability=0, cooldown=0){
             super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
     
             // Card attributes     		   	
@@ -10,6 +10,7 @@ export default class MainCharacter extends Card{
             this.player         = 0;
             this.effect         = effect;
             this.imageHeroTeam  = imageHeroTeam;
+            this.chatBubble = chatBubble
         }
         updateScale(mouse, decks){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -156,7 +157,7 @@ export default class MainCharacter extends Card{
                     ctx.setTransform(1, 0, 0, 1, 0, 0);
         }
 
-        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, imageHeroTeam) {
+        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, imageHeroTeam, chatBubble) {
             
             let durability;
             let cooldown;
@@ -166,7 +167,7 @@ export default class MainCharacter extends Card{
 
             }
 
-            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, imageHeroTeam, durability, cooldown);
+            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, imageHeroTeam, chatBubble, durability, cooldown);
     
             return mainCharacter;
     

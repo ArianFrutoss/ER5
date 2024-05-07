@@ -3,7 +3,7 @@ import Card from "../Card.js";
 
 export default class Minion extends Card {
 
-    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed, imageMinionTeam) {
+    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed, imageMinionTeam, chatBubble) {
 
         super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
@@ -26,6 +26,7 @@ export default class Minion extends Card {
         this.weaponRarityImage      = weaponRarityImage;
         this.armorRarityImage       = armorRarityImage;
         this.imageMinionTeam        = imageMinionTeam;
+        this.chatBubble = chatBubble
     }
     updateScale(mouse, decks){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -366,14 +367,14 @@ checkIconColor(stat, previousStat) {
         }
     }
 }
-    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam){
+    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam, chatBubble){
     
             let hp      = attributes[StatsId.LIFE]
             let defense = attributes[StatsId.DEFENSE]
             let attack  = attributes[StatsId.DAMAGE]
             let speed   = attributes[StatsId.SPEED]
     
-            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed, imageMinionTeam);
+            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed, imageMinionTeam, chatBubble);
     
             return minion
     

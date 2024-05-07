@@ -90,10 +90,10 @@ export default class DeckContainer {
         }
 
     }
-    updateScale(mouse, decks = this.decks){
+    updateScale(mouse, messagesContainer, language, decks = this.decks){
         for (let i = 2; i < decks.length; i++) {
             const deck = decks[i];
-            deck.updateScale(mouse, decks)
+            deck.updateScale(mouse, decks, messagesContainer, language)
             
         }
     }

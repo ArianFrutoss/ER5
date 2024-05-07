@@ -1,6 +1,6 @@
-import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId, TypeNames } from "../../constants.js";
+import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId, TypeNames, MessageState, MessageType } from "../../constants.js";
 import Card from "../Card.js";
-
+import Messages from "../../Messages.js";
 export default class Minion extends Card {
 
     constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed, imageMinionTeam, chatBubble, messages) {
@@ -28,8 +28,9 @@ export default class Minion extends Card {
         this.imageMinionTeam        = imageMinionTeam;
         this.chatBubble             = chatBubble
         this.messages               = messages
+        this.previousMessage        = undefined
     }
-    updateScale(mouse, decks){
+    updateScale(mouse, decks, messagesContainer, language){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
         if (!isAnyCardScaled[0]) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)

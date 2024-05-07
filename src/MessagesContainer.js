@@ -93,7 +93,7 @@ export default class MessagesContainer{
 
             if (message != undefined){
                 
-                message.render(ctx);
+                message.render(ctx, language);
                 ctx.fillStyle = "black";
             }
         }
@@ -109,5 +109,12 @@ export default class MessagesContainer{
             this.changeTurnMessage[0].render(ctx);
             ctx.fillStyle = "black";
         }
+    }
+    createMessage(xPos, yPos, text, type, state, timeInFade, timeInAppear, timeInOn,lineSpace, maxHeigth, maxWidth, size = 80, color = "red"){
+        text = TextContainer.create(text, type, size, lineSpace, maxHeigth, maxWidth)
+        const message = new Messages(xPos, yPos, text, type, state, timeInFade, timeInAppear, timeInOn, size, color);
+        this.damageMessage.push(message)
+        
+        return message
     }
 }

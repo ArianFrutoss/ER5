@@ -1,7 +1,7 @@
-import { BorderId, CardId, IconsPos, VFXId } from "../../constants.js";
+import { BorderId, CardId, CardImageId, ChatMessages, IconsPos, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 export default class MainCharacter extends Card{
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, imageHeroTeam, chatBubble, durability=0, cooldown=0){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, imageHeroTeam, chatBubble, messages, durability=0, cooldown=0){
             super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
     
             // Card attributes     		   	
@@ -10,9 +10,10 @@ export default class MainCharacter extends Card{
             this.player         = 0;
             this.effect         = effect;
             this.imageHeroTeam  = imageHeroTeam;
-            this.chatBubble = chatBubble
+            this.chatBubble     = chatBubble
+            this.message        = messages
         }
-        updateScale(mouse, decks){
+        updateScale(mouse, decks, messagesContainer){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
             if (!isAnyCardScaled[0]) {
                 const isCollidingWithMouse = mouse.isCollidingWithCard(this)
@@ -157,7 +158,7 @@ export default class MainCharacter extends Card{
                     ctx.setTransform(1, 0, 0, 1, 0, 0);
         }
 
-        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, imageHeroTeam, chatBubble) {
+        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, imageHeroTeam, chatBubble, messages) {
             
             let durability;
             let cooldown;
@@ -167,7 +168,7 @@ export default class MainCharacter extends Card{
 
             }
 
-            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, imageHeroTeam, chatBubble, durability, cooldown);
+            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, imageHeroTeam, chatBubble, messages, durability, cooldown);
     
             return mainCharacter;
     

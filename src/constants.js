@@ -136,7 +136,12 @@ export const ImageTypes = {
     CHAT_BUBBLE: 10
 }
 export const CardImageId = {
-    JOSEPH: 1,
+    JOSEPH:     1,
+    LUCRETIA:   2,
+    ANGELO:     9,
+    THRONE:    10,
+    XG:        11,
+
 }
 export const BorderId = {
     NORMAL_SIZE: 0,
@@ -395,4 +400,13 @@ export const DurabilityColors = {
     SPELL:  "#800080",
     CURSE:  "#000000",
     BUFF:   "#FFD700"
+}
+
+export const ChatMessages = {
+    LUCRETIA:   [["",""],["",""],["",""]],
+    ANGELO:     [["",""],["",""],["",""]],
+    XG:         [["",""],["",""],["",""]],
+    THRONE:     [["",""],["",""],["",""]],
+    JOSEPH:     [["",""],["",""],["",""]],
+    MINION:     [["",""],["",""],["",""]]
 }

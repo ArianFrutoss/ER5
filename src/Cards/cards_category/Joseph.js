@@ -5,7 +5,7 @@ import Card from "../Card.js";
 
 export default class Joseph extends Card{
 
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability, chatBubble){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability, chatBubble, messages){
 
         super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
         this.deckObjetives
@@ -15,6 +15,7 @@ export default class Joseph extends Card{
         this.durability = durability
         this.previousDurability = durability
         this.chatBubble = chatBubble
+        this.messages = messages
         
     }
     updateScale(mouse, decks){
@@ -268,9 +269,9 @@ export default class Joseph extends Card{
         this.texts.texts[1].render(ctx, xPos, yPos-200, language) 
     }
 
-    static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, chatBubble){
+    static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, chatBubble, messages){
         const cooldown = attributes[0].attribute_value
-        const joseph = new Joseph(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, cooldown, chatBubble);
+        const joseph = new Joseph(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, cooldown, chatBubble, messages);
 
         return joseph;
     }

@@ -1,6 +1,6 @@
 import EventContainer from "../../Events/EventContainer.js";
 import { DestroyAllMinionsEvent } from "../../Events/phase_events/DestroyAllMinionsEvent.js";
-import { BorderId, CardActions, CardId, DecksId, IconsPos, VFXId } from "../../constants.js";
+import { BorderId, CardActions, CardId, DecksId, IconsPos, TurnStates, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Joseph extends Card{
@@ -16,9 +16,9 @@ export default class Joseph extends Card{
         this.previousDurability = durability
         
     }
-    updateScale(mouse, decks){
+    updateScale(mouse, decks, turnState){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
-        if (!isAnyCardScaled[0]) {
+        if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
 
             switch (this.state) {

@@ -1,4 +1,5 @@
-import { BorderId, CardActions, CardId, CurseId, DecksId, DurabilityColors, IconsPos, TypeNames, VFXId } from "../../constants.js";
+import Messages from "../../Messages.js";
+import { BorderId, CardActions, CardId, CurseId, DecksId, DurabilityColors, IconsPos, MessageState, MessageType, TurnStates, TypeNames, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Curse extends Card{
@@ -15,9 +16,9 @@ export default class Curse extends Card{
         this.effect     = effect;		
         this.turn       = null;
     }
-    updateScale(mouse, decks){
+    updateScale(mouse, decks, turnState){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
-        if (!isAnyCardScaled[0]) {
+        if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
 
             switch (this.state) {
@@ -40,10 +41,9 @@ export default class Curse extends Card{
         } else if (this.state === CardId.SCALED) {
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
-        this.curseLogic()
     }
     
-    update(mouse, decks){
+    update(mouse, decks, messagesContainer){
     
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
@@ -83,7 +83,23 @@ export default class Curse extends Card{
                     break;
             }
         } 
-            this.previousState = this.state
+
+        if (messagesContainer != undefined){
+
+            if (this.cooldown < this.previousCooldown && this.action === CardActions.COOLDOWN && this.cooldown === Math.floor(this.cooldown)){
+
+                const message = new Messages(this.xPos, this.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+                messagesContainer.addMessage(message);
+            }
+    
+            if (this.durability < this.previousDurability && this.durability != null && this.durability === Math.floor(this.durability)){
+    
+                const message = new Messages(this.xPos, this.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+                messagesContainer.addMessage(message);
+            }
+        }
+
+        this.previousState = this.state
         this.curseLogic()
     }
     curseLogic(){

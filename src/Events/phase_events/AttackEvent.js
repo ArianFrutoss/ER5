@@ -30,10 +30,10 @@ export class AttackEvent extends Event{
 
         if (this.attackerMinion.weapon != undefined) {
             // Ataque con los atributos del minion y del arma
-            damage = this.attackWithWeapon();
+            damage = this.attackWithWeapon(messagesContainer);
         } else {
             // Ataque con los atributos del minion
-            damage = this.attack();
+            damage = this.attack(messagesContainer);
         }
 
         if(critic){
@@ -85,12 +85,15 @@ export class AttackEvent extends Event{
         }
     }
 
-    attack(){
+    attack(messagesContainer){
         const enemyArmor = this.objectiveMinion.armor
         let defense = this.objectiveMinion.defense
         if (enemyArmor != undefined) {
             defense += enemyArmor.defense
             enemyArmor.durability--
+
+            const message = new Messages(enemyArmor.xPos, enemyArmor.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+            messagesContainer.addMessage(message);
         }
 
         let damage = this.attackerMinion.attack - defense;
@@ -101,19 +104,26 @@ export class AttackEvent extends Event{
         return damage;
     }
     
-    attackWithWeapon(){
+    attackWithWeapon(messagesContainer){
         const enemyArmor = this.objectiveMinion.armor
+        const attackerWeapon = this.attackerMinion.weapon;
         let defense = this.objectiveMinion.defense
         if (enemyArmor != undefined) {
             defense += enemyArmor.defense
             enemyArmor.durability--
+
+            const message = new Messages(enemyArmor.xPos, enemyArmor.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+            messagesContainer.addMessage(message);
         }
 
         let damage = this.attackerMinion.attack + this.attackerMinion.weapon.attack - defense;
         if (damage <0) {
             damage = 0
         }
-        this.attackerMinion.weapon.durability--
+        attackerWeapon.durability--
+
+        const message = new Messages(attackerWeapon.xPos, attackerWeapon.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+        messagesContainer.addMessage(message);
       
         return damage;
     }
@@ -152,6 +162,8 @@ export class AttackEvent extends Event{
                 }
 
                 enemyWeapon.durability -= defense;
+                const message = new Messages(enemyWeapon.xPos, enemyWeapon.yPos, defense, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+                messagesContainer.addMessage(message);
 
                 const damageRender = "BLOCKED"
                 const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3);

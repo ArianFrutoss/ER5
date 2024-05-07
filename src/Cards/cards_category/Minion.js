@@ -1,4 +1,4 @@
-import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId, TypeNames } from "../../constants.js";
+import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId, TypeNames, TurnStates } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Minion extends Card {
@@ -27,9 +27,9 @@ export default class Minion extends Card {
         this.armorRarityImage       = armorRarityImage;
         this.imageMinionTeam        = imageMinionTeam;
     }
-    updateScale(mouse, decks){
+    updateScale(mouse, decks, turnState){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
-        if (!isAnyCardScaled[0]) {
+        if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
 
             switch (this.state) {

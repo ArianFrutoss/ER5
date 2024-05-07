@@ -1,6 +1,7 @@
-import { BorderId, BuffId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, MainCharacterId, TypeNames, VFXId } from "../../constants.js";
+import { BorderId, BuffId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, MainCharacterId, MessageState, MessageType, TurnStates, TypeNames, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 import EventContainer from "../../Events/EventContainer.js";
+import Messages from "../../Messages.js";
 
 export default class Buff extends Card {
 
@@ -18,9 +19,9 @@ export default class Buff extends Card {
         this.eventContainer = null;
 
     }
-    updateScale(mouse, decks){
+    updateScale(mouse, decks, turnState){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
-        if (!isAnyCardScaled[0]) {
+        if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
 
             switch (this.state) {
@@ -43,9 +44,8 @@ export default class Buff extends Card {
         } else if (this.state === CardId.SCALED) {
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
-        this.logic()
     }
-    update(mouse, decks){
+    update(mouse, decks, messagesContainer){
         
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
@@ -85,12 +85,28 @@ export default class Buff extends Card {
                     break;
             }
         } 
-            this.previousState = this.state
+
+        if (messagesContainer != undefined){
+
+            if (this.cooldown < this.previousCooldown && this.action === CardActions.COOLDOWN && this.cooldown === Math.floor(this.cooldown)){
+
+                const message = new Messages(this.xPos, this.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+                messagesContainer.addMessage(message);
+            }
+    
+            if (this.durability < this.previousDurability && this.durability != null && this.durability === Math.floor(this.durability)){
+    
+                const message = new Messages(this.xPos, this.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+                messagesContainer.addMessage(message);
+            }
+        }
+
+        this.previousState = this.state
         this.logic()
     }
 
     logic(){
-    
+
         switch (this.action) {
             case CardActions.COOLDOWN:
                 this.action = this.cooldown <= 0 ? CardActions.READY : this.action
@@ -162,21 +178,6 @@ export default class Buff extends Card {
 
     setDeck(deck){
         this.deck = deck
-    }
-
-    removeIfWornOut(activeEventDeck, graveyardDeck){
-
-        this.checkDurability()
-        if (this.action === CardActions.WORN_OUT) {
-            for (let i = 0; i < activeEventDeck.cards.length; i++) {
-                const card = activeEventDeck.cards[i];
-                if (card.action === CardActions.WORN_OUT) {
-                    activeEventDeck.cards.splice(i, 1)
-                    graveyardDeck.cards.push(card)
-                    this.setDeck(graveyardDeck)
-                }
-            }  
-        }
     }
 
     setTurn(turn){

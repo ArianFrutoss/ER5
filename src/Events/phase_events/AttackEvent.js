@@ -22,6 +22,9 @@ export class AttackEvent extends Event{
      
         let damage;
         let damageRender = ""
+        let attackerWeapon
+        let objectiveWeapon
+        let objectiveArmor
         let size = 80
         let color = "red"
 
@@ -53,8 +56,33 @@ export class AttackEvent extends Event{
         if(this.objectiveMinion.health <= 0){
             damageRender = "DEAD"
         }
+        
+        if (this.attackerMinion.weapon != undefined && this.attackerMinion.weapon.durability <= 0){
+            
+            attackerWeapon = new Messages(this.attackerMinion.xPos, this.attackerMinion.yPos + 155, "WEAPON BROKEN", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+        }
+        if (this.objectiveMinion.weapon != undefined && this.objectiveMinion.weapon.durability <= 0){
+
+            objectiveWeapon = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos + 155, "WEAPON BROKEN", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+        }
+        if (this.objectiveMinion.armor != undefined && this.objectiveMinion.armor.durability <= 0){
+
+            objectiveArmor = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos + 155, "ARMOR BROKEN", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+        }
+
         const doneDamage = new Messages(this.objectiveMinion.xPos, this.objectiveMinion.yPos, damageRender, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, size, color);
-        messagesContainer.addMessage(doneDamage);
+
+        const messages = [doneDamage, attackerWeapon, objectiveWeapon, objectiveArmor];
+
+        for (let i = 0; i < messages.length; i++){
+
+            const message = messages[i];
+
+            if (message != undefined){
+            
+                messagesContainer.addMessage(message);
+            }
+        }
     }
 
     attack(){

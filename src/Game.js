@@ -114,7 +114,7 @@ export default class Game {
 
             case GameState.PLAYING:
                 this.updateGame();
-                this.deckContainer.updateScale(this.mouse, this.turnContainer.turnContainer[this.currentTurn].state);
+                this.deckContainer.updateScale(this.mouse, this.turnContainer.turnContainer[this.currentTurn].state, this.messagesContainer, this.language);
                 this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer);
                 this.mouse.update();
@@ -192,7 +192,7 @@ export default class Game {
         this.turnContainer.buttonContainer.renderButtons(this.language);
         this.messagesContainer.renderHelp(this.ctx, this.language);
         this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
-        this.messagesContainer.renderDamageAndChangeTurn(this.ctx);
+        this.messagesContainer.renderDamageAndChangeTurn(this.ctx, this.language);
     }
 
     updateGame() {

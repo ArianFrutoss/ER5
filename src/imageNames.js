@@ -7,5 +7,6 @@ const gameRarityImages       = ["common_rarity", "rare_rarity", "epic_rarity", "
 const cardTypeImages         = ["minion", "buff", "curse", "hero", "joseph", "armor", "weapon", "spell"];
 const TeamImages       = ["attacker", "defender"];
 const buttonImages           = ["button"]
+const chatBubble             = ["chat_bubble"]
 
-export const Images = {backgroundImages, cardBordersImages, cardIconsImages, cardRarityImages, equipmentRarityImages, gameRarityImages, cardTypeImages, TeamImages, buttonImages};                                   
+export const Images = {backgroundImages, cardBordersImages, cardIconsImages, cardRarityImages, equipmentRarityImages, gameRarityImages, cardTypeImages, TeamImages, buttonImages, chatBubble};                                   

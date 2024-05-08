@@ -13,10 +13,10 @@ export default class Deck {
 
         return new Deck (DecksId.INITIAL_DECK, cardFact.cards)
     }
-    updateScale(mouse, decks, turnState){
+    updateScale(mouse, decks, turnState, messagesContainer, language){
         for (let i = 0; i < this.cards.length; i++) {
             const card = this.cards[i];
-            card.updateScale(mouse, decks, turnState)
+            card.updateScale(mouse, decks, turnState, messagesContainer, language)
             
         } 
     }

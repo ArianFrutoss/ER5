@@ -36,6 +36,10 @@ export default class TextContainer{
         return new TextContainer(container);
     }
 
+    static create(text, type, size, lineSpace, maxHeigth, maxWidth){
+        text =  [new Text(text, type, size, lineSpace, maxHeigth, maxWidth)];
+        return new TextContainer(text)
+    }
     render(ctx, xPos, yPos, language){
 
         for(let i = 0; i < this.texts.length; i++){

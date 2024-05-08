@@ -259,7 +259,7 @@ export default class Joseph extends Card{
                     this.imageReverse,
                     xPos, yPos)
             }
-            if (this.action === CardActions.READY ||this.action === CardActions.ON_USE) {
+            if (this.action === CardActions.READY ||this.action === CardActions.ON_USE && this.state !== CardId.SCALED) {
                 ctx.globalAlpha = 0.5;
                 ctx.beginPath();
                 ctx.ellipse(this.xPos + IconsPos.JOSEPH_X, this.yPos + IconsPos.JOSEPH_Y, 62, 75, 0, 0, 2 * Math.PI);

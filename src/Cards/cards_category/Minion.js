@@ -3,9 +3,9 @@ import Card from "../Card.js";
 import Messages from "../../Messages.js";
 export default class Minion extends Card {
 
-    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed, imageMinionTeam, chatBubble, messages) {
+    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed, imageMinionTeam, chatBubble, messages, toolTip) {
 
-        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
+        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, toolTip);
 
         // Card attributes   
         this.attack                 = attack;
@@ -340,22 +340,30 @@ export default class Minion extends Card {
                     return false
                 }
     }
-    renderToolTip(xPos, yPos, language, ctx){
-        ctx.fillStyle = '#d59d00'
-        ctx.fillRect(xPos, yPos, 178, 63 ) 
+    // renderToolTip(xPos, yPos, language, ctx){
+    //     ctx.fillStyle = '#d59d00'
+    //     ctx.fillRect(xPos, yPos, 178, 63 ) 
 
-        ctx.fillStyle = '#362315'
-        ctx.fillRect(xPos + 3, yPos + 3, 172, 57 ) 
-        ctx.fillStyle = 'white'
+    //     ctx.fillStyle = '#362315'
+    //     ctx.fillRect(xPos + 3, yPos + 3, 172, 57 ) 
+    //     ctx.fillStyle = 'white'
 
-        ctx.font ="15px LongaIberica-DEMO"
-        ctx.fillText('Name: ', xPos+35, yPos+20)
-        this.texts.texts[1].render(ctx, xPos-5, yPos-217, language) 
+    //     ctx.font ="15px LongaIberica-DEMO"
+    //     ctx.fillText('Name: ', xPos+35, yPos+20)
+    //     this.texts.texts[1].render(ctx, xPos-5, yPos-217, language) 
 
-        ctx.fillText('Type:', xPos+36, yPos+40)
-        ctx.fillText(TypeNames[this.category], xPos+115, yPos+40)
+    //     ctx.fillText('Type:', xPos+36, yPos+40)
+    //     ctx.fillText(TypeNames[this.category], xPos+115, yPos+40)
         
+    // }
+    checkTooltip(){
+        if(this.state === CardId.HOVER){
+            return true;
+        }
+        return false;
     }
+
+
 checkIconColor(stat, previousStat) {
     if (this.state === CardId.SCALED) {
         return "white"
@@ -369,14 +377,14 @@ checkIconColor(stat, previousStat) {
         }
     }
 }
-    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam, chatBubble, messages){
+    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam, chatBubble, messages, toolTip){
     
             let hp      = attributes[StatsId.LIFE]
             let defense = attributes[StatsId.DEFENSE]
             let attack  = attributes[StatsId.DAMAGE]
             let speed   = attributes[StatsId.SPEED]
     
-            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed, imageMinionTeam, chatBubble, messages);
+            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed, imageMinionTeam, chatBubble, messages, toolTip);
     
             return minion
     

@@ -5,9 +5,9 @@ import Card from "../Card.js";
 import Messages from "../../Messages.js";
 export default class Joseph extends Card{
 
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability, chatBubble, messages){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability, chatBubble, messages, toolTip){
 
-        super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
+        super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, toolTip);
         this.deckObjetives
         this.graveyardDeck
         this.eventContainer
@@ -296,19 +296,27 @@ export default class Joseph extends Card{
             }
 
     }
-    renderToolTip(xPos, yPos, language, ctx){
-        ctx.fillStyle = '#d59d00'
-        ctx.fillRect(xPos, yPos, 178, 103 ) 
+    // renderToolTip(xPos, yPos, language, ctx){
+    //     ctx.fillStyle = '#d59d00'
+    //     ctx.fillRect(xPos, yPos, 178, 103 ) 
 
-        ctx.fillStyle = '#362315'
-        ctx.fillRect(xPos + 3, yPos + 3, 172, 97 ) 
-        ctx.fillStyle = 'white'
-        this.texts.texts[1].render(ctx, xPos, yPos-200, language) 
+    //     ctx.fillStyle = '#362315'
+    //     ctx.fillRect(xPos + 3, yPos + 3, 172, 97 ) 
+    //     ctx.fillStyle = 'white'
+    //     this.texts.texts[1].render(ctx, xPos, yPos-200, language) 
+    // }
+
+    
+    checkTooltip(){
+        if(this.state === CardId.HOVER){
+            return true;
+        }
+        return false;
     }
 
-    static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, chatBubble, messages){
+    static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, chatBubble, messages, toolTip){
         const cooldown = attributes[0].attribute_value
-        const joseph = new Joseph(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, cooldown, chatBubble, messages);
+        const joseph = new Joseph(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, cooldown, chatBubble, messages, toolTip);
 
         return joseph;
     }

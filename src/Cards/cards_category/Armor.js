@@ -3,9 +3,9 @@ import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, Decks
 import Card from "../Card.js";
 
 export default class Armor extends Card{
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, health, attack, defense, speed, durability, cooldown){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, health, attack, defense, speed, durability, cooldown, toolTip){
         
-        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
+        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, toolTip);
 
             this.health     = health;
             this.previousHealth = health
@@ -19,7 +19,6 @@ export default class Armor extends Card{
             this.previousDurability = durability
             this.cooldown   = cooldown;
             this.previousCooldown = cooldown;
-            this.toolTip = [("Name: " ), ("Type: " + this.category)]
 
     }
     updateScale(mouse, decks, turnState){
@@ -403,22 +402,14 @@ export default class Armor extends Card{
                 break;
         }
     }
-    renderToolTip(xPos, yPos, language, ctx){
-        ctx.fillStyle = '#d59d00'
-        ctx.fillRect(xPos, yPos, 178, 63 ) 
-
-        ctx.fillStyle = '#362315'
-        ctx.fillRect(xPos + 3, yPos + 3, 172, 57 ) 
-        ctx.fillStyle = 'white'
-        
-        ctx.font ="15px LongaIberica-DEMO"
-        ctx.fillText('Name: ', xPos+35, yPos+20)
-        this.texts.texts[1].render(ctx, xPos-5, yPos-217, language) 
-
-        ctx.fillText('Type:', xPos+36, yPos+40)
-        ctx.fillText(TypeNames[this.category], xPos+115, yPos+40)
-        
+    
+    checkTooltip(){
+        if(this.state === CardId.HOVER){
+            return true;
+        }
+        return false;
     }
+
     checkIconColor(stat, previousStat) {
         if (stat < previousStat) {
             return "red"
@@ -428,7 +419,7 @@ export default class Armor extends Card{
             return "white"
         }
     }
-    static create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx,){
+    static create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, toolTip){
         
     let attack = attributes[StatsId.DAMAGE];
         if (!attack) {
@@ -454,7 +445,7 @@ export default class Armor extends Card{
         }
 
 
-        const armor = new Armor(id, texts, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, health, attack, defense, speed, durability, cooldown);
+        const armor = new Armor(id, texts, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, health, attack, defense, speed, durability, cooldown, toolTip);
 
         return armor;
     }

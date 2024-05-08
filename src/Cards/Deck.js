@@ -144,22 +144,24 @@ export default class Deck {
     }
 
     renderCards(ctx, language, mouse, team){
-        let toolTip
-        let isCollidingWithWeapon
 
         for (let i = 0; i < this.cards.length; i++){
 
             const card = this.cards[i];
-
             if (card.state != CardId.SCALED){
 
-                const result = card.render(ctx, language, team);
-                if (result) {
-                    toolTip = card
-                }
-            }   
+                card.render(ctx, language, team);
+
+            }
+            
+            this.renderTooltips(mouse, language, ctx);
         }
-        
+
+    }
+
+    renderTooltips(mouse, language, ctx){
+        let isCollidingWithWeapon
+
         for (let i = 0; i < this.cards.length; i++){
 
             const card = this.cards[i];
@@ -174,26 +176,33 @@ export default class Deck {
                 }
             }
         }
-        
-        if (this.deckId != DecksId.PLAYER_1_HAND_DECK && this.deckId != DecksId.PLAYER_2_HAND_DECK) {
-            if (toolTip) {
-                let yPosModifier = 0
-                let xPosModifier = 0
-                if (mouse.y >600 && isCollidingWithWeapon) {
-                    yPosModifier = 83
-                }
-                else if (mouse.y >600){
-                    yPosModifier = 63
-                }
-                if (mouse.x >1750) {
-                    xPosModifier = 178
-                }
-                const xPos = mouse.x - xPosModifier
-                const yPos = mouse.y - yPosModifier
-                toolTip.renderToolTip(xPos, yPos, language, ctx)
 
+        for(let i = 0; i < this.cards.length; i++){
+
+            const card = this.cards[i];
+            const renderTooltip = card.checkTooltip();
+
+            if (renderTooltip) {
+                
+                    if (this.deckId != DecksId.PLAYER_1_HAND_DECK && this.deckId != DecksId.PLAYER_2_HAND_DECK) {
+    
+                        let yPosModifier = 0
+                        let xPosModifier = 0
+                        if (mouse.y >600 && isCollidingWithWeapon) {
+                            yPosModifier = 83
+                        }
+                        else if (mouse.y >600){
+                            yPosModifier = 63
+                        }
+                        if (mouse.x >1750) {
+                            xPosModifier = 178
+                        }
+                        const xPos = mouse.x - xPosModifier
+                        const yPos = mouse.y - yPosModifier
+        
+                        card.toolTip.render(xPos, yPos, language, ctx);
+                }
             }
-            
         }
     }
 

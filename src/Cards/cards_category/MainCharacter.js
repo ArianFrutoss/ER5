@@ -2,8 +2,8 @@ import { BorderId, CardId, CardImageId, ChatMessages, IconsPos, VFXId, MessageSt
 import Card from "../Card.js";
 import Messages from "../../Messages.js";
 export default class MainCharacter extends Card{
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, imageHeroTeam, chatBubble, messages, durability=0, cooldown=0){
-            super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, imageHeroTeam, chatBubble, messages, durability=0, cooldown=0, toolTip){
+            super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, toolTip);
     
             // Card attributes     		   	
             this.durability     = durability;
@@ -190,7 +190,7 @@ export default class MainCharacter extends Card{
                     ctx.setTransform(1, 0, 0, 1, 0, 0);
         }
 
-        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, imageHeroTeam, chatBubble, messages) {
+        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, imageHeroTeam, chatBubble, messages, toolTip) {
             
             let durability;
             let cooldown;
@@ -200,7 +200,7 @@ export default class MainCharacter extends Card{
 
             }
 
-            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, imageHeroTeam, chatBubble, messages, durability, cooldown);
+            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, imageHeroTeam, chatBubble, messages, durability, cooldown, toolTip);
     
             return mainCharacter;
     

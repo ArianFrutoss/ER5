@@ -3,9 +3,9 @@ import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, Decks
 import Card from "../Card.js";
 
 export default class Weapon extends Card{
-    constructor(id, texts, image, rarity, category, type = "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, range, attack, defense, speed, durability, cooldown){
+    constructor(id, texts, image, rarity, category, type = "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, range, attack, defense, speed, durability, cooldown, toolTip){
 
-        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX);
+        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, toolTip);
 
         // Card attributes   
         this.type           = type;
@@ -389,25 +389,32 @@ export default class Weapon extends Card{
                 break;
         }
     }
-    renderToolTip(xPos, yPos, language, ctx){
-        ctx.fillStyle = '#d59d00'
-        ctx.fillRect(xPos, yPos, 178, 83 ) 
+    // renderToolTip(xPos, yPos, language, ctx){
+    //     ctx.fillStyle = '#d59d00'
+    //     ctx.fillRect(xPos, yPos, 178, 83 ) 
 
-        ctx.fillStyle = '#362315'
-        ctx.fillRect(xPos + 3, yPos + 3, 172, 77 ) 
-        ctx.fillStyle = 'white'
+    //     ctx.fillStyle = '#362315'
+    //     ctx.fillRect(xPos + 3, yPos + 3, 172, 77 ) 
+    //     ctx.fillStyle = 'white'
 
-        ctx.font ="15px LongaIberica-DEMO"
-        ctx.fillText('Name: ', xPos+35, yPos+20)
-        this.texts.texts[1].render(ctx, xPos-5, yPos-217, language) 
+    //     ctx.font ="15px LongaIberica-DEMO"
+    //     ctx.fillText('Name: ', xPos+35, yPos+20)
+    //     this.texts.texts[1].render(ctx, xPos-5, yPos-217, language) 
 
-        ctx.fillText('Type:', xPos+36, yPos+40)
-        ctx.fillText(TypeNames[this.category], xPos+115, yPos+40)
+    //     ctx.fillText('Type:', xPos+36, yPos+40)
+    //     ctx.fillText(TypeNames[this.category], xPos+115, yPos+40)
 
-        ctx.fillText('Range:', xPos+32, yPos+60)
-        ctx.fillText(this.range, xPos+118, yPos+62)
+    //     ctx.fillText('Range:', xPos+32, yPos+60)
+    //     ctx.fillText(this.range, xPos+118, yPos+62)
         
+    // }
+    checkTooltip(){
+        if(this.state === CardId.HOVER){
+            return true;
+        }
+        return false;
     }
+
     checkIconColor(stat, previousStat) {
         if (stat < previousStat) {
             return "red"
@@ -417,7 +424,7 @@ export default class Weapon extends Card{
             return "white"
         }
     }
-    static create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx) {
+    static create(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, toolTip) {
 
         
         let range   = attributes[StatsId.RANGE];
@@ -435,7 +442,7 @@ export default class Weapon extends Card{
         
 
 
-        const weapon = new Weapon(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, range, attack, defense, speed, durability, cooldown);
+        const weapon = new Weapon(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, range, attack, defense, speed, durability, cooldown, toolTip);
         return weapon;
 
 

@@ -85,7 +85,7 @@ export default class MessagesContainer{
         }
     }
 
-    render(ctx, language){
+    renderDamageAndChangeTurn(ctx){
           
         for (let i = 0; i < this.damageMessage.length; i++){
 
@@ -98,15 +98,18 @@ export default class MessagesContainer{
             }
         }
 
-        if (this.activeHelpMessage != undefined){
-            
-            this.activeHelpMessage.render(ctx, language);
-            ctx.fillStyle = "black";
-        }
-
         if (this.changeTurnMessage[0] != undefined){
             
             this.changeTurnMessage[0].render(ctx);
+            ctx.fillStyle = "black";
+        }
+    }
+
+    renderHelp(ctx, language){
+          
+        if (this.activeHelpMessage != undefined){
+            
+            this.activeHelpMessage.render(ctx, language);
             ctx.fillStyle = "black";
         }
     }

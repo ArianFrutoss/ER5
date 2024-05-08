@@ -129,8 +129,6 @@ export default class Weapon extends Card{
                     activeEventDeck.cards.splice(i, 1)
                     graveyardDeck.cards.push(card)
                     this.setDeck(graveyardDeck)
-                    this.xPos = -400
-                    this.yPos = 1200;
                 }
             }  
         }
@@ -142,7 +140,7 @@ export default class Weapon extends Card{
 
     restoreValues(){
 
-        this.xPos = -400;
+        this.xPos = 2200;
         this.yPos = 1200;
         this.health = this.previousHealth;
         this.defense = this.previousDefense;

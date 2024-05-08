@@ -56,7 +56,7 @@ export default class CardFactory {
             let imageTeam
             // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS
             const quantity = this.cardData[i].quantity
-            const xPos = -400;
+            const xPos = 2200;
             const yPos = 1200;
             const objective = "objective";
             const attributes = this.cardData[i].attributes;

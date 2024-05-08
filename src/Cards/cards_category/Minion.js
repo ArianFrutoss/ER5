@@ -100,7 +100,7 @@ export default class Minion extends Card {
 
     minionLogic() {
         if (this.state === CardId.DEAD) {
-            this.xPos = -400;
+            this.xPos = 2200;
             this.yPos = 1200;
             const index = this.deck.cards.indexOf(this)
             this.deck.cards.splice(index, 1)

@@ -31,8 +31,8 @@ export default class DiscardPhase extends Phase{
                 this.graveyardDeck.cards.push(card)
                 card.setDeck(this.graveyardDeck)
                 card.state = CardId.NOT_SELECTED
-                card.xPos = -400;
-                card.yPos = ScreenSize.Y_SIZE / 2;
+                card.xPos = 2200;
+                card.yPos = 1200;
                 return false
             }
         }else {

@@ -190,8 +190,9 @@ export default class Game {
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer, this.currentTurn);
         this.timerContainer.render(this.ctx, this.turnContainer.turnContainer[this.currentTurn].phaseState);
         this.turnContainer.buttonContainer.renderButtons(this.language);
+        this.messagesContainer.renderHelp(this.ctx, this.language);
         this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
-        this.messagesContainer.render(this.ctx, this.language);
+        this.messagesContainer.renderDamageAndChangeTurn(this.ctx);
     }
 
     updateGame() {
@@ -291,28 +292,47 @@ export default class Game {
 
                 if (decks.cards[k]){
 
-                    let speed = 1000;
+                    let speedX = 900;
+                    let speedY = 1000;
 
-                    decks.cards[k].xPos = grids.slots[i][j].xPos;
+                    if (decks.cards[k].xPos > grids.slots[i][j].xPos){
+
+                        if (Math.abs(decks.cards[k].xPos - grids.slots[i][j].xPos) <= 20){
+
+                            speedX = 50;
+                        }
+
+                        decks.cards[k].xPos -= speedX * globals.deltaTime;
+                    }
+
+                    if (decks.cards[k].xPos < grids.slots[i][j].xPos){
+
+                        if (Math.abs(decks.cards[k].xPos - grids.slots[i][j].xPos) <= 20){
+
+                            speedX = 50;
+                        }
+
+                        decks.cards[k].xPos += speedX * globals.deltaTime;
+                    }
 
                     if (decks.cards[k].yPos > grids.slots[i][j].yPos){
 
                         if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
 
-                            speed = 50;
+                            speedY = 50;
                         }
 
-                        decks.cards[k].yPos -= speed * globals.deltaTime;
+                        decks.cards[k].yPos -= speedY * globals.deltaTime;
                     }
 
                     if (decks.cards[k].yPos < grids.slots[i][j].yPos){
 
                         if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
 
-                            speed = 50;
+                            speedY = 50;
                         }
 
-                        decks.cards[k].yPos += speed * globals.deltaTime;
+                        decks.cards[k].yPos += speedY * globals.deltaTime;
                     }
 
                     grids.slots[i][j].isEmpty = false;

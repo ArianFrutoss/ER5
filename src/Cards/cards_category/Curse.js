@@ -171,7 +171,7 @@ export default class Curse extends Card{
 
     restoreValues(){
 
-        this.xPos = -400;
+        this.xPos = 2200;
         this.yPos = 1200;
         this.cooldown = this.previousCooldown;
         this.durability = this.previousDurability;

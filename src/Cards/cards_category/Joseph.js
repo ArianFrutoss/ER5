@@ -151,7 +151,7 @@ export default class Joseph extends Card{
 
     restoreValues(){
 
-        this.xPos = -400;
+        this.xPos = 2200;
         this.yPos = 1200;
         this.durability = this.previousDurability;
         this.action = this.previousAction;

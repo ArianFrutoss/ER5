@@ -14,6 +14,7 @@ export default class MainCharacter extends Card{
             this.chatBubble     = chatBubble
             this.messages       = messages
             this.previousMessage= undefined
+            this.turnMessage    = false
         }
         updateScale(mouse, decks, turnState, messagesContainer, language){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
@@ -25,6 +26,14 @@ export default class MainCharacter extends Card{
                         if (this.previousMessage != undefined) {
                             if (this.previousMessage.state === MessageState.OFF) {
                                 this.previousMessage = undefined
+                            }
+                        }else{
+                            if (this.turnMessage) {
+                                const random = Math.floor(Math.random()*this.messages.length)
+                                const message       = this.messages[random]
+                                const text = messagesContainer.createMessage(this.xPos+280, this.yPos-150, message, MessageType.CHAT_MESSAGE, MessageState.APPEAR, 1.1, 0.5, 0.3,25, 100, 600, 17, "black");
+                                this.previousMessage = text  
+                                this.turnMessage = false
                             }
                         }
                         this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED

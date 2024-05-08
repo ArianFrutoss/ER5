@@ -82,8 +82,10 @@ export default class Joseph extends Card{
     
                     case CardId.HOVER:
                         this.state = isCollidingWithMouse   ? this.state = CardId.HOVER : CardId.NOT_SELECTED
-                        this.state =
-                            !mouse.leftClick    && !isAnyCardSelected[0] && mouse.previousStateLeft      ? CardId.SELECTED            : this.state
+                        if (this.action === CardActions.ON_USE) {
+                            this.state =
+                                !mouse.leftClick    && !isAnyCardSelected[0] && mouse.previousStateLeft      ? CardId.SELECTED            : this.state                           
+                        }
                         break;
     
                     case CardId.SELECTED:

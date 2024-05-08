@@ -1,4 +1,4 @@
-import { BorderId, CardId, IconsPos, VFXId } from "../../constants.js";
+import { BorderId, CardId, IconsPos, TurnStates, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 export default class MainCharacter extends Card{
     constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, imageHeroTeam, durability=0, cooldown=0){
@@ -11,9 +11,9 @@ export default class MainCharacter extends Card{
             this.effect         = effect;
             this.imageHeroTeam  = imageHeroTeam;
         }
-        updateScale(mouse, decks){
+        updateScale(mouse, decks, turnState){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
-            if (!isAnyCardScaled[0]) {
+            if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
                 const isCollidingWithMouse = mouse.isCollidingWithCard(this)
     
                 switch (this.state) {

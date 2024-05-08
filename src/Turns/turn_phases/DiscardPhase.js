@@ -1,4 +1,4 @@
-import { CardId } from "../../constants.js";
+import { CardId, ScreenSize } from "../../constants.js";
 import Phase from "./Phase.js";
 import { PhaseStates, messageDiscardPhase } from "../../constants.js";
 
@@ -31,8 +31,8 @@ export default class DiscardPhase extends Phase{
                 this.graveyardDeck.cards.push(card)
                 card.setDeck(this.graveyardDeck)
                 card.state = CardId.NOT_SELECTED
-                card.xPos =  -500
-                card.yPos =  -500
+                card.xPos = 2200;
+                card.yPos = 1200;
                 return false
             }
         }else {

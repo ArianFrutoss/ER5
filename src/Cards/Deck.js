@@ -13,20 +13,18 @@ export default class Deck {
 
         return new Deck (DecksId.INITIAL_DECK, cardFact.cards)
     }
-    updateScale(mouse, decks){
+    updateScale(mouse, decks, turnState){
         for (let i = 0; i < this.cards.length; i++) {
             const card = this.cards[i];
-            card.updateScale(mouse, decks)
+            card.updateScale(mouse, decks, turnState)
             
         } 
     }
-    update(mouse, decks = this){
-        if (this.deckId === DecksId.PLAYER_1_MINION_DECK) {
-            console.log(this.cards);
-        }
+    update(mouse, decks = this, messagesContainer){
+        
         for (let i = 0; i < this.cards.length; i++) {
             const card = this.cards[i];
-            card.update(mouse, decks)
+            card.update(mouse, decks, messagesContainer)
             
         }
     }

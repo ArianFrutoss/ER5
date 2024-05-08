@@ -82,13 +82,13 @@ export default class Button {
         ctx.closePath();
     }
 
-    update(mouse, buttonContainer, turn){
+    update(mouse, buttonContainer, turn, timer){
 
         const state = this.state;
         const isCollidingWithMouse = mouse.isCollidingWithButton(this);
         const isAnyButtonSelected = buttonContainer.isAnyButtonSelected();
 
-        if (turn.actionsCounter != turn.maxActions || this.id === ButttonsId.BTN_CHANGE_LANGUAGE){
+        if (turn.actionsCounter < turn.maxActions && turn.state != TurnStates.INITIALIZE && timer.value > 0 || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_CHANGE_LANGUAGE){
             
             // MAQUINA DE ESTADOS
             switch(state){

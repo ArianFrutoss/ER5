@@ -1,4 +1,5 @@
-import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId, DurabilityColors, TypeNames} from "../../constants.js";
+import Messages from "../../Messages.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId, DurabilityColors, TypeNames, MessageType, MessageState, TurnStates, ScreenSize} from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Armor extends Card{
@@ -21,9 +22,9 @@ export default class Armor extends Card{
             this.toolTip = [("Name: " ), ("Type: " + this.category)]
 
     }
-    updateScale(mouse, decks){
+    updateScale(mouse, decks, turnState){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
-        if (!isAnyCardScaled[0]) {
+        if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
             
             switch (this.state) {
@@ -46,9 +47,8 @@ export default class Armor extends Card{
         } else if (this.state === CardId.SCALED) {
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
-        this.armorLogic()
     }
-    update(mouse, decks){
+    update(mouse, decks, messagesContainer){
     
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
@@ -88,7 +88,17 @@ export default class Armor extends Card{
                     break;
             }
         } 
-            this.previousState = this.state
+
+        if (messagesContainer != undefined){
+
+            if (this.cooldown < this.previousCooldown && this.action === CardActions.COOLDOWN && this.cooldown === Math.floor(this.cooldown)){
+
+                const message = new Messages(this.xPos, this.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+                messagesContainer.addMessage(message);
+            }
+        }
+
+        this.previousState = this.state
         this.armorLogic()
     }
     armorLogic(){
@@ -144,8 +154,8 @@ export default class Armor extends Card{
 
     restoreValues(){
 
-        this.xPos = -400;
-        this.yPos = -400;
+        this.xPos = 2200;
+        this.yPos = 1200;
         this.health = this.previousHealth;
         this.defense = this.previousDefense;
         this.attack = this.previousAttack;
@@ -158,6 +168,7 @@ export default class Armor extends Card{
     }
 
     render(ctx, language, equipped = false, xPosModifier = 0, yPosModifier = 0){
+
         let xPos = this.xPos
         let yPos = this.yPos
         ctx.fillStyle = "black"

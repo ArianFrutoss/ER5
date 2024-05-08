@@ -88,10 +88,13 @@ export default class Turn {
         switch(this.state){
             
             case TurnStates.INITIALIZE:
-                this.init(timerContainer, mouse);
+                const isInitOver = this.init(timerContainer, mouse, messagesContainer);
 
-                this.state = TurnStates.EXECUTION
-                this.finished = false
+                if (isInitOver){
+
+                    this.state = TurnStates.EXECUTION
+                    this.finished = false   
+                }
                 break;
             
             case TurnStates.EXECUTION:
@@ -121,39 +124,49 @@ export default class Turn {
 
     }
 
-    init(timerContainer, mouse){
+    init(timerContainer, mouse, messagesContainer){
 
-        this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
-
-        this.restoreCardStatesFromActiveDecks()
-        // Spawnear nuevo Minion
-        if (this.minionDeck.cards.length>0) {
-        for (; this.activeMinionDeck.cards.length < 3;) {
-                const newMinion = this.minionDeck.spawnNewMinions(this.activeMinionDeck);
-                
-                // Posicionar nuevo Minion en el Grid
-                if (newMinion != undefined){
-                    
-                    newMinion.assignMinionToBoardGrid(this.gridArray.grids[GridId.BOARD_GRID], this.turnId);
-                } 
-                if (this.minionDeck.cards.length === 0) {
-                    break;
-                }
-            }
-        }
-
-        this.actionsCounter = 0
-        this.eventContainer.executeEvents()
-        this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer);
+        this.phaseState = PhaseStates.DEFAULT;
 
         // Restablecer el Timer
         timerContainer.restartTimerValue(TimerId.TURN_TIMER);
-        
 
         // indicar turno activo
         this.active = true;
 
-        this.deselect();
+        this.actionsCounter = 0;
+
+        if (messagesContainer.changeTurnMessage.length === 0){      
+
+            this.gridArray.grids[GridId.BOARD_GRID].update(mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck])
+
+            this.restoreCardStatesFromActiveDecks()
+            // Spawnear nuevo Minion
+            if (this.minionDeck.cards.length>0) {
+            for (; this.activeMinionDeck.cards.length < 3;) {
+                    const newMinion = this.minionDeck.spawnNewMinions(this.activeMinionDeck);
+                    
+                    // Posicionar nuevo Minion en el Grid
+                    if (newMinion != undefined){
+                        
+                        newMinion.assignMinionToBoardGrid(this.gridArray.grids[GridId.BOARD_GRID], this.turnId);
+                    } 
+                    if (this.minionDeck.cards.length === 0) {
+                        break;
+                    }
+                }
+            }
+           
+            this.eventContainer.executeEvents()
+            this.preparingEventDeck.update(mouse, this.preparingEventDeck, messagesContainer)  
+            this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer);
+
+            this.deselect();
+
+            return true;
+        }
+
+        return false;
     }
 
     assignTurnToBuffCard(){ 

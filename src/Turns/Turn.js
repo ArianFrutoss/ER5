@@ -93,6 +93,7 @@ export default class Turn {
                 if (isInitOver){
 
                     this.state = TurnStates.EXECUTION
+                    this.mainCharacter.turnMessage = true
                     this.finished = false   
                 }
                 break;

@@ -1,5 +1,5 @@
 import Messages from "../../Messages.js";
-import { BorderId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, MessageState, MessageType, TurnStates, TypeNames, VFXId } from "../../constants.js";
+import { BorderId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, MessageState, MessageType, ScreenSize, TurnStates, TypeNames, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Spell extends Card{
@@ -140,7 +140,7 @@ export default class Spell extends Card{
     restoreValues(){
 
         this.xPos = -400;
-        this.yPos = -400;
+        this.yPos = 1200;
         this.cooldown = this.previousCooldown;
         this.durability = this.previousDurability;
         this.action = this.previousAction;

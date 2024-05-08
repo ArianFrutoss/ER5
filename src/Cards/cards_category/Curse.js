@@ -1,5 +1,5 @@
 import Messages from "../../Messages.js";
-import { BorderId, CardActions, CardId, CurseId, DecksId, DurabilityColors, IconsPos, MessageState, MessageType, TurnStates, TypeNames, VFXId } from "../../constants.js";
+import { BorderId, CardActions, CardId, CurseId, DecksId, DurabilityColors, IconsPos, MessageState, MessageType, ScreenSize, TurnStates, TypeNames, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Curse extends Card{
@@ -172,7 +172,7 @@ export default class Curse extends Card{
     restoreValues(){
 
         this.xPos = -400;
-        this.yPos = -400;
+        this.yPos = 1200;
         this.cooldown = this.previousCooldown;
         this.durability = this.previousDurability;
         this.action = this.previousAction;
@@ -328,7 +328,7 @@ export default class Curse extends Card{
                         }
 
                     if(size === CardId.EVENT_SIZE){
-                     
+                    
                         if(this.cooldown >= 0.1){
 
                             ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
@@ -399,7 +399,7 @@ export default class Curse extends Card{
             } else {
                 ctx.drawImage(
                     this.imageReverse,
-                     xPos, yPos)
+                    xPos, yPos)
             }
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 if (this.state === CardId.HOVER) {

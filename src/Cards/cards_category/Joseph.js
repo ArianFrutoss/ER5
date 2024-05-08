@@ -1,6 +1,6 @@
 import EventContainer from "../../Events/EventContainer.js";
 import { DestroyAllMinionsEvent } from "../../Events/phase_events/DestroyAllMinionsEvent.js";
-import { BorderId, CardActions, CardId, DecksId, IconsPos, TurnStates, VFXId } from "../../constants.js";
+import { BorderId, CardActions, CardId, DecksId, IconsPos, ScreenSize, TurnStates, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Joseph extends Card{
@@ -103,8 +103,8 @@ export default class Joseph extends Card{
                 break;
 
             case CardActions.WORN_OUT:
-                this.xPos = -500
-                this.yPos = -500
+                this.xPos = -400
+                this.yPos = 1200;
                 this.size = CardId.BIG_SIZE
                 this.graveyardDeck.cards.push(this)
                 this.deck.cards.pop()
@@ -152,7 +152,7 @@ export default class Joseph extends Card{
     restoreValues(){
 
         this.xPos = -400;
-        this.yPos = -400;
+        this.yPos = 1200;
         this.durability = this.previousDurability;
         this.action = this.previousAction;
         this.state = this.previousState;
@@ -160,6 +160,7 @@ export default class Joseph extends Card{
     }
 
     render(ctx, language){
+
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
@@ -231,7 +232,7 @@ export default class Joseph extends Card{
             } else {
                 ctx.drawImage(
                     this.imageReverse,
-                     xPos, yPos)
+                    xPos, yPos)
             }
             if (this.action === CardActions.READY ||this.action === CardActions.ON_USE) {
                 ctx.globalAlpha = 0.5;
@@ -255,7 +256,7 @@ export default class Joseph extends Card{
             } else {
                 return false
             }
-            
+
     }
     renderToolTip(xPos, yPos, language, ctx){
         ctx.fillStyle = '#d59d00'

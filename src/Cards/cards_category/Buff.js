@@ -1,4 +1,4 @@
-import { BorderId, BuffId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, MainCharacterId, MessageState, MessageType, TurnStates, TypeNames, VFXId } from "../../constants.js";
+import { BorderId, BuffId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, MainCharacterId, MessageState, MessageType, ScreenSize, TurnStates, TypeNames, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 import EventContainer from "../../Events/EventContainer.js";
 import Messages from "../../Messages.js";
@@ -197,7 +197,7 @@ export default class Buff extends Card {
     restoreValues(){
 
         this.xPos = -400;
-        this.yPos = -400;
+        this.yPos = 1200;
         this.cooldown = this.previousCooldown;
         this.durability = this.previousDurability;
         this.action = this.previousAction;
@@ -206,6 +206,7 @@ export default class Buff extends Card {
     }
 
     render(ctx, language){
+
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
@@ -334,7 +335,7 @@ export default class Buff extends Card {
 
 
                 if(size === CardId.EVENT_SIZE){
-                     
+                    
                     if(this.cooldown >= 0.1){
 
                         ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
@@ -406,7 +407,7 @@ export default class Buff extends Card {
             } else {
                 ctx.drawImage(
                     this.imageReverse,
-                     xPos, yPos)
+                    xPos, yPos)
             }
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 if (this.state === CardId.HOVER) {

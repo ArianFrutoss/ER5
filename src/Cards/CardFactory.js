@@ -7,7 +7,7 @@ import Minion from "./cards_category/Minion.js";
 import Spell from "./cards_category/Spell.js";
 import Weapon from "./cards_category/Weapon.js";
 import TextContainer from "../TextContainer.js";
-import { BorderId, CardId, IconsId, ImageTypes, RarityId, StatsId, TypeId } from "../constants.js";
+import { BorderId, CardId, IconsId, ImageTypes, RarityId, ScreenSize, StatsId, TypeId } from "../constants.js";
 
 
 
@@ -57,7 +57,7 @@ export default class CardFactory {
             // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS
             const quantity = this.cardData[i].quantity
             const xPos = -400;
-            const yPos = -400;
+            const yPos = 1200;
             const objective = "objective";
             const attributes = this.cardData[i].attributes;
             const effects = this.cardData[i].common_effect;

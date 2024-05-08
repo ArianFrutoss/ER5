@@ -1,5 +1,5 @@
 import Messages from "../../Messages.js";
-import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId, DurabilityColors, TypeNames, MessageType, MessageState, TurnStates } from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId, DurabilityColors, TypeNames, MessageType, MessageState, TurnStates, ScreenSize } from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Weapon extends Card{
@@ -130,7 +130,7 @@ export default class Weapon extends Card{
                     graveyardDeck.cards.push(card)
                     this.setDeck(graveyardDeck)
                     this.xPos = -400
-                    this.yPos = -400
+                    this.yPos = 1200;
                 }
             }  
         }
@@ -143,7 +143,7 @@ export default class Weapon extends Card{
     restoreValues(){
 
         this.xPos = -400;
-        this.yPos = -400;
+        this.yPos = 1200;
         this.health = this.previousHealth;
         this.defense = this.previousDefense;
         this.attack = this.previousAttack;

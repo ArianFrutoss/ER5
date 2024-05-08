@@ -57,15 +57,15 @@ export default class Game {
         mouse.assignAddEventListeners();
         const messages = new MessagesContainer();
         messages.createHelpMessages();
-        
+
         const firstTurn = Math.floor(Math.random()*2);
         turns.CreateTurns(mouse, eventContainer);
 
         console.log(turns.turnContainer);
-        
+
         const timerContainer = new TimerContainer();
         timerContainer.create();
-       
+
         return new Game(turns, null, assets, language, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer);
     }
 
@@ -74,7 +74,7 @@ export default class Game {
 
             case GameState.LOAD_GAME:
                 for (let i = 0; i < 2; i++) {
-                    this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK+i]);                      
+                    this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK+i]);
                     this.turnContainer.turnContainer[i].mainCharacter.xPos = IconsPos.PLAYER_X[i]
                     this.turnContainer.turnContainer[i].mainCharacter.yPos = IconsPos.PLAYER_Y[i]
                 }
@@ -89,12 +89,12 @@ export default class Game {
                 }
                 const turn = this.turnContainer.turnContainer[this.currentTurn];
                 const enemyTurn = this.turnContainer.turnContainer[(this.currentTurn+1)%2];
-                
+
                 this.assignCardsToGrids(turn.handDeck, this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID])
                 this.assignCardsToGrids(turn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
                 turn.phasesArray[PhaseStates.PREPARE_EVENT].setEventGrid(this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
                 turn.phasesArray[PhaseStates.USE_EVENT_CARD].setEventGrid(this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
-        
+
                 this.assignCardsToGrids(enemyTurn.handDeck, this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID])
                 this.assignCardsToGrids(enemyTurn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
                 enemyTurn.phasesArray[PhaseStates.PREPARE_EVENT].setEventGrid(this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
@@ -106,10 +106,10 @@ export default class Game {
                 }
 
                 if (this.images.isLoaded) {
-                    
+
                     this.gameState = GameState.PLAYING
                 }
-                
+
                 break;
 
             case GameState.PLAYING:
@@ -118,8 +118,8 @@ export default class Game {
                 this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer);
                 this.mouse.update();
-                
-                if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length + 
+
+                if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length +
                    this.turnContainer.turnContainer[this.currentTurn].minionDeck.cards.length === 0){
                     this.gameState = GameState.SEND_DATA;
                 }else{
@@ -127,18 +127,18 @@ export default class Game {
                         this.turnContainer.turnContainer[this.currentTurn].finished = false
                         this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
 
-                        
+
                         this.currentTurn = (this.currentTurn + 1) % 2;
                         const name = this.turnContainer.turnContainer[this.currentTurn].name.toUpperCase()
                         const message = new Messages(1000, 490, name+"'S TURN", MessageType.CHANGE_TURN_MESSAGE, MessageState.APPEAR, 0.1, 0.2, 1, 100);
                         this.messagesContainer.changeTurnMessage.push(message)
                         this.setTurnDecksPositions()
                         this.turnCounter++;
-    
+
                     }
                     this.messagesContainer.update();
                 }
-                
+
                 break;
 
             case GameState.GAMEOVER:
@@ -147,9 +147,9 @@ export default class Game {
                     window.location.reload();
                 }
                 break;
-            
+
             case GameState.SEND_DATA:
-                
+
                 this.sendStatsData();
                 this.gameState = GameState.GAMEOVER;
             default:
@@ -182,7 +182,7 @@ export default class Game {
     }
 
     renderGame() {
-        
+
         const images = this.images.images
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -195,18 +195,18 @@ export default class Game {
     }
 
     updateGame() {
-        
+
         // Funcion para cambio de idioma
         this.changeLanguage();
-        
+
         // Funcion que posiciona las Cards en la posicion de los Slots
         const turn = this.turnContainer.turnContainer[this.currentTurn];
         const enemyTurn = this.turnContainer.turnContainer[(this.currentTurn+1)%2];
 
-
         this.assignCardsToGrids(turn.handDeck, this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID])
         this.assignCardsToGrids(enemyTurn.handDeck, this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID])
-
+        this.assignCardsToGrids(turn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
+        this.assignCardsToGrids(enemyTurn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
 
         //this.updateTurns(); ---> test de cambio de turnos
     }
@@ -216,13 +216,13 @@ export default class Game {
         const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_CHANGE_LANGUAGE];
 
         if (button.state === ButtonState.SELECTED){
-    
+
             this.language = this.language === LanguageId.ENG ? LanguageId.EUS : LanguageId.ENG;
             button.state = ButtonState.NOT_SELECTED;
         }
     }
 
-    // Funcion que roba las Cards del EventDeck y las asigna al HandDeck              
+    // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
     assignCardsToHand(eventDeck, handDeck) {
         for (let i = handDeck.cards.length; i < 5; i++) {
             const card = eventDeck.cards[eventDeck.cards.length - 1 ]
@@ -234,16 +234,16 @@ export default class Game {
                 card.deck = handDeck
                 eventDeck.cards.pop();
             }
-            
+
         }
     }
-    
+
     assignMinionsToActiveMinionsDeck(minionDeck, activeMinionDeck) {
 
         for (let i = activeMinionDeck.length; i < 3; i++) {
-            
+
             for (let j = 0; j < minionDeck.cards.length; j++){
-                
+
                 if (minionDeck.cards[j].name[LanguageId.ENG] === "Villager"){
 
                     activeMinionDeck.push(minionDeck.cards[j]);
@@ -255,7 +255,7 @@ export default class Game {
     }
 
     assignMinionsToBoardGrid(player1ActiveMinionDeck, player2ActiveMinionDeck, boardGrid) {
-        
+
         const decks = [player1ActiveMinionDeck, player2ActiveMinionDeck];
 
         let counter = 0;
@@ -269,9 +269,9 @@ export default class Game {
             for (let j = 0; j < decks[i].cards.length; j++){
 
                 if (decks[i].cards[j] != undefined) {
-                    
+
                     const card = decks[i].cards[j];
-                    
+
                     card.xPos = boardGrid.slots[boardPos][2 + counter].xPos;
                     card.yPos = boardGrid.slots[boardPos][2 + counter].yPos;
                     card.size = BorderId.SMALL_SIZE;
@@ -280,28 +280,50 @@ export default class Game {
             }
         }
     }
-    
+
     assignCardsToGrids(decks, grids) {
+
         let k = 0
+
         for (let i = 0; i < grids.slots.length; i++) {
 
             for (let j = 0; j < grids.slots[0].length; j++) {
 
                 if (decks.cards[k]){
 
+                    let speed = 1000;
+
                     decks.cards[k].xPos = grids.slots[i][j].xPos;
-                    decks.cards[k].yPos = grids.slots[i][j].yPos;
+
+                    if (decks.cards[k].yPos > grids.slots[i][j].yPos){
+
+                        if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
+
+                            speed = 50;
+                        }
+
+                        decks.cards[k].yPos -= speed * globals.deltaTime;
+                    }
+
+                    if (decks.cards[k].yPos < grids.slots[i][j].yPos){
+
+                        if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
+
+                            speed = 50;
+                        }
+
+                        decks.cards[k].yPos += speed * globals.deltaTime;
+                    }
+
                     grids.slots[i][j].isEmpty = false;
                     k++
                 }
-                
             }
         }
     }
 
-
     setTurnDecksPositions(){
-        
+
         const turn = this.turnContainer.turnContainer[this.currentTurn];
         const enemyTurn = this.turnContainer.turnContainer[(this.currentTurn+1)%2];
         this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID].freeSlots()
@@ -309,7 +331,7 @@ export default class Game {
         enemyTurn.phasesArray[PhaseStates.USE_EVENT_CARD].setEventGrid(this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
         this.assignCardsToGrids(enemyTurn.handDeck, this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID])
         this.assignCardsToGrids(enemyTurn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
-        
+
         this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID].freeSlots()
         turn.phasesArray[PhaseStates.PREPARE_EVENT].setEventGrid(this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
         turn.phasesArray[PhaseStates.USE_EVENT_CARD].setEventGrid(this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
@@ -334,16 +356,16 @@ export default class Game {
                     if (card.yPos === row[0].yPos) {
                         positions[k] = i
                     }
-                
+
             }
                 for (let k = 0; k < enemyMinionCards.length; k++) {
                     const card = enemyMinionCards[k];
                     if (card.yPos === row[0].yPos) {
                         enemyPositions[k] = i
                     }
-                    
-            }    
-            
+
+            }
+
         }
 
         for (let i = 0; i < positions.length; i++) {
@@ -393,10 +415,10 @@ export default class Game {
                 break;
         }
     }
-    // mover a turncontainer 
+    // mover a turncontainer
     updateTurns(){
         this.turnChange();
-    }   
+    }
 
     turnChange(){
         console.log(this.turnArray.turnContainer[0].active);
@@ -433,10 +455,10 @@ export default class Game {
         const p2MongoId    = enemies[localStorage.index].mongo_id;
 
         const player1hp    = player1.minionDeck.cards.length + player1.activeMinionDeck.cards.length;
-    
+
         const winner = player1hp > 0 ? p1MongoId : p2MongoId;
         const loser  = player1hp === 0 ? p1MongoId : p2MongoId;
-        
+
 
         const game = {
             players: [
@@ -454,27 +476,27 @@ export default class Game {
                     damageDone: p2DoneDamage,
                     damageReceived: p1DoneDamage
                 },
-            
+
             ],
             winner: winner,
             loser: loser
         }
 
         console.log(JSON.stringify(game));
-        
+
         fetch(`http://localhost:4000/newGame`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(game)
-            
+
         })
         .then((res) => {
             this.finished = true;
         })
     }
 
-    
+
 }
 

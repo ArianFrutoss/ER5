@@ -1,5 +1,5 @@
 import Messages from "../../Messages.js";
-import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId, DurabilityColors, TypeNames, MessageType, MessageState, TurnStates} from "../../constants.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId, DurabilityColors, TypeNames, MessageType, MessageState, TurnStates, ScreenSize} from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Armor extends Card{
@@ -155,7 +155,7 @@ export default class Armor extends Card{
     restoreValues(){
 
         this.xPos = -400;
-        this.yPos = -400;
+        this.yPos = 1200;
         this.health = this.previousHealth;
         this.defense = this.previousDefense;
         this.attack = this.previousAttack;
@@ -168,6 +168,7 @@ export default class Armor extends Card{
     }
 
     render(ctx, language, equipped = false, xPosModifier = 0, yPosModifier = 0){
+
         let xPos = this.xPos
         let yPos = this.yPos
         ctx.fillStyle = "black"

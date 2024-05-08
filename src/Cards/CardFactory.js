@@ -7,7 +7,7 @@ import Minion from "./cards_category/Minion.js";
 import Spell from "./cards_category/Spell.js";
 import Weapon from "./cards_category/Weapon.js";
 import TextContainer from "../TextContainer.js";
-import { BorderId, CardId, IconsId, ImageTypes, RarityId, ScreenSize, StatsId, TypeId } from "../constants.js";
+import { BorderId, CardId, CardImageId, ChatMessages, IconsId, ImageTypes, RarityId, StatsId, TypeId } from "../constants.js";
 
 
 
@@ -36,6 +36,8 @@ export default class CardFactory {
             const imageRarity = [this.images[ImageTypes.CARD_RARITY][rarity], this.images[ImageTypes.CARD_RARITY][rarity + this.images[ImageTypes.CARD_RARITY].length / 2]]
             const imageBorders = [this.images[ImageTypes.CARD_BORDER][CardId.BIG_SIZE], this.images[ImageTypes.CARD_BORDER][CardId.SMALL_SIZE]]
             const imageReverse = this.images[ImageTypes.CARD_BORDER][BorderId.REVERSE]
+            const chatBubbleImage = this.images[ImageTypes.CHAT_BUBBLE][0]
+            let messages
             const vfx = [[this.images[ImageTypes.CARD_BORDER][BorderId.SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.MINI_SELECTED], this.images[ImageTypes.CARD_BORDER][BorderId.EVENT_SELECTED]], 
                          [this.images[ImageTypes.CARD_BORDER][BorderId.HOVER]   , this.images[ImageTypes.CARD_BORDER][BorderId.MINI_HOVER]   , this.images[ImageTypes.CARD_BORDER][BorderId.EVENT_HOVER]]]
             
@@ -96,31 +98,34 @@ export default class CardFactory {
 
                 case "Joseph_card":
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.JOSEPH]
+                    messages = this.selectMessages(id)
                     for (let i = 0; i < quantity; i++) {
                         // card = this.createJoseph(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
-                        card = Joseph.create(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, attributes);
+                        card = Joseph.create(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, attributes, chatBubbleImage, messages);
                         this.cards.push(card)
 
                     }
                     break;
 
                 case "Hero_card":
+                    messages = this.selectMessages(id)
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.HERO]
                     imageTeam = this.images[ImageTypes.TEAM]
                     for (let i = 0; i < quantity; i++) {
                         // card = this.createMainCharacter(id, texts, image, rarity, TypeId.HERO, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effects)
-                        card = MainCharacter.create(id, texts, image, rarity, TypeId.HERO, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, attributes, imageTeam);
+                        card = MainCharacter.create(id, texts, image, rarity, TypeId.HERO, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, attributes, imageTeam, chatBubbleImage,messages);
                         card.size = CardId.SMALL_SIZE
                         this.cards.push(card)
                     }
                     break;
 
                 case "Minion_card":
+                    messages = this.selectMessages(id)
                     imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.SPEED], this.images[ImageTypes.CARD_ICONS][IconsId.LIFE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE], this.images[ImageTypes.CARD_ICONS][IconsId.WEAPON], this.images[ImageTypes.CARD_ICONS][IconsId.ARMOR]]
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.MINION]
                     imageTeam = this.images[ImageTypes.TEAM]
                     for (let i = 0; i < quantity; i++) {
-                        card = this.createMinion(id, texts, image, rarity, TypeId.MINION,"Melee", xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, imageTeam);
+                        card = this.createMinion(id, texts, image, rarity, TypeId.MINION,"Melee", xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, imageTeam, chatBubbleImage, messages);
                         this.cards.push(card)
                     }
                     break;
@@ -154,7 +159,27 @@ export default class CardFactory {
 
 
     }
+    selectMessages(id){
+        switch (id) {
+            case CardImageId.LUCRETIA:
+                return ChatMessages.LUCRETIA
 
+            case CardImageId.XG:
+                return ChatMessages.XG
+
+            case CardImageId.ANGELO:
+                return ChatMessages.ANGELO
+
+            case CardImageId.THRONE:
+                return ChatMessages.THRONE
+
+            case CardImageId.JOSEPH:
+                return ChatMessages.JOSEPH
+
+            default:
+                return ChatMessages.MINION
+        }
+    }
     setRarity(rarity) {
         switch (rarity) {
             case 'Common':
@@ -176,12 +201,12 @@ export default class CardFactory {
         }
     }
 
-    createMinion(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, imageMinionTeam) {
+    createMinion(id, texts, image, rarity, category, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, imageMinionTeam, chatBubble, messages) {
 
 
         attributes = this.setAttributeValues(attributes);
 
-        const minion = Minion.create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam);
+        const minion = Minion.create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam, chatBubble, messages);
 
         return minion
 

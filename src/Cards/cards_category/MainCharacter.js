@@ -1,7 +1,8 @@
-import { BorderId, CardId, IconsPos, TurnStates, VFXId } from "../../constants.js";
+import { BorderId, CardId, CardImageId, ChatMessages, IconsPos, VFXId, MessageState, MessageType, TurnStates } from "../../constants.js";
 import Card from "../Card.js";
+import Messages from "../../Messages.js";
 export default class MainCharacter extends Card{
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, imageHeroTeam, durability=0, cooldown=0){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, effect, imageHeroTeam, chatBubble, messages, durability=0, cooldown=0){
             super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
     
             // Card attributes     		   	
@@ -10,15 +11,31 @@ export default class MainCharacter extends Card{
             this.player         = 0;
             this.effect         = effect;
             this.imageHeroTeam  = imageHeroTeam;
+            this.chatBubble     = chatBubble
+            this.messages       = messages
+            this.previousMessage= undefined
+            this.turnMessage    = false
         }
-        updateScale(mouse, decks, turnState){
+        updateScale(mouse, decks, turnState, messagesContainer, language){
             const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
             if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
                 const isCollidingWithMouse = mouse.isCollidingWithCard(this)
     
                 switch (this.state) {
                     case CardId.NOT_SELECTED:
-    
+                        if (this.previousMessage != undefined) {
+                            if (this.previousMessage.state === MessageState.OFF) {
+                                this.previousMessage = undefined
+                            }
+                        }else{
+                            if (this.turnMessage) {
+                                const random = Math.floor(Math.random()*this.messages.length)
+                                const message       = this.messages[random]
+                                const text = messagesContainer.createMessage(this.xPos+280, this.yPos-150, message, MessageType.CHAT_MESSAGE, MessageState.APPEAR, 1.1, 0.5, 0.3,25, 100, 600, 17, "black");
+                                this.previousMessage = text  
+                                this.turnMessage = false
+                            }
+                        }
                         this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
     
                         break;
@@ -26,6 +43,18 @@ export default class MainCharacter extends Card{
                     case CardId.HOVER:
                         this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
                         this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.SCALED : this.state
+                        if (!mouse.leftClick && mouse.previousStateLeft && this.previousMessage === undefined) {
+                            const random = Math.floor(Math.random()*this.messages.length)
+                            const message       = this.messages[random]
+                            const text = messagesContainer.createMessage(this.xPos+280, this.yPos-150, message, MessageType.CHAT_MESSAGE, MessageState.APPEAR, 1.5, 0.7, 0.3,25, 100, 600, 17, "black");
+                            this.previousMessage = text
+                        } else{
+                            if (this.previousMessage != undefined) {
+                                if (this.previousMessage.state === MessageState.OFF) {
+                                    this.previousMessage = undefined
+                                }
+                            }
+                        }
                         break;
     
                     case CardId.SELECTED:
@@ -153,10 +182,24 @@ export default class MainCharacter extends Card{
                         )
                     }
                     
+                    if (this.previousMessage != undefined) {
+                        if(yPos < 500){
+                            xPos = IconsPos.CHAT_BUBBLE_X[0]
+                            yPos = IconsPos.CHAT_BUBBLE_Y[0]
+                        }else {
+                            xPos = IconsPos.CHAT_BUBBLE_X[1]
+                            yPos = IconsPos.CHAT_BUBBLE_Y[1]
+                        }
+                        ctx.setTransform(0.7, 0, 0, 0.7, 0, 0);
+                        ctx.drawImage(
+                            this.chatBubble,               
+                            xPos, yPos
+                        )
+                    }
                     ctx.setTransform(1, 0, 0, 1, 0, 0);
         }
 
-        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, imageHeroTeam) {
+        static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, imageHeroTeam, chatBubble, messages) {
             
             let durability;
             let cooldown;
@@ -166,7 +209,7 @@ export default class MainCharacter extends Card{
 
             }
 
-            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, imageHeroTeam, durability, cooldown);
+            const mainCharacter = new MainCharacter(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, imageHeroTeam, chatBubble, messages, durability, cooldown);
     
             return mainCharacter;
     

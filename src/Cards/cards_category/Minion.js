@@ -1,9 +1,9 @@
-import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId, TypeNames, TurnStates } from "../../constants.js";
+import { CardActions, CardId, IconsPos, BorderId, TurnId, RarityId, IconsId, VFXId, StatsId, DecksId, TypeNames, TurnStates, MessageState, MessageType } from "../../constants.js";
 import Card from "../Card.js";
-
+import Messages from "../../Messages.js";
 export default class Minion extends Card {
 
-    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed, imageMinionTeam) {
+    constructor(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, weaponRarityImage, armorRarityImage, attack, defense, health, speed, imageMinionTeam, chatBubble, messages) {
 
         super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
 
@@ -26,8 +26,11 @@ export default class Minion extends Card {
         this.weaponRarityImage      = weaponRarityImage;
         this.armorRarityImage       = armorRarityImage;
         this.imageMinionTeam        = imageMinionTeam;
+        this.chatBubble             = chatBubble
+        this.messages               = messages
+        this.previousMessage        = undefined
     }
-    updateScale(mouse, decks, turnState){
+    updateScale(mouse, decks, turnState, messagesContainer, language){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
         if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
@@ -366,14 +369,14 @@ checkIconColor(stat, previousStat) {
         }
     }
 }
-    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam){
+    static create(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attributes, imageMinionTeam, chatBubble, messages){
     
             let hp      = attributes[StatsId.LIFE]
             let defense = attributes[StatsId.DEFENSE]
             let attack  = attributes[StatsId.DAMAGE]
             let speed   = attributes[StatsId.SPEED]
     
-            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed, imageMinionTeam);
+            const minion = new Minion(id, texts, image, rarity, category, type, xPos, yPos,imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, attack, defense, hp, speed, imageMinionTeam, chatBubble, messages);
     
             return minion
     

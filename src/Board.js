@@ -162,7 +162,7 @@ export default class Board{
             }
         }
         ctx.fillText(hp, image.width / 2 + xPos, image.height / 2 + yPos);
-
+        ctx.strokeText(hp, image.width / 2 + xPos, image.height / 2 + yPos);
         image = images[ImageTypes.BOARD_IMAGE][BoardId.GEM];
         xPos = 295;
         yPos = 925;
@@ -181,6 +181,7 @@ export default class Board{
             }
         }
         ctx.fillText(hp, image.width / 2 + xPos, image.height / 2 + yPos);
+        ctx.strokeText(hp, image.width / 2 + xPos, image.height / 2 + yPos);
 
         image = images[ImageTypes.GAME_RARITY][RarityId.COMMON];
         xPos = 1595;

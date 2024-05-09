@@ -325,6 +325,13 @@ export const HelpMessagesPos = {
     Y_POS:   833,
 }
 
+export const ParticleState = {
+    APPEAR: 0,
+    ON:     1,
+    FADE:   2,
+    OFF:    3,
+}
+
 export const TimerId = {
     TURN_TIMER:     0,
     DISCARD_TIMER:  1,

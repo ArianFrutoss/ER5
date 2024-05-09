@@ -85,13 +85,13 @@ export default class UseEventPhase extends Phase{
                     let result;
                     if (eventCard.id != BuffId.TELEPORT) {
                         result = eventContainer.createDurabilityEvent(eventCard);
-                        result = eventContainer.createCommonEvent(eventCard, minionCard);
+                        result = eventContainer.createCommonEvent(eventCard, minionCard, messagesContainer);
                         this.calculateDamageDone(eventCard);
                         
                     }else{
                         if (eventCard.action != CardActions.ON_USE) {
                             result = eventContainer.createDurabilityEvent(eventCard);
-                            eventContainer.createTeleportEvent(this.turn, eventCard, minionCard)
+                            eventContainer.createTeleportEvent(this.turn, eventCard, minionCard, messagesContainer)
                             
                         }
                     }

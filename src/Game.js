@@ -294,9 +294,9 @@ export default class Game {
 
                     const card = decks.cards[k];
                     const slot = grids.slots[i][j];
-                    card.xPos = slot.xPos;
-                    card.yPos = slot.yPos;
-                    // this.moveCard(card, slot);
+                    // card.xPos = slot.xPos;
+                    // card.yPos = slot.yPos;
+                    this.moveCard(card, slot);
                     k++;
                 }
             }
@@ -306,34 +306,25 @@ export default class Game {
     // funcion para realizar el movimiento
     moveCard(card, slot){
 
-        let speedX = 500;
-        let speedY = 500;
-
-        const xDistance = -card.xPos - slot.xPos;
-        const yDistance = -card.yPos - slot.yPos;
-        const distance = Math.sqrt(Math.pow(xDistance - yDistance, 2));
-
-        if (distance <= 20){
-            
-            speedX = 50;
-        }
-
-        if (yDistance <= 20){
-            
-            speedY = 50;
-        }
-
+        let speedX = 800;
+        let speedY = 800;
+        
+        const xDistance = card.xPos - slot.xPos;
+        const yDistance = card.yPos - slot.yPos;
+        const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+        console.log(card, card.xPos);
         const vX = speedX * (xDistance / distance);
         const vY = speedY * (yDistance / distance);
+    
 
-        card.xPos -= vX * globals.deltaTime;
-        card.yPos -= vY * globals.deltaTime;
-
-        if (Math.floor(card.xPos) === Math.floor(slot.xPos) && Math.floor(card.yPos) === Math.floor(slot.yPos)){
+        if (distance < 10){
             
             card.xPos = slot.xPos;
             card.yPos = slot.yPos;
             slot.isEmpty = false;
+        } else {
+            card.xPos -= vX * globals.deltaTime;
+            card.yPos -= vY * globals.deltaTime;
         }
     }
 

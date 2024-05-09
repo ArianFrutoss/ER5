@@ -79,13 +79,13 @@ export default class MinionMovementPhase extends Phase {
     // funcion para realizar el movimiento
     moveMinion(minionSelected, slotSelected){
 
-        let speed = 500;
+        let speed = 350;
 
         const xDistance = minionSelected.xPos - slotSelected.xPos;
         const yDistance = minionSelected.yPos - slotSelected.yPos;
         const distance = Math.sqrt(Math.pow(xDistance - yDistance, 2));
 
-        if (distance <= 10){
+        if (distance <= 15){
 
             speed = 20
         }

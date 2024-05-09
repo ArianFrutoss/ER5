@@ -158,7 +158,7 @@ export default class Turn {
                 }
             }
            
-            this.eventContainer.executeEvents()
+            this.eventContainer.executeEvents(messagesContainer, [this.activeMinionDeck, this.enemyActiveMinionDeck])
             this.preparingEventDeck.update(mouse, this.preparingEventDeck, messagesContainer)  
             this.phasesArray[PhaseStates.DRAW_CARD].execute(this.eventContainer);
 

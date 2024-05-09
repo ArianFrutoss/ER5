@@ -93,6 +93,7 @@ export default class Grid{
 
                 if (minionSelected.speed >= distance && slot.isEmpty){
                     slot.isMoveAviable = true;
+                    slot.color = "green";
                 }
             }
         }
@@ -120,6 +121,21 @@ export default class Grid{
 
                 if (range >= distance && isSlotUsed === false){
                     slot.isAttackAviable = true;
+
+                    if (minionSelected.weapon != null && minionSelected.weapon.range === 1){
+
+                        slot.color = "orange";
+                    }
+
+                    else if (minionSelected.weapon != null && minionSelected.weapon.range > 1){
+
+                        slot.color = "blue";
+                    }
+
+                    else{
+
+                        slot.color = "red";
+                    }
                 }
             }
         }
@@ -134,6 +150,7 @@ export default class Grid{
                 const slot = this.slots[i][j];
                 slot.isMoveAviable = false;
                 slot.isAttackAviable = false;
+                slot.color = "black";
             }
         }
     }
@@ -147,6 +164,7 @@ export default class Grid{
                 const slot = this.slots[i][j];
                 slot.isAviable = false;
                 slot.state = SlotsState.NOT_SELECTED
+                slot.color = "black";
             }
         }
     }
@@ -159,6 +177,7 @@ export default class Grid{
 
                 const slot = this.slots[i][j];
                 slot.isEmpty = true;
+                slot.color = "black";
             }
         }
     }

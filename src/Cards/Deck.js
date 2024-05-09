@@ -180,8 +180,9 @@ export default class Deck {
         for(let i = 0; i < this.cards.length; i++){
 
             const card = this.cards[i];
-            const renderTooltip = card.checkTooltip();
 
+            const renderTooltip = card.checkTooltip();
+            
             if (renderTooltip) {
                 
                     if (this.deckId != DecksId.PLAYER_1_HAND_DECK && this.deckId != DecksId.PLAYER_2_HAND_DECK) {

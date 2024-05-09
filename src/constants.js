@@ -328,6 +328,7 @@ export const HelpMessagesPos = {
 export const TimerId = {
     TURN_TIMER:     0,
     DISCARD_TIMER:  1,
+    TOOLTIP_TIMER:  2
 }
 
 export const BaseURL= [

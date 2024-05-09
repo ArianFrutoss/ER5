@@ -200,8 +200,20 @@ export default class Deck {
                         }
                         const xPos = mouse.x - xPosModifier
                         const yPos = mouse.y - yPosModifier
-        
-                        card.toolTip.render(xPos, yPos, language, ctx);
+                        
+                        switch(card.category){
+                            case TypeId.ARMOR:
+                            case TypeId.BUFF:
+                            case TypeId.JOSEPH:
+                            case TypeId.MINION:
+                            case TypeId.SPELL:
+                                card.toolTip.render(xPos, yPos, language, ctx);
+                                break;
+                            case TypeId.WEAPON:
+                                card.toolTip.render(xPos, yPos, language, ctx, card.range);
+                                break;
+                        }
+                        
                 }
             }
         }

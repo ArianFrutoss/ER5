@@ -87,12 +87,12 @@ export default class MinionMovementPhase extends Phase {
 
         if (distance <= 15){
 
-            speed = 20
+            speed = 20;
         }
 
         const vX = speed * (xDistance / distance);
         const vY = speed * (yDistance / distance);
-
+        
         minionSelected.xPos -= vX * globals.deltaTime;
         minionSelected.yPos -= vY * globals.deltaTime;
 

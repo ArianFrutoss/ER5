@@ -284,61 +284,47 @@ export default class Game {
 
     assignCardsToGrids(decks, grids) {
 
-        let k = 0
+        let k = 0;
 
-        for (let i = 0; i < grids.slots.length; i++) {
+        for (let i = 0; i < grids.slots.length; i++){
 
-            for (let j = 0; j < grids.slots[0].length; j++) {
+            for (let j = 0; j < grids.slots[0].length; j++){
 
                 if (decks.cards[k]){
 
-                    let speedX = 900;
-                    let speedY = 1000;
-
-                    if (decks.cards[k].xPos > grids.slots[i][j].xPos){
-
-                        if (Math.abs(decks.cards[k].xPos - grids.slots[i][j].xPos) <= 20){
-
-                            speedX = 50;
-                        }
-
-                        decks.cards[k].xPos -= speedX * globals.deltaTime;
-                    }
-
-                    if (decks.cards[k].xPos < grids.slots[i][j].xPos){
-
-                        if (Math.abs(decks.cards[k].xPos - grids.slots[i][j].xPos) <= 20){
-
-                            speedX = 50;
-                        }
-
-                        decks.cards[k].xPos += speedX * globals.deltaTime;
-                    }
-
-                    if (decks.cards[k].yPos > grids.slots[i][j].yPos){
-
-                        if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
-
-                            speedY = 50;
-                        }
-
-                        decks.cards[k].yPos -= speedY * globals.deltaTime;
-                    }
-
-                    if (decks.cards[k].yPos < grids.slots[i][j].yPos){
-
-                        if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
-
-                            speedY = 50;
-                        }
-
-                        decks.cards[k].yPos += speedY * globals.deltaTime;
-                    }
-
-                    grids.slots[i][j].isEmpty = false;
-                    k++
+                    const card = decks.cards[k];
+                    const slot = grids.slots[i][j];
+                    // card.xPos = slot.xPos;
+                    // card.yPos = slot.yPos;
+                    this.moveCard(card, slot);
+                    k++;
                 }
             }
+        }
+    }
+
+    // funcion para realizar el movimiento
+    moveCard(card, slot){
+
+        let speedX = 800;
+        let speedY = 800;
+        
+        const xDistance = card.xPos - slot.xPos;
+        const yDistance = card.yPos - slot.yPos;
+        const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+        console.log(card, card.xPos);
+        const vX = speedX * (xDistance / distance);
+        const vY = speedY * (yDistance / distance);
+    
+
+        if (distance < 10){
+            
+            card.xPos = slot.xPos;
+            card.yPos = slot.yPos;
+            slot.isEmpty = false;
+        } else {
+            card.xPos -= vX * globals.deltaTime;
+            card.yPos -= vY * globals.deltaTime;
         }
     }
 

@@ -14,17 +14,15 @@ import MessagesContainer from "./MessagesContainer.js";
 import EventContainer from "./Events/EventContainer.js";
 import TimerContainer from "./TimerContainer.js";
 import Messages from "./Messages.js";
+import ParticlesContainer from "./ParticlesContainer.js";
 
 export default class Game {
 
-    constructor(turnArray, handsArray, images, language, cardsArray, boardMinionsArray, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer) {
+    constructor(turnArray, images, language, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, particlesContainer) {
 
         this.turnContainer = turnArray;
-        this.handsArray = handsArray;
         this.images = images
         this.language = language;
-        this.cardsArray = cardsArray;
-        this.boardMinionsArray = boardMinionsArray;
         this.deckContainer = deckContainer;
         this.gridsArray = gridsArray;
         this.eventContainer = eventContainer;
@@ -38,6 +36,7 @@ export default class Game {
         this.messagesContainer = messagesContainer;
         this.timerContainer = timerContainer;
         this.finished = false;
+        this.particlesContainer = particlesContainer;
     }
 
     static init(data, canvas, ctx, language) {
@@ -66,7 +65,9 @@ export default class Game {
         const timerContainer = new TimerContainer();
         timerContainer.create();
 
-        return new Game(turns, null, assets, language, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer);
+        const particlesContainer = new ParticlesContainer();
+
+        return new Game(turns, assets, language, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, particlesContainer);
     }
 
     update() {
@@ -116,8 +117,9 @@ export default class Game {
                 this.updateGame();
                 this.deckContainer.updateScale(this.mouse, this.turnContainer.turnContainer[this.currentTurn].state, this.messagesContainer, this.language);
                 this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
-                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer);
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer, this.particlesContainer);
                 this.mouse.update();
+                this.particlesContainer.update();
 
                 if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length +
                    this.turnContainer.turnContainer[this.currentTurn].minionDeck.cards.length === 0){
@@ -191,6 +193,7 @@ export default class Game {
         this.timerContainer.render(this.ctx, this.turnContainer.turnContainer[this.currentTurn].phaseState);
         this.turnContainer.buttonContainer.renderButtons(this.language);
         this.messagesContainer.renderHelp(this.ctx, this.language);
+        this.particlesContainer.render(this.ctx);
         this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
         this.messagesContainer.renderDamageAndChangeTurn(this.ctx, this.language);
     }

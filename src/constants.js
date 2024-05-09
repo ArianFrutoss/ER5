@@ -438,3 +438,8 @@ export const ChatMessages = {
                  ["",""]]
 
 }
+
+export const BoardCardSizes = {
+    X_SIZE: 133,
+    Y_SIZE: 155,
+}

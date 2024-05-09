@@ -1,6 +1,7 @@
 import Phase from "./Phase.js";
-import { CardId, SlotsState, PhaseStates, messageMovimentPhase1, messageMovimentPhase2 } from "../../constants.js";
+import { CardId, SlotsState, PhaseStates, messageMovimentPhase1, messageMovimentPhase2, BoardCardSizes } from "../../constants.js";
 import globals from "../../globals.js";
+import ParticlesContainer from "../../ParticlesContainer.js";
 
 export default class MinionMovementPhase extends Phase {
 
@@ -12,7 +13,7 @@ export default class MinionMovementPhase extends Phase {
         this.mouse = mouse;                    // Objeto Mouse
     }
 
-    execute(messagesContainer){
+    execute(messagesContainer, particlesContainer){
 
         this.boardGrid.cancelAviableSlots();
         this.activeMinionDeck.update(this.mouse, this.activeMinionDeck);
@@ -67,6 +68,13 @@ export default class MinionMovementPhase extends Phase {
 
                 this.boardGrid.cancelAviableSlots();
 
+                const minionXPos = minionSelected.xPos;
+                const minionYPos = minionSelected.yPos;
+                const minionXSize = BoardCardSizes.X_SIZE;
+                const minionYSize = BoardCardSizes.Y_SIZE;
+
+                particlesContainer.createMoviment(minionXPos, minionYPos, minionXSize, minionYSize);
+
                 if (isMovementFinish){
     
                     this.boardGrid.clearSlots();
@@ -96,7 +104,7 @@ export default class MinionMovementPhase extends Phase {
         minionSelected.xPos -= vX * globals.deltaTime;
         minionSelected.yPos -= vY * globals.deltaTime;
 
-        if (Math.floor(minionSelected.xPos) === Math.floor(slotSelected.xPos) && Math.floor(minionSelected.yPos) === Math.floor(slotSelected.yPos)){
+        if (distance < 10){
             
             minionSelected.xPos = slotSelected.xPos;
             minionSelected.yPos = slotSelected.yPos;

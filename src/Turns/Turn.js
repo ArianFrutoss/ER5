@@ -82,7 +82,7 @@ export default class Turn {
             this.phasesArray = phasesArray
     }
 
-    update(mouse, enemyActiveMinionDeck, messagesContainer, timerContainer){
+    update(mouse, enemyActiveMinionDeck, messagesContainer, timerContainer, particlesContainer){
     
         this.updateStatsToSendDatabase();
         switch(this.state){
@@ -99,7 +99,7 @@ export default class Turn {
                 break;
             
             case TurnStates.EXECUTION:
-                const isPhasesOver = this.execute(mouse, messagesContainer, timerContainer);
+                const isPhasesOver = this.execute(mouse, messagesContainer, timerContainer, particlesContainer);
                 
                 if (enemyActiveMinionDeck.cards.length + this.enemyMinionDeck.cards.length === 0) {
                     this.finished = true
@@ -189,7 +189,7 @@ export default class Turn {
         }
     }
 
-    execute(mouse, messagesContainer, timerContainer){
+    execute(mouse, messagesContainer, timerContainer, particlesContainer){
 
         // Esto es el turnLoop
         switch (this.phaseState) {
@@ -226,7 +226,7 @@ export default class Turn {
                 break;
             
             case PhaseStates.MOVEMENT:
-                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute(messagesContainer);
+                const isMovementFinished = this.phasesArray[PhaseStates.MOVEMENT].execute(messagesContainer, particlesContainer);
                 const isMovementCancelled   = this.phasesArray[PhaseStates.MOVEMENT].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isMovementFinished){

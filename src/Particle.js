@@ -1,12 +1,17 @@
-import { ParticleState } from "./constants";
+import { ParticleState } from "./constants.js";
+import globals from "./globals.js";
 
 export default class Particle{
 
-    constructor(xPos, yPos, state, timeInFade, timeInAppear, timeInOn){
+    constructor(xPos, yPos, xSize, ySize, state, xSpeed, ySpeed, timeInFade, timeInAppear, timeInOn){
 
         this.xPos           = xPos;
         this.yPos           = yPos;
+        this.xSize          = xSize;
+        this.ySize          = ySize;
         this.state          = state;
+        this.xSpeed         = xSpeed;
+        this.ySpeed         = ySpeed;
         this.timeInFade     = timeInFade;
         this.timeInAppear   = timeInAppear;
         this.timeInOn       = timeInOn;
@@ -16,7 +21,7 @@ export default class Particle{
         this.onCounter      = 0;
     }
 
-    update(messages){
+    update(particles){
         switch (this.state){
 
             case ParticleState.APPEAR:
@@ -54,8 +59,19 @@ export default class Particle{
             case ParticleState.OFF:
 
                 this.alpha = 0.0;
-                messages.splice(this, 1);
+                particles.splice(this, 1);
                 break;
         }
+
+        this.xPos -= this.xSpeed * globals.deltaTime;
+        this.yPos -= this.ySpeed * globals.deltaTime;
+    }
+
+    render(ctx){
+
+        ctx.fillStyle = "white";
+        ctx.globalAlpha = this.alpha;
+        ctx.fillRect(this.xPos, this.yPos, this.xSize, this.ySize);
+        ctx.globalAlpha = 1.0;
     }
 }

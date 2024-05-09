@@ -19,7 +19,7 @@ export default class Slot{
 
         const isSlotSelected = this.isSlotSelected(grid);
         this.isSlotUsed(deck);
-        console.log(isSlotSelected);
+        
         if (this.isEmpty){
             
             const isCollidingWithMouse = mouse.isCollidingWithSlot(this);

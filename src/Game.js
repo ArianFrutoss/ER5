@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId, Sound } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -14,10 +14,11 @@ import MessagesContainer from "./MessagesContainer.js";
 import EventContainer from "./Events/EventContainer.js";
 import TimerContainer from "./TimerContainer.js";
 import Messages from "./Messages.js";
+import SoundManager from "./SoundManager.js";
 
 export default class Game {
 
-    constructor(turnArray, handsArray, images, language, cardsArray, boardMinionsArray, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer) {
+    constructor(turnArray, handsArray, images, language, cardsArray, boardMinionsArray, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, soundManager) {
 
         this.turnContainer = turnArray;
         this.handsArray = handsArray;
@@ -38,6 +39,7 @@ export default class Game {
         this.messagesContainer = messagesContainer;
         this.timerContainer = timerContainer;
         this.finished = false;
+        this.soundManager = soundManager
     }
 
     static init(data, canvas, ctx, language) {
@@ -65,8 +67,9 @@ export default class Game {
 
         const timerContainer = new TimerContainer();
         timerContainer.create();
-
-        return new Game(turns, null, assets, language, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer);
+        const soundManager = SoundManager.create()
+        soundManager.loadSounds()
+        return new Game(turns, null, assets, language, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, soundManager);
     }
 
     update() {
@@ -105,15 +108,19 @@ export default class Game {
                     this.rotateMainCharacters()
                 }
 
-                if (this.images.isLoaded) {
+                if (this.images.isLoaded && this.soundManager.isLoaded) {
 
                     this.gameState = GameState.PLAYING
+                    this.soundManager.sounds[Sound.GAME_MUSIC].play()
+                    this.soundManager.sounds[Sound.GAME_MUSIC].volume = 0.4
                 }
 
                 break;
 
             case GameState.PLAYING:
                 this.updateGame();
+                this.soundManager.gameState = this.gameState
+                this.soundManager.updateMusic()
                 this.deckContainer.updateScale(this.mouse, this.turnContainer.turnContainer[this.currentTurn].state, this.messagesContainer, this.language);
                 this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer);
@@ -312,7 +319,6 @@ export default class Game {
         const xDistance = card.xPos - slot.xPos;
         const yDistance = card.yPos - slot.yPos;
         const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
-        console.log(card, card.xPos);
         const vX = speedX * (xDistance / distance);
         const vY = speedY * (yDistance / distance);
     

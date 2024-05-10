@@ -1,6 +1,6 @@
 import Event from "../Event.js";
 import Messages from "../../Messages.js";
-import { MessageState, MessageType } from "../../constants.js";
+import { MessageState, MessageType, Sound } from "../../constants.js";
 import BlockEvent from "./BlockEvent.js";
 
 export class AttackEvent extends Event{
@@ -15,7 +15,7 @@ export class AttackEvent extends Event{
         this.damageDone         = 0;
     }
 
-    execute(messagesContainer) {
+    execute(messagesContainer, soundManager) {
         const dice = this.throwDice();
         const critic = this.calculateCritic(dice);
         const fail   = this.calculateFail(dice);
@@ -30,7 +30,7 @@ export class AttackEvent extends Event{
 
         if (this.attackerMinion.weapon != undefined) {
             // Ataque con los atributos del minion y del arma
-            damage = this.attackWithWeapon(messagesContainer);
+            damage = this.attackWithWeapon(messagesContainer, soundManager);
         } else {
             // Ataque con los atributos del minion
             damage = this.attack(messagesContainer);
@@ -104,10 +104,11 @@ export class AttackEvent extends Event{
         return damage;
     }
     
-    attackWithWeapon(messagesContainer){
+    attackWithWeapon(messagesContainer, soundManager){
         const enemyArmor = this.objectiveMinion.armor
         const attackerWeapon = this.attackerMinion.weapon;
         let defense = this.objectiveMinion.defense
+        
         if (enemyArmor != undefined) {
             defense += enemyArmor.defense
             enemyArmor.durability--
@@ -121,14 +122,14 @@ export class AttackEvent extends Event{
             damage = 0
         }
         attackerWeapon.durability--
-
+        soundManager.currentSound = Sound.ATTACK_SWORD
         const message = new Messages(attackerWeapon.xPos, attackerWeapon.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
         messagesContainer.addMessage(message);
       
         return damage;
     }
 
-    attackWithParry(messagesContainer){
+    attackWithParry(messagesContainer, soundManager){
         const enemyWeapon = this.objectiveMinion.weapon;
         let damage = 0;
         let size = 0
@@ -136,12 +137,12 @@ export class AttackEvent extends Event{
         const dice = this.throwDice();
         const critic = this.calculateCritic(dice);
         const fail   = this.calculateFail(dice);
-
+        let sound
 
         if (this.attackerMinion.weapon != undefined) {
             // Ataque con los atributos del minion y del arma
-            damage = this.attackWithWeapon();
-
+            damage = this.attackWithWeapon(messagesContainer, soundManager);
+            sound = Sound.ATTACK_SWORD
             if(critic){
                 damage = Math.floor(damage * this.critic);
                 size = 100
@@ -176,8 +177,8 @@ export class AttackEvent extends Event{
                 let damage = block.execute(messagesContainer, size, color);
                 this.damageDone += damage;
             }
-     
-
+     console.log(soundManager, sound);
+            soundManager.currentSound = sound
         } else {
             // Ataque con los atributos del minion
             damage = this.attack();

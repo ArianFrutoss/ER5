@@ -22,6 +22,7 @@ export default class SoundManager{
 
     loadSounds(){
         this.initSound('gameMusic', true)
+        this.initSound('attack')
     }
 
     initSound(soundName, isSong = false) {

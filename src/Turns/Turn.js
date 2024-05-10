@@ -11,7 +11,7 @@ import UseEventPhase from "./turn_phases/UseEventPhase.js";
 
 export default class Turn {
 
-    constructor(gridArray, mainCharacter, otherMainCharacter, handDeck, enemyHandDeck, minionDeck,enemyMinionDeck, graveyardDeck, eventDeck, preparingEventDeck, enemyPreparingEventDeck, activeMinionDeck, enemyActiveMinionDeck,  buttonContainer, eventContainer, turnId, name, josephDeck){
+    constructor(gridArray, mainCharacter, otherMainCharacter, handDeck, enemyHandDeck, minionDeck,enemyMinionDeck, graveyardDeck, eventDeck, preparingEventDeck, enemyPreparingEventDeck, activeMinionDeck, enemyActiveMinionDeck,  buttonContainer, eventContainer, turnId, name, josephDeck, soundManager){
 
         //this.playerName     = playerName;       // Nombre del player
         //this.playerImage    = playerImage;      // Imgaen del player
@@ -45,6 +45,7 @@ export default class Turn {
         this.meleHits           = 0;
         this.rangeHits          = 0;
         this.hp                 = 0;
+        this.soundManager       = soundManager
     }
 
     createPhases(mouse, grids, decks, turnCounter){
@@ -242,7 +243,7 @@ export default class Turn {
                 break;
                 
             case PhaseStates.ATTACK:
-                const isAttackFinished  = this.phasesArray[PhaseStates.ATTACK].execute(messagesContainer);
+                const isAttackFinished  = this.phasesArray[PhaseStates.ATTACK].execute(messagesContainer, this.soundManager);
                 const isAttackCancelled = this.phasesArray[PhaseStates.ATTACK].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isAttackFinished){

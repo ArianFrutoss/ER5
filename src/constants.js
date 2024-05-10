@@ -438,5 +438,5 @@ export const ChatMessages = {
 export const Sound = {
     NO_SOUND: -1,
     GAME_MUSIC:0,
-    ATTACK: 1
+    ATTACK_SWORD: 1
 }

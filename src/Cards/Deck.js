@@ -1,5 +1,8 @@
 import { CardId, DecksId, TypeId } from "../constants.js";
 import CardFactory from "./CardFactory.js";
+import Messages from "../Messages.js";
+import { MessageType, MessageState } from "../constants.js";
+
 
 export default class Deck {
     constructor(deckId, cards = []){
@@ -98,13 +101,26 @@ export default class Deck {
         }
     }
 
-    restoreDeckMinionsStats(){
+    restoreDeckMinionsStats(messagesContainer){
         
         for (let i = 0; i < this.cards.length; i++){
 
             const minion = this.cards[i];
 
+            const health  = minion.previousHealth - minion.health;
+
             minion.restoreMinionsStats();
+            let minionYPos =  minion.yPos;
+            let yPosMessage  =  minion.yPos < 364 ? minionYPos += 400 :
+                                minion.yPos > 525 ? minionYPos -= 400 :
+                                minionYPos;
+
+            if(health > 0){
+                
+                console.log(yPosMessage);
+                const message = new Messages(minion.xPos, yPosMessage, "+ " + health, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.3, 1.5, 50, "#04ff00");
+                messagesContainer.addMessage(message);
+            }
         }
     }
 

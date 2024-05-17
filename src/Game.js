@@ -312,10 +312,8 @@ export default class Game {
         const xDistance = card.xPos - slot.xPos;
         const yDistance = card.yPos - slot.yPos;
         const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
-        console.log(card, card.xPos);
         const vX = speedX * (xDistance / distance);
         const vY = speedY * (yDistance / distance);
-    
 
         if (distance < 10){
             

@@ -406,6 +406,9 @@ export const DurabilityColors = {
     BUFF:   "#FFD700"
 }
 
+export const TypeColors = ["red", DurabilityColors.BUFF, DurabilityColors.CURSE, DurabilityColors.BUFF, "white", DurabilityColors.ARMOR, DurabilityColors.WEAPON, DurabilityColors.SPELL];
+
+
 export const ChatMessages = {
     LUCRETIA:   [["Do not challenge me or you will regret it.", "Ez niri erronkarik egin edo damutuko zara."],
                  ["I see in the cauldron your fate, it says you will perish.","Kalderoan ikusten dut zure patua, hilko zarela dio."],

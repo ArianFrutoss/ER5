@@ -321,7 +321,6 @@ export default class Game {
         const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
         const vX = speedX * (xDistance / distance);
         const vY = speedY * (yDistance / distance);
-    
 
         if (distance < 10){
             

@@ -1,5 +1,7 @@
-import { CardId, TypeId, PhaseStates, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3, CardActions, BuffId } from "../../constants.js";
+import { CardId, TypeId, PhaseStates, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3, CardActions, BuffId, TypeNames } from "../../constants.js";
 import Phase from "./Phase.js";
+import Messages from "../../Messages.js";
+import { MessageType, MessageState, TypeColors } from "../../constants.js";
 
 export default class UseEventPhase extends Phase{
 
@@ -81,7 +83,10 @@ export default class UseEventPhase extends Phase{
                 const minionCard        = minionDeck.cards[minionPosition]
 
                 if (isAnyMinionHovered[0] && !mouse.leftClick && mouse.previousStateLeft) {
-
+                    
+                    const message = new Messages(minionCard.xPos, minionCard.yPos, TypeNames[eventCard.category], MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.3, 0.3, 50, TypeColors[eventCard.category]);
+                    messagesContainer.addMessage(message);
+                    
                     let result;
                     if (eventCard.id != BuffId.TELEPORT) {
                         result = eventContainer.createDurabilityEvent(eventCard);

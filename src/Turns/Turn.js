@@ -309,7 +309,6 @@ export default class Turn {
     }
 
     end(messagesContainer, mouse, timerContainer){
-
         this.phasesArray[PhaseStates.ATTACK].restoreValues();
         this.buttonContainer.setState(renderState.GAME);
         this.phaseState = PhaseStates.DISCARD_CARD
@@ -323,8 +322,8 @@ export default class Turn {
             this.deselect();
             
             this.blockCardStatesFromHandDeck();
-            this.activeMinionDeck.restoreDeckMinionsStats();
-            this.enemyActiveMinionDeck.restoreDeckMinionsStats();
+            this.activeMinionDeck.restoreDeckMinionsStats(messagesContainer);
+            this.enemyActiveMinionDeck.restoreDeckMinionsStats(messagesContainer);
             this.TurnStates = TurnStates.INITIALIZE
             // cambio de turno
             this.active = false;

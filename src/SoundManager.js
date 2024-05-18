@@ -22,6 +22,17 @@ export default class SoundManager{
 
     loadSounds(){
         this.initSound('gameMusic', true)
+        this.initSound('attack')
+        this.initSound('critical')
+        this.initSound('blunt')
+        this.initSound('melee')
+        this.initSound('melee_crit')
+        this.initSound('equip')
+        this.initSound('movement')
+        this.initSound('fireball')
+        this.initSound('buff')
+        this.initSound('curse')
+        this.initSound('dead')
     }
 
     initSound(soundName, isSong = false) {
@@ -34,7 +45,6 @@ export default class SoundManager{
         this.assetsToLoad.push(sound)
     }
     loadHandler() {
-        console.log(this.assetsToLoad);
         this.assetsLoaded++; //Adds 1 to the counter
 
         //Once all Elements are loaded

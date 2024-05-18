@@ -439,7 +439,17 @@ export const ChatMessages = {
 }
 
 export const Sound = {
-    NO_SOUND: -1,
-    GAME_MUSIC:0,
-    ATTACK: 1
+    NO_SOUND:      -1,
+    GAME_MUSIC:     0,
+    ATTACK_SWORD:   1,
+    ATTACK_CRIT:    2,
+    ATTACK_MISS:    3,
+    ATTACK_PUNCH:   4,
+    ATTACK_PUNCH_CRIT: 5,
+    EQUIP_ARMOR:    6,
+    MOVEMENT:       7,
+    FIREBALL:       8,
+    BUFF:           9,
+    CURSE:          10,
+    DEAD:           11
 }

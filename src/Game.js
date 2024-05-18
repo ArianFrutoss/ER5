@@ -53,7 +53,8 @@ export default class Game {
         deckContainer.createDecks(data, cardImgs, language);
 
         const buttonContainer = ButtonContainer.create(ctx, assets.images[ImageTypes.BUTTON][0]);
-
+        const soundManager = SoundManager.create()
+        soundManager.loadSounds()
         const turns = new TurnContainer(board, deckContainer, buttonContainer, eventContainer);
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
@@ -61,14 +62,13 @@ export default class Game {
         messages.createHelpMessages();
 
         const firstTurn = Math.floor(Math.random()*2);
-        turns.CreateTurns(mouse, eventContainer);
+        turns.CreateTurns(mouse, eventContainer, soundManager);
 
         console.log(turns.turnContainer);
 
         const timerContainer = new TimerContainer();
         timerContainer.create();
-        const soundManager = SoundManager.create()
-        soundManager.loadSounds()
+
         return new Game(turns, null, assets, language, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, soundManager);
     }
 
@@ -120,7 +120,7 @@ export default class Game {
             case GameState.PLAYING:
                 this.updateGame();
                 this.soundManager.gameState = this.gameState
-                this.soundManager.updateMusic()
+                this.soundManager.playSound()
                 this.deckContainer.updateScale(this.mouse, this.turnContainer.turnContainer[this.currentTurn].state, this.messagesContainer, this.language);
                 this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer);

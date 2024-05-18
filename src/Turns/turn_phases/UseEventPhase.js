@@ -1,4 +1,4 @@
-import { CardId, TypeId, PhaseStates, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3, CardActions, BuffId, TypeNames } from "../../constants.js";
+import { CardId, TypeId, PhaseStates, messageUseEventPhase1, messageUseEventPhase2, messageUseEventPhase3, CardActions, BuffId, TypeNames, Sound } from "../../constants.js";
 import Phase from "./Phase.js";
 import Messages from "../../Messages.js";
 import { MessageType, MessageState, TypeColors } from "../../constants.js";
@@ -16,7 +16,7 @@ export default class UseEventPhase extends Phase{
         this.damageDone             = 0;
         this.turn                   = turn
     }
-    execute(eventContainer, mouse, messagesContainer){
+    execute(eventContainer, mouse, messagesContainer, soundManager){
 
         this.eventGrid.update(mouse, this.eventDeck);
         this.boardGrid.update(mouse, [this.activeMinions, this.enemyActiveMinions]);
@@ -53,23 +53,28 @@ export default class UseEventPhase extends Phase{
             const eventCard         = this.eventDeck.cards[eventPosition]
             
             let minionDeck;
-
+            let sound = undefined
             switch (eventCard.category){
 
                 case TypeId.BUFF:
                     minionDeck = this.activeMinions;
+                    sound = Sound.BUFF
                     break;
                 case TypeId.CURSE:
                     minionDeck = this.enemyActiveMinions;
+                    sound = Sound.CURSE
                     break;
                 case TypeId.SPELL:
-                        minionDeck = this.enemyActiveMinions
+                    minionDeck = this.enemyActiveMinions
+                    sound = Sound.FIREBALL
                     break;
                 case TypeId.WEAPON:
                     minionDeck = this.activeMinions;
+                    sound = Sound.EQUIP_ARMOR
                     break;
                 case TypeId.ARMOR:
                     minionDeck = this.activeMinions;
+                    sound = Sound.EQUIP_ARMOR
                     break;
                 default:
                     break;
@@ -87,6 +92,7 @@ export default class UseEventPhase extends Phase{
                     const message = new Messages(minionCard.xPos, minionCard.yPos, TypeNames[eventCard.category], MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.3, 0.3, 50, TypeColors[eventCard.category]);
                     messagesContainer.addMessage(message);
                     
+                    soundManager.currentSound = sound
                     let result;
                     if (eventCard.id != BuffId.TELEPORT) {
                         result = eventContainer.createDurabilityEvent(eventCard);

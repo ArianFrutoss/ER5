@@ -1,6 +1,6 @@
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState, CardActions } from "../../constants.js";
+import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState, CardActions, Sound } from "../../constants.js";
 
 export default class MinionAttackPhase extends Phase {
 
@@ -68,7 +68,7 @@ export default class MinionAttackPhase extends Phase {
                 attacker.state = CardId.NOT_SELECTED;
                 enemy.state = CardId.NOT_SELECTED;
     
-                this.removeEnemyIfDead(enemy, enemyPosition);
+                this.removeEnemyIfDead(enemy, enemyPosition, soundManager);
     
                 return true;
     
@@ -87,10 +87,11 @@ export default class MinionAttackPhase extends Phase {
         
     }
 
-    removeEnemyIfDead(enemy, enemyPosition) {
+    removeEnemyIfDead(enemy, enemyPosition, soundManager) {
         if (enemy.health <= 0) {
             this.enemyActiveMinionDeck.cards.splice(enemyPosition, 1)
             enemy.state = CardId.DEAD
+            soundManager.currentSound = Sound.DEAD
             if (enemy.weapon) {
                 enemy.weapon.action = CardActions.READY
             }

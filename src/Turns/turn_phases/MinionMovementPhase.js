@@ -1,5 +1,5 @@
 import Phase from "./Phase.js";
-import { CardId, SlotsState, PhaseStates, messageMovimentPhase1, messageMovimentPhase2 } from "../../constants.js";
+import { CardId, SlotsState, PhaseStates, messageMovimentPhase1, messageMovimentPhase2, Sound } from "../../constants.js";
 import globals from "../../globals.js";
 
 export default class MinionMovementPhase extends Phase {
@@ -10,9 +10,10 @@ export default class MinionMovementPhase extends Phase {
         this.enemyActiveMinionDeck = enemyActiveMinionDeck  // Deck de minions enemigos activos
         this.boardGrid = boardGrid;             // Grid del tablero
         this.mouse = mouse;                    // Objeto Mouse
+        this.sound = false
     }
 
-    execute(messagesContainer){
+    execute(messagesContainer, soundManager){
 
         this.boardGrid.cancelAviableSlots();
         this.activeMinionDeck.update(this.mouse, this.activeMinionDeck);
@@ -62,13 +63,15 @@ export default class MinionMovementPhase extends Phase {
         if (minionSelected != undefined && minionSelected.speed >= distance){
 
             if (isAnySlotSelected[0]){
-    
+                if(!this.sound){
+                    soundManager.currentSound = Sound.MOVEMENT
+                    this.sound = true
+                }
                 const isMovementFinish = this.moveMinion(minionSelected, slotSelected);
-
                 this.boardGrid.cancelAviableSlots();
-
+                
                 if (isMovementFinish){
-    
+                    this.sound = false
                     this.boardGrid.clearSlots();
                     return true;
                 }

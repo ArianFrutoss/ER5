@@ -27,13 +27,15 @@ export class AttackEvent extends Event{
         let objectiveArmor
         let size = 80
         let color = "red"
-
+        let sound
         if (this.attackerMinion.weapon != undefined) {
             // Ataque con los atributos del minion y del arma
             damage = this.attackWithWeapon(messagesContainer, soundManager);
+            sound = Sound.ATTACK_SWORD
         } else {
             // Ataque con los atributos del minion
             damage = this.attack(messagesContainer);
+            sound = Sound.ATTACK_PUNCH
         }
 
         if(critic){
@@ -42,15 +44,19 @@ export class AttackEvent extends Event{
             size = 100
             color= "orange"
             damageRender = "!! CRITICAL"
+            sound = this.attackerMinion.weapon ? sound = Sound.ATTACK_CRIT : Sound.ATTACK_PUNCH_CRIT
         }else if(fail){
             damage = 0
             this.objectiveMinion.health -= damage;
             size = 100
             color= "white"
             damageRender = "BLUNT"
+            sound = Sound.ATTACK_MISS
         }else{
             this.objectiveMinion.health -= damage;
         }
+
+        soundManager.currentSound = sound
         this.damageDone += damage;
         damageRender = -damage + damageRender
         if(this.objectiveMinion.health <= 0){
@@ -104,7 +110,7 @@ export class AttackEvent extends Event{
         return damage;
     }
     
-    attackWithWeapon(messagesContainer, soundManager){
+    attackWithWeapon(messagesContainer){
         const enemyArmor = this.objectiveMinion.armor
         const attackerWeapon = this.attackerMinion.weapon;
         let defense = this.objectiveMinion.defense
@@ -122,7 +128,6 @@ export class AttackEvent extends Event{
             damage = 0
         }
         attackerWeapon.durability--
-        soundManager.currentSound = Sound.ATTACK_SWORD
         const message = new Messages(attackerWeapon.xPos, attackerWeapon.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
         messagesContainer.addMessage(message);
       
@@ -147,10 +152,12 @@ export class AttackEvent extends Event{
                 damage = Math.floor(damage * this.critic);
                 size = 100
                 color= "orange"
+                sound = Sound.ATTACK_CRIT
             }else if(fail){
                 damage = 0;
                 size = 100
                 color= "white"
+                sound = Sound.ATTACK_MISS
             }
 
             if(enemyWeapon.durability > damage * 0.75){
@@ -177,19 +184,22 @@ export class AttackEvent extends Event{
                 let damage = block.execute(messagesContainer, size, color);
                 this.damageDone += damage;
             }
-     console.log(soundManager, sound);
             soundManager.currentSound = sound
         } else {
             // Ataque con los atributos del minion
             damage = this.attack();
+            sound = Sound.ATTACK_PUNCH
+            console.log(sound);
             if(critic){
                 damage = Math.floor(damage * this.critic);
                 size = 100
                 color= "orange"
+                sound = Sound.ATTACK_PUNCH_CRIT
             }else if(fail){
                 damage = 0;
                 size = 100
                 color= "white"
+                sound = Sound.ATTACK_MISS
             }
 
             if(enemyWeapon.durability > damage * 0.75){
@@ -214,7 +224,7 @@ export class AttackEvent extends Event{
                 damage = block.execute(messagesContainer,size, color);
                 this.damageDone += damage;
             }
-
+            soundManager.currentSound = sound
         }
         
     }

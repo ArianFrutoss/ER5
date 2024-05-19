@@ -8,20 +8,53 @@ export default class ParticlesContainer{
         this.particles      = [];
     }
 
-    createMoviment(minionXPos, minionYPos, minionXSize, mininionYSize){
+    createMoviment(minionXPos, minionYPos, minionXSize, minionYSize, minionXV, minionYV){
 
-        const numParticles  = 8;
+        const numParticles  = 9;
 
         for (let i = 0; i < numParticles; i++){
 
-            const xPos          = minionXPos + minionXSize / numParticles * i;
-            const yPos          = minionYPos + mininionYSize / 2;
-            const xSize         = 3;
-            const ySize         = Math.random() * -30 - 20;
-            const xSpeed        = 0;
-            const ySpeed        = Math.random() * 20 + 30;
+            let xPos;
+            let yPos;
+            let xSize;
+            let ySize;
+            let rotate = 0;
 
-            const particle = new Particle(xPos, yPos, xSize, ySize, ParticleState.APPEAR, xSpeed, ySpeed, 0.05, 0.05, 0.05);
+            if (minionXV != 0 && minionYV != 0){
+
+                xPos = minionXPos + minionXSize / 2;
+                yPos = minionYPos + (minionYSize / (numParticles - 1)) * i;
+                xSize = Math.random() * -30 - 20;
+                ySize = 3;
+                rotate = 45;
+
+                if (minionXV > 0 && minionYV < 0 || minionXV < 0 && minionYV > 0){
+
+                    rotate = 135;
+                }
+            } 
+            
+            else if (minionYV != 0){
+                
+                xPos = minionXPos + minionXSize / (numParticles - 1) * i;
+                yPos = minionYPos + minionYSize / 2 + 35;
+                xSize = 3;
+                ySize = Math.random() * -30 - 20;
+            } 
+            
+            else if (minionXV != 0){
+
+                xPos = minionXPos + minionXSize / 2 + 35;
+                yPos = minionYPos + minionYSize / (numParticles - 1) * i;
+                xSize = Math.random() * -30 - 20;
+                ySize = 3;
+            }
+
+            const timeInFade    = Math.random() * 1;
+            const timeInOn      = Math.random() * 0.5;
+            const timeInAppear  = 0.05;
+            
+            const particle = new Particle(xPos, yPos, xSize, ySize, ParticleState.APPEAR, minionXV, minionYV, timeInFade, timeInAppear, timeInOn, rotate);
             
             this.particles.push(particle);
         }

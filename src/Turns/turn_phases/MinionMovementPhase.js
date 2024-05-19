@@ -61,19 +61,12 @@ export default class MinionMovementPhase extends Phase {
         }
 
         if (minionSelected != undefined && minionSelected.speed >= distance){
-
+minionSelected.speed = 2;
             if (isAnySlotSelected[0]){
     
-                const isMovementFinish = this.moveMinion(minionSelected, slotSelected);
+                const isMovementFinish = this.moveMinion(minionSelected, slotSelected, particlesContainer);
 
                 this.boardGrid.cancelAviableSlots();
-
-                const minionXPos = minionSelected.xPos;
-                const minionYPos = minionSelected.yPos;
-                const minionXSize = BoardCardSizes.X_SIZE;
-                const minionYSize = BoardCardSizes.Y_SIZE;
-
-                particlesContainer.createMoviment(minionXPos, minionYPos, minionXSize, minionYSize);
 
                 if (isMovementFinish){
     
@@ -85,26 +78,35 @@ export default class MinionMovementPhase extends Phase {
     }
 
     // funcion para realizar el movimiento
-    moveMinion(minionSelected, slotSelected){
+    moveMinion(minionSelected, slotSelected, particlesContainer){
 
         let speed = 350;
 
-        const xDistance = minionSelected.xPos - slotSelected.xPos;
-        const yDistance = minionSelected.yPos - slotSelected.yPos;
-        const distance = Math.sqrt(Math.pow(xDistance - yDistance, 2));
+        const xDistance = slotSelected.xPos - minionSelected.xPos;
+        const yDistance = slotSelected.yPos - minionSelected.yPos;
+        const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 
         if (distance <= 15){
 
-            speed = 20
+            speed = 30;
         }
 
-        const vX = speed * (xDistance / distance);
-        const vY = speed * (yDistance / distance);
+        let vX = speed * (xDistance / distance);
+        let vY = speed * (yDistance / distance);
 
-        minionSelected.xPos -= vX * globals.deltaTime;
-        minionSelected.yPos -= vY * globals.deltaTime;
+        const minionXPos = minionSelected.xPos;
+        const minionYPos = minionSelected.yPos;
+        const minionXSize = BoardCardSizes.X_SIZE;
+        const minionYSize = BoardCardSizes.Y_SIZE;
+        const minionXSpeed = 20 * (xDistance / distance);
+        const minionYSpeed = 20 * (yDistance / distance);
 
-        if (distance < 10){
+        particlesContainer.createMoviment(minionXPos, minionYPos, minionXSize, minionYSize, minionXSpeed, minionYSpeed);
+
+        minionSelected.xPos += vX * globals.deltaTime;
+        minionSelected.yPos += vY * globals.deltaTime;
+
+        if (distance < 5){
             
             minionSelected.xPos = slotSelected.xPos;
             minionSelected.yPos = slotSelected.yPos;

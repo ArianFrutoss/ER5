@@ -3,7 +3,7 @@ import globals from "./globals.js";
 
 export default class Particle{
 
-    constructor(xPos, yPos, xSize, ySize, state, xSpeed, ySpeed, timeInFade, timeInAppear, timeInOn){
+    constructor(xPos, yPos, xSize, ySize, state, xSpeed, ySpeed, timeInFade, timeInAppear, timeInOn, rotate){
 
         this.xPos           = xPos;
         this.yPos           = yPos;
@@ -19,6 +19,7 @@ export default class Particle{
         this.fadeCounter    = 0;
         this.appearCounter  = 0;
         this.onCounter      = 0;
+        this.rotate  = rotate;
     }
 
     update(particles){
@@ -68,10 +69,19 @@ export default class Particle{
     }
 
     render(ctx){
+        
+        ctx.save();
 
-        ctx.fillStyle = "white";
+        ctx.translate(this.xPos + this.xSize / 2, this.yPos + this.ySize / 2);
+        ctx.rotate(this.rotate * Math.PI / 180);
+        ctx.translate(-(this.xPos + this.xSize / 2), -(this.yPos + this.ySize / 2));
+
+        ctx.fillStyle = "rgba(191, 191, 191, 0.2)";
         ctx.globalAlpha = this.alpha;
+        
         ctx.fillRect(this.xPos, this.yPos, this.xSize, this.ySize);
         ctx.globalAlpha = 1.0;
+    
+        ctx.restore();
     }
 }

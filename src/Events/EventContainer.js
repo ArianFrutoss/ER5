@@ -41,6 +41,7 @@ export default class EventContainer {
     }
 
     createJosephEvents(decks, josephCard, mouse){
+        this.events = []
         const minionDecks = [decks[0],decks[1]]
         const destroyMinionEvent = EventFactory.createDestroyAllMinionsEvent(minionDecks)
         destroyMinionEvent.execute(mouse)

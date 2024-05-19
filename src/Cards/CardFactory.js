@@ -9,6 +9,7 @@ import Weapon from "./cards_category/Weapon.js";
 import TextContainer from "../TextContainer.js";
 import { BorderId, CardId, CardImageId, ChatMessages, IconsId, ImageTypes, RarityId, StatsId, TypeId } from "../constants.js";
 import Tooltip from "../Tooltip.js";
+import Timer from "../Timer.js";
 
 
 
@@ -57,7 +58,7 @@ export default class CardFactory {
             let imageCategory 
             let imageAttributes
             let imageTeam
-            let toolTip;
+
             // HAY QUE AÑADIR EL TYPE AL CONSTRUCTOR DE  LAS CARTAS
             const quantity = this.cardData[i].quantity
             const xPos = 2200;
@@ -69,9 +70,10 @@ export default class CardFactory {
                 case "Armor_card":
                     imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.ARMOR]
-                    toolTip = new Tooltip(TypeId.ARMOR, texts);
 
                     for (let i = 0; i < quantity; i++) {
+                        let toolTipTImer = Timer.createTooltip();
+                        let toolTip = new Tooltip(TypeId.ARMOR, texts, toolTipTImer);
                         card = this.createArmor(id, texts, image, rarity, TypeId.ARMOR, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, toolTip);
                         this.cards.push(card)
 
@@ -81,9 +83,11 @@ export default class CardFactory {
                 case "Empowerment_card":
                     imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.BUFF];
-                    toolTip = new Tooltip(TypeId.BUFF, texts);
 
                     for (let i = 0; i < quantity; i++) {
+                        let toolTipTImer = Timer.createTooltip();
+                        let toolTip = new Tooltip(TypeId.BUFF, texts, toolTipTImer);
+
                         // card = this.createBuff(id, texts, image, rarity, TypeId.BUFF, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
                         card = Buff.create(id, texts, image, rarity, TypeId.BUFF, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, toolTip);
                         this.cards.push(card)
@@ -93,9 +97,12 @@ export default class CardFactory {
                 case "Curse_card":
                     imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.CURSE]
-                    toolTip = new Tooltip(TypeId.CURSE, texts);
+                    
 
                     for (let i = 0; i < quantity; i++) {
+                        let toolTipTImer = Timer.createTooltip();
+                        let toolTip = new Tooltip(TypeId.CURSE, texts, toolTipTImer);
+
                         // card = this.createCurse(id, texts, image, rarity, TypeId.CURSE, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
                         card = Curse.create(id, texts, image, rarity, TypeId.CURSE, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, toolTip);
                         this.cards.push(card)
@@ -105,9 +112,11 @@ export default class CardFactory {
                 case "Joseph_card":
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.JOSEPH];
                     messages = this.selectMessages(id);
-                    toolTip = new Tooltip(TypeId.JOSEPH, texts);
 
                     for (let i = 0; i < quantity; i++) {
+                        let toolTipTImer = Timer.createTooltip();
+                        let toolTip = new Tooltip(TypeId.JOSEPH, texts, toolTipTImer);
+
                         // card = this.createJoseph(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, effects, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
                         card = Joseph.create(id, texts, image, rarity, TypeId.JOSEPH, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, attributes, chatBubbleImage, messages, toolTip);
                         this.cards.push(card)
@@ -119,9 +128,11 @@ export default class CardFactory {
                     messages = this.selectMessages(id);
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.HERO];
                     imageTeam = this.images[ImageTypes.TEAM];
-                    toolTip = new Tooltip(TypeId.HERO, texts);
 
                     for (let i = 0; i < quantity; i++) {
+                        let toolTipTImer = Timer.createTooltip();
+                        let toolTip = new Tooltip(TypeId.HERO, texts, toolTipTImer);
+
                         // card = this.createMainCharacter(id, texts, image, rarity, TypeId.HERO, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, effects)
                         card = MainCharacter.create(id, texts, image, rarity, TypeId.HERO, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, attributes, imageTeam, chatBubbleImage,messages, toolTip);
                         card.size = CardId.SMALL_SIZE
@@ -134,9 +145,11 @@ export default class CardFactory {
                     imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.SPEED], this.images[ImageTypes.CARD_ICONS][IconsId.LIFE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE], this.images[ImageTypes.CARD_ICONS][IconsId.WEAPON], this.images[ImageTypes.CARD_ICONS][IconsId.ARMOR]];
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.MINION];
                     imageTeam = this.images[ImageTypes.TEAM];
-                    toolTip = new Tooltip(TypeId.MINION, texts);
 
                     for (let i = 0; i < quantity; i++) {
+                        let toolTipTImer = Timer.createTooltip();
+                        let toolTip = new Tooltip(TypeId.MINION, texts, toolTipTImer);
+
                         card = this.createMinion(id, texts, image, rarity, TypeId.MINION,"Melee", xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, weaponRarityImage, armorRarityImage, imageTeam, chatBubbleImage, messages, toolTip);
                         this.cards.push(card)
                     }
@@ -145,9 +158,11 @@ export default class CardFactory {
                 case "Spell_card":
                     imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.SPELL];
-                    toolTip = new Tooltip(TypeId.SPELL, texts);
 
                     for (let i = 0; i < quantity; i++) {
+                        let toolTipTImer = Timer.createTooltip();
+                        let toolTip = new Tooltip(TypeId.SPELL, texts, toolTipTImer);
+
                         // card = this.createSpell(id, texts, image, rarity, TypeId.SPELL, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse);
                         card = Spell.create(id, texts, image, rarity, TypeId.SPELL, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effects, toolTip);
                         this.cards.push(card)
@@ -157,9 +172,11 @@ export default class CardFactory {
                 case "Weapon_card":
                     imageAttributes = [this.images[ImageTypes.CARD_ICONS][IconsId.COOLDOWN], this.images[ImageTypes.CARD_ICONS][IconsId.DURABILITY], this.images[ImageTypes.CARD_ICONS][IconsId.DEFENSE], this.images[ImageTypes.CARD_ICONS][IconsId.DAMAGE]]
                     imageCategory = this.images[ImageTypes.CARD_TYPE][TypeId.WEAPON];
-                    toolTip = new Tooltip(TypeId.WEAPON, texts);
 
                     for (let i = 0; i < quantity; i++) {
+                        let toolTipTImer = Timer.createTooltip();
+                        let toolTip = new Tooltip(TypeId.WEAPON, texts, toolTipTImer);
+
                         card = this.createWeapon(id, texts, image, rarity, TypeId.WEAPON, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, toolTip);
                         this.cards.push(card)
                     }

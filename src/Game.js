@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId, Sound } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -15,10 +15,11 @@ import EventContainer from "./Events/EventContainer.js";
 import TimerContainer from "./TimerContainer.js";
 import Messages from "./Messages.js";
 import ParticlesContainer from "./ParticlesContainer.js";
+import SoundManager from "./SoundManager.js";
 
 export default class Game {
 
-    constructor(turnArray, images, language, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, particlesContainer) {
+    constructor(turnArray, images, language, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, particlesContainer, soundManager) {
 
         this.turnContainer = turnArray;
         this.images = images
@@ -37,6 +38,7 @@ export default class Game {
         this.timerContainer = timerContainer;
         this.finished = false;
         this.particlesContainer = particlesContainer;
+        this.soundManager = soundManager
     }
 
     static init(data, canvas, ctx, language) {
@@ -50,7 +52,8 @@ export default class Game {
         deckContainer.createDecks(data, cardImgs, language);
 
         const buttonContainer = ButtonContainer.create(ctx, assets.images[ImageTypes.BUTTON][0]);
-
+        const soundManager = SoundManager.create()
+        soundManager.loadSounds()
         const turns = new TurnContainer(board, deckContainer, buttonContainer, eventContainer);
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
@@ -58,7 +61,7 @@ export default class Game {
         messages.createHelpMessages();
 
         const firstTurn = Math.floor(Math.random()*2);
-        turns.CreateTurns(mouse, eventContainer);
+        turns.CreateTurns(mouse, eventContainer, soundManager);
 
         console.log(turns.turnContainer);
 
@@ -67,7 +70,7 @@ export default class Game {
 
         const particlesContainer = new ParticlesContainer();
 
-        return new Game(turns, assets, language, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, particlesContainer);
+        return new Game(turns, assets, language, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, particlesContainer, soundManager);
     }
 
     update() {
@@ -106,15 +109,19 @@ export default class Game {
                     this.rotateMainCharacters()
                 }
 
-                if (this.images.isLoaded) {
+                if (this.images.isLoaded && this.soundManager.isLoaded) {
 
                     this.gameState = GameState.PLAYING
+                    this.soundManager.sounds[Sound.GAME_MUSIC].play()
+                    this.soundManager.sounds[Sound.GAME_MUSIC].volume = 0.4
                 }
 
                 break;
 
             case GameState.PLAYING:
                 this.updateGame();
+                this.soundManager.gameState = this.gameState
+                this.soundManager.playSound()
                 this.deckContainer.updateScale(this.mouse, this.turnContainer.turnContainer[this.currentTurn].state, this.messagesContainer, this.language);
                 this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer, this.particlesContainer);
@@ -287,61 +294,45 @@ export default class Game {
 
     assignCardsToGrids(decks, grids) {
 
-        let k = 0
+        let k = 0;
 
-        for (let i = 0; i < grids.slots.length; i++) {
+        for (let i = 0; i < grids.slots.length; i++){
 
-            for (let j = 0; j < grids.slots[0].length; j++) {
+            for (let j = 0; j < grids.slots[0].length; j++){
 
                 if (decks.cards[k]){
 
-                    let speedX = 900;
-                    let speedY = 1000;
-
-                    if (decks.cards[k].xPos > grids.slots[i][j].xPos){
-
-                        if (Math.abs(decks.cards[k].xPos - grids.slots[i][j].xPos) <= 20){
-
-                            speedX = 50;
-                        }
-
-                        decks.cards[k].xPos -= speedX * globals.deltaTime;
-                    }
-
-                    if (decks.cards[k].xPos < grids.slots[i][j].xPos){
-
-                        if (Math.abs(decks.cards[k].xPos - grids.slots[i][j].xPos) <= 20){
-
-                            speedX = 50;
-                        }
-
-                        decks.cards[k].xPos += speedX * globals.deltaTime;
-                    }
-
-                    if (decks.cards[k].yPos > grids.slots[i][j].yPos){
-
-                        if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
-
-                            speedY = 50;
-                        }
-
-                        decks.cards[k].yPos -= speedY * globals.deltaTime;
-                    }
-
-                    if (decks.cards[k].yPos < grids.slots[i][j].yPos){
-
-                        if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
-
-                            speedY = 50;
-                        }
-
-                        decks.cards[k].yPos += speedY * globals.deltaTime;
-                    }
-
-                    grids.slots[i][j].isEmpty = false;
-                    k++
+                    const card = decks.cards[k];
+                    const slot = grids.slots[i][j];
+                    // card.xPos = slot.xPos;
+                    // card.yPos = slot.yPos;
+                    this.moveCard(card, slot);
+                    k++;
                 }
             }
+        }
+    }
+
+    // funcion para realizar el movimiento
+    moveCard(card, slot){
+
+        let speedX = 800;
+        let speedY = 800;
+        
+        const xDistance = card.xPos - slot.xPos;
+        const yDistance = card.yPos - slot.yPos;
+        const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+        const vX = speedX * (xDistance / distance);
+        const vY = speedY * (yDistance / distance);
+
+        if (distance < 10){
+            
+            card.xPos = slot.xPos;
+            card.yPos = slot.yPos;
+            slot.isEmpty = false;
+        } else {
+            card.xPos -= vX * globals.deltaTime;
+            card.yPos -= vY * globals.deltaTime;
         }
     }
 

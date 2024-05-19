@@ -1,5 +1,8 @@
 import { CardId, DecksId, TypeId } from "../constants.js";
 import CardFactory from "./CardFactory.js";
+import Messages from "../Messages.js";
+import { MessageType, MessageState } from "../constants.js";
+
 
 export default class Deck {
     constructor(deckId, cards = []){
@@ -98,13 +101,26 @@ export default class Deck {
         }
     }
 
-    restoreDeckMinionsStats(){
+    restoreDeckMinionsStats(messagesContainer){
         
         for (let i = 0; i < this.cards.length; i++){
 
             const minion = this.cards[i];
 
+            const health  = minion.previousHealth - minion.health;
+
             minion.restoreMinionsStats();
+            let minionYPos =  minion.yPos;
+            let yPosMessage  =  minion.yPos < 364 ? minionYPos += 400 :
+                                minion.yPos > 525 ? minionYPos -= 400 :
+                                minionYPos;
+
+            if(health > 0){
+                
+                console.log(yPosMessage);
+                const message = new Messages(minion.xPos, yPosMessage, "+ " + health, MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.3, 1.5, 50, "#04ff00");
+                messagesContainer.addMessage(message);
+            }
         }
     }
 
@@ -180,8 +196,9 @@ export default class Deck {
         for(let i = 0; i < this.cards.length; i++){
 
             const card = this.cards[i];
-            const renderTooltip = card.checkTooltip();
 
+            const renderTooltip = card.checkTooltip();
+            
             if (renderTooltip) {
                 
                     if (this.deckId != DecksId.PLAYER_1_HAND_DECK && this.deckId != DecksId.PLAYER_2_HAND_DECK) {
@@ -199,8 +216,20 @@ export default class Deck {
                         }
                         const xPos = mouse.x - xPosModifier
                         const yPos = mouse.y - yPosModifier
-        
-                        card.toolTip.render(xPos, yPos, language, ctx);
+                        
+                        switch(card.category){
+                            case TypeId.ARMOR:
+                            case TypeId.BUFF:
+                            case TypeId.JOSEPH:
+                            case TypeId.MINION:
+                            case TypeId.SPELL:
+                                card.toolTip.render(xPos, yPos, language, ctx);
+                                break;
+                            case TypeId.WEAPON:
+                                card.toolTip.render(xPos, yPos, language, ctx, card.range);
+                                break;
+                        }
+                        
                 }
             }
         }

@@ -311,9 +311,12 @@ export default class Joseph extends Card{
     
     checkTooltip(){
         if(this.state === CardId.HOVER){
+            
             return true;
+        }else{
+            this.toolTip.timer.restart();
+            return false;
         }
-        return false;
     }
 
     static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, chatBubble, messages, toolTip){

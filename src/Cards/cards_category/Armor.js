@@ -30,7 +30,6 @@ export default class Armor extends Card{
                 case CardId.NOT_SELECTED:
 
                     this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
-
                     break;
 
                 case CardId.HOVER:
@@ -59,7 +58,6 @@ export default class Armor extends Card{
                 case CardId.NOT_SELECTED:
                     
                     this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
-                    
                     break;
     
                     case CardId.HOVER:
@@ -98,7 +96,7 @@ export default class Armor extends Card{
         }
 
         this.previousState = this.state
-        this.armorLogic()
+        this.armorLogic();
     }
     armorLogic(){
         switch (this.action) {
@@ -405,9 +403,12 @@ export default class Armor extends Card{
     
     checkTooltip(){
         if(this.state === CardId.HOVER){
+            
             return true;
+        }else{
+            this.toolTip.timer.restart();
+            return false;
         }
-        return false;
     }
 
     checkIconColor(stat, previousStat) {

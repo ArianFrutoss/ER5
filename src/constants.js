@@ -335,6 +335,7 @@ export const ParticleState = {
 export const TimerId = {
     TURN_TIMER:     0,
     DISCARD_TIMER:  1,
+    TOOLTIP_TIMER:  2
 }
 
 export const BaseURL= [
@@ -412,6 +413,9 @@ export const DurabilityColors = {
     BUFF:   "#FFD700"
 }
 
+export const TypeColors = ["red", DurabilityColors.BUFF, DurabilityColors.CURSE, DurabilityColors.BUFF, "white", DurabilityColors.ARMOR, DurabilityColors.WEAPON, DurabilityColors.SPELL];
+
+
 export const ChatMessages = {
     LUCRETIA:   [["Do not challenge me or you will regret it.", "Ez niri erronkarik egin edo damutuko zara."],
                  ["I see in the cauldron your fate, it says you will perish.","Kalderoan ikusten dut zure patua, hilko zarela dio."],
@@ -437,6 +441,24 @@ export const ChatMessages = {
                  ["",""],
                  ["",""]]
 
+
+
+}
+
+export const Sound = {
+    NO_SOUND:      -1,
+    GAME_MUSIC:     0,
+    ATTACK_SWORD:   1,
+    ATTACK_CRIT:    2,
+    ATTACK_MISS:    3,
+    ATTACK_PUNCH:   4,
+    ATTACK_PUNCH_CRIT: 5,
+    EQUIP_ARMOR:    6,
+    MOVEMENT:       7,
+    FIREBALL:       8,
+    BUFF:           9,
+    CURSE:          10,
+    DEAD:           11
 }
 
 export const BoardCardSizes = {

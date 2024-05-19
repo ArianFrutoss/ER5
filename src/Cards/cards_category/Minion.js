@@ -359,8 +359,10 @@ export default class Minion extends Card {
     checkTooltip(){
         if(this.state === CardId.HOVER){
             return true;
+        }else{
+            this.toolTip.timer.restart();
+            return false;
         }
-        return false;
     }
 
 

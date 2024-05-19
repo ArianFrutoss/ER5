@@ -442,12 +442,15 @@ export default class Curse extends Card{
     //     ctx.fillText(TypeNames[this.category], xPos+115, yPos+40)
         
     // }
-   
+
     checkTooltip(){
         if(this.state === CardId.HOVER){
+            
             return true;
+        }else{
+            this.toolTip.timer.restart();
+            return false;
         }
-        return false;
     }
 
     checkIconColor(stat, previousStat) {

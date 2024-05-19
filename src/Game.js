@@ -302,12 +302,51 @@ export default class Game {
 
                 if (decks.cards[k]){
 
-                    const card = decks.cards[k];
-                    const slot = grids.slots[i][j];
-                    // card.xPos = slot.xPos;
-                    // card.yPos = slot.yPos;
-                    this.moveCard(card, slot);
-                    k++;
+                    let speedX = 900;
+                    let speedY = 1000;
+
+                    if (decks.cards[k].xPos > grids.slots[i][j].xPos){
+
+                        if (Math.abs(decks.cards[k].xPos - grids.slots[i][j].xPos) <= 20){
+
+                            speedX = 50;
+                        }
+
+                        decks.cards[k].xPos -= speedX * globals.deltaTime;
+                    }
+
+                    if (decks.cards[k].xPos < grids.slots[i][j].xPos){
+
+                        if (Math.abs(decks.cards[k].xPos - grids.slots[i][j].xPos) <= 20){
+
+                            speedX = 50;
+                        }
+
+                        decks.cards[k].xPos += speedX * globals.deltaTime;
+                    }
+
+                    if (decks.cards[k].yPos > grids.slots[i][j].yPos){
+
+                        if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
+
+                            speedY = 50;
+                        }
+
+                        decks.cards[k].yPos -= speedY * globals.deltaTime;
+                    }
+
+                    if (decks.cards[k].yPos < grids.slots[i][j].yPos){
+
+                        if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
+
+                            speedY = 50;
+                        }
+
+                        decks.cards[k].yPos += speedY * globals.deltaTime;
+                    }
+
+                    grids.slots[i][j].isEmpty = false;
+                    k++
                 }
             }
         }

@@ -14,7 +14,7 @@ export default class MinionMovementPhase extends Phase {
         this.sound = false
     }
 
-    execute(messagesContainer, soundManager, particlesContainer){
+    execute(messagesContainer, particlesContainer, soundManager){
 
         this.boardGrid.cancelAviableSlots();
         this.activeMinionDeck.update(this.mouse, this.activeMinionDeck);
@@ -62,7 +62,7 @@ export default class MinionMovementPhase extends Phase {
         }
 
         if (minionSelected != undefined && minionSelected.speed >= distance){
-minionSelected.speed = 2;
+
             if (isAnySlotSelected[0]){
                 if(!this.sound){
                     soundManager.currentSound = Sound.MOVEMENT

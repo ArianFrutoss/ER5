@@ -28,7 +28,7 @@ export default class Asset {
         this.loadBackground();
         this.loadTeamIcons();
         this.loadButtonImages();
-        this.loadChatBubble()
+        this.loadChatBubble();
     }
 
     loadCardImages(data) {

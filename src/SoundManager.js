@@ -33,6 +33,7 @@ export default class SoundManager{
         this.initSound('buff')
         this.initSound('curse')
         this.initSound('dead')
+        this.initSound('draw')
     }
 
     initSound(soundName, isSong = false) {

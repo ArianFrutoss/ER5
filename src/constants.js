@@ -458,7 +458,8 @@ export const Sound = {
     FIREBALL:       8,
     BUFF:           9,
     CURSE:          10,
-    DEAD:           11
+    DEAD:           11,
+    DRAW:           12
 }
 
 export const BoardCardSizes = {

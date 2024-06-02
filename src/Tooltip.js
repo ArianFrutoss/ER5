@@ -9,6 +9,7 @@ export default class Tooltip {
     }
 
     render(xPos, yPos, language, ctx, range){
+        xPos += 30;
         this.timer.updatePlus();
 
         if(this.timer.value >= 2){

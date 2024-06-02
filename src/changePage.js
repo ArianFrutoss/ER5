@@ -164,14 +164,13 @@ function register(){
             },
             body: JSON.stringify(user)
         })
-        .then((res) => {res
+        .then((res) => {
             if(!res.ok){
+                
                 throw new Error("Error al registrarse");
             }
-        })
-        .then((res) => {
-            
-            if (res != undefined){
+
+            else{
 
                 let gameScreen = document.getElementById("login");
                 gameScreen.style.display = "block";
@@ -186,6 +185,7 @@ function register(){
                 register.style.display = "none";
             }
         })
+        
         .catch((error) => {
             console.error(error.message)
 

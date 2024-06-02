@@ -1,7 +1,6 @@
 import Card from "./Cards/Card.js";
 import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId, Sound } from "./constants.js";
 import Board from "./Board.js";
-import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
 import globals from "./globals.js";
 import CardFactory from "./Cards/CardFactory.js";

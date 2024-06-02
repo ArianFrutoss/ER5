@@ -1,7 +1,5 @@
 import globals from "./globals.js";
 import {initHTMLelements, initVars, testArray } from "./initialize.js";
-import logJSON from "./fakeJSONRead.js";
-import Asset from "./Asset.js";
 import Game from "./Game.js";
 import { BaseURL, BaseURLValue } from "./constants.js";
 // import Chart from 'chart.js/auto';

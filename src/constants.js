@@ -478,3 +478,8 @@ export const BoardCardSizes = {
     X_SIZE: 133,
     Y_SIZE: 155,
 }
+
+export const ParticleId = {
+    MOVIMENT:   0,
+    ATTACK:     1,
+}

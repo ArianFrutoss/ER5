@@ -56,7 +56,7 @@ export default class Menu{
             ctx.fillStyle = "#362315";
             ctx.fillRect(this.xPos, this.yPos, this.xSize, this.ySize);
             ctx.fillStyle = "rgb(242, 211, 6)";
-            ctx.font = "bold 25px LongaIberica-DEMO";
+            ctx.font = "25px Trajan Color";
             ctx.fillText("Do you want to return", this.xPos + 200, this.yPos + 30)
             ctx.fillText("to main menu?", this.xPos + 200, this.yPos + 55)
         }

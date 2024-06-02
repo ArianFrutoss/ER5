@@ -241,10 +241,11 @@ export default class Game {
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer, this.currentTurn);
         this.timerContainer.render(this.ctx, this.turnContainer.turnContainer[this.currentTurn].phaseState);
         this.messagesContainer.renderHelp(this.ctx, this.language);
-        this.particlesContainer.render(this.ctx);
+        this.particlesContainer.renderMoviment(this.ctx);
         this.menu.render(this.ctx, this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU]);
         this.turnContainer.buttonContainer.renderButtons(this.language);
         this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
+        this.particlesContainer.renderAttack(this.ctx);
         this.messagesContainer.renderDamageAndChangeTurn(this.ctx, this.language);
     }
 

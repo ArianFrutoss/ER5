@@ -1,6 +1,6 @@
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState, CardActions, Sound } from "../../constants.js";
+import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState, CardActions, Sound, BoardCardSizes } from "../../constants.js";
 
 export default class MinionAttackPhase extends Phase {
 
@@ -124,7 +124,7 @@ export default class MinionAttackPhase extends Phase {
 
 
 
-    execute(messagesContainer, soundManager) {
+    execute(messagesContainer, particlesContainer, soundManager) {
 
         let aux;
 
@@ -202,7 +202,15 @@ export default class MinionAttackPhase extends Phase {
                 break;
         }
 
-      
+        if (this.enemy != null){
+
+            const enemyXPos = this.enemy.xPos;
+            const enemyYPos = this.enemy.yPos;
+            const enemyXSize = BoardCardSizes.X_SIZE;
+            const enemyYSize = BoardCardSizes.Y_SIZE;
+
+            particlesContainer.createAttack(enemyXPos, enemyYPos, enemyXSize, enemyYSize);
+        }
     }
 
     // comprobar si la fase se cancela

@@ -74,6 +74,7 @@ export default class SoundManager{
     
         switch (state) {
             case GameState.PLAYING:
+            case GameState.MENU:
                 return Sound.GAME_MUSIC
         
             default:

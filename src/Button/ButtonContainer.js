@@ -16,10 +16,12 @@ export default class ButtonContainer{
         const btnEndTurn        = new Button(ButttonsId.BTN_END_TURN, ctx, 1493, 500, 117, 55, ["END\nTURN", "TXANDA\nAMAITU"], ButtonState.NOT_SELECTED, PhaseStates.DISCARD_CARD, renderState.GAME, assets);
         const btnChangeLanguage = new Button(ButttonsId.BTN_CHANGE_LANGUAGE, ctx, 1593, 1023, 50, 50, ["", ""], ButtonState.NOT_SELECTED, undefined, undefined, assets);
         const btnReturnToMenu   = new Button(ButttonsId.BTN_RETURN_TO_MENU, ctx, 1793, 1023, 50, 50, ["", ""], ButtonState.NOT_SELECTED, undefined, undefined, assets);
+        const btnReturnToGame   = new Button(ButttonsId.BTN_RETURN_TO_GAME, ctx, 790, 520, 119, 75, ["BACK TO\nTHE GAME", "JOLASERA\nITZULI"], ButtonState.NOT_SELECTED, undefined, renderState.MENU, assets);
+        const btnReturnToLobby  = new Button(ButttonsId.BTN_RETURN_TO_LOBBY, ctx, 995, 520, 119, 75, ["SURRENDER", "ERRENDITU"], ButtonState.NOT_SELECTED, undefined, renderState.MENU, assets);
         const btnParry          = new Button(ButttonsId.BTN_PARRY, ctx, 340, 360, 119, 75, ["PARRY", "BLOKEATU"], ButtonState.NOT_SELECTED, AttackState.PARRY, renderState.PARRY, assets);
         const btnNoParry        = new Button(ButttonsId.BTN_NO_PARRY, ctx, 340, 660, 119, 75, ["NO\nPARRY", "EZ\nBLOKEATU"], ButtonState.NOT_SELECTED, AttackState.ATTACK, renderState.PARRY, assets);
 
-        const container = [btnMove, btnPrepareEvent, btnUseEvent, btnAttack, btnEndTurn, btnChangeLanguage, btnReturnToMenu, btnParry, btnNoParry];
+        const container = [btnMove, btnPrepareEvent, btnUseEvent, btnAttack, btnEndTurn, btnChangeLanguage, btnReturnToMenu, btnReturnToGame, btnReturnToLobby, btnParry, btnNoParry];
 
         return new ButtonContainer(container);
     }

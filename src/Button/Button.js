@@ -1,4 +1,4 @@
-import { ButtonState, ButttonsId, LanguageId, PhaseStates, TurnStates } from "../constants.js";
+import { ButtonState, ButttonsId, LanguageId, PhaseStates, TurnStates, renderState } from "../constants.js";
 import ButtonContainer from "./ButtonContainer.js";
 
 export default class Button {
@@ -23,6 +23,11 @@ export default class Button {
         if (this.height>70) {
             this.ctx.drawImage(this.img, this.x, this.y)
             
+        }
+
+        if (this.renderState === renderState.MENU){
+
+            this.ctx.filter = "blur(0px)";
         }
 
         if (this.state === ButtonState.SELECTED) {
@@ -88,7 +93,7 @@ export default class Button {
         const isCollidingWithMouse = mouse.isCollidingWithButton(this);
         const isAnyButtonSelected = buttonContainer.isAnyButtonSelected();
 
-        if (turn.actionsCounter < turn.maxActions && turn.state != TurnStates.INITIALIZE && timer.value > 0 || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_CHANGE_LANGUAGE && this.id === ButttonsId.BTN_RETURN_TO_MENU){
+        if (turn.actionsCounter < turn.maxActions && turn.state != TurnStates.INITIALIZE && timer.value > 0 || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_CHANGE_LANGUAGE || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_RETURN_TO_MENU){
             
             // MAQUINA DE ESTADOS
             switch(state){

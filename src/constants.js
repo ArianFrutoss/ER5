@@ -12,7 +12,8 @@ export const GameState = {
     LOAD_CONTROLS:  6,
     CONTROLS:       7,
     INVALID:        8,
-    SEND_DATA:      9
+    SEND_DATA:      9,
+    MENU:          10,
 }
 
 export const TurnId = {
@@ -107,8 +108,10 @@ export const ButttonsId = {
     BTN_END_TURN:           4,
     BTN_CHANGE_LANGUAGE:    5,
     BTN_RETURN_TO_MENU:     6,
-    BTN_PARRY:              7,
-    BTN_NO_PARRY:           8,
+    BTN_RETURN_TO_GAME:     7,
+    BTN_RETURN_TO_LOBBY:    8,
+    BTN_PARRY:              9,
+    BTN_NO_PARRY:          10,
 }
 
 export const ButtonState = {
@@ -375,7 +378,9 @@ export const BlockStates = {
 
 export const renderState = {
     GAME:       0,
-    PARRY:      1
+    PARRY:      1,
+    QUICK_HELP: 2,
+    MENU:       3,
 }
 
 export const ScreenSize = {

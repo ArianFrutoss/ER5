@@ -71,8 +71,13 @@ export default class Game {
         timerContainer.create();
 
         const particlesContainer = new ParticlesContainer();
-
-        const menu = new Menu(600, 300, 400, 300);
+        
+        const menuXSize = 400;
+        const menuYSize = 200;
+        const menuXPos  = canvas.width / 2 - menuXSize / 2;
+        const menuYpos  = canvas.height / 2 - menuYSize / 2;
+        
+        const menu = new Menu(menuXPos, menuYpos, menuXSize, menuYSize, assets.images[ImageTypes.BUTTON][0]);
 
         return new Game(turns, assets, language, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, particlesContainer, soundManager, menu);
     }
@@ -123,6 +128,10 @@ export default class Game {
                 break;
 
             case GameState.PLAYING:
+                const state = this.menu.update(this.turnContainer.buttonContainer, this.gameState);
+                
+                this.turnContainer.buttonContainer.state = state[0];
+                this.gameState = state[1];
                 this.updateGame();
                 this.soundManager.gameState = this.gameState
                 this.soundManager.playSound()
@@ -131,7 +140,7 @@ export default class Game {
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer, this.particlesContainer);
                 this.mouse.update();
                 this.particlesContainer.update();
-
+                
                 if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length +
                    this.turnContainer.turnContainer[this.currentTurn].minionDeck.cards.length === 0){
                     this.gameState = GameState.SEND_DATA;
@@ -165,6 +174,21 @@ export default class Game {
 
                 this.sendStatsData();
                 this.gameState = GameState.GAMEOVER;
+                break;
+
+            case GameState.MENU:
+
+                this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
+                this.soundManager.gameState = this.gameState
+                this.soundManager.playSound()
+                this.mouse.update();
+
+                const states = this.menu.update(this.turnContainer.buttonContainer, this.gameState);
+                    
+                this.turnContainer.buttonContainer.state = states[0];
+                this.gameState = states[1];
+                break;
+
             default:
 
                 break;
@@ -179,6 +203,7 @@ export default class Game {
                 //draw load spinner
                 break;
 
+            case GameState.MENU:
             case GameState.PLAYING:
                 this.renderGame();
                 break;
@@ -202,9 +227,10 @@ export default class Game {
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer, this.currentTurn);
         this.timerContainer.render(this.ctx, this.turnContainer.turnContainer[this.currentTurn].phaseState);
-        this.turnContainer.buttonContainer.renderButtons(this.language);
         this.messagesContainer.renderHelp(this.ctx, this.language);
         this.particlesContainer.render(this.ctx);
+        this.menu.render(this.ctx, this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU]);
+        this.turnContainer.buttonContainer.renderButtons(this.language);
         this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
         this.messagesContainer.renderDamageAndChangeTurn(this.ctx, this.language);
     }
@@ -213,12 +239,6 @@ export default class Game {
 
         // Funcion para cambio de idioma
         this.changeLanguage();
-
-        // Funcion para volver al menu
-        this.openMenu();
-
-        // Funcion para gestionar el menu
-        this.openMenu();
 
         // Funcion que posiciona las Cards en la posicion de los Slots
         const turn = this.turnContainer.turnContainer[this.currentTurn];
@@ -240,18 +260,6 @@ export default class Game {
 
             this.language = this.language === LanguageId.ENG ? LanguageId.EUS : LanguageId.ENG;
             button.state = ButtonState.NOT_SELECTED;
-        }
-    }
-
-    openMenu(){
-        
-        const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU];
-
-        if (button.state === ButtonState.SELECTED){
-            
-            // this.gameState = GameState.SEND_DATA;
-            this.menu.update();
-            this.menu.render(this.ctx);
         }
     }
 

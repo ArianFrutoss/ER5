@@ -144,6 +144,7 @@ export const ImageTypes = {
     BUTTON: 9,
     CHAT_BUBBLE: 10,
     QUICK_HELP: 11,
+    PARTICLE: 12,
 }
 export const CardImageId = {
     JOSEPH:     1,

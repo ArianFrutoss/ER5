@@ -9,5 +9,6 @@ const TeamImages             = ["attacker", "defender"];
 const buttonImages           = ["button"]
 const chatBubble             = ["chat_bubble"]
 const quickHelpImages        = ["tuto_1", "tuto_2", "tuto_3", "tuto_4", "tuto_5"];
+const particleImages         = ["attack_particle"];
 
-export const Images = {backgroundImages, cardBordersImages, cardIconsImages, cardRarityImages, equipmentRarityImages, gameRarityImages, cardTypeImages, TeamImages, buttonImages, chatBubble, quickHelpImages};                                   
+export const Images = {backgroundImages, cardBordersImages, cardIconsImages, cardRarityImages, equipmentRarityImages, gameRarityImages, cardTypeImages, TeamImages, buttonImages, chatBubble, quickHelpImages, particleImages};                                   

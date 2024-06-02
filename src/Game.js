@@ -71,7 +71,7 @@ export default class Game {
         const timerContainer = new TimerContainer();
         timerContainer.create();
 
-        const particlesContainer = new ParticlesContainer();
+        const particlesContainer = new ParticlesContainer(assets);
         
         const menuXSize = 400;
         const menuYSize = 200;

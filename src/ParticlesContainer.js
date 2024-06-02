@@ -1,10 +1,11 @@
 import Particle from "./Particle.js";
-import { BoardCardSizes, ParticleId, ParticleState } from "./constants.js";
+import { BoardCardSizes, ImageTypes, ParticleId, ParticleState } from "./constants.js";
 
 export default class ParticlesContainer{
 
-    constructor(){
-
+    constructor(images){
+        
+        this.images         = images;
         this.particles      = [];
     }
 
@@ -55,7 +56,7 @@ export default class ParticlesContainer{
             const timeInAppear  = 0.05;
             const color         = "rgba(191, 191, 191, 0.2)";
             
-            const particle = new Particle(ParticleId.MOVIMENT, xPos, yPos, xSize, ySize, ParticleState.APPEAR, minionXV, minionYV, timeInFade, timeInAppear, timeInOn, rotate, color);
+            const particle = new Particle(ParticleId.MOVIMENT, xPos, yPos, xSize, ySize, ParticleState.APPEAR, minionXV, minionYV, timeInFade, timeInAppear, timeInOn, rotate, color, null);
             
             this.particles.push(particle);
         }
@@ -73,18 +74,19 @@ export default class ParticlesContainer{
             let ySize;
             let rotate;
 
-            xPos = minionXPos + minionXSize;
-            yPos = minionYPos + minionYSize / 2;
-            xSize = Math.random() * - 20 - BoardCardSizes.Y_SIZE;
-            ySize = 5;
-            rotate = Math.floor(Math.random() * 360);
-
+            const image         = this.images.images[ImageTypes.PARTICLE][0];
+            
+            xPos                = minionXPos + minionXSize / 2;
+            yPos                = minionYPos + minionYSize / 2;
+            xSize               = image.width;
+            ySize               = image.height;
+            rotate              = Math.floor(Math.random() * 360);
+            
             const timeInFade    = 0.05;
             const timeInOn      = 1;
             const timeInAppear  = 0.05;
-            const color         = "red";
             
-            const particle = new Particle(ParticleId.ATTACK, xPos, yPos, xSize, ySize, ParticleState.APPEAR, 0, 0, timeInFade, timeInAppear, timeInOn, rotate, color);
+            const particle = new Particle(ParticleId.ATTACK, xPos, yPos, 0, 0, ParticleState.APPEAR, 0, 0, timeInFade, timeInAppear, timeInOn, rotate, null, image);
             
             this.particles.push(particle);
         }

@@ -378,7 +378,7 @@ export default class Turn {
         const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck, this.handDeck, this.enemyHandDeck, this.preparingEventDeck, this.enemyPreparingEventDeck, this.mainCharacter, this.otherMainCharacter, this.josephDeck];
         const card = this.activeMinionDeck.isAnyCard(decks, CardId.SCALED);
         
-        if (card[0] === false){
+        if (card[0] === false && this.buttonContainer.state != renderState.QUICK_HELP){
             
             ctx.globalAlpha = 1;
             ctx.filter = "blur(0px)";

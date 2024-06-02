@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId, Sound } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId, Sound, renderState } from "./constants.js";
 import Board from "./Board.js";
 import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
@@ -38,7 +38,8 @@ export default class Game {
         this.timerContainer = timerContainer;
         this.finished = false;
         this.particlesContainer = particlesContainer;
-        this.soundManager = soundManager
+        this.soundManager = soundManager;
+        this.tutorial     = 0;
     }
 
     static init(data, canvas, ctx, language) {
@@ -158,9 +159,20 @@ export default class Game {
                 break;
 
             case GameState.SEND_DATA:
-
                 this.sendStatsData();
                 this.gameState = GameState.GAMEOVER;
+                break;
+
+            case GameState.QUICK_HELP:
+                this.soundManager.gameState = this.gameState
+                this.soundManager.playSound()
+                this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
+                this.changeHelpImage();
+                
+                this.mouse.update();
+                this.returnToGameIfBtnSelected();
+                break;
+
             default:
 
                 break;
@@ -178,7 +190,10 @@ export default class Game {
             case GameState.PLAYING:
                 this.renderGame();
                 break;
-
+            
+            case GameState.QUICK_HELP:
+                this.renderHelp();
+                break;
 
             case GameState.GAMEOVER:
                 this.ctx.font         = "bold 60px Arial";
@@ -205,10 +220,21 @@ export default class Game {
         this.messagesContainer.renderDamageAndChangeTurn(this.ctx, this.language);
     }
 
+    renderHelp(){
+        this.ctx.filter = "blur(3px)";
+        this.renderGame()
+        this.ctx.filter = "blur(0px)";
+        const images = this.images.images[ImageTypes.QUICK_HELP]
+        this.ctx.drawImage( images[this.tutorial], 0, 0)
+    }
+
     updateGame() {
 
         // Funcion para cambio de idioma
         this.changeLanguage();
+
+        //Tutoriales
+        this.showHelpIfBtnSelected();
 
         // Funcion que posiciona las Cards en la posicion de los Slots
         const turn = this.turnContainer.turnContainer[this.currentTurn];
@@ -233,6 +259,50 @@ export default class Game {
         }
     }
 
+    showHelpIfBtnSelected(){
+        const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_QUICK_HELP];
+
+        if (button.state === ButtonState.SELECTED){
+            this.gameState = GameState.QUICK_HELP;
+            this.turnContainer.buttonContainer.state = renderState.QUICK_HELP;
+            button.state = ButtonState.NOT_SELECTED;
+        }
+    }
+
+    changeHelpImage(){
+        const left = this.turnContainer.buttonContainer.container[ButttonsId.BTN_LEFT];
+        const right = this.turnContainer.buttonContainer.container[ButttonsId.BTN_RIGHT];
+
+        if (left.state === ButtonState.SELECTED){
+            this.tutorial--;
+            if (this.tutorial < 0) {
+                this.tutorial = 0;
+            }
+            left.state = ButtonState.NOT_SELECTED;
+        }
+
+        if (right.state === ButtonState.SELECTED){
+            this.tutorial++;
+            if (this.tutorial > 4) {
+                this.tutorial = 4;
+            }
+            right.state = ButtonState.NOT_SELECTED;
+        }
+    }
+
+    returnToGameIfBtnSelected(){
+        const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_LEAVE_QUICK_HELP];
+
+        if (button.state === ButtonState.SELECTED){
+            this.gameState = GameState.PLAYING;
+            this.turnContainer.buttonContainer.state = renderState.GAME;
+            this.tutorial--;
+            if (this.tutorial < 0) {
+                this.tutorial = 0;
+            }
+            button.state = ButtonState.NOT_SELECTED;
+        }
+    }
     // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
     assignCardsToHand(eventDeck, handDeck) {
         for (let i = handDeck.cards.length; i < 5; i++) {
@@ -446,6 +516,7 @@ export default class Game {
         enemyTurn.mainCharacter.xPos = xTemp
         enemyTurn.mainCharacter.yPos = yTemp
     }
+
     setRotationPos(card, position){
         const rows = this.gridsArray.grids[GridId.BOARD_GRID].slots
         switch (position) {
@@ -468,6 +539,7 @@ export default class Game {
                 break;
         }
     }
+
     // mover a turncontainer
     updateTurns(){
         this.turnChange();

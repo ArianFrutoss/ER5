@@ -242,7 +242,7 @@ export default class Turn {
                 break;
                 
             case PhaseStates.ATTACK:
-                const isAttackFinished  = this.phasesArray[PhaseStates.ATTACK].execute(messagesContainer, this.soundManager);
+                const isAttackFinished  = this.phasesArray[PhaseStates.ATTACK].execute(messagesContainer, particlesContainer, this.soundManager);
                 const isAttackCancelled = this.phasesArray[PhaseStates.ATTACK].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isAttackFinished){

@@ -144,6 +144,7 @@ export const ImageTypes = {
     BUTTON: 9,
     CHAT_BUBBLE: 10,
     QUICK_HELP: 11,
+    PARTICLE: 12,
 }
 export const CardImageId = {
     JOSEPH:     1,
@@ -477,4 +478,9 @@ export const Sound = {
 export const BoardCardSizes = {
     X_SIZE: 133,
     Y_SIZE: 155,
+}
+
+export const ParticleId = {
+    MOVIMENT:   0,
+    ATTACK:     1,
 }

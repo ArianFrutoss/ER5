@@ -304,6 +304,7 @@ body{
   #content {
     max-height: 300px; /* Altura máxima de la caja de desplazamiento */
     overflow-y: auto; /* Agregar una barra de desplazamiento vertical cuando sea necesario */
+    overflow-x: hidden;
     background-color: rgba(0, 0, 0, .2);
   }
 

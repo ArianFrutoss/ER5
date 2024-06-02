@@ -36,7 +36,6 @@ export default class Menu{
             else if (returnToLobbyButton.state === ButtonState.SELECTED){
     
                 menuButton.state = ButtonState.NOT_SELECTED;
-                returnToLobbyButton.state = ButtonState.NOT_SELECTED;
                 result[1] = GameState.SEND_DATA;
             }
         }

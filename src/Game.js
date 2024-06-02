@@ -251,7 +251,7 @@ export default class Game {
     renderGameOver(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         const gameScreen = document.getElementById("gameScreen");
-        gameScreen.style.background = "url(/media/images/background/tablonAnunciosOver.jpg) no-repeat bottom";
+        gameScreen.style.background = "url(../media/images/background/tablonAnunciosOver.jpg) no-repeat bottom";
 
 
         this.ctx.fillStyle = "black";
@@ -657,10 +657,15 @@ export default class Game {
 
         const player1hp    = player1.minionDeck.cards.length + player1.activeMinionDeck.cards.length;
 
-        const winner = player1hp > 0 ? p1MongoId : p2MongoId;
-        const loser  = player1hp === 0 ? p1MongoId : p2MongoId;
+        let winner = player1hp > 0 ? p1MongoId : p2MongoId;
+        let loser  = player1hp === 0 ? p1MongoId : p2MongoId;
 
-
+        if (this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_LOBBY].state === ButtonState.SELECTED){
+            
+            winner  = this.currentTurn   === TurnId.PLAYER_1 ? p2MongoId : p1MongoId;
+            loser   = this.currentTurn   === TurnId.PLAYER_1 ? p1MongoId : p2MongoId;
+        }
+    
         const game = {
             players: [
                 {

@@ -16,6 +16,8 @@ let dropDown = document.getElementById("player_list");
 let statsBtn = document.getElementById("stats");
 let statsDiv = document.getElementById("statsDiv");
 let returnBtn = document.getElementById("returnBtn");
+let title = document.getElementById("vsPlayer")
+
 if (localStorage.getItem("username") != null) {
 
     gameScreen.style.display = "none";
@@ -34,7 +36,7 @@ if (localStorage.getItem("username") != null) {
 
     caja.style.display = "block";
 
- 
+    title.style.display = "none"
 
     dropDown.style.display = "block";
     dropDown[0].disabled = true
@@ -62,6 +64,8 @@ if (localStorage.getItem("username") != null) {
     caja.style.display = "none";
 
     statsDiv.style.display = "none"
+
+    title.style.display = "none"
 }
 
 statsBtn.addEventListener("click", showStats);
@@ -107,6 +111,7 @@ function showStats() {
         hit.style.display = "grid"
         dmg.style.display = "grid"
         div.style.display = "grid"
+        games.style.display = "flex"
         returnBtn.style.display = "grid"
     
       createLeftSideCharts(id, data)

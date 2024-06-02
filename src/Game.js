@@ -16,10 +16,11 @@ import TimerContainer from "./TimerContainer.js";
 import Messages from "./Messages.js";
 import ParticlesContainer from "./ParticlesContainer.js";
 import SoundManager from "./SoundManager.js";
+import Menu from "./Menu.js";
 
 export default class Game {
 
-    constructor(turnArray, images, language, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, particlesContainer, soundManager) {
+    constructor(turnArray, images, language, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, particlesContainer, soundManager, menu) {
 
         this.turnContainer = turnArray;
         this.images = images
@@ -38,7 +39,8 @@ export default class Game {
         this.timerContainer = timerContainer;
         this.finished = false;
         this.particlesContainer = particlesContainer;
-        this.soundManager = soundManager
+        this.soundManager = soundManager;
+        this.menu = menu;
     }
 
     static init(data, canvas, ctx, language) {
@@ -70,7 +72,9 @@ export default class Game {
 
         const particlesContainer = new ParticlesContainer();
 
-        return new Game(turns, assets, language, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, particlesContainer, soundManager);
+        const menu = new Menu(600, 300, 400, 300);
+
+        return new Game(turns, assets, language, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, particlesContainer, soundManager, menu);
     }
 
     update() {
@@ -211,7 +215,10 @@ export default class Game {
         this.changeLanguage();
 
         // Funcion para volver al menu
-        this.returnToMenu();
+        this.openMenu();
+
+        // Funcion para gestionar el menu
+        this.openMenu();
 
         // Funcion que posiciona las Cards en la posicion de los Slots
         const turn = this.turnContainer.turnContainer[this.currentTurn];
@@ -236,14 +243,15 @@ export default class Game {
         }
     }
 
-    returnToMenu(){
+    openMenu(){
         
         const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU];
 
         if (button.state === ButtonState.SELECTED){
             
-            this.gameState = GameState.SEND_DATA;
-            button.state = ButtonState.NOT_SELECTED;
+            // this.gameState = GameState.SEND_DATA;
+            this.menu.update();
+            this.menu.render(this.ctx);
         }
     }
 

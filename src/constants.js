@@ -106,8 +106,9 @@ export const ButttonsId = {
     BTN_ATTACK:             3,
     BTN_END_TURN:           4,
     BTN_CHANGE_LANGUAGE:    5,
-    BTN_PARRY:              6,
-    BTN_NO_PARRY:           7,
+    BTN_RETURN_TO_MENU:     6,
+    BTN_PARRY:              7,
+    BTN_NO_PARRY:           8,
 }
 
 export const ButtonState = {

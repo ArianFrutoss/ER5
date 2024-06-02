@@ -28,7 +28,7 @@ export default class Button {
         if (this.state === ButtonState.SELECTED) {
             this.ctx.fillStyle = "#C36F29";
 
-            if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE){
+            if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE && this.id != ButttonsId.BTN_RETURN_TO_MENU){
 
                 this.ctx.fillRect(this.x+8, this.y+9, this.width, this.height); // Llamada a la función para dibujar un rectángulo redondeado
             }
@@ -88,7 +88,7 @@ export default class Button {
         const isCollidingWithMouse = mouse.isCollidingWithButton(this);
         const isAnyButtonSelected = buttonContainer.isAnyButtonSelected();
 
-        if (turn.actionsCounter < turn.maxActions && turn.state != TurnStates.INITIALIZE && timer.value > 0 || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_CHANGE_LANGUAGE){
+        if (turn.actionsCounter < turn.maxActions && turn.state != TurnStates.INITIALIZE && timer.value > 0 || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_CHANGE_LANGUAGE && this.id === ButttonsId.BTN_RETURN_TO_MENU){
             
             // MAQUINA DE ESTADOS
             switch(state){
@@ -102,7 +102,7 @@ export default class Button {
 
                     this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
 
-                    if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE){
+                    if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE && this.id != ButttonsId.BTN_RETURN_TO_MENU){
 
                         this.state = !mouse.leftClick && !isAnyButtonSelected && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
                     }

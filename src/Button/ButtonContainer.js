@@ -15,13 +15,18 @@ export default class ButtonContainer{
         const btnAttack         = new Button(ButttonsId.BTN_ATTACK, ctx, 340, 710, 119, 75, ["ATTACK", "ERASO"], ButtonState.NOT_SELECTED, PhaseStates.ATTACK, renderState.GAME, assets);
         const btnEndTurn        = new Button(ButttonsId.BTN_END_TURN, ctx, 1493, 500, 117, 55, ["END\nTURN", "TXANDA\nAMAITU"], ButtonState.NOT_SELECTED, PhaseStates.DISCARD_CARD, renderState.GAME, assets);
         const btnChangeLanguage = new Button(ButttonsId.BTN_CHANGE_LANGUAGE, ctx, 1593, 1023, 50, 50, ["", ""], ButtonState.NOT_SELECTED, undefined, undefined, assets);
+        const btnQuickHelp      = new Button(ButttonsId.BTN_QUICK_HELP, ctx, 1693, 1023, 50, 50, ["", ""], ButtonState.NOT_SELECTED, undefined, undefined, assets);
         const btnReturnToMenu   = new Button(ButttonsId.BTN_RETURN_TO_MENU, ctx, 1793, 1023, 50, 50, ["", ""], ButtonState.NOT_SELECTED, undefined, undefined, assets);
         const btnReturnToGame   = new Button(ButttonsId.BTN_RETURN_TO_GAME, ctx, 790, 520, 119, 75, ["BACK TO\nTHE GAME", "JOLASERA\nITZULI"], ButtonState.NOT_SELECTED, undefined, renderState.MENU, assets);
         const btnReturnToLobby  = new Button(ButttonsId.BTN_RETURN_TO_LOBBY, ctx, 995, 520, 119, 75, ["SURRENDER", "ERRENDITU"], ButtonState.NOT_SELECTED, undefined, renderState.MENU, assets);
         const btnParry          = new Button(ButttonsId.BTN_PARRY, ctx, 340, 360, 119, 75, ["PARRY", "BLOKEATU"], ButtonState.NOT_SELECTED, AttackState.PARRY, renderState.PARRY, assets);
         const btnNoParry        = new Button(ButttonsId.BTN_NO_PARRY, ctx, 340, 660, 119, 75, ["NO\nPARRY", "EZ\nBLOKEATU"], ButtonState.NOT_SELECTED, AttackState.ATTACK, renderState.PARRY, assets);
+        const btnLeft           = new Button(ButttonsId.BTN_LEFT, ctx, 0, 0, 960, 1080, ["", ""], ButtonState.NOT_SELECTED, undefined, renderState.QUICK_HELP, assets);
+        const btnRight          = new Button(ButttonsId.BTN_RIGHT, ctx, 960, 0, 960, 1080, ["", ""], ButtonState.NOT_SELECTED, undefined, renderState.QUICK_HELP, assets);
+        const btnLeaveHelp      = new Button(ButttonsId.BTN_LEAVE_QUICK_HELP, ctx, 1800, 0, 120, 120, ["", ""], ButtonState.NOT_SELECTED, undefined, renderState.QUICK_HELP, assets);
 
-        const container = [btnMove, btnPrepareEvent, btnUseEvent, btnAttack, btnEndTurn, btnChangeLanguage, btnReturnToMenu, btnReturnToGame, btnReturnToLobby, btnParry, btnNoParry];
+
+        const container = [btnMove, btnPrepareEvent, btnUseEvent, btnAttack, btnEndTurn, btnChangeLanguage, btnQuickHelp, btnReturnToMenu, btnReturnToGame, btnReturnToLobby, btnParry, btnNoParry, btnLeft, btnRight, btnLeaveHelp];
 
         return new ButtonContainer(container);
     }

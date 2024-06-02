@@ -13,7 +13,8 @@ export const GameState = {
     CONTROLS:       7,
     INVALID:        8,
     SEND_DATA:      9,
-    MENU:          10,
+    QUICK_HELP:     10,
+    MENU:           11,
 }
 
 export const TurnId = {
@@ -108,10 +109,12 @@ export const ButttonsId = {
     BTN_END_TURN:           4,
     BTN_CHANGE_LANGUAGE:    5,
     BTN_RETURN_TO_MENU:     6,
-    BTN_RETURN_TO_GAME:     7,
-    BTN_RETURN_TO_LOBBY:    8,
-    BTN_PARRY:              9,
-    BTN_NO_PARRY:          10,
+    BTN_QUICK_HELP:         7,
+    BTN_PARRY:              8,
+    BTN_NO_PARRY:           9,
+    BTN_LEFT:               10,
+    BTN_RIGHT:              11,
+    BTN_LEAVE_QUICK_HELP:   12
 }
 
 export const ButtonState = {
@@ -137,7 +140,8 @@ export const ImageTypes = {
     BOARD_IMAGE: 7,
     TEAM: 8,
     BUTTON: 9,
-    CHAT_BUBBLE: 10
+    CHAT_BUBBLE: 10,
+    QUICK_HELP: 11,
 }
 export const CardImageId = {
     JOSEPH:     1,
@@ -339,7 +343,7 @@ export const ParticleState = {
 export const TimerId = {
     TURN_TIMER:     0,
     DISCARD_TIMER:  1,
-    TOOLTIP_TIMER:  2
+    TOOLTIP_TIMER:  2,
 }
 
 export const BaseURL= [

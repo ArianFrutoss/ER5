@@ -5,8 +5,9 @@ const cardRarityImages       = ["common_card", "rare_card", "epic_card", "legend
 const equipmentRarityImages  = ["common_equip", "rare_equip", "epic_equip", "legendary_equip", "void_equip", "mini_common_equip", "mini_rare_equip", "mini_epic_equip", "mini_legendary_equip", "mini_void_equip"];
 const gameRarityImages       = ["common_rarity", "rare_rarity", "epic_rarity", "legendary_rarity"];
 const cardTypeImages         = ["minion", "buff", "curse", "hero", "joseph", "armor", "weapon", "spell"];
-const TeamImages       = ["attacker", "defender"];
+const TeamImages             = ["attacker", "defender"];
 const buttonImages           = ["button"]
 const chatBubble             = ["chat_bubble"]
+const quickHelpImages        = ["tuto_1", "tuto_2", "tuto_3", "tuto_4", "tuto_5"];
 
-export const Images = {backgroundImages, cardBordersImages, cardIconsImages, cardRarityImages, equipmentRarityImages, gameRarityImages, cardTypeImages, TeamImages, buttonImages, chatBubble};                                   
+export const Images = {backgroundImages, cardBordersImages, cardIconsImages, cardRarityImages, equipmentRarityImages, gameRarityImages, cardTypeImages, TeamImages, buttonImages, chatBubble, quickHelpImages};                                   

@@ -20,7 +20,7 @@ export default class Button {
 }
 
     render(language){
-        if (this.height>70) {
+        if (this.height > 70 && this.height < 100) {
             this.ctx.drawImage(this.img, this.x, this.y)
             
         }
@@ -33,12 +33,11 @@ export default class Button {
         if (this.state === ButtonState.SELECTED) {
             this.ctx.fillStyle = "#C36F29";
 
-            if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE && this.id != ButttonsId.BTN_RETURN_TO_MENU){
+            if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE && this.id != ButttonsId.BTN_RETURN_TO_MENU && this.id != ButttonsId.BTN_QUICK_HELP){
 
-                this.ctx.fillRect(this.x+8, this.y+9, this.width, this.height); // Llamada a la función para dibujar un rectángulo redondeado
-            }
-
-            else{
+                this.ctx.fillRect(this.x+8, this.y+9, this.width, this.height); 
+            }else{
+                // Llamada a la función para dibujar un rectángulo redondeado
                 this.ctx.beginPath();
                 this.ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
                 this.ctx.fill();
@@ -88,7 +87,7 @@ export default class Button {
     }
 
     update(mouse, buttonContainer, turn, timer){
-
+        
         const state = this.state;
         const isCollidingWithMouse = mouse.isCollidingWithButton(this);
         const isAnyButtonSelected = buttonContainer.isAnyButtonSelected();
@@ -107,7 +106,7 @@ export default class Button {
 
                     this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
 
-                    if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE && this.id != ButttonsId.BTN_RETURN_TO_MENU){
+                    if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE && this.id != ButttonsId.BTN_RETURN_TO_MENU && this.id != ButttonsId.BTN_QUICK_HELP){
 
                         this.state = !mouse.leftClick && !isAnyButtonSelected && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
                     }
@@ -132,5 +131,4 @@ export default class Button {
 
         this.state = ButtonState.NOT_SELECTED;
     }
-    
 }

@@ -29,6 +29,7 @@ export default class Asset {
         this.loadTeamIcons();
         this.loadButtonImages();
         this.loadChatBubble();
+        this.loadQuickHelp();
     }
 
     loadCardImages(data) {
@@ -109,6 +110,11 @@ export default class Asset {
     loadChatBubble(){
 
         this.createImage(Images.chatBubble, "others");
+    }
+
+    loadQuickHelp(){
+
+        this.createImage(Images.quickHelpImages, "helps");
     }
 
     loadHandler() {

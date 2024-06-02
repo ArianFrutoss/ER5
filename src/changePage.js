@@ -114,7 +114,6 @@ function register(){
         password2: document.getElementById("password_confirm").value
     };
 
-    console.log(user);
     const errorBox = document.getElementById("error-message-register");
     let divError = document.getElementById("error-register");
     const p = document.createElement("p");
@@ -171,7 +170,6 @@ function register(){
             }
         })
         .then((res) => {
-            console.log(res);
             
             if (res != undefined){
 

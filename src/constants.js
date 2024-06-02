@@ -335,7 +335,7 @@ export const ParticleState = {
 export const TimerId = {
     TURN_TIMER:     0,
     DISCARD_TIMER:  1,
-    TOOLTIP_TIMER:  2
+    TOOLTIP_TIMER:  2,
 }
 
 export const BaseURL= [

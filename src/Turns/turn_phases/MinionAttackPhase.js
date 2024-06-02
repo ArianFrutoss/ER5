@@ -1,6 +1,6 @@
 import Phase from "./Phase.js";
 import { AttackEvent } from "../../Events/phase_events/AttackEvent.js";
-import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState, CardActions } from "../../constants.js";
+import { CardId, PhaseStates, messageAttackPhase1, messageAttackPhase2, AttackState, renderState, CardActions, Sound, BoardCardSizes } from "../../constants.js";
 
 export default class MinionAttackPhase extends Phase {
 
@@ -27,7 +27,7 @@ export default class MinionAttackPhase extends Phase {
 
 
     // funcion para realizar el ataque
-    attack(messagesContainer, isAttackWithParry) {
+    attack(messagesContainer, isAttackWithParry, soundManager) {
 
         const attacker      = this.attacker;
         const enemy         = this.enemy;
@@ -53,12 +53,12 @@ export default class MinionAttackPhase extends Phase {
                 if(isAttackWithParry){  
     
                     const blockEvent = new AttackEvent(attacker, enemy);
-                    blockEvent.attackWithParry(messagesContainer);
+                    blockEvent.attackWithParry(messagesContainer, soundManager);
                     this.damageDone += blockEvent.damageDone;
                 }else{
     
                     const attackEvent = new AttackEvent(attacker, enemy);
-                    attackEvent.execute(messagesContainer);
+                    attackEvent.execute(messagesContainer, soundManager);
                     this.damageDone += attackEvent.damageDone;
 
     
@@ -68,7 +68,7 @@ export default class MinionAttackPhase extends Phase {
                 attacker.state = CardId.NOT_SELECTED;
                 enemy.state = CardId.NOT_SELECTED;
     
-                this.removeEnemyIfDead(enemy, enemyPosition);
+                this.removeEnemyIfDead(enemy, enemyPosition, soundManager);
     
                 return true;
     
@@ -87,10 +87,11 @@ export default class MinionAttackPhase extends Phase {
         
     }
 
-    removeEnemyIfDead(enemy, enemyPosition) {
+    removeEnemyIfDead(enemy, enemyPosition, soundManager) {
         if (enemy.health <= 0) {
             this.enemyActiveMinionDeck.cards.splice(enemyPosition, 1)
             enemy.state = CardId.DEAD
+            soundManager.currentSound = Sound.DEAD
             if (enemy.weapon) {
                 enemy.weapon.action = CardActions.READY
             }
@@ -123,7 +124,7 @@ export default class MinionAttackPhase extends Phase {
 
 
 
-    execute(messagesContainer) {
+    execute(messagesContainer, particlesContainer, soundManager) {
 
         let aux;
 
@@ -158,7 +159,7 @@ export default class MinionAttackPhase extends Phase {
 
         switch (state) {
             case AttackState.ATTACK:
-                aux = this.attack(messagesContainer, false);
+                aux = this.attack(messagesContainer, false, soundManager);
          
                 if(aux){
                     this.buttonContainer.deselect();
@@ -185,7 +186,7 @@ export default class MinionAttackPhase extends Phase {
                 break;
 
             case AttackState.PARRY:
-                aux = this.attack(messagesContainer, true);
+                aux = this.attack(messagesContainer, true, soundManager);
            
                 if(aux){
                     this.buttonContainer.deselect();
@@ -201,17 +202,24 @@ export default class MinionAttackPhase extends Phase {
                 break;
         }
 
-      
+        if (this.enemy != null){
+
+            const enemyXPos = this.enemy.xPos;
+            const enemyYPos = this.enemy.yPos;
+            const enemyXSize = BoardCardSizes.X_SIZE;
+            const enemyYSize = BoardCardSizes.Y_SIZE;
+
+            particlesContainer.createAttack(enemyXPos, enemyYPos, enemyXSize, enemyYSize);
+        }
     }
 
     // comprobar si la fase se cancela
-    isPhaseCancelled(buttonContainer, messagesContainer){
-
+    isPhaseCancelled(buttonContainer){
+        
         const buttonState = buttonContainer.isAnyButtonSelected();
 
         if (this.state === AttackState.DEFAULT && buttonState === PhaseStates.DEFAULT) {
 
-            // messagesContainer.messages[MessageType.HELP_MESSAGE].timeInOn = 0;
             return true;
         } else {
 
@@ -257,6 +265,15 @@ export default class MinionAttackPhase extends Phase {
             this.distance = this.calculateDistance(this.attacker, this.enemy);
         }
 
+    }
+
+    restoreValues(){
+
+        this.enemyPosition = null;
+        this.attacker = null;
+        this.enemy = null;
+        this.distance = null;
+        this.state = AttackState.DEFAULT;
     }
 
     checkIfEnemyHasWeapon(){

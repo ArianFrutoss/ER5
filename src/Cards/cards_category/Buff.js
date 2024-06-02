@@ -1,12 +1,13 @@
-import { BorderId, BuffId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, MainCharacterId, TypeNames, VFXId } from "../../constants.js";
+import { BorderId, BuffId, CardActions, CardId, DecksId, DurabilityColors, IconsPos, MainCharacterId, MessageState, MessageType, ScreenSize, TurnStates, TypeNames, VFXId } from "../../constants.js";
 import Card from "../Card.js";
 import EventContainer from "../../Events/EventContainer.js";
+import Messages from "../../Messages.js";
 
 export default class Buff extends Card {
 
-    constructor(id, texts ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability=0, cooldown=0){
+    constructor(id, texts ,image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability=0, cooldown=0, toolTip){
 
-        super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
+        super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, toolTip);
 
         // Card attributes 		   	
         this.durability     = durability;
@@ -18,9 +19,9 @@ export default class Buff extends Card {
         this.eventContainer = null;
 
     }
-    updateScale(mouse, decks){
+    updateScale(mouse, decks, turnState){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
-        if (!isAnyCardScaled[0]) {
+        if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
 
             switch (this.state) {
@@ -44,7 +45,7 @@ export default class Buff extends Card {
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
     }
-    update(mouse, decks){
+    update(mouse, decks, messagesContainer){
         
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
@@ -84,23 +85,35 @@ export default class Buff extends Card {
                     break;
             }
         } 
-            this.previousState = this.state
+
+        if (messagesContainer != undefined){
+
+            if (this.cooldown < this.previousCooldown && this.action === CardActions.COOLDOWN && this.cooldown === Math.floor(this.cooldown)){
+
+                const message = new Messages(this.xPos, this.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+                messagesContainer.addMessage(message);
+            }
+    
+            if (this.durability < this.previousDurability && this.durability != null && this.durability === Math.floor(this.durability)){
+    
+                const message = new Messages(this.xPos, this.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+                messagesContainer.addMessage(message);
+            }
+        }
+
+        this.previousState = this.state
         this.logic()
     }
 
     logic(){
-    
+
         switch (this.action) {
             case CardActions.COOLDOWN:
-                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                this.action = this.cooldown <= 0 ? CardActions.READY : this.action
                 break;
 
             case CardActions.READY:
                 this.updateReady(); // Entro aqui 
-                break;
-
-            case CardActions.NOT_ACTIVE:
-
                 break;
 
             case CardActions.WORN_OUT:
@@ -167,21 +180,6 @@ export default class Buff extends Card {
         this.deck = deck
     }
 
-    removeIfWornOut(activeEventDeck, graveyardDeck){
-
-        this.checkDurability()
-        if (this.action === CardActions.WORN_OUT) {
-            for (let i = 0; i < activeEventDeck.cards.length; i++) {
-                const card = activeEventDeck.cards[i];
-                if (card.action === CardActions.WORN_OUT) {
-                    activeEventDeck.cards.splice(i, 1)
-                    graveyardDeck.cards.push(card)
-                    this.setDeck(graveyardDeck)
-                }
-            }  
-        }
-    }
-
     setTurn(turn){
         this.turn = turn;
     }
@@ -198,8 +196,8 @@ export default class Buff extends Card {
 
     restoreValues(){
 
-        this.xPos = -400;
-        this.yPos = -400;
+        this.xPos = 2200;
+        this.yPos = 1200;
         this.cooldown = this.previousCooldown;
         this.durability = this.previousDurability;
         this.action = this.previousAction;
@@ -208,6 +206,7 @@ export default class Buff extends Card {
     }
 
     render(ctx, language){
+
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
@@ -336,7 +335,7 @@ export default class Buff extends Card {
 
 
                 if(size === CardId.EVENT_SIZE){
-                     
+                    
                     if(this.cooldown >= 0.1){
 
                         ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
@@ -353,7 +352,6 @@ export default class Buff extends Card {
                             this.imageAttributes[0],
                             IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                     }
-                    
                     else{
     
                         ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
@@ -400,12 +398,16 @@ export default class Buff extends Card {
                                 this.imageAttributes[1],
                                 IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                     }
+                    ctx.font = "bold 12px LongaIberica-DEMO";
+                    const eventState = this.checkState()
+                    ctx.fillText(eventState[language], xPos + IconsPos.EVENT_STATE_X, yPos + IconsPos.EVENT_STATE_Y);
+
                 }
 
             } else {
                 ctx.drawImage(
                     this.imageReverse,
-                     xPos, yPos)
+                    xPos, yPos)
             }
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 if (this.state === CardId.HOVER) {
@@ -415,22 +417,50 @@ export default class Buff extends Card {
                 }
             
     }
-    renderToolTip(xPos, yPos, language, ctx){
-        ctx.fillStyle = '#d59d00'
-        ctx.fillRect(xPos, yPos, 178, 63 ) 
+    checkState(){
 
-        ctx.fillStyle = '#362315'
-        ctx.fillRect(xPos + 3, yPos + 3, 172, 57 ) 
-        ctx.fillStyle = 'white'
+        switch (this.action){
 
-        ctx.font ="15px LongaIberica-DEMO"
-        ctx.fillText('Name: ', xPos+35, yPos+20)
-        this.texts.texts[1].render(ctx, xPos-5, yPos-217, language) 
+            case CardActions.COOLDOWN:
+                return ["NOT READY","PREST EZ"];
+            
+            case CardActions.READY:
+                return ["READY", "PREST"];
 
-        ctx.fillText('Type:', xPos+36, yPos+40)
-        ctx.fillText(TypeNames[this.category], xPos+115, yPos+40)
-        
+            case CardActions.ON_USE:
+                return ["APPLIED", "ERABILITA"];
+
+            default:
+                break;
+        }
     }
+    // renderToolTip(xPos, yPos, language, ctx){
+    //     ctx.fillStyle = '#d59d00'
+    //     ctx.fillRect(xPos, yPos, 178, 63 ) 
+
+    //     ctx.fillStyle = '#362315'
+    //     ctx.fillRect(xPos + 3, yPos + 3, 172, 57 ) 
+    //     ctx.fillStyle = 'white'
+
+    //     ctx.font ="15px LongaIberica-DEMO"
+    //     ctx.fillText('Name: ', xPos+35, yPos+20)
+    //     this.texts.texts[1].render(ctx, xPos-5, yPos-217, language) 
+
+    //     ctx.fillText('Type:', xPos+36, yPos+40)
+    //     ctx.fillText(TypeNames[this.category], xPos+115, yPos+40)
+        
+    // }
+
+    checkTooltip(){
+        if(this.state === CardId.HOVER){
+            
+            return true;
+        }else{
+            this.toolTip.timer.restart();
+            return false;
+        }
+    }
+    
     checkIconColor(stat, previousStat) {
         if (stat < previousStat) {
             return "red"
@@ -440,12 +470,12 @@ export default class Buff extends Card {
             return "white"
         }
     }
-    static create(id, texts, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect){
+    static create(id, texts, image, rarity, category, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, toolTip){
         
         let durability = attributes[0].attribute_value;
         let cooldown = attributes[1].attribute_value;
 
-        const buff = new Buff(id, texts, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, durability, cooldown);
+        const buff = new Buff(id, texts, image, rarity, category, "Ranged", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, durability, cooldown, toolTip);
 
         return buff;
 

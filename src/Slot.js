@@ -12,8 +12,7 @@ export default class Slot{
         this.isEmpty            = true;
         this.isMoveAviable      = false;
         this.isAttackAviable    = false;
-        this.card;
-        this.grid;
+        this.color;
     }
 
     update(mouse, grid, deck){
@@ -21,7 +20,7 @@ export default class Slot{
         const isSlotSelected = this.isSlotSelected(grid);
         this.isSlotUsed(deck);
         
-        if (this.isEmpty === true){
+        if (this.isEmpty){
             
             const isCollidingWithMouse = mouse.isCollidingWithSlot(this);
             const isLeftClick          = mouse.leftClick;
@@ -30,7 +29,9 @@ export default class Slot{
             switch (this.state){
                 
                 case SlotsState.NOT_SELECTED:
-                    
+    
+                    this.color = "black";
+
                     if (isCollidingWithMouse){
 
                         this.state = SlotsState.HOVER;
@@ -38,6 +39,8 @@ export default class Slot{
                     break;
     
                 case SlotsState.HOVER:
+
+                    this.color = "white";
                     
                     if (isCollidingWithMouse === false){
                         
@@ -52,6 +55,8 @@ export default class Slot{
 
                 case SlotsState.SELECTED:
                     
+                    this.color = "yellow";
+
                     if (isLeftClick === false && isLeftClickPrevious && isCollidingWithMouse){
                         
                         this.state = SlotsState.NOT_SELECTED;
@@ -63,6 +68,11 @@ export default class Slot{
                     break;
             }
         }
+
+        else{
+
+            this.color = "black";
+        }
     }
 
     render(ctx){
@@ -71,36 +81,16 @@ export default class Slot{
         const slotsYPos = this.yPos;
         const slotsXSize = this.xSize;
         const slotsYSize = this.ySize;
-
-        if (this.isMoveAviable){
             
-            ctx.fillStyle = "green";
-        }
-
-        else if (this.isAttackAviable){
-            
-            ctx.fillStyle = "red";
-        }
-
-        else if (this.state === SlotsState.SELECTED){
-            
-            ctx.fillStyle = "white";
-        }
-
-        else if (this.state === SlotsState.HOVER){
-            
-            ctx.fillStyle = "purple";
-        }
-
-        else{
-            ctx.globalAlpha = 0.5;
-            ctx.fillStyle = "black";
-        }
+        ctx.globalAlpha = 0.5;
+        ctx.fillStyle = this.color;
 
         ctx.fillRect(slotsXPos, slotsYPos, slotsXSize, slotsYSize);
+
         ctx.globalAlpha = 1;
         ctx.fillStyle = "black";
     }
+    
     isSlotSelected(grid){
         
         let result = false;
@@ -111,7 +101,7 @@ export default class Slot{
 
                 const slot = grid.slots[i][j];
 
-                if (this.state === SlotsState.SELECTED){
+                if (slot.state === SlotsState.SELECTED){
                     
                     result = true;
                     return result;
@@ -135,6 +125,7 @@ export default class Slot{
                     this.isEmpty = false;
                     this.isAviable = false;
                     this.state = SlotsState.NOT_SELECTED;
+                    this.color = "black";
                     return true;
                 }
             }
@@ -155,7 +146,8 @@ export default class Slot{
                         this.isEmpty = false;
                         this.isAviable = false;
                         this.state = SlotsState.NOT_SELECTED;
-                        return true;;
+                        this.color = "black";
+                        return true;
                     }
                 }
             }
@@ -191,5 +183,6 @@ export default class Slot{
         this.state = SlotsState.NOT_SELECTED;
         this.isMoveAviable = false;
         this.isAttackAviable = false;
+        this.color = "black";
     }
 }

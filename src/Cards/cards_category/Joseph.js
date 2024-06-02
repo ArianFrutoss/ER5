@@ -1,29 +1,36 @@
 import EventContainer from "../../Events/EventContainer.js";
 import { DestroyAllMinionsEvent } from "../../Events/phase_events/DestroyAllMinionsEvent.js";
-import { BorderId, CardActions, CardId, DecksId, IconsPos, VFXId } from "../../constants.js";
+import { BorderId, CardActions, CardId, DecksId, IconsPos, TurnStates, VFXId, MessageState, MessageType } from "../../constants.js";
 import Card from "../Card.js";
-
+import Messages from "../../Messages.js";
 export default class Joseph extends Card{
 
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, effect, durability, chatBubble, messages, toolTip){
 
-        super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
+        super(id,texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, toolTip);
         this.deckObjetives
         this.graveyardDeck
         this.eventContainer
         this.effect = effect; // efecto carta joseph
         this.durability = durability
         this.previousDurability = durability
+        this.chatBubble = chatBubble
+        this.messages       = messages
+        this.previousMessage= undefined
         
     }
-    updateScale(mouse, decks){
+    updateScale(mouse, decks, turnState, messagesContainer){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
-        if (!isAnyCardScaled[0]) {
+        if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
 
             switch (this.state) {
                 case CardId.NOT_SELECTED:
-
+                    if (this.previousMessage != undefined) {
+                        if (this.previousMessage.state === MessageState.OFF) {
+                            this.previousMessage = undefined
+                        }
+                    }
                     this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
 
                     break;
@@ -31,11 +38,27 @@ export default class Joseph extends Card{
                 case CardId.HOVER:
                     this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
                     this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.SCALED : this.state
+                    if (!mouse.leftClick && mouse.previousStateLeft && this.previousMessage === undefined) {
+                        const random = Math.floor(Math.random()*this.messages.length)
+                        const message       = this.messages[random]
+                        const text = messagesContainer.createMessage(this.xPos-120, this.yPos+140, message, MessageType.CHAT_MESSAGE, MessageState.APPEAR, 1.5, 0.7, 0.3,25, 100, 600, 17, "black");
+                        this.previousMessage = text
+                    } else{
+                        if (this.previousMessage != undefined) {
+                            if (this.previousMessage.state === MessageState.OFF) {
+                                this.previousMessage = undefined
+                            }
+                        }
+                    }
                     break;
 
                 case CardId.SELECTED:
                     this.state = !mouse.rightClick && mouse.previousStateRight && isCollidingWithMouse ? CardId.SCALED : this.state
-                    // console.log("selected");
+                    if (this.previousMessage != undefined) {
+                        if (this.previousMessage.state === MessageState.OFF) {
+                            this.previousMessage = undefined
+                        }
+                    }
                     break;
             }
         } else if (this.state === CardId.SCALED) {
@@ -59,8 +82,10 @@ export default class Joseph extends Card{
     
                     case CardId.HOVER:
                         this.state = isCollidingWithMouse   ? this.state = CardId.HOVER : CardId.NOT_SELECTED
-                        this.state =
-                            !mouse.leftClick    && !isAnyCardSelected[0] && mouse.previousStateLeft      ? CardId.SELECTED            : this.state
+                        if (this.action === CardActions.ON_USE) {
+                            this.state =
+                                !mouse.leftClick    && !isAnyCardSelected[0] && mouse.previousStateLeft      ? CardId.SELECTED            : this.state                           
+                        }
                         break;
     
                     case CardId.SELECTED:
@@ -103,8 +128,8 @@ export default class Joseph extends Card{
                 break;
 
             case CardActions.WORN_OUT:
-                this.xPos = -500
-                this.yPos = -500
+                this.xPos = -400
+                this.yPos = 1200;
                 this.size = CardId.BIG_SIZE
                 this.graveyardDeck.cards.push(this)
                 this.deck.cards.pop()
@@ -151,8 +176,8 @@ export default class Joseph extends Card{
 
     restoreValues(){
 
-        this.xPos = -400;
-        this.yPos = -400;
+        this.xPos = 2200;
+        this.yPos = 1200;
         this.durability = this.previousDurability;
         this.action = this.previousAction;
         this.state = this.previousState;
@@ -160,6 +185,7 @@ export default class Joseph extends Card{
     }
 
     render(ctx, language){
+
         ctx.fillStyle = "black"
         let xPos = this.xPos
         let yPos = this.yPos
@@ -231,9 +257,9 @@ export default class Joseph extends Card{
             } else {
                 ctx.drawImage(
                     this.imageReverse,
-                     xPos, yPos)
+                    xPos, yPos)
             }
-            if (this.action === CardActions.READY ||this.action === CardActions.ON_USE) {
+            if (this.action === CardActions.READY ||this.action === CardActions.ON_USE && this.state !== CardId.SCALED) {
                 ctx.globalAlpha = 0.5;
                 ctx.beginPath();
                 ctx.ellipse(this.xPos + IconsPos.JOSEPH_X, this.yPos + IconsPos.JOSEPH_Y, 62, 75, 0, 0, 2 * Math.PI);
@@ -249,27 +275,53 @@ export default class Joseph extends Card{
                 ctx.font = "25px LongaIberica-DEMO";
                 ctx.fillStyle = "black"
             }
+            if (this.previousMessage != undefined) {
+                if(yPos < 500){
+                    xPos = IconsPos.CHAT_BUBBLE_X[0]
+                    yPos = IconsPos.CHAT_BUBBLE_Y[0]
+                }else {
+                    xPos = IconsPos.CHAT_BUBBLE_X[1]
+                    yPos = IconsPos.CHAT_BUBBLE_Y[1]
+                }
+                ctx.setTransform(0.7, 0, 0, 0.7, 0, 0);
+                ctx.rotate((180 * Math.PI) / 180);
+                ctx.drawImage(
+                    this.chatBubble,               
+                    -2570, -500
+                )
+            }
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             if (this.state === CardId.HOVER) {
                 return true
             } else {
                 return false
             }
+
+    }
+    // renderToolTip(xPos, yPos, language, ctx){
+    //     ctx.fillStyle = '#d59d00'
+    //     ctx.fillRect(xPos, yPos, 178, 103 ) 
+
+    //     ctx.fillStyle = '#362315'
+    //     ctx.fillRect(xPos + 3, yPos + 3, 172, 97 ) 
+    //     ctx.fillStyle = 'white'
+    //     this.texts.texts[1].render(ctx, xPos, yPos-200, language) 
+    // }
+
+    
+    checkTooltip(){
+        if(this.state === CardId.HOVER){
             
-    }
-    renderToolTip(xPos, yPos, language, ctx){
-        ctx.fillStyle = '#d59d00'
-        ctx.fillRect(xPos, yPos, 178, 103 ) 
-
-        ctx.fillStyle = '#362315'
-        ctx.fillRect(xPos + 3, yPos + 3, 172, 97 ) 
-        ctx.fillStyle = 'white'
-        this.texts.texts[1].render(ctx, xPos, yPos-200, language) 
+            return true;
+        }else{
+            this.toolTip.timer.restart();
+            return false;
+        }
     }
 
-    static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes){
+    static create(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, attributes, chatBubble, messages, toolTip){
         const cooldown = attributes[0].attribute_value
-        const joseph = new Joseph(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, cooldown);
+        const joseph = new Joseph(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, effect, cooldown, chatBubble, messages, toolTip);
 
         return joseph;
     }

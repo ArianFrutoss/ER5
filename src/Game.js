@@ -1,7 +1,6 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId, Sound, renderState } from "./constants.js";
 import Board from "./Board.js";
-import jsonArray from "../cards.js";
 import Asset from "./Asset.js";
 import globals from "./globals.js";
 import CardFactory from "./Cards/CardFactory.js";
@@ -14,17 +13,17 @@ import MessagesContainer from "./MessagesContainer.js";
 import EventContainer from "./Events/EventContainer.js";
 import TimerContainer from "./TimerContainer.js";
 import Messages from "./Messages.js";
+import ParticlesContainer from "./ParticlesContainer.js";
+import SoundManager from "./SoundManager.js";
+import Menu from "./Menu.js";
 
 export default class Game {
 
-    constructor(turnArray, handsArray, images, language, cardsArray, boardMinionsArray, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer) {
+    constructor(turnArray, images, language, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, particlesContainer, soundManager, menu) {
 
         this.turnContainer = turnArray;
-        this.handsArray = handsArray;
         this.images = images
         this.language = language;
-        this.cardsArray = cardsArray;
-        this.boardMinionsArray = boardMinionsArray;
         this.deckContainer = deckContainer;
         this.gridsArray = gridsArray;
         this.eventContainer = eventContainer;
@@ -38,6 +37,11 @@ export default class Game {
         this.messagesContainer = messagesContainer;
         this.timerContainer = timerContainer;
         this.finished = false;
+        this.particlesContainer = particlesContainer;
+        this.soundManager = soundManager;
+        this.menu = menu;
+        this.game   = 0;
+        this.tutorial     = 0;
     }
 
     static init(data, canvas, ctx, language) {
@@ -51,22 +55,32 @@ export default class Game {
         deckContainer.createDecks(data, cardImgs, language);
 
         const buttonContainer = ButtonContainer.create(ctx, assets.images[ImageTypes.BUTTON][0]);
-
+        const soundManager = SoundManager.create()
+        soundManager.loadSounds()
         const turns = new TurnContainer(board, deckContainer, buttonContainer, eventContainer);
         const mouse = new Mouse(canvas);
         mouse.assignAddEventListeners();
         const messages = new MessagesContainer();
         messages.createHelpMessages();
-        
+
         const firstTurn = Math.floor(Math.random()*2);
-        turns.CreateTurns(mouse, eventContainer);
+        turns.CreateTurns(mouse, eventContainer, soundManager);
 
         console.log(turns.turnContainer);
-        
+
         const timerContainer = new TimerContainer();
         timerContainer.create();
-       
-        return new Game(turns, null, assets, language, null, null, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer);
+
+        const particlesContainer = new ParticlesContainer(assets);
+        
+        const menuXSize = 400;
+        const menuYSize = 200;
+        const menuXPos  = canvas.width / 2 - menuXSize / 2;
+        const menuYpos  = canvas.height / 2 - menuYSize / 2;
+        
+        const menu = new Menu(menuXPos, menuYpos, menuXSize, menuYSize, assets.images[ImageTypes.BUTTON][0]);
+
+        return new Game(turns, assets, language, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, particlesContainer, soundManager, menu);
     }
 
     update() {
@@ -74,7 +88,7 @@ export default class Game {
 
             case GameState.LOAD_GAME:
                 for (let i = 0; i < 2; i++) {
-                    this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK+i]);                      
+                    this.assignCardsToHand(this.deckContainer.decks[DecksId.EVENT_DECK], this.deckContainer.decks[DecksId.PLAYER_1_HAND_DECK+i]);
                     this.turnContainer.turnContainer[i].mainCharacter.xPos = IconsPos.PLAYER_X[i]
                     this.turnContainer.turnContainer[i].mainCharacter.yPos = IconsPos.PLAYER_Y[i]
                 }
@@ -89,12 +103,12 @@ export default class Game {
                 }
                 const turn = this.turnContainer.turnContainer[this.currentTurn];
                 const enemyTurn = this.turnContainer.turnContainer[(this.currentTurn+1)%2];
-                
+
                 this.assignCardsToGrids(turn.handDeck, this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID])
                 this.assignCardsToGrids(turn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
                 turn.phasesArray[PhaseStates.PREPARE_EVENT].setEventGrid(this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
                 turn.phasesArray[PhaseStates.USE_EVENT_CARD].setEventGrid(this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
-        
+
                 this.assignCardsToGrids(enemyTurn.handDeck, this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID])
                 this.assignCardsToGrids(enemyTurn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
                 enemyTurn.phasesArray[PhaseStates.PREPARE_EVENT].setEventGrid(this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
@@ -105,24 +119,30 @@ export default class Game {
                     this.rotateMainCharacters()
                 }
 
-                if (this.images.isLoaded) {
-                    
+                if (this.images.isLoaded && this.soundManager.isLoaded) {
+
                     this.gameState = GameState.PLAYING
+                    this.soundManager.sounds[Sound.GAME_MUSIC].play()
+                    this.soundManager.sounds[Sound.GAME_MUSIC].volume = 0.4
                 }
                 
                 break;
 
             case GameState.PLAYING:
+                const state = this.menu.update(this.turnContainer.buttonContainer, this.gameState);
+                
+                this.turnContainer.buttonContainer.state = state[0];
+                this.gameState = state[1];
                 this.updateGame();
-                this.deckContainer.updateScale(this.mouse)
-                // this.deckContainer.updateDecks(this.mouse)
-                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer);
-                
+                this.soundManager.gameState = this.gameState
+                this.soundManager.playSound()
+                this.deckContainer.updateScale(this.mouse, this.turnContainer.turnContainer[this.currentTurn].state, this.messagesContainer, this.language);
+                this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
+                this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer, this.particlesContainer);
                 this.mouse.update();
-                this.turnContainer.buttonContainer.updateButtons(this.mouse);
+                this.particlesContainer.update();
                 
-
-                if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length + 
+                if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length +
                    this.turnContainer.turnContainer[this.currentTurn].minionDeck.cards.length === 0){
                     this.gameState = GameState.SEND_DATA;
                 }else{
@@ -130,31 +150,54 @@ export default class Game {
                         this.turnContainer.turnContainer[this.currentTurn].finished = false
                         this.turnContainer.turnContainer[this.currentTurn].state = TurnStates.INITIALIZE;
 
-                        
+
                         this.currentTurn = (this.currentTurn + 1) % 2;
                         const name = this.turnContainer.turnContainer[this.currentTurn].name.toUpperCase()
                         const message = new Messages(1000, 490, name+"'S TURN", MessageType.CHANGE_TURN_MESSAGE, MessageState.APPEAR, 0.1, 0.2, 1, 100);
                         this.messagesContainer.changeTurnMessage.push(message)
                         this.setTurnDecksPositions()
                         this.turnCounter++;
-    
+
                     }
                     this.messagesContainer.update();
                 }
-            
+
                 break;
 
             case GameState.GAMEOVER:
-                console.log("gameover");
-                if(this.finished){
-                    window.location.reload();
+                if (this.finished && this.mouse.leftClick){
+                    document.location.reload();
                 }
                 break;
-            
+
             case GameState.SEND_DATA:
-                
                 this.sendStatsData();
                 this.gameState = GameState.GAMEOVER;
+                break;
+
+            case GameState.MENU:
+
+                this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
+                this.soundManager.gameState = this.gameState
+                this.soundManager.playSound()
+                this.mouse.update();
+
+                const states = this.menu.update(this.turnContainer.buttonContainer, this.gameState);
+                    
+                this.turnContainer.buttonContainer.state = states[0];
+                this.gameState = states[1];
+                break;
+
+            case GameState.QUICK_HELP:
+                this.soundManager.gameState = this.gameState
+                this.soundManager.playSound()
+                this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
+                this.changeHelpImage();
+                
+                this.mouse.update();
+                this.returnToGameIfBtnSelected();
+                break;
+
             default:
 
                 break;
@@ -169,53 +212,178 @@ export default class Game {
                 //draw load spinner
                 break;
 
+            case GameState.MENU:
             case GameState.PLAYING:
                 this.renderGame();
                 break;
-
+            
+            case GameState.QUICK_HELP:
+                this.renderHelp();
+                break;
 
             case GameState.GAMEOVER:
-                this.ctx.font         = "bold 60px Arial";
-                // this.ctx.fillText(this.turnContainer.turnContainer[(this.currentTurn+1)%2].mainCharacter.name[LanguageId.ENG] + "  WON", 1000, 500);
+
+                this.renderGameOver();
                 break;
             default:
+                
                 break;
 
         }
     }
 
     renderGame() {
-        
+
         const images = this.images.images
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer, this.currentTurn);
-        this.timerContainer.render(this.ctx)
+        this.timerContainer.render(this.ctx, this.turnContainer.turnContainer[this.currentTurn].phaseState);
+        this.messagesContainer.renderHelp(this.ctx, this.language);
+        this.particlesContainer.renderMoviment(this.ctx);
+        this.menu.render(this.ctx, this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU]);
         this.turnContainer.buttonContainer.renderButtons(this.language);
         this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
-        this.messagesContainer.render(this.ctx, this.language);
+        this.particlesContainer.renderAttack(this.ctx);
+        this.messagesContainer.renderDamageAndChangeTurn(this.ctx, this.language);
+    }
+
+    renderGameOver(){
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        const gameScreen = document.getElementById("gameScreen");
+        gameScreen.style.background = "url(../media/images/background/tablonAnunciosOver.png) no-repeat bottom";
+
+        const border  = this.images.images[ImageTypes.CARD_BORDER][BorderId.SMALL_SIZE]
+
+
+        this.ctx.fillStyle = "black";
+
+        const winnerXPos = 770;
+        const loserXPos  = 1170;
+
+
+        const p1MeleHits        = this.game.players[0].meleeHits;
+        const p1RangeHits       = this.game.players[0].rangedHits;
+        const p1DoneDamage      = this.game.players[0].damageDone;
+        const p1DamageReceived  = this.game.players[0].damageReceived;
+        
+
+        const p2MeleHits        = this.game.players[1].meleeHits;
+        const p2RangeHits       = this.game.players[1].rangedHits;
+        const p2DoneDamage      = this.game.players[1].damageDone;
+        const p2DamageReceived  = this.game.players[1].damageReceived;
+        const loserCharacter    = this.game.loserCharacter;
+
+        this.ctx.font = 30 + "px LongaIberica-DEMO";
+        this.ctx.fillText("GAME OVER", 970, 440);
+
+        this.ctx.drawImage(this.game.winnerCharacter.image[1], winnerXPos - 50, 500);
+        this.ctx.drawImage(border, winnerXPos - 50, 500);
+        this.ctx.drawImage(this.game.loserCharacter.image[1], loserXPos -50, 500);
+        this.ctx.drawImage(border, loserXPos -50, 500);
+
+
+        this.ctx.fillText("Winner: " + this.game.winner, winnerXPos, 700);
+        this.ctx.fillText("Melee Hits: " + p1MeleHits, winnerXPos, 740);
+        this.ctx.fillText("Ranged Hits: " + p1RangeHits, winnerXPos, 780);
+        this.ctx.fillText("Damage Done: " + p1DoneDamage, winnerXPos, 820);
+        this.ctx.fillText("Damage Received: " + p1DamageReceived, winnerXPos, 860);
+
+        this.ctx.fillText("Loser: " + this.game.loser, loserXPos, 700);
+        this.ctx.fillText("Melee Hits: " + p2MeleHits, loserXPos, 740);
+        this.ctx.fillText("Ranged Hits: " + p2RangeHits, loserXPos, 780);
+        this.ctx.fillText("Damage Done: " + p2DoneDamage, loserXPos, 820);
+        this.ctx.fillText("Damage Received: " + p2DamageReceived, loserXPos, 860);
+
+        this.ctx.fillText("Click to return to lobby.", 970, 930);
+
+    }
+    
+    renderHelp(){
+        this.ctx.filter = "blur(3px)";
+        this.renderGame()
+        this.ctx.filter = "blur(0px)";
+        const images = this.images.images[ImageTypes.QUICK_HELP]
+        this.ctx.drawImage( images[this.tutorial], 0, 0)
     }
 
     updateGame() {
-        // console.log(this.eventContainer.events);
-        // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
-        // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_1_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_1_ACTIVE_MINION_DECK].cards);
-        // this.assignMinionsToActiveMinionsDeck(this.deckContainer.decks[DecksId.PLAYER_2_MINION_DECK], this.deckContainer.decks[DecksId.PLAYER_2_ACTIVE_MINION_DECK].cards);
-        
+
+        // Funcion para cambio de idioma
+        this.changeLanguage();
+
+        //Tutoriales
+        this.showHelpIfBtnSelected();
+
         // Funcion que posiciona las Cards en la posicion de los Slots
         const turn = this.turnContainer.turnContainer[this.currentTurn];
         const enemyTurn = this.turnContainer.turnContainer[(this.currentTurn+1)%2];
 
-
         this.assignCardsToGrids(turn.handDeck, this.gridsArray.grids[GridId.PLAYER_1_HAND_GRID])
         this.assignCardsToGrids(enemyTurn.handDeck, this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID])
-
+        this.assignCardsToGrids(turn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
+        this.assignCardsToGrids(enemyTurn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
 
         //this.updateTurns(); ---> test de cambio de turnos
     }
 
-    // Funcion que roba las Cards del EventDeck y las asigna al HandDeck              
+    changeLanguage(){
+
+        const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_CHANGE_LANGUAGE];
+
+        if (button.state === ButtonState.SELECTED){
+
+            this.language = this.language === LanguageId.ENG ? LanguageId.EUS : LanguageId.ENG;
+            button.state = ButtonState.NOT_SELECTED;
+        }
+    }
+
+    showHelpIfBtnSelected(){
+        const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_QUICK_HELP];
+
+        if (button.state === ButtonState.SELECTED){
+            this.gameState = GameState.QUICK_HELP;
+            this.turnContainer.buttonContainer.state = renderState.QUICK_HELP;
+            button.state = ButtonState.NOT_SELECTED;
+        }
+    }
+
+    changeHelpImage(){
+        const left = this.turnContainer.buttonContainer.container[ButttonsId.BTN_LEFT];
+        const right = this.turnContainer.buttonContainer.container[ButttonsId.BTN_RIGHT];
+
+        if (left.state === ButtonState.SELECTED){
+            this.tutorial--;
+            if (this.tutorial < 0) {
+                this.tutorial = 0;
+            }
+            left.state = ButtonState.NOT_SELECTED;
+        }
+
+        if (right.state === ButtonState.SELECTED){
+            this.tutorial++;
+            if (this.tutorial > 4) {
+                this.tutorial = 4;
+            }
+            right.state = ButtonState.NOT_SELECTED;
+        }
+    }
+
+    returnToGameIfBtnSelected(){
+        const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_LEAVE_QUICK_HELP];
+
+        if (button.state === ButtonState.SELECTED){
+            this.gameState = GameState.PLAYING;
+            this.turnContainer.buttonContainer.state = renderState.GAME;
+            this.tutorial--;
+            if (this.tutorial < 0) {
+                this.tutorial = 0;
+            }
+            button.state = ButtonState.NOT_SELECTED;
+        }
+    }
+    // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
     assignCardsToHand(eventDeck, handDeck) {
         for (let i = handDeck.cards.length; i < 5; i++) {
             const card = eventDeck.cards[eventDeck.cards.length - 1 ]
@@ -227,16 +395,16 @@ export default class Game {
                 card.deck = handDeck
                 eventDeck.cards.pop();
             }
-            
+
         }
     }
-    
+
     assignMinionsToActiveMinionsDeck(minionDeck, activeMinionDeck) {
 
         for (let i = activeMinionDeck.length; i < 3; i++) {
-            
+
             for (let j = 0; j < minionDeck.cards.length; j++){
-                
+
                 if (minionDeck.cards[j].name[LanguageId.ENG] === "Villager"){
 
                     activeMinionDeck.push(minionDeck.cards[j]);
@@ -248,7 +416,7 @@ export default class Game {
     }
 
     assignMinionsToBoardGrid(player1ActiveMinionDeck, player2ActiveMinionDeck, boardGrid) {
-        
+
         const decks = [player1ActiveMinionDeck, player2ActiveMinionDeck];
 
         let counter = 0;
@@ -262,9 +430,9 @@ export default class Game {
             for (let j = 0; j < decks[i].cards.length; j++){
 
                 if (decks[i].cards[j] != undefined) {
-                    
+
                     const card = decks[i].cards[j];
-                    
+
                     card.xPos = boardGrid.slots[boardPos][2 + counter].xPos;
                     card.yPos = boardGrid.slots[boardPos][2 + counter].yPos;
                     card.size = BorderId.SMALL_SIZE;
@@ -273,28 +441,92 @@ export default class Game {
             }
         }
     }
-    
-    assignCardsToGrids(decks, grids) {
-        let k = 0
-        for (let i = 0; i < grids.slots.length; i++) {
 
-            for (let j = 0; j < grids.slots[0].length; j++) {
+    assignCardsToGrids(decks, grids) {
+
+        let k = 0;
+
+        for (let i = 0; i < grids.slots.length; i++){
+
+            for (let j = 0; j < grids.slots[0].length; j++){
 
                 if (decks.cards[k]){
 
-                    decks.cards[k].xPos = grids.slots[i][j].xPos;
-                    decks.cards[k].yPos = grids.slots[i][j].yPos;
+                    let speedX = 900;
+                    let speedY = 1000;
+
+                    if (decks.cards[k].xPos > grids.slots[i][j].xPos){
+
+                        if (Math.abs(decks.cards[k].xPos - grids.slots[i][j].xPos) <= 20){
+
+                            speedX = 50;
+                        }
+
+                        decks.cards[k].xPos -= speedX * globals.deltaTime;
+                    }
+
+                    if (decks.cards[k].xPos < grids.slots[i][j].xPos){
+
+                        if (Math.abs(decks.cards[k].xPos - grids.slots[i][j].xPos) <= 20){
+
+                            speedX = 50;
+                        }
+
+                        decks.cards[k].xPos += speedX * globals.deltaTime;
+                    }
+
+                    if (decks.cards[k].yPos > grids.slots[i][j].yPos){
+
+                        if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
+
+                            speedY = 50;
+                        }
+
+                        decks.cards[k].yPos -= speedY * globals.deltaTime;
+                    }
+
+                    if (decks.cards[k].yPos < grids.slots[i][j].yPos){
+
+                        if (Math.abs(decks.cards[k].yPos - grids.slots[i][j].yPos) <= 20){
+
+                            speedY = 50;
+                        }
+
+                        decks.cards[k].yPos += speedY * globals.deltaTime;
+                    }
+
                     grids.slots[i][j].isEmpty = false;
                     k++
                 }
-                
             }
         }
     }
 
+    // funcion para realizar el movimiento
+    moveCard(card, slot){
+
+        let speedX = 800;
+        let speedY = 800;
+        
+        const xDistance = card.xPos - slot.xPos;
+        const yDistance = card.yPos - slot.yPos;
+        const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+        const vX = speedX * (xDistance / distance);
+        const vY = speedY * (yDistance / distance);
+
+        if (distance < 10){
+            
+            card.xPos = slot.xPos;
+            card.yPos = slot.yPos;
+            slot.isEmpty = false;
+        } else {
+            card.xPos -= vX * globals.deltaTime;
+            card.yPos -= vY * globals.deltaTime;
+        }
+    }
 
     setTurnDecksPositions(){
-        
+
         const turn = this.turnContainer.turnContainer[this.currentTurn];
         const enemyTurn = this.turnContainer.turnContainer[(this.currentTurn+1)%2];
         this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID].freeSlots()
@@ -302,7 +534,7 @@ export default class Game {
         enemyTurn.phasesArray[PhaseStates.USE_EVENT_CARD].setEventGrid(this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
         this.assignCardsToGrids(enemyTurn.handDeck, this.gridsArray.grids[GridId.PLAYER_2_HAND_GRID])
         this.assignCardsToGrids(enemyTurn.preparingEventDeck, this.gridsArray.grids[GridId.PLAYER_2_EVENT_GRID])
-        
+
         this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID].freeSlots()
         turn.phasesArray[PhaseStates.PREPARE_EVENT].setEventGrid(this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
         turn.phasesArray[PhaseStates.USE_EVENT_CARD].setEventGrid(this.gridsArray.grids[GridId.PLAYER_1_EVENT_GRID])
@@ -327,16 +559,16 @@ export default class Game {
                     if (card.yPos === row[0].yPos) {
                         positions[k] = i
                     }
-                
+
             }
                 for (let k = 0; k < enemyMinionCards.length; k++) {
                     const card = enemyMinionCards[k];
                     if (card.yPos === row[0].yPos) {
                         enemyPositions[k] = i
                     }
-                    
-            }    
-            
+
+            }
+
         }
 
         for (let i = 0; i < positions.length; i++) {
@@ -364,6 +596,7 @@ export default class Game {
         enemyTurn.mainCharacter.xPos = xTemp
         enemyTurn.mainCharacter.yPos = yTemp
     }
+
     setRotationPos(card, position){
         const rows = this.gridsArray.grids[GridId.BOARD_GRID].slots
         switch (position) {
@@ -386,10 +619,11 @@ export default class Game {
                 break;
         }
     }
-    // mover a turncontainer 
+
+    // mover a turncontainer
     updateTurns(){
         this.turnChange();
-    }   
+    }
 
     turnChange(){
         console.log(this.turnArray.turnContainer[0].active);
@@ -410,6 +644,7 @@ export default class Game {
         }
     }
 
+    // Enviar datos objeto game
     sendStatsData(){
         const player1 = this.turnContainer.turnContainer[0];
         const player2 = this.turnContainer.turnContainer[1];
@@ -426,11 +661,16 @@ export default class Game {
         const p2MongoId    = enemies[localStorage.index].mongo_id;
 
         const player1hp    = player1.minionDeck.cards.length + player1.activeMinionDeck.cards.length;
-    
-        const winner = player1hp > 0 ? p1MongoId : p2MongoId;
-        const loser  = player1hp === 0 ? p1MongoId : p2MongoId;
-        
 
+        let winner = player1hp > 0 ? p1MongoId : p2MongoId;
+        let loser  = player1hp === 0 ? p1MongoId : p2MongoId;
+
+        if (this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_LOBBY].state === ButtonState.SELECTED){
+            
+            winner  = this.currentTurn   === TurnId.PLAYER_1 ? p2MongoId : p1MongoId;
+            loser   = this.currentTurn   === TurnId.PLAYER_1 ? p1MongoId : p2MongoId;
+        }
+    
         const game = {
             players: [
                 {
@@ -447,27 +687,60 @@ export default class Game {
                     damageDone: p2DoneDamage,
                     damageReceived: p1DoneDamage
                 },
-            
+
             ],
             winner: winner,
             loser: loser
         }
 
-        console.log(JSON.stringify(game));
+        const winner2 = winner   === p1MongoId ? player1 : player2;
+        const loser2  = loser    === p1MongoId ? player1 : player2;
+        const winnerName = winner2.name;
+        const loserName  = loser2.name;
+        const winnerCharacter = winner2.mainCharacter;
+        const loserCharacter  = loser2.mainCharacter;
         
-        fetch(`http://localhost:4000/newGame`, {
+
+        this.game = {
+            players: [
+                {
+                    player_id: p1MongoId,
+                    meleeHits: p1MeleHits,
+                    rangedHits: p1RangeHits,
+                    damageDone: p1DoneDamage,
+                    damageReceived: p2DoneDamage
+                },
+                {
+                    player_id: p2MongoId,
+                    meleeHits: p2MeleHits,
+                    rangedHits: p2RangeHits,
+                    damageDone: p2DoneDamage,
+                    damageReceived: p1DoneDamage
+                },
+
+            ],
+            winner: winnerName,
+            loser: loserName,
+            winnerCharacter: winnerCharacter,
+            loserCharacter:  loserCharacter
+        }
+
+
+        console.log(JSON.stringify(game));
+
+    fetch(`http://localhost:4000/newGame`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(game)
-            
+
         })
         .then((res) => {
             this.finished = true;
-        })
+        }) 
     }
 
-    
+
 }
 

@@ -15,6 +15,13 @@ export default class Mouse {
     update(){
         this.previousStateLeft  = this.leftClick;
         this.previousStateRight = this.rightClick;
+        const gameScreen = document.getElementById('gameScreen');
+        if (this.rightClick || this.leftClick) {
+            gameScreen.style.cursor = 'url("../media/images/others/cursor_click.png"), auto';
+        }else{
+            gameScreen.style.cursor = 'url("../media/images/others/cursor_normal.png"), auto';
+
+        }
     }
     isCollidingWithCard(card){
         const cardLength =  card.size === BorderId.NORMAL_SIZE  ? 197.6    : 

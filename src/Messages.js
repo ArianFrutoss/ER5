@@ -37,7 +37,9 @@ export default class Messages{
 
             case MessageState.ON:
                 this.onCounter += globals.deltaTime;
-                
+                if (this.type === MessageType.DAMAGE_MESSAGE) {
+                    this.yPos -=1
+                }
                 if (this.onCounter > this.timeInOn && this.timeInOn != null){
                     
                     this.onCounter = 0;
@@ -47,8 +49,13 @@ export default class Messages{
     
             case MessageState.FADE:
                 this.fadeCounter += globals.deltaTime;
-                this.alpha -= 0.1;
-                
+                if (this.type != MessageType.CHAT_MESSAGE) {
+                    this.alpha -= 0.1;
+                    
+                }
+                if (this.type === MessageType.DAMAGE_MESSAGE) {
+                    this.yPos -=7
+                }
                 if (this.fadeCounter > this.timeInFade){
                     
                     this.fadeCounter = 0;
@@ -59,7 +66,7 @@ export default class Messages{
             case MessageState.OFF:
                 this.alpha = 0.0;
 
-                if (this.type === MessageType.DAMAGE_MESSAGE || this.type === MessageType.CHANGE_TURN_MESSAGE){
+                if (this.type != MessageType.HELP_MESSAGE){
 
                     messages.splice(this, 1);
                 }
@@ -87,7 +94,7 @@ export default class Messages{
             case MessageType.HELP_MESSAGE:
                 ctx.font = this.message.size + "px LongaIberica-DEMO";
                 
-                const lines = this.message.initText(language);
+                let lines = this.message.initText(language);
 
                 for (let i = 0; i < lines.length; i++){
                     
@@ -95,7 +102,18 @@ export default class Messages{
                     
                     this.renderHelpMessage(ctx, line);
                 }
-                break
+                break;
+                
+            case MessageType.CHAT_MESSAGE:
+                ctx.font = this.message.texts[0].size + "px LongaIberica-DEMO";
+                
+                const textLines = this.message.texts[0].initText(language);
+
+                for (let i = 0; i < textLines.length; i++){
+                    const line = textLines[i];
+                    this.renderChatMessage(ctx, line);
+                }
+                break;
 
             default:
                 break;
@@ -118,7 +136,13 @@ export default class Messages{
         ctx.fillText(text.text, this.xPos, this.yPos + text.yPos);
         ctx.globalAlpha = 1.0;
     }
-    
+    renderChatMessage(ctx, text){
+        
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.alpha;
+        ctx.fillText(text.text, this.xPos, this.yPos + text.yPos);
+        ctx.globalAlpha = 1.0;
+    }
     renderChangeTurnMessage(ctx){
         
         ctx.fillStyle = 'rgb(0, 0, 0, 0.5)'

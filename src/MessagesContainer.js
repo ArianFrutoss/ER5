@@ -85,7 +85,7 @@ export default class MessagesContainer{
         }
     }
 
-    render(ctx, language){
+    renderDamageAndChangeTurn(ctx, language){
           
         for (let i = 0; i < this.damageMessage.length; i++){
 
@@ -93,15 +93,9 @@ export default class MessagesContainer{
 
             if (message != undefined){
                 
-                message.render(ctx);
+                message.render(ctx, language);
                 ctx.fillStyle = "black";
             }
-        }
-
-        if (this.activeHelpMessage != undefined){
-            
-            this.activeHelpMessage.render(ctx, language);
-            ctx.fillStyle = "black";
         }
 
         if (this.changeTurnMessage[0] != undefined){
@@ -109,5 +103,21 @@ export default class MessagesContainer{
             this.changeTurnMessage[0].render(ctx);
             ctx.fillStyle = "black";
         }
+    }
+
+    renderHelp(ctx, language){
+          
+        if (this.activeHelpMessage != undefined){
+            
+            this.activeHelpMessage.render(ctx, language);
+            ctx.fillStyle = "black";
+        }
+    }
+    createMessage(xPos, yPos, text, type, state, timeInFade, timeInAppear, timeInOn,lineSpace, maxHeigth, maxWidth, size = 80, color = "red"){
+        text = TextContainer.create(text, type, size, lineSpace, maxHeigth, maxWidth)
+        const message = new Messages(xPos, yPos, text, type, state, timeInFade, timeInAppear, timeInOn, size, color);
+        this.damageMessage.push(message)
+        
+        return message
     }
 }

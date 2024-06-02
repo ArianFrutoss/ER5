@@ -12,7 +12,9 @@ export const GameState = {
     LOAD_CONTROLS:  6,
     CONTROLS:       7,
     INVALID:        8,
-    SEND_DATA:      9
+    SEND_DATA:      9,
+    QUICK_HELP:     10,
+    MENU:           11,
 }
 
 export const TurnId = {
@@ -99,6 +101,24 @@ export const SlotsState = {
     HOVER:          2
 }
 
+export const ButttonsId = { 
+    BTN_MOVE:               0,
+    BTN_PREPARE_EVENT:      1,
+    BTN_USE_EVENT:          2,
+    BTN_ATTACK:             3,
+    BTN_END_TURN:           4,
+    BTN_CHANGE_LANGUAGE:    5,
+    BTN_RETURN_TO_MENU:     6,
+    BTN_QUICK_HELP:         7,
+    BTN_PARRY:              8,
+    BTN_NO_PARRY:           9,
+    BTN_LEFT:               10,
+    BTN_RIGHT:              11,
+    BTN_LEAVE_QUICK_HELP:   12,
+    BTN_RETURN_TO_GAME:     13,
+    BTN_RETURN_TO_LOBBY:    14,
+}
+
 export const ButtonState = {
     NOT_SELECTED:   0,
     SELECTED:       1,
@@ -121,10 +141,18 @@ export const ImageTypes = {
     CARD_TYPE: 6,
     BOARD_IMAGE: 7,
     TEAM: 8,
-    BUTTON: 9
+    BUTTON: 9,
+    CHAT_BUBBLE: 10,
+    QUICK_HELP: 11,
+    PARTICLE: 12,
 }
 export const CardImageId = {
-    JOSEPH: 1,
+    JOSEPH:     1,
+    LUCRETIA:   2,
+    ANGELO:     9,
+    THRONE:    10,
+    XG:        11,
+
 }
 export const BorderId = {
     NORMAL_SIZE: 0,
@@ -282,6 +310,10 @@ export const IconsPos = {
     JOSEPH_Y: 77,
     TURN_TIMER_X: 1560,
     TURN_TIMER_Y: 640,
+    EVENT_STATE_X: 44,
+    EVENT_STATE_Y: 77,
+    CHAT_BUBBLE_X: [400,170],
+    CHAT_BUBBLE_Y: [150,830]
 }
 export const MAXIMUN_CARDS_IN_HAND = 5
 
@@ -293,9 +325,10 @@ export const MessageState = {
 }
 
 export const MessageType = {
-    DAMAGE_MESSAGE:     0,
-    HELP_MESSAGE:       1,
-    CHANGE_TURN_MESSAGE: 2
+    DAMAGE_MESSAGE:      0,
+    HELP_MESSAGE:        1,
+    CHANGE_TURN_MESSAGE: 2,
+    CHAT_MESSAGE:        3
 }
 
 export const HelpMessagesPos = {
@@ -303,8 +336,17 @@ export const HelpMessagesPos = {
     Y_POS:   833,
 }
 
+export const ParticleState = {
+    APPEAR: 0,
+    ON:     1,
+    FADE:   2,
+    OFF:    3,
+}
+
 export const TimerId = {
     TURN_TIMER:     0,
+    DISCARD_TIMER:  1,
+    TOOLTIP_TIMER:  2,
 }
 
 export const BaseURL= [
@@ -343,7 +385,9 @@ export const BlockStates = {
 
 export const renderState = {
     GAME:       0,
-    PARRY:      1
+    PARRY:      1,
+    QUICK_HELP: 2,
+    MENU:       3,
 }
 
 export const ScreenSize = {
@@ -380,4 +424,63 @@ export const DurabilityColors = {
     SPELL:  "#800080",
     CURSE:  "#000000",
     BUFF:   "#FFD700"
+}
+
+export const TypeColors = ["red", DurabilityColors.BUFF, DurabilityColors.CURSE, DurabilityColors.BUFF, "white", DurabilityColors.ARMOR, DurabilityColors.WEAPON, DurabilityColors.SPELL];
+
+
+export const ChatMessages = {
+    LUCRETIA:   [["Do not challenge me or you will regret it.", "Ez niri erronkarik egin edo damutuko zara."],
+                 ["I see in the cauldron your fate, it says you will perish.","Kalderoan ikusten dut zure patua, hilko zarela dio."],
+                 ["The moon reveals more than shadows so do not try to hide in the dark.","Ilargiak itzalak baino gehiago erakusten du, beraz, ez saiatu ilunpetan ezkutatzen."]],
+
+    ANGELO:     [["Through the alchemy of the mind, I have unlocked the secrets of eternal vitality.","Gogoaren alkimiaren bidez, betiko bizitasunaren sekretuak desblokeatu ditut."],
+                 ["In the Etazium elixir lies the immortality, distilled from the essence of the stars.","Etazium elixirrean dago hilezkortasuna, izarren esentziatik destilatua."],
+                 ["With each sip of the potion, time itself bends to my will, and mortality banishes.","Edabearen trago bakoitzarekin, denbora bera makurtzen da nire nahiera, eta hilkortasuna baztertu egiten da."]],
+
+    XG:         [["I feel my blood boiling in the face of challenges, despite descending from wizards.","Odola irakiten sentitzen dut erronken aurrean, aztietatik jaitsi arren."],
+                 ["I was born in Evil Tongues, wrestling with my ancestor's legacy.","Evil Tongues-en jaio nintzen, nire arbasoen ondarearekin borrokan."],
+                 ["My glasses reflects your face, scared to the bones.","Nire betaurrekoek zure aurpegia islatzen dute, hezurretaraino beldurtuta."]],
+                 
+    THRONE:     [["Try to posses me, If you dare.","Saiatu ni jabetzen, ausartzen bazara."],
+                 ["Come... Sit here...","Etorri... Eseri hemen..."],
+                 ["I dont belong to this Era,but I'll posses it.","Ez naiz garai honetakoa, baina jabetuko naiz."]],
+
+    JOSEPH:     [["I am no longer a sane man but a vessel of the throne.","Jada ez naiz gizon sanoa, tronuko ontzi bat baizik."],
+                 ["With each passing moment, the throne is consuming me from within.","Pasaten den une bakoitzean tronuak barnetik kontsumitzen nau."],
+                 ["THE CHAIR, WHERE'S MY CHAIR?","AULKIA, NON DAGO NIRE AULKI?"]],
+
+    MINION:     [["",""],
+                 ["",""],
+                 ["",""]]
+
+
+
+}
+
+export const Sound = {
+    NO_SOUND:      -1,
+    GAME_MUSIC:     0,
+    ATTACK_SWORD:   1,
+    ATTACK_CRIT:    2,
+    ATTACK_MISS:    3,
+    ATTACK_PUNCH:   4,
+    ATTACK_PUNCH_CRIT: 5,
+    EQUIP_ARMOR:    6,
+    MOVEMENT:       7,
+    FIREBALL:       8,
+    BUFF:           9,
+    CURSE:          10,
+    DEAD:           11,
+    DRAW:           12
+}
+
+export const BoardCardSizes = {
+    X_SIZE: 133,
+    Y_SIZE: 155,
+}
+
+export const ParticleId = {
+    MOVIMENT:   0,
+    ATTACK:     1,
 }

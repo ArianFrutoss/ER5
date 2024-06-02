@@ -3,7 +3,7 @@ import Mouse from "../Mouse.js";
 import { CardActions, CardId, DecksId, TypeId } from "../constants.js";
 export default class Card{
 
-    constructor(id, texts, image, rarity, category, type = "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX){
+    constructor(id, texts, image, rarity, category, type = "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, toolTip){
 
         this.id             = id;
         // this.name           = name;
@@ -21,6 +21,7 @@ export default class Card{
         this.type           = type; 
         this.xPos           = xPos;
         this.yPos           = yPos;
+        this.toolTip        = toolTip;
         this.size           = CardId.BIG_SIZE;
         this.previousSize   = CardId.BIG_SIZE;
         this.state          = CardId.NOT_SELECTED;
@@ -29,7 +30,6 @@ export default class Card{
         this.previousAction = CardActions.DEFAULT;
         this.deck
         // this.objective      = objective;
-  	
     }
     updateScale(mouse, decks){
         

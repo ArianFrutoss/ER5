@@ -18,8 +18,15 @@ function login(){
         body: JSON.stringify(user)
         
     })
-    .then((res) => res.json())
     .then((res) => {
+        if(!res.ok){
+            throw new Error("Error al iniciar sesion");
+        }else{
+            return res.json();
+        }
+    })
+    .then((res) => {
+        
 
         if (res != undefined){
             localStorage.setItem("username", res.username);
@@ -70,6 +77,17 @@ function login(){
 
         }
     })
+    .catch((error) => {
+        console.error(error.message);
+
+        const errorBox = document.getElementById("error-message"); 
+        let divError = document.getElementById("error");
+        const p = document.createElement("p");
+        p.textContent = "datos incorrectos";
+        divError.appendChild(p);
+        errorBox.style.display = "block";
+    
+    })
 }
 
 function goToRegister(){
@@ -94,9 +112,51 @@ function register(){
         username: document.getElementById("user_register").value,
         password: document.getElementById("password_register").value,
         password2: document.getElementById("password_confirm").value
-        };
+    };
 
-    if(user.password === user.password2){
+    const errorBox = document.getElementById("error-message-register");
+    let divError = document.getElementById("error-register");
+    const p = document.createElement("p");
+
+    divError.innerHTML = " <i class='bx bx-error'></i>";
+    
+    if(user.password === "" && user.email === "" && user.username === "" && user.password2 === ""){
+        
+        p.textContent = "Rellena los datos";
+        divError.appendChild(p);
+        errorBox.style.display = "block";
+        
+
+    }else if(user.username === ""){
+
+        p.textContent = "Introduce el usuario";
+        divError.appendChild(p);
+        errorBox.style.display = "block";
+
+    }else if(user.email === ""){
+
+        p.textContent = "Introduce el email"
+        divError.appendChild(p);
+        errorBox.style.display = "block";
+
+    }else if(user.password === ""){
+        p.textContent = "Introduce una contraseña"
+        divError.appendChild(p);
+        errorBox.style.display = "block";
+
+    }else if(user.password2 === ""){
+
+        p.textContent = "Confirma la contraseña";
+        divError.appendChild(p);
+        errorBox.style.display = "block";
+
+    }else if(user.password !== user.password2 && user.username !== "" && user.email !== ""){
+
+        p.textContent = "Las contraseñas no coinciden";
+        divError.appendChild(p);
+        errorBox.style.display = "block";
+
+    }else if(user.password === user.password2 && user.username !== "" && user.email !== ""){
             fetch(`${BaseURL[BaseURLValue]}/register`, {
             method: "POST",
             headers: {
@@ -104,11 +164,13 @@ function register(){
             },
             body: JSON.stringify(user)
         })
-        .then((res) => res)
         .then((res) => {
-            console.log(res);
-            
-            if (res != undefined){
+            if(!res.ok){
+                
+                throw new Error("Error al registrarse");
+            }
+
+            else{
 
                 let gameScreen = document.getElementById("login");
                 gameScreen.style.display = "block";
@@ -122,11 +184,16 @@ function register(){
                 let register = document.getElementById("register");
                 register.style.display = "none";
             }
-        });
-    }else{
-        window.alert("las contraseñas no coinciden");
+        })
+        
+        .catch((error) => {
+            console.error(error.message)
+
+            p.textContent = error.message;
+            divError.appendChild(p);
+            errorBox.style.display = "block";
+        })
     }
-    
 }
 
 function startPlaying(){

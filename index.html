@@ -5,11 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./media/css/styles.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
+    <link rel="icon" type="image/png" sizes="16x16" href="./media/images/others/favicon-16x16.png">
     <title>ER5</title>
     
 </head>
 <body>
+    <audio id="gameMusic">
+        <source src="./media/sounds/music/tavern.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="attack">
+        <source src="./media/sounds/sfx/swing.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="critical">
+        <source src="./media/sounds/sfx/swing2.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="blunt">
+        <source src="./media/sounds/sfx/miss.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="melee">
+        <source src="./media/sounds/sfx/punch.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="melee_crit">
+        <source src="./media/sounds/sfx/punch2.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="equip">
+        <source src="./media/sounds/sfx/equip_armor.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="movement">
+        <source src="./media/sounds/sfx/foot_steps.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="fireball">
+        <source src="./media/sounds/sfx/fireball.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="buff">
+        <source src="./media/sounds/sfx/buff.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="curse">
+        <source src="./media/sounds/sfx/curse.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="dead">
+        <source src="./media/sounds/sfx/dead.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="draw">
+        <source src="./media/sounds/sfx/draw_card.mp3" type="audio/mpeg">
+    </audio>
+
     <div id="overlay" class="overlay"></div>
     <canvas id="gameScreen" width="1920" height="1080">
         Your browser does not support the HTML5 canvas tag
@@ -25,7 +65,11 @@
             <input id="password" type="password" name="password" value="" placeholder="Password">
             <i class='bx bxs-lock-alt' ></i>
         </div>
-
+        <div id="error-message">
+            <div class="error" id="error">
+                <i class='bx bx-error'></i>
+            </div>
+        </div>
         <button id = "enterLogin" class="btn">Login</button>
         <!-- <button id = "goToRegister" class="btn" onclick="goToRegister()">If you don't have acount go to register</button> -->
         <div class="register-link">
@@ -48,8 +92,13 @@
             <i class='bx bxs-lock-alt' ></i>
         </div>
         <div class="input-box">
-            <input id = "password_confirm" type="password" name="password2" placeholder="confirm password">
+            <input id = "password_confirm" type="password" name="password2" placeholder="Confirm password">
             <i class='bx bxs-lock-alt' ></i>
+        </div>
+        <div id="error-message-register">
+            <div class="error" id="error-register">
+               
+            </div>
         </div>
         <button id = "enterRegister" class="btn" >Register</button>
     </section>
@@ -99,8 +148,8 @@
                 <canvas hidden id="damageStats"></canvas>
             </div>
 
-            <div hidden id ="games"class="statsDiv">
-                <p hidden class="title"> VS. Players</p>
+            <div hidden id ="games" class="statsDiv">
+                <p hidden id ="vsPlayer" class="title"> VS. Players</p>
                 <div id = "content">
 
                 </div>

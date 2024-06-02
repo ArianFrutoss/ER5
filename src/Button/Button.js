@@ -1,30 +1,49 @@
-import { ButtonState, LanguageId } from "../constants.js";
+import { ButtonState, ButttonsId, LanguageId, PhaseStates, TurnStates, renderState } from "../constants.js";
+import ButtonContainer from "./ButtonContainer.js";
 
 export default class Button {
 
-    constructor(ctx, x, y, width, height,  text, state, phaseState, renderState, img){
+    constructor(id, ctx, x, y, width, height,  text, state, phaseState, renderState, img){
         
-        this.ctx        = ctx;
-        this.x          = x;
-        this.y          = y;
-        this.width      = width;
-        this.height     = height;
-        this.text       = text;
-        this.state      = state;
-        this.phaseState = phaseState;
-        this.color      = "#582900";
-        this.img        = img;
+        this.id             = id;
+        this.ctx            = ctx;
+        this.x              = x;
+        this.y              = y;
+        this.width          = width;
+        this.height         = height;
+        this.text           = text;
+        this.state          = state;
+        this.phaseState     = phaseState;
+        this.renderState    = renderState;
+        this.color          = "#582900";
+        this.img            = img;
 }
 
     render(language){
-        if (this.height>70) {
+        if (this.height > 70 && this.height < 100) {
             this.ctx.drawImage(this.img, this.x, this.y)
             
         }
 
+        if (this.renderState === renderState.MENU){
+
+            this.ctx.filter = "blur(0px)";
+        }
+
         if (this.state === ButtonState.SELECTED) {
             this.ctx.fillStyle = "#C36F29";
-            this.ctx.fillRect(this.x+8, this.y+9, this.width, this.height); // Llamada a la función para dibujar un rectángulo redondeado
+
+            if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE && this.id != ButttonsId.BTN_RETURN_TO_MENU && this.id != ButttonsId.BTN_QUICK_HELP){
+
+                this.ctx.fillRect(this.x+8, this.y+9, this.width, this.height); 
+            }else{
+                // Llamada a la función para dibujar un rectángulo redondeado
+                this.ctx.beginPath();
+                this.ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
+                this.ctx.fill();
+                this.ctx.closePath();
+            }
+            
             this.ctx.fillStyle = 'rgb(22, 22, 2)';
         }else{
             this.ctx.fillStyle = 'rgb(242, 211, 6)';
@@ -67,39 +86,49 @@ export default class Button {
         ctx.closePath();
     }
 
-    update(mouse){
-        const state = this.state;
-   
-    
-        const isCollidingWithMouse = mouse.isCollidingWithButton(this);
+    update(mouse, buttonContainer, turn, timer){
         
-        // MAQUINA DE ESTADOS
-        switch(state){
-            case ButtonState.NOT_SELECTED:
+        const state = this.state;
+        const isCollidingWithMouse = mouse.isCollidingWithButton(this);
+        const isAnyButtonSelected = buttonContainer.isAnyButtonSelected();
+
+        if (turn.actionsCounter < turn.maxActions && turn.state != TurnStates.INITIALIZE && timer.value > 0 || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_CHANGE_LANGUAGE || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_RETURN_TO_MENU){
             
-                this.state = isCollidingWithMouse ? ButtonState.HOVER : ButtonState.NOT_SELECTED;
-                this.color = "#582900";
+            // MAQUINA DE ESTADOS
+            switch(state){
+                case ButtonState.NOT_SELECTED:
+                
+                    this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
+                    this.color = "#582900";
+                    break;
 
-                break;
+                case ButtonState.HOVER:
 
-            case ButtonState.SELECTED:
-                this.color = "red";
-                this.state = isCollidingWithMouse && mouse.rightClick ? ButtonState.NOT_SELECTED : ButtonState.SELECTED;
-                break;
+                    this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
 
-            case ButtonState.HOVER:
-    
-                this.state = isCollidingWithMouse ?  ButtonState.HOVER : ButtonState.NOT_SELECTED;
-                this.state = mouse.leftClick ? ButtonState.SELECTED: ButtonState.NOT_SELECTED;
-                break;
+                    if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE && this.id != ButttonsId.BTN_RETURN_TO_MENU && this.id != ButttonsId.BTN_QUICK_HELP){
+
+                        this.state = !mouse.leftClick && !isAnyButtonSelected && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
+                    }
+
+                    else{
+
+                        this.state = !mouse.leftClick && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
+                    }
+                    
+                    break;
+
+                case ButtonState.SELECTED:
+                    
+                    this.state = !mouse.leftClick && mouse.previousStateLeft && isCollidingWithMouse ? ButtonState.NOT_SELECTED : this.state;
+                    this.color = "red";
+                    break;
+            }
         }
-
-
     }
 
     deselect(){
 
         this.state = ButtonState.NOT_SELECTED;
     }
-    
 }

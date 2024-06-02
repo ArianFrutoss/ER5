@@ -1,4 +1,4 @@
-import { CardId } from "../../constants.js";
+import { CardId, ScreenSize } from "../../constants.js";
 import Phase from "./Phase.js";
 import { PhaseStates, messageDiscardPhase } from "../../constants.js";
 
@@ -10,12 +10,17 @@ export default class DiscardPhase extends Phase{
         this.graveyardDeck  = graveyardDeck;
         this.mouse          = mouse
     }
-    execute(messagesContainer){
+    execute(messagesContainer, value){
         this.handDeck.update(this.mouse, this.handDeck)
         
         messagesContainer.activeMessage(messageDiscardPhase);
         
         if (this.handDeck.cards.length > 4) {
+
+            if (value <= 0){
+                
+                this.handDeck.autoSelectAnyCard();
+            }
 
             const isAnyCardSelected = this.handDeck.isAnyCard(this.handDeck, CardId.SELECTED)
             if (isAnyCardSelected[0]) {
@@ -26,8 +31,8 @@ export default class DiscardPhase extends Phase{
                 this.graveyardDeck.cards.push(card)
                 card.setDeck(this.graveyardDeck)
                 card.state = CardId.NOT_SELECTED
-                card.xPos =  -500
-                card.yPos =  -500
+                card.xPos = 2200;
+                card.yPos = 1200;
                 return false
             }
         }else {

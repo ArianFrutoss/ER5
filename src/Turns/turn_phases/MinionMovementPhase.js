@@ -1,5 +1,7 @@
 import Phase from "./Phase.js";
-import { CardId, SlotsState, PhaseStates, messageMovimentPhase1, messageMovimentPhase2 } from "../../constants.js";
+import { CardId, SlotsState, PhaseStates, messageMovimentPhase1, messageMovimentPhase2, Sound, BoardCardSizes } from "../../constants.js";
+import globals from "../../globals.js";
+import ParticlesContainer from "../../ParticlesContainer.js";
 
 export default class MinionMovementPhase extends Phase {
 
@@ -9,12 +11,13 @@ export default class MinionMovementPhase extends Phase {
         this.enemyActiveMinionDeck = enemyActiveMinionDeck  // Deck de minions enemigos activos
         this.boardGrid = boardGrid;             // Grid del tablero
         this.mouse = mouse;                    // Objeto Mouse
+        this.sound = false
     }
 
-    execute(messagesContainer){
+    execute(messagesContainer, particlesContainer, soundManager){
 
         this.boardGrid.cancelAviableSlots();
-        this.activeMinionDeck.update(this.mouse, this.activeMinionDeck)
+        this.activeMinionDeck.update(this.mouse, this.activeMinionDeck);
         this.boardGrid.update(this.mouse, [this.activeMinionDeck, this.enemyActiveMinionDeck]);
 
         const isAnyCardSelected = this.activeMinionDeck.isAnyCard(this.activeMinionDeck, CardId.SELECTED);
@@ -61,22 +64,58 @@ export default class MinionMovementPhase extends Phase {
         if (minionSelected != undefined && minionSelected.speed >= distance){
 
             if (isAnySlotSelected[0]){
-
-                this.moveMinion(minionSelected, slotSelected);
-                this.boardGrid.clearSlots();
-                return true;
+                if(!this.sound){
+                    soundManager.currentSound = Sound.MOVEMENT
+                    this.sound = true
+                }
+                const isMovementFinish = this.moveMinion(minionSelected, slotSelected, particlesContainer);
+                this.boardGrid.cancelAviableSlots();
+                
+                if (isMovementFinish){
+                    this.sound = false
+                    this.boardGrid.clearSlots();
+                    return true;
+                }
             }
         }
-
-
     }
 
     // funcion para realizar el movimiento
-    moveMinion(minionSelected, slotSelected){
+    moveMinion(minionSelected, slotSelected, particlesContainer){
 
-        minionSelected.xPos = slotSelected.xPos;
-        minionSelected.yPos = slotSelected.yPos;
-        minionSelected.state = CardId.NOT_SELECTED;
+        let speed = 350;
+
+        const xDistance = slotSelected.xPos - minionSelected.xPos;
+        const yDistance = slotSelected.yPos - minionSelected.yPos;
+        const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+
+        if (distance <= 15){
+
+            speed = 30;
+        }
+
+        let vX = speed * (xDistance / distance);
+        let vY = speed * (yDistance / distance);
+
+        const minionXPos = minionSelected.xPos;
+        const minionYPos = minionSelected.yPos;
+        const minionXSize = BoardCardSizes.X_SIZE;
+        const minionYSize = BoardCardSizes.Y_SIZE;
+        const minionXSpeed = 20 * (xDistance / distance);
+        const minionYSpeed = 20 * (yDistance / distance);
+
+        particlesContainer.createMoviment(minionXPos, minionYPos, minionXSize, minionYSize, minionXSpeed, minionYSpeed);
+
+        minionSelected.xPos += vX * globals.deltaTime;
+        minionSelected.yPos += vY * globals.deltaTime;
+
+        if (distance < 5){
+            
+            minionSelected.xPos = slotSelected.xPos;
+            minionSelected.yPos = slotSelected.yPos;
+            minionSelected.state = CardId.NOT_SELECTED;
+            return true;
+        }
     }
 
     isPhaseCancelled(buttonContainer){

@@ -1,4 +1,4 @@
-import { IconsPos } from "./constants.js";
+import { IconsPos, TimerId } from "./constants.js";
 import globals from "./globals.js";
 
 export default class Timer{
@@ -34,7 +34,6 @@ export default class Timer{
     }
 
     restart(){
-
         // Reseteamos el Timer
         this.value = this.previousValue;
     }
@@ -45,5 +44,32 @@ export default class Timer{
         ctx.fillText(valueRender, IconsPos.TURN_TIMER_X, IconsPos.TURN_TIMER_Y)
         ctx.strokeText(valueRender, IconsPos.TURN_TIMER_X, IconsPos.TURN_TIMER_Y)
         ctx.fillStyle = "black"
+    }
+
+    static createTooltip(){
+
+        const timer = new Timer(0, 1, TimerId.TOOLTIP_TIMER);
+
+        return timer;
+    }
+
+    updatePlus(){
+        if (this.value <= 0){
+            
+            // Reseteamos el Timer
+            this.value = this.previousValue;
+        }
+
+        // Incrementamos el contador de cambio de valor
+        this.timerChangeCounter += globals.deltaTime;
+
+        // Si ha pasado el tiempo necesario, cambiamos el valor del timer
+        if (this.timerChangeCounter > this.timerChangeValue){
+
+            this.value++;
+
+            // Reseteamos timeChangeCounter
+            this.timerChangeCounter = 0;
+        }
     }
 }

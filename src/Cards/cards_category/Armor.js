@@ -1,10 +1,11 @@
-import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId, DurabilityColors, TypeNames} from "../../constants.js";
+import Messages from "../../Messages.js";
+import { BorderId, CardActions, CardId, IconsPos, IconsId, VFXId, StatsId, DecksId, DurabilityColors, TypeNames, MessageType, MessageState, TurnStates, ScreenSize} from "../../constants.js";
 import Card from "../Card.js";
 
 export default class Armor extends Card{
-    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, health, attack, defense, speed, durability, cooldown){
+    constructor(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse,imageVFX, health, attack, defense, speed, durability, cooldown, toolTip){
         
-        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX);
+        super(id, texts, image, rarity, category, type, xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, imageVFX, toolTip);
 
             this.health     = health;
             this.previousHealth = health
@@ -18,19 +19,17 @@ export default class Armor extends Card{
             this.previousDurability = durability
             this.cooldown   = cooldown;
             this.previousCooldown = cooldown;
-            this.toolTip = [("Name: " ), ("Type: " + this.category)]
 
     }
-    updateScale(mouse, decks){
+    updateScale(mouse, decks, turnState){
         const isAnyCardScaled = this.deck.isAnyCard(decks, CardId.SCALED)
-        if (!isAnyCardScaled[0]) {
+        if (!isAnyCardScaled[0] && turnState != TurnStates.INITIALIZE) {
             const isCollidingWithMouse = mouse.isCollidingWithCard(this)
             
             switch (this.state) {
                 case CardId.NOT_SELECTED:
 
                     this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
-
                     break;
 
                 case CardId.HOVER:
@@ -47,7 +46,7 @@ export default class Armor extends Card{
             this.state = !mouse.rightClick && mouse.previousStateRight ? CardId.NOT_SELECTED : this.state
         }
     }
-    update(mouse, decks){
+    update(mouse, decks, messagesContainer){
     
         const isAnyCardScaled   = this.deck.isAnyCard(decks, CardId.SCALED)
         const isAnyCardSelected = this.deck.isAnyCard(decks, CardId.SELECTED)
@@ -59,7 +58,6 @@ export default class Armor extends Card{
                 case CardId.NOT_SELECTED:
                     
                     this.state = isCollidingWithMouse ? this.state = CardId.HOVER : CardId.NOT_SELECTED
-                    
                     break;
     
                     case CardId.HOVER:
@@ -87,15 +85,38 @@ export default class Armor extends Card{
                     break;
             }
         } 
-            this.previousState = this.state
-        this.armorLogic()
+
+        if (messagesContainer != undefined){
+
+            if (this.cooldown < this.previousCooldown && this.action === CardActions.COOLDOWN && this.cooldown === Math.floor(this.cooldown)){
+
+                const message = new Messages(this.xPos, this.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+                messagesContainer.addMessage(message);
+            }
+        }
+
+        this.previousState = this.state
+        this.armorLogic();
     }
     armorLogic(){
         switch (this.action) {
             case CardActions.COOLDOWN:
-                this.action = this.cooldown === 0 ? CardActions.READY : this.action
+                this.action = this.cooldown <= 0 ? CardActions.READY : this.action
                 break;
-        
+
+            case CardActions.READY:
+
+                break;
+
+            case CardActions.WORN_OUT:
+
+                break;
+            
+            case CardActions.ON_USE:
+                if (this.durability <= 0) {
+                    this.action = CardActions.WORN_OUT;
+                }
+                break;
             default:
                 break;
         }
@@ -130,8 +151,8 @@ export default class Armor extends Card{
 
     restoreValues(){
 
-        this.xPos = -400;
-        this.yPos = -400;
+        this.xPos = 2200;
+        this.yPos = 1200;
         this.health = this.previousHealth;
         this.defense = this.previousDefense;
         this.attack = this.previousAttack;
@@ -144,6 +165,7 @@ export default class Armor extends Card{
     }
 
     render(ctx, language, equipped = false, xPosModifier = 0, yPosModifier = 0){
+
         let xPos = this.xPos
         let yPos = this.yPos
         ctx.fillStyle = "black"
@@ -283,9 +305,6 @@ export default class Armor extends Card{
                             ctx.fillText(attackRender, IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
                             ctx.strokeText(Math.ceil(attackRender), IconsPos.FOURTH_ICON_NUMBER_X[size] +    xPos, IconsPos.FOURTH_ICON_NUMBER_Y[size] + yPos);
                     }
-
-
-                    if (size === CardId.EVENT_SIZE){
                         
                         if(size === CardId.EVENT_SIZE){
                             
@@ -341,8 +360,13 @@ export default class Armor extends Card{
                                     IconsPos.EVENT_CD_IMAGE_X + xPos, IconsPos.EVENT_CD_IMAGE_Y + yPos);
                                     
                             }
+
+                            ctx.font = "bold 12px LongaIberica-DEMO";
+                            const eventState = this.checkState()
+                            ctx.fillText(eventState[language], xPos + IconsPos.EVENT_STATE_X, yPos + IconsPos.EVENT_STATE_Y);
+
                         }
-                    }
+                    
 
             } else {
                 
@@ -359,22 +383,34 @@ export default class Armor extends Card{
                 }
             
     }
-    renderToolTip(xPos, yPos, language, ctx){
-        ctx.fillStyle = '#d59d00'
-        ctx.fillRect(xPos, yPos, 178, 63 ) 
+    checkState(){
 
-        ctx.fillStyle = '#362315'
-        ctx.fillRect(xPos + 3, yPos + 3, 172, 57 ) 
-        ctx.fillStyle = 'white'
-        
-        ctx.font ="15px LongaIberica-DEMO"
-        ctx.fillText('Name: ', xPos+35, yPos+20)
-        this.texts.texts[1].render(ctx, xPos-5, yPos-217, language) 
+        switch (this.action){
 
-        ctx.fillText('Type:', xPos+36, yPos+40)
-        ctx.fillText(TypeNames[this.category], xPos+115, yPos+40)
-        
+            case CardActions.COOLDOWN:
+                return ["NOT READY","PREST EZ"];
+            
+            case CardActions.READY:
+                return ["READY", "PREST"];
+
+            case CardActions.ON_USE:
+                return ["APPLIED", "ERABILITA"];
+
+            default:
+                break;
+        }
     }
+    
+    checkTooltip(){
+        if(this.state === CardId.HOVER){
+            
+            return true;
+        }else{
+            this.toolTip.timer.restart();
+            return false;
+        }
+    }
+
     checkIconColor(stat, previousStat) {
         if (stat < previousStat) {
             return "red"
@@ -384,7 +420,7 @@ export default class Armor extends Card{
             return "white"
         }
     }
-    static create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx,){
+    static create(id, texts, image, rarity, type, xPos, yPos, attributes, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, toolTip){
         
     let attack = attributes[StatsId.DAMAGE];
         if (!attack) {
@@ -410,7 +446,7 @@ export default class Armor extends Card{
         }
 
 
-        const armor = new Armor(id, texts, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, health, attack, defense, speed, durability, cooldown);
+        const armor = new Armor(id, texts, image, rarity, type, "Melee", xPos, yPos, imageRarity, imageAttributes, imageBorders, imageCategory, imageReverse, vfx, health, attack, defense, speed, durability, cooldown, toolTip);
 
         return armor;
     }

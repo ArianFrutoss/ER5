@@ -1,4 +1,4 @@
-import { BuffId, CardActions, CardId, CardImageId, MAXIMUN_CARDS_IN_HAND , PhaseStates} from "../../constants.js";
+import { BuffId, CardActions, CardId, CardImageId, MAXIMUN_CARDS_IN_HAND , PhaseStates, Sound} from "../../constants.js";
 import Phase from "./Phase.js";
 
 export default class DrawCardPhase extends Phase{
@@ -11,7 +11,7 @@ export default class DrawCardPhase extends Phase{
         this.graveyardDeck  = graveyardDeck;
         this.josephDeck     = josephDeck;
     }
-    execute(eventContainer, quantity = 1){
+    execute(eventContainer, soundManager, quantity = 1){
         for (let i = 0; i < quantity; i++) {
             if (this.eventDeck.cards.length > 0) {                
                 if (this.handDeck.cards.length < MAXIMUN_CARDS_IN_HAND) {
@@ -29,9 +29,8 @@ export default class DrawCardPhase extends Phase{
                         card.setDeck(this.handDeck)
                         this.eventDeck.cards.pop();            
                     }
+                    soundManager.currentSound = Sound.DRAW
                 }            
-                
-
             } else {
                 this.restoreEventDeck()
                 i--

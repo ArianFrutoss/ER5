@@ -210,6 +210,9 @@ export default class Game {
         // Funcion para cambio de idioma
         this.changeLanguage();
 
+        // Funcion para volver al menu
+        this.returnToMenu();
+
         // Funcion que posiciona las Cards en la posicion de los Slots
         const turn = this.turnContainer.turnContainer[this.currentTurn];
         const enemyTurn = this.turnContainer.turnContainer[(this.currentTurn+1)%2];
@@ -229,6 +232,17 @@ export default class Game {
         if (button.state === ButtonState.SELECTED){
 
             this.language = this.language === LanguageId.ENG ? LanguageId.EUS : LanguageId.ENG;
+            button.state = ButtonState.NOT_SELECTED;
+        }
+    }
+
+    returnToMenu(){
+        
+        const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU];
+
+        if (button.state === ButtonState.SELECTED){
+            
+            this.gameState = GameState.SEND_DATA;
             button.state = ButtonState.NOT_SELECTED;
         }
     }

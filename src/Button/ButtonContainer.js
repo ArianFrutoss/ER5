@@ -26,7 +26,7 @@ export default class ButtonContainer{
         const btnLeaveHelp      = new Button(ButttonsId.BTN_LEAVE_QUICK_HELP, ctx, 1800, 0, 120, 120, ["", ""], ButtonState.NOT_SELECTED, undefined, renderState.QUICK_HELP, assets);
 
 
-        const container = [btnMove, btnPrepareEvent, btnUseEvent, btnAttack, btnEndTurn, btnChangeLanguage, btnQuickHelp, btnReturnToMenu, btnReturnToGame, btnReturnToLobby, btnParry, btnNoParry, btnLeft, btnRight, btnLeaveHelp];
+        const container = [btnMove, btnPrepareEvent, btnUseEvent, btnAttack, btnEndTurn, btnChangeLanguage, btnReturnToMenu, btnQuickHelp, btnParry, btnNoParry, btnLeft, btnRight, btnLeaveHelp, btnReturnToGame, btnReturnToLobby];
 
         return new ButtonContainer(container);
     }

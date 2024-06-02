@@ -114,7 +114,9 @@ export const ButttonsId = {
     BTN_NO_PARRY:           9,
     BTN_LEFT:               10,
     BTN_RIGHT:              11,
-    BTN_LEAVE_QUICK_HELP:   12
+    BTN_LEAVE_QUICK_HELP:   12,
+    BTN_RETURN_TO_GAME:     13,
+    BTN_RETURN_TO_LOBBY:    14,
 }
 
 export const ButtonState = {

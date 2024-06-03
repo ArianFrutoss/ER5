@@ -17,7 +17,7 @@ export default class Mouse {
         this.previousStateRight = this.rightClick;
         const gameScreen = document.getElementById('gameScreen');
         if (this.rightClick || this.leftClick) {
-            gameScreen.style.cursor = 'url(http://www.rw-designer.com/cursor-extern.php?id=207588), auto';
+            gameScreen.style.cursor = 'url("../media/images/others/cursor_click.png"), auto';
         }else{
             gameScreen.style.cursor = 'url("../media/images/others/cursor_normal.png"), auto';
 

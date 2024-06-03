@@ -1,5 +1,5 @@
 import Card from "./Cards/Card.js";
-import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId, Sound } from "./constants.js";
+import { BoardId, BorderId, CardId, CardImageId, DecksId, GameState, GridId, IconsId, IconsPos, ImageTypes, LanguageId, RarityId, TypeId, TurnStates, SlotsState, TurnId, ButtonState, TimerId, PhaseStates, BaseURL, BaseURLValue, MessageState, MessageType, ButttonsId, Sound, renderState } from "./constants.js";
 import Board from "./Board.js";
 import Asset from "./Asset.js";
 import globals from "./globals.js";
@@ -15,10 +15,11 @@ import TimerContainer from "./TimerContainer.js";
 import Messages from "./Messages.js";
 import ParticlesContainer from "./ParticlesContainer.js";
 import SoundManager from "./SoundManager.js";
+import Menu from "./Menu.js";
 
 export default class Game {
 
-    constructor(turnArray, images, language, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, particlesContainer, soundManager) {
+    constructor(turnArray, images, language, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, particlesContainer, soundManager, menu) {
 
         this.turnContainer = turnArray;
         this.images = images
@@ -38,7 +39,9 @@ export default class Game {
         this.finished = false;
         this.particlesContainer = particlesContainer;
         this.soundManager = soundManager;
+        this.menu = menu;
         this.game   = 0;
+        this.tutorial     = 0;
     }
 
     static init(data, canvas, ctx, language) {
@@ -68,9 +71,16 @@ export default class Game {
         const timerContainer = new TimerContainer();
         timerContainer.create();
 
-        const particlesContainer = new ParticlesContainer();
+        const particlesContainer = new ParticlesContainer(assets);
+        
+        const menuXSize = 400;
+        const menuYSize = 200;
+        const menuXPos  = canvas.width / 2 - menuXSize / 2;
+        const menuYpos  = canvas.height / 2 - menuYSize / 2;
+        
+        const menu = new Menu(menuXPos, menuYpos, menuXSize, menuYSize, assets.images[ImageTypes.BUTTON][0]);
 
-        return new Game(turns, assets, language, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, particlesContainer, soundManager);
+        return new Game(turns, assets, language, deckContainer, board, eventContainer, null, canvas, ctx, mouse, firstTurn, messages, timerContainer, particlesContainer, soundManager, menu);
     }
 
     update() {
@@ -115,10 +125,14 @@ export default class Game {
                     this.soundManager.sounds[Sound.GAME_MUSIC].play()
                     this.soundManager.sounds[Sound.GAME_MUSIC].volume = 0.4
                 }
-
+                
                 break;
 
             case GameState.PLAYING:
+                const state = this.menu.update(this.turnContainer.buttonContainer, this.gameState);
+                
+                this.turnContainer.buttonContainer.state = state[0];
+                this.gameState = state[1];
                 this.updateGame();
                 this.soundManager.gameState = this.gameState
                 this.soundManager.playSound()
@@ -127,7 +141,7 @@ export default class Game {
                 this.turnContainer.turnContainer[this.currentTurn].update(this.mouse, this.turnContainer.turnContainer[(this.currentTurn+1)%2].activeMinionDeck, this.messagesContainer, this.timerContainer, this.particlesContainer);
                 this.mouse.update();
                 this.particlesContainer.update();
-
+                
                 if(this.turnContainer.turnContainer[this.currentTurn].activeMinionDeck.cards.length +
                    this.turnContainer.turnContainer[this.currentTurn].minionDeck.cards.length === 0){
                     this.gameState = GameState.SEND_DATA;
@@ -157,9 +171,33 @@ export default class Game {
                 break;
 
             case GameState.SEND_DATA:
-
                 this.sendStatsData();
                 this.gameState = GameState.GAMEOVER;
+                break;
+
+            case GameState.MENU:
+
+                this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
+                this.soundManager.gameState = this.gameState
+                this.soundManager.playSound()
+                this.mouse.update();
+
+                const states = this.menu.update(this.turnContainer.buttonContainer, this.gameState);
+                    
+                this.turnContainer.buttonContainer.state = states[0];
+                this.gameState = states[1];
+                break;
+
+            case GameState.QUICK_HELP:
+                this.soundManager.gameState = this.gameState
+                this.soundManager.playSound()
+                this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
+                this.changeHelpImage();
+                
+                this.mouse.update();
+                this.returnToGameIfBtnSelected();
+                break;
+
             default:
 
                 break;
@@ -174,10 +212,14 @@ export default class Game {
                 //draw load spinner
                 break;
 
+            case GameState.MENU:
             case GameState.PLAYING:
                 this.renderGame();
                 break;
-
+            
+            case GameState.QUICK_HELP:
+                this.renderHelp();
+                break;
 
             case GameState.GAMEOVER:
 
@@ -198,23 +240,27 @@ export default class Game {
         // Funcion para renderizar Board
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer, this.currentTurn);
         this.timerContainer.render(this.ctx, this.turnContainer.turnContainer[this.currentTurn].phaseState);
-        this.turnContainer.buttonContainer.renderButtons(this.language);
         this.messagesContainer.renderHelp(this.ctx, this.language);
-        this.particlesContainer.render(this.ctx);
+        this.particlesContainer.renderMoviment(this.ctx);
+        this.menu.render(this.ctx, this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU]);
+        this.turnContainer.buttonContainer.renderButtons(this.language);
         this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
+        this.particlesContainer.renderAttack(this.ctx);
         this.messagesContainer.renderDamageAndChangeTurn(this.ctx, this.language);
     }
 
     renderGameOver(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         const gameScreen = document.getElementById("gameScreen");
-        gameScreen.style.background = "url(/media/images/background/tablonAnunciosOver.jpg) no-repeat bottom";
+        gameScreen.style.background = "url(../media/images/background/tablonAnunciosOver.png) no-repeat bottom";
+
+        const border  = this.images.images[ImageTypes.CARD_BORDER][BorderId.SMALL_SIZE]
 
 
         this.ctx.fillStyle = "black";
 
-        const winnerXPos = 650;
-        const loserXPos  = 1050;
+        const winnerXPos = 770;
+        const loserXPos  = 1170;
 
 
         const p1MeleHits        = this.game.players[0].meleeHits;
@@ -230,32 +276,45 @@ export default class Game {
         const loserCharacter    = this.game.loserCharacter;
 
         this.ctx.font = 30 + "px LongaIberica-DEMO";
-        this.ctx.fillText("GAME OVER", 870, 440);
+        this.ctx.fillText("GAME OVER", 970, 440);
 
-        this.ctx.drawImage(this.game.winnerCharacter.image[1], winnerXPos, 400);
-        this.ctx.drawImage(this.game.loserCharacter.image[1], loserXPos + 100, 400);
+        this.ctx.drawImage(this.game.winnerCharacter.image[1], winnerXPos - 50, 500);
+        this.ctx.drawImage(border, winnerXPos - 50, 500);
+        this.ctx.drawImage(this.game.loserCharacter.image[1], loserXPos -50, 500);
+        this.ctx.drawImage(border, loserXPos -50, 500);
 
 
-        this.ctx.fillText("Winner: " + this.game.winner, winnerXPos, 600);
-        this.ctx.fillText("Melee Hits: " + p1MeleHits, winnerXPos, 640);
-        this.ctx.fillText("Ranged Hits: " + p1RangeHits, winnerXPos, 680);
-        this.ctx.fillText("Damage Done: " + p1DoneDamage, winnerXPos, 720);
-        this.ctx.fillText("Damage Received: " + p1DamageReceived, winnerXPos, 760);
+        this.ctx.fillText("Winner: " + this.game.winner, winnerXPos, 700);
+        this.ctx.fillText("Melee Hits: " + p1MeleHits, winnerXPos, 740);
+        this.ctx.fillText("Ranged Hits: " + p1RangeHits, winnerXPos, 780);
+        this.ctx.fillText("Damage Done: " + p1DoneDamage, winnerXPos, 820);
+        this.ctx.fillText("Damage Received: " + p1DamageReceived, winnerXPos, 860);
 
-        this.ctx.fillText("Loser: " + this.game.loser, loserXPos, 600);
-        this.ctx.fillText("Melee Hits: " + p2MeleHits, loserXPos, 640);
-        this.ctx.fillText("Ranged Hits: " + p2RangeHits, loserXPos, 680);
-        this.ctx.fillText("Damage Done: " + p2DoneDamage, loserXPos, 720);
-        this.ctx.fillText("Damage Received: " + p2DamageReceived, loserXPos, 760);
+        this.ctx.fillText("Loser: " + this.game.loser, loserXPos, 700);
+        this.ctx.fillText("Melee Hits: " + p2MeleHits, loserXPos, 740);
+        this.ctx.fillText("Ranged Hits: " + p2RangeHits, loserXPos, 780);
+        this.ctx.fillText("Damage Done: " + p2DoneDamage, loserXPos, 820);
+        this.ctx.fillText("Damage Received: " + p2DamageReceived, loserXPos, 860);
 
-        this.ctx.fillText("Click to return to lobby.", 790, 840);
+        this.ctx.fillText("Click to return to lobby.", 970, 930);
 
+    }
+    
+    renderHelp(){
+        this.ctx.filter = "blur(3px)";
+        this.renderGame()
+        this.ctx.filter = "blur(0px)";
+        const images = this.images.images[ImageTypes.QUICK_HELP]
+        this.ctx.drawImage( images[this.tutorial], 0, 0)
     }
 
     updateGame() {
 
         // Funcion para cambio de idioma
         this.changeLanguage();
+
+        //Tutoriales
+        this.showHelpIfBtnSelected();
 
         // Funcion que posiciona las Cards en la posicion de los Slots
         const turn = this.turnContainer.turnContainer[this.currentTurn];
@@ -280,6 +339,50 @@ export default class Game {
         }
     }
 
+    showHelpIfBtnSelected(){
+        const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_QUICK_HELP];
+
+        if (button.state === ButtonState.SELECTED){
+            this.gameState = GameState.QUICK_HELP;
+            this.turnContainer.buttonContainer.state = renderState.QUICK_HELP;
+            button.state = ButtonState.NOT_SELECTED;
+        }
+    }
+
+    changeHelpImage(){
+        const left = this.turnContainer.buttonContainer.container[ButttonsId.BTN_LEFT];
+        const right = this.turnContainer.buttonContainer.container[ButttonsId.BTN_RIGHT];
+
+        if (left.state === ButtonState.SELECTED){
+            this.tutorial--;
+            if (this.tutorial < 0) {
+                this.tutorial = 0;
+            }
+            left.state = ButtonState.NOT_SELECTED;
+        }
+
+        if (right.state === ButtonState.SELECTED){
+            this.tutorial++;
+            if (this.tutorial > 4) {
+                this.tutorial = 4;
+            }
+            right.state = ButtonState.NOT_SELECTED;
+        }
+    }
+
+    returnToGameIfBtnSelected(){
+        const button = this.turnContainer.buttonContainer.container[ButttonsId.BTN_LEAVE_QUICK_HELP];
+
+        if (button.state === ButtonState.SELECTED){
+            this.gameState = GameState.PLAYING;
+            this.turnContainer.buttonContainer.state = renderState.GAME;
+            this.tutorial--;
+            if (this.tutorial < 0) {
+                this.tutorial = 0;
+            }
+            button.state = ButtonState.NOT_SELECTED;
+        }
+    }
     // Funcion que roba las Cards del EventDeck y las asigna al HandDeck
     assignCardsToHand(eventDeck, handDeck) {
         for (let i = handDeck.cards.length; i < 5; i++) {
@@ -493,6 +596,7 @@ export default class Game {
         enemyTurn.mainCharacter.xPos = xTemp
         enemyTurn.mainCharacter.yPos = yTemp
     }
+
     setRotationPos(card, position){
         const rows = this.gridsArray.grids[GridId.BOARD_GRID].slots
         switch (position) {
@@ -516,6 +620,30 @@ export default class Game {
         }
     }
 
+    // mover a turncontainer
+    updateTurns(){
+        this.turnChange();
+    }
+
+    turnChange(){
+        console.log(this.turnArray.turnContainer[0].active);
+
+        setTimeout(() => {
+            this.turnArray.turnContainer[0].active = true;
+        }, 3000)
+
+        if(this.turnArray.turnContainer[0].active){
+            console.log("turno player 1");
+            // turno player 1
+
+        }else if(this.turnArray.turnContainer[1].active){
+
+            // Turno player 2
+            console.log("turno player 2");
+
+        }
+    }
+
     // Enviar datos objeto game
     sendStatsData(){
         const player1 = this.turnContainer.turnContainer[0];
@@ -534,10 +662,15 @@ export default class Game {
 
         const player1hp    = player1.minionDeck.cards.length + player1.activeMinionDeck.cards.length;
 
-        const winner = player1hp > 0 ? p1MongoId : p2MongoId;
-        const loser  = player1hp === 0 ? p1MongoId : p2MongoId;
+        let winner = player1hp > 0 ? p1MongoId : p2MongoId;
+        let loser  = player1hp === 0 ? p1MongoId : p2MongoId;
 
-
+        if (this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_LOBBY].state === ButtonState.SELECTED){
+            
+            winner  = this.currentTurn   === TurnId.PLAYER_1 ? p2MongoId : p1MongoId;
+            loser   = this.currentTurn   === TurnId.PLAYER_1 ? p1MongoId : p2MongoId;
+        }
+    
         const game = {
             players: [
                 {

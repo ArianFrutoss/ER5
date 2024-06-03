@@ -114,7 +114,6 @@ function register(){
         password2: document.getElementById("password_confirm").value
     };
 
-    console.log(user);
     const errorBox = document.getElementById("error-message-register");
     let divError = document.getElementById("error-register");
     const p = document.createElement("p");
@@ -165,15 +164,13 @@ function register(){
             },
             body: JSON.stringify(user)
         })
-        .then((res) => {res
+        .then((res) => {
             if(!res.ok){
+                
                 throw new Error("Error al registrarse");
             }
-        })
-        .then((res) => {
-            console.log(res);
-            
-            if (res != undefined){
+
+            else{
 
                 let gameScreen = document.getElementById("login");
                 gameScreen.style.display = "block";
@@ -188,6 +185,7 @@ function register(){
                 register.style.display = "none";
             }
         })
+        
         .catch((error) => {
             console.error(error.message)
 

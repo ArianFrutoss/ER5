@@ -1,4 +1,4 @@
-import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, ButtonState, TurnId, Team, BuffId, CurseId, renderState, AttackState, Sound} from "../constants.js";
+import { BoardId, CardId, DecksId, GridId, MovePhaseStates, PhaseStates, TimerId, TurnStates, MessageType , IconsPos, ScreenSize, ButtonState, TurnId, Team, BuffId, CurseId, renderState, AttackState, Sound, ButttonsId} from "../constants.js";
 import globals from "../globals.js";
 import DiscardPhase from "./turn_phases/DiscardPhase.js";
 import DrawCardPhase from "./turn_phases/DrawCardPhase.js";
@@ -242,7 +242,7 @@ export default class Turn {
                 break;
                 
             case PhaseStates.ATTACK:
-                const isAttackFinished  = this.phasesArray[PhaseStates.ATTACK].execute(messagesContainer, this.soundManager);
+                const isAttackFinished  = this.phasesArray[PhaseStates.ATTACK].execute(messagesContainer, particlesContainer, this.soundManager);
                 const isAttackCancelled = this.phasesArray[PhaseStates.ATTACK].isPhaseCancelled(this.buttonContainer, messagesContainer);
 
                 if(isAttackFinished){
@@ -378,7 +378,7 @@ export default class Turn {
         const decks = [this.activeMinionDeck, this.enemyActiveMinionDeck, this.handDeck, this.enemyHandDeck, this.preparingEventDeck, this.enemyPreparingEventDeck, this.mainCharacter, this.otherMainCharacter, this.josephDeck];
         const card = this.activeMinionDeck.isAnyCard(decks, CardId.SCALED);
         
-        if (card[0] === false){
+        if (card[0] === false && this.buttonContainer.state != renderState.QUICK_HELP && this.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU].state != ButtonState.SELECTED){
             
             ctx.globalAlpha = 1;
             ctx.filter = "blur(0px)";

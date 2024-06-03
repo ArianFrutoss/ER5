@@ -12,7 +12,9 @@ export const GameState = {
     LOAD_CONTROLS:  6,
     CONTROLS:       7,
     INVALID:        8,
-    SEND_DATA:      9
+    SEND_DATA:      9,
+    QUICK_HELP:     10,
+    MENU:           11,
 }
 
 export const TurnId = {
@@ -106,8 +108,15 @@ export const ButttonsId = {
     BTN_ATTACK:             3,
     BTN_END_TURN:           4,
     BTN_CHANGE_LANGUAGE:    5,
-    BTN_PARRY:              6,
-    BTN_NO_PARRY:           7,
+    BTN_RETURN_TO_MENU:     6,
+    BTN_QUICK_HELP:         7,
+    BTN_PARRY:              8,
+    BTN_NO_PARRY:           9,
+    BTN_LEFT:               10,
+    BTN_RIGHT:              11,
+    BTN_LEAVE_QUICK_HELP:   12,
+    BTN_RETURN_TO_GAME:     13,
+    BTN_RETURN_TO_LOBBY:    14,
 }
 
 export const ButtonState = {
@@ -133,7 +142,9 @@ export const ImageTypes = {
     BOARD_IMAGE: 7,
     TEAM: 8,
     BUTTON: 9,
-    CHAT_BUBBLE: 10
+    CHAT_BUBBLE: 10,
+    QUICK_HELP: 11,
+    PARTICLE: 12,
 }
 export const CardImageId = {
     JOSEPH:     1,
@@ -374,7 +385,9 @@ export const BlockStates = {
 
 export const renderState = {
     GAME:       0,
-    PARRY:      1
+    PARRY:      1,
+    QUICK_HELP: 2,
+    MENU:       3,
 }
 
 export const ScreenSize = {
@@ -465,4 +478,9 @@ export const Sound = {
 export const BoardCardSizes = {
     X_SIZE: 133,
     Y_SIZE: 155,
+}
+
+export const ParticleId = {
+    MOVIMENT:   0,
+    ATTACK:     1,
 }

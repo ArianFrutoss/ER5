@@ -1,4 +1,4 @@
-import { ButtonState, ButttonsId, LanguageId, PhaseStates, TurnStates } from "../constants.js";
+import { ButtonState, ButttonsId, LanguageId, PhaseStates, TurnStates, renderState } from "../constants.js";
 import ButtonContainer from "./ButtonContainer.js";
 
 export default class Button {
@@ -20,20 +20,24 @@ export default class Button {
 }
 
     render(language){
-        if (this.height>70) {
+        if (this.height > 70 && this.height < 100) {
             this.ctx.drawImage(this.img, this.x, this.y)
             
+        }
+
+        if (this.renderState === renderState.MENU){
+
+            this.ctx.filter = "blur(0px)";
         }
 
         if (this.state === ButtonState.SELECTED) {
             this.ctx.fillStyle = "#C36F29";
 
-            if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE){
+            if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE && this.id != ButttonsId.BTN_RETURN_TO_MENU && this.id != ButttonsId.BTN_QUICK_HELP){
 
-                this.ctx.fillRect(this.x+8, this.y+9, this.width, this.height); // Llamada a la función para dibujar un rectángulo redondeado
-            }
-
-            else{
+                this.ctx.fillRect(this.x+8, this.y+9, this.width, this.height); 
+            }else{
+                // Llamada a la función para dibujar un rectángulo redondeado
                 this.ctx.beginPath();
                 this.ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
                 this.ctx.fill();
@@ -83,12 +87,12 @@ export default class Button {
     }
 
     update(mouse, buttonContainer, turn, timer){
-
+        
         const state = this.state;
         const isCollidingWithMouse = mouse.isCollidingWithButton(this);
         const isAnyButtonSelected = buttonContainer.isAnyButtonSelected();
 
-        if (turn.actionsCounter < turn.maxActions && turn.state != TurnStates.INITIALIZE && timer.value > 0 || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_CHANGE_LANGUAGE){
+        if (turn.actionsCounter < turn.maxActions && turn.state != TurnStates.INITIALIZE && timer.value > 0 || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_CHANGE_LANGUAGE || turn.state != TurnStates.INITIALIZE && this.id === ButttonsId.BTN_RETURN_TO_MENU){
             
             // MAQUINA DE ESTADOS
             switch(state){
@@ -102,7 +106,7 @@ export default class Button {
 
                     this.state = isCollidingWithMouse ? this.state = ButtonState.HOVER : ButtonState.NOT_SELECTED;
 
-                    if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE){
+                    if (this.id != ButttonsId.BTN_CHANGE_LANGUAGE && this.id != ButttonsId.BTN_RETURN_TO_MENU && this.id != ButttonsId.BTN_QUICK_HELP){
 
                         this.state = !mouse.leftClick && !isAnyButtonSelected && mouse.previousStateLeft ? ButtonState.SELECTED : this.state;
                     }
@@ -127,5 +131,4 @@ export default class Button {
 
         this.state = ButtonState.NOT_SELECTED;
     }
-    
 }

@@ -27,7 +27,7 @@ export default class MinionAttackPhase extends Phase {
 
 
     // funcion para realizar el ataque
-    attack(messagesContainer, isAttackWithParry, soundManager) {
+    attack(messagesContainer, isAttackWithParry, soundManager, particlesContainer) {
 
         const attacker      = this.attacker;
         const enemy         = this.enemy;
@@ -69,7 +69,15 @@ export default class MinionAttackPhase extends Phase {
                 enemy.state = CardId.NOT_SELECTED;
     
                 this.removeEnemyIfDead(enemy, enemyPosition, soundManager);
-    
+                
+
+                    const enemyXPos = this.enemy.xPos;
+                    const enemyYPos = this.enemy.yPos;
+                    const enemyXSize = BoardCardSizes.X_SIZE;
+                    const enemyYSize = BoardCardSizes.Y_SIZE;
+        
+                    particlesContainer.createAttack(enemyXPos, enemyYPos, enemyXSize, enemyYSize);
+                
                 return true;
     
             } else {
@@ -159,7 +167,7 @@ export default class MinionAttackPhase extends Phase {
 
         switch (state) {
             case AttackState.ATTACK:
-                aux = this.attack(messagesContainer, false, soundManager);
+                aux = this.attack(messagesContainer, false, soundManager, particlesContainer);
          
                 if(aux){
                     this.buttonContainer.deselect();
@@ -186,7 +194,7 @@ export default class MinionAttackPhase extends Phase {
                 break;
 
             case AttackState.PARRY:
-                aux = this.attack(messagesContainer, true, soundManager);
+                aux = this.attack(messagesContainer, true, soundManager, particlesContainer);
            
                 if(aux){
                     this.buttonContainer.deselect();
@@ -200,16 +208,6 @@ export default class MinionAttackPhase extends Phase {
             case AttackState.DEFAULT:
                 this.checkIfEnemyHasWeapon();
                 break;
-        }
-
-        if (this.enemy != null){
-
-            const enemyXPos = this.enemy.xPos;
-            const enemyYPos = this.enemy.yPos;
-            const enemyXSize = BoardCardSizes.X_SIZE;
-            const enemyYSize = BoardCardSizes.Y_SIZE;
-
-            particlesContainer.createAttack(enemyXPos, enemyYPos, enemyXSize, enemyYSize);
         }
     }
 

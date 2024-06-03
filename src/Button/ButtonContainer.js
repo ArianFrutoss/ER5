@@ -5,6 +5,7 @@ export default class ButtonContainer{
     constructor(container){
         this.container = container;
         this.state     = renderState.GAME;
+        this.previousState = renderState.GAME
     }
 
     static create(ctx, assets){

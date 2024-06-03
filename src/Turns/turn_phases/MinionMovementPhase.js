@@ -104,7 +104,7 @@ export default class MinionMovementPhase extends Phase {
         const minionXSpeed = 20 * (xDistance / distance);
         const minionYSpeed = 20 * (yDistance / distance);
 
-        particlesContainer.createMoviment(minionXPos, minionYPos, minionXSize, minionYSize, minionXSpeed, minionYSpeed);
+        particlesContainer.createMovement(minionXPos, minionYPos, minionXSize, minionYSize, minionXSpeed, minionYSpeed);
 
         minionSelected.xPos += vX * globals.deltaTime;
         minionSelected.yPos += vY * globals.deltaTime;

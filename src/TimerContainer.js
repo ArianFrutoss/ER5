@@ -11,8 +11,8 @@ export default class TimerContainer{
     create(){
 
         // Crear Timer
-        const turnTimer = new Timer(120, 1, TimerId.TURN_TIMER);
-        const discardTimer = new Timer(30, 1, TimerId.DISCARD_TIMER);
+        const turnTimer = new Timer(9999, 1, TimerId.TURN_TIMER);
+        const discardTimer = new Timer(9999, 1, TimerId.DISCARD_TIMER);
 
         const timers = [turnTimer, discardTimer];
 

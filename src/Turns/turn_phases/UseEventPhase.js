@@ -2,6 +2,7 @@ import { CardId, TypeId, PhaseStates, messageUseEventPhase1, messageUseEventPhas
 import Phase from "./Phase.js";
 import Messages from "../../Messages.js";
 import { MessageType, MessageState, TypeColors } from "../../constants.js";
+import Card from "../../Cards/Card.js";
 
 export default class UseEventPhase extends Phase{
 
@@ -89,8 +90,11 @@ export default class UseEventPhase extends Phase{
 
                 if (isAnyMinionHovered[0] && !mouse.leftClick && mouse.previousStateLeft) {
                     
-                    const message = new Messages(minionCard.xPos, minionCard.yPos, TypeNames[eventCard.category], MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.3, 0.3, 50, TypeColors[eventCard.category]);
-                    messagesContainer.addMessage(message);
+                    if(eventCard.action !== CardActions.ON_USE){
+                        const message = new Messages(minionCard.xPos, minionCard.yPos, TypeNames[eventCard.category], MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.3, 0.3, 50, TypeColors[eventCard.category]);
+                        messagesContainer.addMessage(message);
+                    }
+                    
                     
                     soundManager.currentSound = sound
                     let result;

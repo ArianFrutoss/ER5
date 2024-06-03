@@ -22,7 +22,7 @@ export default class Game {
     constructor(turnArray, images, language, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, particlesContainer, soundManager, menu) {
 
         this.turnContainer = turnArray;
-        this.images = images
+        this.images = images;
         this.language = language;
         this.deckContainer = deckContainer;
         this.gridsArray = gridsArray;
@@ -31,7 +31,7 @@ export default class Game {
         this.rarity = rarity;
         this.gameState = GameState.LOAD_GAME;
         this.canvas = canvas;
-        this.ctx = ctx
+        this.ctx = ctx;
         this.mouse = mouse;
         this.currentTurn = firstTurn;
         this.messagesContainer = messagesContainer;
@@ -40,8 +40,8 @@ export default class Game {
         this.particlesContainer = particlesContainer;
         this.soundManager = soundManager;
         this.menu = menu;
-        this.game   = 0;
-        this.tutorial     = 0;
+        this.game = 0;
+        this.tutorial = 0;
     }
 
     static init(data, canvas, ctx, language) {
@@ -241,12 +241,18 @@ export default class Game {
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer, this.currentTurn);
         this.timerContainer.render(this.ctx, this.turnContainer.turnContainer[this.currentTurn].phaseState);
         this.messagesContainer.renderHelp(this.ctx, this.language);
-        this.particlesContainer.renderMoviment(this.ctx);
+        this.particlesContainer.renderMovement(this.ctx);
         this.menu.render(this.ctx, this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU]);
         this.turnContainer.buttonContainer.renderButtons(this.language);
         this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
         this.particlesContainer.renderAttack(this.ctx);
         this.messagesContainer.renderDamageAndChangeTurn(this.ctx, this.language);
+
+        if (this.gameState === GameState.MENU){
+
+            this.menu.render(this.ctx, this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU]);
+            this.turnContainer.buttonContainer.renderButtons(this.language);
+        }
     }
 
     renderGameOver(){

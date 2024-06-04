@@ -97,16 +97,19 @@ export class AttackEvent extends Event{
         if (enemyArmor != undefined) {
             defense += enemyArmor.defense
             enemyArmor.durability--
-
-            const message = new Messages(enemyArmor.xPos, enemyArmor.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
-            messagesContainer.addMessage(message);
+            
+            if(messagesContainer !== undefined){
+                const message = new Messages(enemyArmor.xPos, enemyArmor.yPos, "-1", MessageType.DAMAGE_MESSAGE, MessageState.APPEAR, 0.2, 0.2, 0.3, 50, "red");
+                messagesContainer.addMessage(message);
+            }
+            
         }
 
         let damage = this.attackerMinion.attack - defense;
         if (damage <0) {
             damage = 0
         }
-       
+        
         return damage;
     }
     

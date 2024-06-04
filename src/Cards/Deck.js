@@ -212,7 +212,7 @@ export default class Deck {
                             yPosModifier = 63
                         }
                         if (mouse.x >1750) {
-                            xPosModifier = 178
+                            xPosModifier = 218
                         }
                         const xPos = mouse.x - xPosModifier
                         const yPos = mouse.y - yPosModifier
@@ -223,6 +223,7 @@ export default class Deck {
                             case TypeId.JOSEPH:
                             case TypeId.MINION:
                             case TypeId.SPELL:
+                            case TypeId.CURSE:
                                 card.toolTip.render(xPos, yPos, language, ctx);
                                 break;
                             case TypeId.WEAPON:

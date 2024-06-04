@@ -117,8 +117,10 @@ export default class Turn {
          
                 const isEndTurn = this.end(messagesContainer, mouse, timerContainer);
                 if (isEndTurn) {
+
+                    this.mainCharacter.previousMessage = undefined
+                    messagesContainer.damageMessage = []
                     this.finished = true
-                    
                 }
                 this.assignTurnToBuffCard();
                 break;

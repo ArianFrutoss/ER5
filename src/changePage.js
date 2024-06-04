@@ -4,8 +4,43 @@ document.getElementById("enterLogin").addEventListener("click", login)
 document.getElementById("goToRegister").addEventListener("click", goToRegister)
 document.getElementById("enterRegister").addEventListener("click", register)
 document.getElementById("btnPlay").addEventListener("click", startPlaying)
-document.getElementById("Logout").addEventListener("click", logout)
+document.getElementById("Logout").addEventListener("click", logout);
+
+window.onload = changeLobbyImage;
+
+function changeLobbyImage(){
+    const login = document.getElementById('login');
+    login.style.display = 'none';
+    const register = document.getElementById('register');
+    register.style.display = 'none';
+
+    const caja = document.getElementById('caja');
+    caja.style.display = 'none';
+
+    document.addEventListener("click", changeBackgroundAndDisplayElements);
+
+
+}
+
+function changeBackgroundAndDisplayElements(){
+
+    if(localStorage.length > 0){
+        document.getElementById('caja').style.display = 'block';
+        document.body.style.background = "url('../media/images/background/lobby.png') top center no-repeat";
+        document.body.style.backgroundSize = "cover";
+        document.removeEventListener("click", changeBackgroundAndDisplayElements);
+    }else{
+        document.getElementById('login').style.display = 'block';
+        document.body.style.background = "url('../media/images/background/login.png') top center no-repeat";
+        document.body.style.backgroundSize = "cover";
+        document.removeEventListener("click", changeBackgroundAndDisplayElements);
+    }   
+
+}
+5
 function login(){
+    
+
     let user = {
         email: document.getElementById("email").value,
         password: document.getElementById("password").value
@@ -26,7 +61,6 @@ function login(){
         }
     })
     .then((res) => {
-        
 
         if (res != undefined){
             localStorage.setItem("username", res.username);
@@ -55,6 +89,9 @@ function login(){
             
             let statsDiv = document.getElementById("statsDiv");
             statsDiv.style.display = "none";
+
+            document.body.style.background = "url('../media/images/background/lobby.png') top center no-repeat";
+            document.body.style.backgroundSize = "cover";
 
             addUserData();
 
@@ -92,8 +129,7 @@ function login(){
 
 function goToRegister(){
 
-    let gameScreen = document.getElementById("login");
-    gameScreen.style.display = "none";
+    document.getElementById('login').style.display = 'none';
 
     let btnPlay = document.getElementById("btnPlay");
     btnPlay.style.display = "none";

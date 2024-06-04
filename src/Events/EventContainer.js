@@ -24,7 +24,10 @@ export default class EventContainer {
         return false;
     }
 
-    createCommonEvent(card, objectiveMinion, messagesContainer){
+    createCommonEvent(card, objectiveMinion, messagesContainer, soundManager, sound){
+
+        soundManager.currentSound = sound
+
         const event = EventFactory.createCommonEvent(card, objectiveMinion, messagesContainer)
         
         if (event != undefined){
@@ -52,6 +55,8 @@ export default class EventContainer {
 
         const ModifyAttributeEvent = EventFactory.createModifyAttributeToAllMinions(minionDecks, josephCard)
         this.events.push(ModifyAttributeEvent)
+
+        this.createDurabilityEvent(josephCard)
     }
 
     executeEvents(messagesContainer,decks){
@@ -117,7 +122,10 @@ export default class EventContainer {
 
     }
 
-    createTeleportEvent(turn, card, objectiveMinion, messagesContainer){
+    createTeleportEvent(turn, card, objectiveMinion, messagesContainer, soundManager, sound){
+
+        soundManager.currentSound = sound
+
         const actionEvent = EventFactory.createIncreaseActionEvent(turn, card, 1);
         actionEvent.execute()
 

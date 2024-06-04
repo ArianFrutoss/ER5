@@ -9,7 +9,7 @@ export default class ParticlesContainer{
         this.particles      = [];
     }
 
-    createMoviment(minionXPos, minionYPos, minionXSize, minionYSize, minionXV, minionYV){
+    createMovement(minionXPos, minionYPos, minionXSize, minionYSize, minionXV, minionYV){
 
         const numParticles = 9;
 
@@ -102,7 +102,7 @@ export default class ParticlesContainer{
         }
     }
 
-    renderMoviment(ctx){
+    renderMovement(ctx){
 
         for (let i = 0; i < this.particles.length; i++){
 

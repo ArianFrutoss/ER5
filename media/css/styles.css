@@ -16,9 +16,12 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
     overflow: hidden;
-    background: url('/media/images/background/background_login.jpg') no-repeat center;
+    height: 100vh;
+    background: url('../images/background/landpage.png');
+    background-position: top center;
+    background-size: cover;
+    background-repeat: no-repeat;
     font-family: "Poppins", sans-serif;
 }
 .overlay {

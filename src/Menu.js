@@ -9,9 +9,12 @@ export default class Menu{
         this.xSize  = xSize;
         this.ySize  = ySize;
         this.image  = image;
+        this.previousState = GameState.MENU;
+        this.previousButtonState
+
     }
 
-    update(buttonContainer){
+    update(buttonContainer, gameState){
 
         const menuButton = buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU];
         const returnToGameButton = buttonContainer.container[ButttonsId.BTN_RETURN_TO_GAME];
@@ -19,20 +22,25 @@ export default class Menu{
 
         const result = [];
 
-        result[0] = renderState.GAME;
-        result[1] = GameState.PLAYING;
+        result[0] = buttonContainer.state;
+        result[1] = gameState;
 
         if (menuButton.state === ButtonState.SELECTED){
-            
+            this.previousState = buttonContainer.state
+            this.previousButtonState = gameState
+
             result[0] = renderState.MENU;
             result[1] = GameState.MENU;
+            menuButton.state = ButtonState.NOT_SELECTED
 
+            
+        }else{
             if (returnToGameButton.state === ButtonState.SELECTED){
-
+                result[0] = this.previousState;
+                result[1] = this.previousButtonState;
                 menuButton.state = ButtonState.NOT_SELECTED;
                 returnToGameButton.state = ButtonState.NOT_SELECTED;
             }
-    
             else if (returnToLobbyButton.state === ButtonState.SELECTED){
     
                 menuButton.state = ButtonState.NOT_SELECTED;
@@ -43,9 +51,9 @@ export default class Menu{
         return result;
     }
 
-    render(ctx, button){
+    render(ctx, button, gameState){
 
-        if (button.state === ButtonState.SELECTED){
+        if (button.state === ButtonState.SELECTED || gameState === GameState.MENU){
             
             ctx.fillStyle = "black";
             ctx.fillRect(this.xPos - 7.5, this.yPos - 7.5, this.xSize + 15, this.ySize + 15);

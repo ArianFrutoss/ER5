@@ -22,7 +22,7 @@ export default class Game {
     constructor(turnArray, images, language, deckContainer, gridsArray, eventContainer, rarity,canvas, ctx, mouse, firstTurn, messagesContainer, timerContainer, particlesContainer, soundManager, menu) {
 
         this.turnContainer = turnArray;
-        this.images = images
+        this.images = images;
         this.language = language;
         this.deckContainer = deckContainer;
         this.gridsArray = gridsArray;
@@ -31,7 +31,7 @@ export default class Game {
         this.rarity = rarity;
         this.gameState = GameState.LOAD_GAME;
         this.canvas = canvas;
-        this.ctx = ctx
+        this.ctx = ctx;
         this.mouse = mouse;
         this.currentTurn = firstTurn;
         this.messagesContainer = messagesContainer;
@@ -40,8 +40,8 @@ export default class Game {
         this.particlesContainer = particlesContainer;
         this.soundManager = soundManager;
         this.menu = menu;
-        this.game   = 0;
-        this.tutorial     = 0;
+        this.game = 0;
+        this.tutorial = 0;
     }
 
     static init(data, canvas, ctx, language) {
@@ -176,7 +176,7 @@ export default class Game {
                 break;
 
             case GameState.MENU:
-
+                
                 this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
                 this.soundManager.gameState = this.gameState
                 this.soundManager.playSound()
@@ -192,9 +192,9 @@ export default class Game {
                 this.soundManager.gameState = this.gameState
                 this.soundManager.playSound()
                 this.turnContainer.buttonContainer.updateButtons(this.mouse, this.turnContainer.turnContainer[this.currentTurn], this.timerContainer.timer[TimerId.TURN_TIMER]);
+                this.mouse.update();
                 this.changeHelpImage();
                 
-                this.mouse.update();
                 this.returnToGameIfBtnSelected();
                 break;
 
@@ -241,12 +241,18 @@ export default class Game {
         this.gridsArray.render(images, this.ctx, this.canvas, this.deckContainer, this.currentTurn);
         this.timerContainer.render(this.ctx, this.turnContainer.turnContainer[this.currentTurn].phaseState);
         this.messagesContainer.renderHelp(this.ctx, this.language);
-        this.particlesContainer.renderMoviment(this.ctx);
-        this.menu.render(this.ctx, this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU]);
+        this.particlesContainer.renderMovement(this.ctx);
+        this.menu.render(this.ctx, this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU], this.gameState);
         this.turnContainer.buttonContainer.renderButtons(this.language);
         this.turnContainer.render(this.ctx, this.language, this.mouse, this.currentTurn);
         this.particlesContainer.renderAttack(this.ctx);
         this.messagesContainer.renderDamageAndChangeTurn(this.ctx, this.language);
+
+        if (this.gameState === GameState.MENU){
+
+            this.menu.render(this.ctx, this.turnContainer.buttonContainer.container[ButttonsId.BTN_RETURN_TO_MENU]);
+            this.turnContainer.buttonContainer.renderButtons(this.language);
+        }
     }
 
     renderGameOver(){
@@ -344,6 +350,12 @@ export default class Game {
 
         if (button.state === ButtonState.SELECTED){
             this.gameState = GameState.QUICK_HELP;
+            this.turnContainer.buttonContainer.previousState = this.turnContainer.buttonContainer.state
+            for (let i = 0; i < this.turnContainer.buttonContainer.container.length; i++) {
+                const element = this.turnContainer.buttonContainer.container[i];
+                element.state = ButtonState.NOT_SELECTED;
+                
+            }
             this.turnContainer.buttonContainer.state = renderState.QUICK_HELP;
             button.state = ButtonState.NOT_SELECTED;
         }
@@ -375,7 +387,8 @@ export default class Game {
 
         if (button.state === ButtonState.SELECTED){
             this.gameState = GameState.PLAYING;
-            this.turnContainer.buttonContainer.state = renderState.GAME;
+            this.turnContainer.buttonContainer.state = this.turnContainer.buttonContainer.previousState;
+            this.turnContainer.buttonContainer.previousState = this.turnContainer.buttonContainer.state
             this.tutorial--;
             if (this.tutorial < 0) {
                 this.tutorial = 0;

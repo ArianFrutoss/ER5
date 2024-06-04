@@ -95,18 +95,16 @@ export default class UseEventPhase extends Phase{
                         messagesContainer.addMessage(message);
                     }
                     
-                    
-                    soundManager.currentSound = sound
                     let result;
                     if (eventCard.id != BuffId.TELEPORT) {
                         result = eventContainer.createDurabilityEvent(eventCard);
-                        result = eventContainer.createCommonEvent(eventCard, minionCard, messagesContainer);
+                        result = eventContainer.createCommonEvent(eventCard, minionCard, messagesContainer, soundManager, sound);
                         this.calculateDamageDone(eventCard);
                         
                     }else{
                         if (eventCard.action != CardActions.ON_USE) {
                             result = eventContainer.createDurabilityEvent(eventCard);
-                            eventContainer.createTeleportEvent(this.turn, eventCard, minionCard, messagesContainer)
+                            eventContainer.createTeleportEvent(this.turn, eventCard, minionCard, messagesContainer, soundManager, sound);
                             
                         }
                     }

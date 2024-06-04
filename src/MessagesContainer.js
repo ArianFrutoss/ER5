@@ -9,7 +9,7 @@ export default class MessagesContainer{
 
         this.damageMessage      = [];
         this.helpMessage        = [];
-        this.changeTurnMessage = [];
+        this.changeTurnMessage  = [];
         this.activeHelpMessage;
         this.previousHelpMessage;
     }
@@ -113,11 +113,17 @@ export default class MessagesContainer{
             ctx.fillStyle = "black";
         }
     }
+
     createMessage(xPos, yPos, text, type, state, timeInFade, timeInAppear, timeInOn,lineSpace, maxHeigth, maxWidth, size = 80, color = "red"){
         text = TextContainer.create(text, type, size, lineSpace, maxHeigth, maxWidth)
         const message = new Messages(xPos, yPos, text, type, state, timeInFade, timeInAppear, timeInOn, size, color);
         this.damageMessage.push(message)
         
         return message
+    }
+
+    deleteMessages(){
+
+        
     }
 }
